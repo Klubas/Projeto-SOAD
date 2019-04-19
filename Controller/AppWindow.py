@@ -1,10 +1,9 @@
 import sys
 sys.path.append('..')
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QAbstractItemView, QApplication, QDialog,
-                             QLineEdit, QPushButton, QTableWidget,
-                             QTableWidgetItem, QWidget)
+from View.MainWindow import MainWindow
+
+from PyQt5.QtWidgets import (QDialog)
 
 class AppWindow(QDialog, MainWindow):
 
