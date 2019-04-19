@@ -3,7 +3,7 @@ import sys
 sys.path.append('..')
 
 from Controller.AppWindow import AppWindow
-from PyQt5.QtWidgets import QApplication
+from PySide2.QtWidgets import QApplication
 
 from Interface.Builder import Builder
 builder = Builder()
