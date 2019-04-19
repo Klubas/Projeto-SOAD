@@ -1,13 +1,11 @@
 import sys
 sys.path.append('..')
 
-from View.MainWindow import MainWindow
+from PySide2.QtWidgets import (QDialog)
+from Interface.mainwindow import Ui_MainWindow
 
-from PyQt5.QtWidgets import (QDialog)
-
-class AppWindow(QDialog, MainWindow):
+class AppWindow(QDialog, Ui_MainWindow):
 
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        pass
