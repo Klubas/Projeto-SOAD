@@ -1,5 +1,4 @@
 import sys, os
-sys.path.append('..')
 
 def update_ui():    # Atualiza os arquivos da pasta View
     from Resources.Builder import Builder

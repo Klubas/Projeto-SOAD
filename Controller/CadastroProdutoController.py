@@ -1,5 +1,5 @@
 import sys
-from PySide2.QtWidgets import QWidget
+from PySide2.QtWidgets import QMainWindow, QWidget
 from View.CadastroProduto import Ui_CadastroPessoa
 
 
@@ -10,5 +10,5 @@ class CadastroProduto(QWidget, Ui_CadastroPessoa):
         print("Cadastro Produto")
         self.setupUi(self)
 
-    def close(self):
-        sys.exit()
+    def close_clicked(self):
+        self.close()

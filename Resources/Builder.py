@@ -3,19 +3,16 @@ import subprocess
 from pathlib import Path
 
 
-""""
-Classe para gerar as classes das janelas criadas com qtCreator.
-Apenas irá rodar a ferramenta pyside2-uic
-
-Ex: pyside2-uic.exe MyWindow.ui -o MyWindow.py
-
-O caminho da ferramenta pode ser informado no construtor da classe
-
-"""
-
-
 class Builder:
+    """"
+    Classe para gerar as classes das janelas criadas com qtCreator.
+    Apenas irá rodar a ferramenta pyside2-uic
 
+    Ex: pyside2-uic.exe MyWindow.ui -o MyWindow.py
+
+    O caminho da ferramenta pode ser informado no construtor da classe
+
+    """
     def __init__(self, py_uic_path='pyside2-uic', view="View", resources="Resources"):
         self.py_uic_path = py_uic_path
         self.view = view
