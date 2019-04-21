@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SOAD </string>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>801</width>
+      <height>561</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
+     </property>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhPreferUppercase</set>
+   </property>
+   <property name="defaultUp">
+    <bool>false</bool>
+   </property>
+   <widget class="QMenu" name="menuArquivo">
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
+    <property name="title">
+     <string>Arquivo</string>
+    </property>
+    <property name="separatorsCollapsible">
+     <bool>false</bool>
+    </property>
+    <addaction name="actionSair"/>
+   </widget>
+   <widget class="QMenu" name="menuCadastros">
+    <property name="title">
+     <string>Cadastros</string>
+    </property>
+    <addaction name="actionPessoa"/>
+    <addaction name="actionProduto"/>
+    <addaction name="actionInsumo"/>
+    <addaction name="actionToners"/>
+   </widget>
+   <widget class="QMenu" name="menuVendas">
+    <property name="title">
+     <string>Vendas</string>
+    </property>
+    <addaction name="actionNova_Venda"/>
+    <addaction name="actionDevolucao"/>
+   </widget>
+   <widget class="QMenu" name="menuEstoque">
+    <property name="title">
+     <string>Estoque</string>
+    </property>
+    <addaction name="actionRegistrar_compra"/>
+    <addaction name="actionDescarte_de_Material"/>
+   </widget>
+   <widget class="QMenu" name="menuAjuda">
+    <property name="title">
+     <string>Ajuda</string>
+    </property>
+    <addaction name="actionSobre"/>
+   </widget>
+   <addaction name="menuArquivo"/>
+   <addaction name="menuCadastros"/>
+   <addaction name="menuVendas"/>
+   <addaction name="menuEstoque"/>
+   <addaction name="menuAjuda"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSair">
+   <property name="text">
+    <string>Sair</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WindowShortcut</enum>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionPessoa">
+   <property name="text">
+    <string>Pessoa</string>
+   </property>
+  </action>
+  <action name="actionProduto">
+   <property name="text">
+    <string>Produto</string>
+   </property>
+  </action>
+  <action name="actionInsumo">
+   <property name="text">
+    <string>Insumo</string>
+   </property>
+  </action>
+  <action name="actionToners">
+   <property name="text">
+    <string>Toners</string>
+   </property>
+  </action>
+  <action name="actionSobre">
+   <property name="text">
+    <string>Sobre</string>
+   </property>
+  </action>
+  <action name="actionNova_Venda">
+   <property name="text">
+    <string>Nova Venda</string>
+   </property>
+  </action>
+  <action name="actionCancelar_venda">
+   <property name="text">
+    <string>Cancelar venda</string>
+   </property>
+  </action>
+  <action name="actionRegistrar_compra">
+   <property name="text">
+    <string>Registrar compra</string>
+   </property>
+  </action>
+  <action name="actionCancelar_compra">
+   <property name="text">
+    <string>Cancelar compra</string>
+   </property>
+  </action>
+  <action name="actionDescarte_de_Material">
+   <property name="text">
+    <string>Descarte de Material</string>
+   </property>
+  </action>
+  <action name="actionDevolucao">
+   <property name="text">
+    <string>Devolução</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

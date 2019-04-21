@@ -52,5 +52,14 @@ class Builder:
 
 
 if __name__ == '__main__':
-    builder = Builder(view=os.path.join("..", "View"), resources=os.path.join("..", "Resources"))
+
+    import platform
+
+    if platform.system() == 'Linux':
+        pyuic="/opt/anaconda/bin/pyuic5"
+    elif platform.system() == 'Windows':
+        pyuic="pyside2-uic"
+
+    pyuic = "pyside2-uic"
+    builder = Builder(py_uic_path=pyuic, view=os.path.join("..", "View"), resources=os.path.join("..", "Resources"))
     builder.build_files_from_folder(os.path.join("..", "Resources"))
