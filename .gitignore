@@ -114,5 +114,5 @@ dmypy.json
 .pyre/
 
 #pycharm
-.idea/workspace.xml
+.idea/
 
