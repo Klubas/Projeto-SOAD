@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>564</height>
+    <width>816</width>
+    <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>816</width>
      <height>23</height>
     </rect>
    </property>
@@ -103,6 +103,9 @@
    <property name="text">
     <string>Sair</string>
    </property>
+   <property name="statusTip">
+    <string>Sair do sistema</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
    </property>
@@ -117,10 +120,16 @@
    <property name="text">
     <string>Pessoa</string>
    </property>
+   <property name="statusTip">
+    <string>Cadastrar Pessoas</string>
+   </property>
   </action>
   <action name="actionProduto">
    <property name="text">
     <string>Produto</string>
+   </property>
+   <property name="statusTip">
+    <string>Cadastrar Produtos</string>
    </property>
   </action>
   <action name="actionInsumo">
@@ -137,10 +146,16 @@
    <property name="text">
     <string>Sobre</string>
    </property>
+   <property name="statusTip">
+    <string>Sobre o sistema</string>
+   </property>
   </action>
   <action name="actionNova_Venda">
    <property name="text">
     <string>Nova Venda</string>
+   </property>
+   <property name="statusTip">
+    <string>Cadastrar Novas Vendas</string>
    </property>
   </action>
   <action name="actionCancelar_venda">
@@ -152,6 +167,9 @@
    <property name="text">
     <string>Registrar compra</string>
    </property>
+   <property name="statusTip">
+    <string>Registrar uma compra no estoque</string>
+   </property>
   </action>
   <action name="actionCancelar_compra">
    <property name="text">
@@ -162,10 +180,16 @@
    <property name="text">
     <string>Descarte de Material</string>
    </property>
+   <property name="statusTip">
+    <string>Descartar materiais</string>
+   </property>
   </action>
   <action name="actionDevolucao">
    <property name="text">
     <string>Devolução</string>
+   </property>
+   <property name="statusTip">
+    <string>Realizar uma devolução</string>
    </property>
   </action>
  </widget>

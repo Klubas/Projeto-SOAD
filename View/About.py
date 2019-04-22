@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '..\Resources\About.ui'
 #
-# Created: Mon Apr 22 00:21:53 2019
+# Created: Mon Apr 22 00:35:06 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_about(object):
     def setupUi(self, about):
         about.setObjectName("about")
-        about.resize(400, 300)
+        about.resize(398, 304)
         about.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.verticalLayoutWidget = QtWidgets.QWidget(about)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 381, 291))
@@ -63,8 +63,8 @@ class Ui_about(object):
         sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
         self.label_3.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setWeight(75)
-        font.setBold(True)
+        font.setWeight(50)
+        font.setBold(False)
         self.label_3.setFont(font)
         self.label_3.setScaledContents(False)
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)

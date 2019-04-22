@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '..\Resources\CadastroPessoa.ui'
 #
-# Created: Mon Apr 22 00:21:53 2019
+# Created: Mon Apr 22 00:35:06 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ class Ui_CadastroPessoa(object):
     def setupUi(self, CadastroPessoa):
         CadastroPessoa.setObjectName("CadastroPessoa")
         CadastroPessoa.setWindowModality(QtCore.Qt.ApplicationModal)
-        CadastroPessoa.resize(400, 300)
+        CadastroPessoa.resize(416, 341)
         CadastroPessoa.setFocusPolicy(QtCore.Qt.StrongFocus)
         CadastroPessoa.setModal(True)
         self.buttonBox = QtWidgets.QDialogButtonBox(CadastroPessoa)

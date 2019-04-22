@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '..\Resources\CadastroProduto.ui'
 #
-# Created: Mon Apr 22 00:21:54 2019
+# Created: Mon Apr 22 00:35:06 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ class Ui_CadastroProduto(object):
     def setupUi(self, CadastroProduto):
         CadastroProduto.setObjectName("CadastroProduto")
         CadastroProduto.setWindowModality(QtCore.Qt.ApplicationModal)
-        CadastroProduto.resize(400, 300)
+        CadastroProduto.resize(416, 341)
         CadastroProduto.setFocusPolicy(QtCore.Qt.StrongFocus)
         CadastroProduto.setModal(False)
         self.buttonBox = QtWidgets.QDialogButtonBox(CadastroProduto)

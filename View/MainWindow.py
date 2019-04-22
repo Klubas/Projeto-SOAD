@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '..\Resources\MainWindow.ui'
 #
-# Created: Mon Apr 22 00:21:54 2019
+# Created: Mon Apr 22 00:35:06 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 564)
+        MainWindow.resize(816, 605)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 816, 23))
         self.menubar.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.menubar.setInputMethodHints(QtCore.Qt.ImhPreferUppercase)
         self.menubar.setDefaultUp(False)
@@ -99,16 +99,24 @@ class Ui_MainWindow(object):
         self.menuEstoque.setTitle(QtWidgets.QApplication.translate("MainWindow", "Estoque", None, -1))
         self.menuAjuda.setTitle(QtWidgets.QApplication.translate("MainWindow", "Ajuda", None, -1))
         self.actionSair.setText(QtWidgets.QApplication.translate("MainWindow", "Sair", None, -1))
+        self.actionSair.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Sair do sistema", None, -1))
         self.actionSair.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
         self.actionPessoa.setText(QtWidgets.QApplication.translate("MainWindow", "Pessoa", None, -1))
+        self.actionPessoa.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Cadastrar Pessoas", None, -1))
         self.actionProduto.setText(QtWidgets.QApplication.translate("MainWindow", "Produto", None, -1))
+        self.actionProduto.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Cadastrar Produtos", None, -1))
         self.actionInsumo.setText(QtWidgets.QApplication.translate("MainWindow", "Insumo", None, -1))
         self.actionToners.setText(QtWidgets.QApplication.translate("MainWindow", "Toners", None, -1))
         self.actionSobre.setText(QtWidgets.QApplication.translate("MainWindow", "Sobre", None, -1))
+        self.actionSobre.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Sobre o sistema", None, -1))
         self.actionNova_Venda.setText(QtWidgets.QApplication.translate("MainWindow", "Nova Venda", None, -1))
+        self.actionNova_Venda.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Cadastrar Novas Vendas", None, -1))
         self.actionCancelar_venda.setText(QtWidgets.QApplication.translate("MainWindow", "Cancelar venda", None, -1))
         self.actionRegistrar_compra.setText(QtWidgets.QApplication.translate("MainWindow", "Registrar compra", None, -1))
+        self.actionRegistrar_compra.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Registrar uma compra no estoque", None, -1))
         self.actionCancelar_compra.setText(QtWidgets.QApplication.translate("MainWindow", "Cancelar compra", None, -1))
         self.actionDescarte_de_Material.setText(QtWidgets.QApplication.translate("MainWindow", "Descarte de Material", None, -1))
+        self.actionDescarte_de_Material.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Descartar materiais", None, -1))
         self.actionDevolucao.setText(QtWidgets.QApplication.translate("MainWindow", "Devolução", None, -1))
+        self.actionDevolucao.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Realizar uma devolução", None, -1))
 
