@@ -10,13 +10,13 @@ class Builder:
 
     Ex: pyside2-uic.exe MyWindow.ui -o MyWindow.py
 
-    O caminho da ferramenta pode ser informado no construtor da classe
+    O caminho da ferramenta pode ser informado no constructor
 
     """
-    def __init__(self, py_uic_path='pyside2-uic', view="View", resources="Resources"):
+    def __init__(self, py_uic_path='pyside2-uic', ui_folder="View", py_folder="Resources"):
         self.py_uic_path = py_uic_path
-        self.view = view
-        self.resources = resources
+        self.view = ui_folder
+        self.resources = py_folder
 
     def build_files(self, file_list):
         for file in file_list:
@@ -49,14 +49,6 @@ class Builder:
 
 
 if __name__ == '__main__':
-
-    import platform
-
-    if platform.system() == 'Linux':
-        pyuic="/opt/anaconda/bin/pyuic5"
-    elif platform.system() == 'Windows':
-        pyuic="pyside2-uic"
-
     pyuic = "pyside2-uic"
-    builder = Builder(py_uic_path=pyuic, view=os.path.join("..", "View"), resources=os.path.join("..", "Resources"))
+    builder = Builder(py_uic_path=pyuic, ui_folder=os.path.join("..", "View"), py_folder=os.path.join("..", "Resources"))
     builder.build_files_from_folder(os.path.join("..", "Resources"))

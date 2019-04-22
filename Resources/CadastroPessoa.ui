@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CadastroProduto</class>
- <widget class="QDialog" name="CadastroProduto">
+ <class>CadastroPessoa</class>
+ <widget class="QDialog" name="CadastroPessoa">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -17,10 +17,10 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Cadastro de Produto</string>
+   <string>Cadastro de Pessoa</string>
   </property>
   <property name="modal">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -44,7 +44,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>CadastroProduto</receiver>
+   <receiver>CadastroPessoa</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -60,7 +60,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>CadastroProduto</receiver>
+   <receiver>CadastroPessoa</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
