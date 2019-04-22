@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 from pathlib import Path
 
@@ -12,9 +13,10 @@ class Builder:
 
     O caminho da ferramenta pode ser informado no constructor
 
+
     """
-    def __init__(self, py_uic_path='pyside2-uic', ui_folder="View", py_folder="Resources"):
-        self.py_uic_path = py_uic_path
+    def __init__(self, pyuic_path='pyside2-uic', ui_folder="View", py_folder="Resources"):
+        self.py_uic_path = pyuic_path
         self.view = ui_folder
         self.resources = py_folder
 
@@ -28,7 +30,7 @@ class Builder:
             print(new_file_name)
             new_file_name = new_file_name[0] + new_file_name[1]
             print(new_file_name)
-            self.build_py_file(file, os.path.join(self.view, new_file_name))
+            self.build_py_file(file, self.view + os.sep + new_file_name)
 
     def build_files_from_folder(self, folder_path):
         self.build_files(self.get_files_from_folder(folder_path))
@@ -47,8 +49,13 @@ class Builder:
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         p.wait()
 
-
+# Ordem dos argumento está errada não sei que bagunça eu fiz
+# Builder pyuic ui_folder py_folder
 if __name__ == '__main__':
-    pyuic = "pyside2-uic"
-    builder = Builder(py_uic_path=pyuic, ui_folder=os.path.join("..", "View"), py_folder=os.path.join("..", "Resources"))
-    builder.build_files_from_folder(os.path.join("..", "Resources"))
+    print(str(sys.argv))
+    builder = Builder(
+        pyuic_path=sys.argv[1],
+        ui_folder=sys.argv[3],
+        py_folder=sys.argv[2]
+    )
+    builder.build_files_from_folder(sys.argv[2])

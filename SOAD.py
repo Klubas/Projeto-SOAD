@@ -3,12 +3,13 @@ import os
 
 
 def update_ui():    # Atualiza os arquivos da pasta View
-    from Resources.Builder import Builder
+    from Resources.Scripts.Builder import Builder
 
-    Builder(
-        py_uic_path="pyside2-uic",
+    b = Builder(
+        pyuic_path="pyside2-uic",
         ui_folder=os.path.join(".", "View"),
-        py_folder=os.path.join(".", "Resources")).build_files_from_folder("Resources")
+        py_folder=os.path.join(".", "Resources", "UI"))
+    b.build_files_from_folder(os.path.join(".", "Resources", "UI"))
 
 
 def main():
