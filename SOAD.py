@@ -1,6 +1,8 @@
 import sys
 import os
 
+from Model.DataBase import DataBase
+
 
 def update_ui():    # Atualiza os arquivos da pasta View
     from Resources.Scripts.Builder import Builder
@@ -11,22 +13,28 @@ def update_ui():    # Atualiza os arquivos da pasta View
         py_folder=os.path.join(".", "Resources", "UI"))
     b.build_files_from_folder(os.path.join(".", "Resources", "UI"))
 
+def setup_db_connection():
+    try:
+        return DataBase('soadmin', 'soad2019', 'localhost:5432')
+    except Exception:
+        print("Não foi possível se conectar ao banco de dados.")
 
-def main():
-    from Controller.MainWindow_Controller import MainWindow
+def main(db):
+    from Controller.MainWindow import MainWindow
     from PySide2.QtWidgets import QApplication
 
     # update_ui()
 
     app = QApplication(sys.argv)
 
-    w = MainWindow()
+    w = MainWindow(db)
     w.showMaximized()
 
     sys.exit(app.exec_())
 
 
 if __name__ == '__main__':
-    main()
+    db = setup_db_connection()
+    main(db)
 else:
     print("Sorry Dave, you can't do that!")

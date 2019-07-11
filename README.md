@@ -8,8 +8,10 @@
 * Qt5
 * PySide2
 * Anaconda
+* Pydal
+* psycopg2
 
 ### Ambiente de desenvolvimento
 
 * PyCharm Community
-* QtCreator/QtDesigner
+* QtCreator/QtDesigner``

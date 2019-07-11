@@ -5,6 +5,7 @@ from pathlib import Path
 
 
 class Builder:
+
     """"
     Classe para gerar as classes das janelas criadas com qtCreator.
     Apenas irá rodar a ferramenta pyside2-uic
@@ -12,9 +13,8 @@ class Builder:
     Ex: pyside2-uic.exe MyWindow.ui -o MyWindow.py
 
     O caminho da ferramenta pode ser informado no constructor
-
-
     """
+
     def __init__(self, pyuic_path='pyside2-uic', ui_folder="View", py_folder="Resources"):
         self.py_uic_path = pyuic_path
         self.view = ui_folder
@@ -22,14 +22,10 @@ class Builder:
 
     def build_files(self, file_list):
         for file in file_list:
-            print(file)
             new_file_path = file.split(os.sep)
             new_file_name = new_file_path[len(new_file_path)-1].split('.')
-            print(new_file_name)
             new_file_name[len(new_file_name)-1] = ".py"
-            print(new_file_name)
-            new_file_name = new_file_name[0] + new_file_name[1]
-            print(new_file_name)
+            new_file_name = "Ui_" + new_file_name[0] + new_file_name[1]
             self.build_py_file(file, self.view + os.sep + new_file_name)
 
     def build_files_from_folder(self, folder_path):
@@ -45,9 +41,10 @@ class Builder:
 
     def build_py_file(self, uifile, pyfile):
         cmd = self.py_uic_path + " " + uifile + " -o " + pyfile
-        print("cmd=" + cmd)
+        print(cmd)
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         p.wait()
+
 
 # Ordem dos argumento está errada não sei que bagunça eu fiz
 # Builder pyuic ui_folder py_folder

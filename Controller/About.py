@@ -1,5 +1,5 @@
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
-from View.About import Ui_about
+from View.Ui_About import Ui_about
 
 
 class About(QDialog, Ui_about):

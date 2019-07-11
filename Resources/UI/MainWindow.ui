@@ -2,16 +2,43 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>816</width>
-    <height>605</height>
+    <width>1220</width>
+    <height>768</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>768</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>2560</width>
+    <height>1080</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>SOAD </string>
+  </property>
+  <property name="inputMethodHints">
+   <set>Qt::ImhPreferUppercase</set>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -22,14 +49,66 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>801</width>
-      <height>561</height>
+      <width>1211</width>
+      <height>711</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="sizeConstraint">
-      <enum>QLayout::SetMaximumSize</enum>
+      <enum>QLayout::SetMinAndMaxSize</enum>
      </property>
+     <item>
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignVCenter">
+      <widget class="QPushButton" name="pushButton">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -38,8 +117,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>816</width>
-     <height>23</height>
+     <width>1220</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="contextMenuPolicy">
@@ -92,10 +171,20 @@
     </property>
     <addaction name="actionSobre"/>
    </widget>
+   <widget class="QMenu" name="menuRelat_rios">
+    <property name="title">
+     <string>Relatórios</string>
+    </property>
+    <addaction name="actionProdutos_em_Estoque"/>
+    <addaction name="actionVendas"/>
+    <addaction name="actionCompras"/>
+    <addaction name="actionDescartes"/>
+   </widget>
    <addaction name="menuArquivo"/>
    <addaction name="menuCadastros"/>
    <addaction name="menuVendas"/>
    <addaction name="menuEstoque"/>
+   <addaction name="menuRelat_rios"/>
    <addaction name="menuAjuda"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -190,6 +279,26 @@
    </property>
    <property name="statusTip">
     <string>Realizar uma devolução</string>
+   </property>
+  </action>
+  <action name="actionProdutos_em_Estoque">
+   <property name="text">
+    <string>Produtos em Estoque</string>
+   </property>
+  </action>
+  <action name="actionVendas">
+   <property name="text">
+    <string>Vendas</string>
+   </property>
+  </action>
+  <action name="actionCompras">
+   <property name="text">
+    <string>Compras</string>
+   </property>
+  </action>
+  <action name="actionDescartes">
+   <property name="text">
+    <string>Descartes</string>
    </property>
   </action>
  </widget>
