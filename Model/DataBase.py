@@ -1,20 +1,20 @@
 from pydal import DAL, Field
 
-class DataBase:
-    def __init__(self, username, password, host, pool_size=5):
-        self.username = username
-        self.password = password
-        self.host = host
-        self.folder = 'database'
-        self.pool_size = pool_size
-        self.dbinfo = 'postgres://' + self.username + ':' + self.password + '@' + host + '/postgres'
-        print(self.dbinfo)
 
-        ### create DAL connection
+class DataBase:
+
+    def __init__(self, username, password, host, port, pool_size=5):
+
+        self.username = username
+        self.host = host
+        self.port=port
+        self.folder = 'database'
+        self.dbinfo = 'postgres://' + username + ':' + password + '@' + host + ':' + str(port) + '/postgres'
+
         self.db = DAL(
             self.dbinfo,
             folder=self.folder,
-            pool_size=self.pool_size
+            pool_size=pool_size
         )
         self.db.__call__()
 
@@ -22,23 +22,33 @@ class DataBase:
         params = ''
         for key in params_dict.keys():
             params = params + 'p_' + key + '=>' + "'" + params_dict[key] + "'" + ', '
-
         # remove a virgula que sobra no ultimo parametro antes de retornar
         return params[:-2]
 
-
-    def insert(self, tabela, params):
+    def call_procedure(self, procedure, params):
         params = self.parse_params(params)
-        sql = "CALL soad.insert_" + tabela + "(" + params + ")"
+        sql = "CALL soad." + procedure + "(" + params + ")"
+        self.execute_sql(sql)
+
+    def execute_sql(self, sql):
         try:
-            called_procedure = self.db.executesql(sql)
-            print(sql)
-            return called_procedure
-        except Exception:
-            print("Erro ao executar: " + sql)
+            self.db.executesql(sql)
+            self.db.commit()
+        except Exception as e:
+            print(e)
 
-    def update(self):
-        pass
+"""
+from PySide2.QtSql import QSqlDatabase
 
-    def delete(self):
-        pass
+self.db = QSqlDatabase.addDatabase('QPSQL')
+self.db.setHostName(host)
+self.db.setPort(port)
+self.db.setDatabaseName("postgres")
+self.db.setUserName(username)
+self.db.setPassword(password)
+
+if self.db.open():
+    self.db = QSqlDatabase.database()
+else:
+    print(self.db.lastError())
+"""

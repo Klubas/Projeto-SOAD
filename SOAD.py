@@ -1,7 +1,11 @@
 import sys
 import os
-
 from Model.DataBase import DataBase
+
+import os
+from PySide2.QtCore import QCoreApplication
+QCoreApplication.addLibraryPath(os.path.join(".", "Resources", "lib"))
+print(QCoreApplication.libraryPaths())
 
 
 def update_ui():    # Atualiza os arquivos da pasta View
@@ -13,11 +17,14 @@ def update_ui():    # Atualiza os arquivos da pasta View
         py_folder=os.path.join(".", "Resources", "UI"))
     b.build_files_from_folder(os.path.join(".", "Resources", "UI"))
 
+
 def setup_db_connection():
     try:
-        return DataBase('soadmin', 'soad2019', 'localhost:5432')
-    except Exception:
+        return DataBase('soadmin', 'soad2019', 'localhost', port=5432)
+    except Exception as e:
         print("Não foi possível se conectar ao banco de dados.")
+        print(e)
+
 
 def main(db):
     from Controller.MainWindow import MainWindow
