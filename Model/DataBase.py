@@ -1,3 +1,4 @@
+import os
 from pydal import DAL, Field
 from Controller.StatusDialog import StatusDialog
 
@@ -9,7 +10,7 @@ class DataBase:
         self.username = username
         self.host = host
         self.port=port
-        self.folder = 'database'
+        self.folder = 'Resources' + os.sep + 'database'
         self.dbinfo = 'postgres://' + username + ':' + password + '@' + host + ':' + str(port) + '/postgres'
 
         self.db = DAL(
