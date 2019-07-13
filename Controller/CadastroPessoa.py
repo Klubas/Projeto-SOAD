@@ -1,6 +1,8 @@
 from PySide2.QtWidgets import QWidget
 from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
+from Controller.StatusDialog import StatusDialog
+
 
 class CadastroPessoa(QWidget, Ui_CadastroPessoa):
 
@@ -9,6 +11,15 @@ class CadastroPessoa(QWidget, Ui_CadastroPessoa):
         self.setupUi(self)
         self.db = db
         self.window_list = window_list
+
+    def confirma(self):
+        # pega os dados tela e envia pro banco
+        dados_formatados = self.formata_dados()
+        self.salva_dados(dados_formatados)
+
+    def cancela(self):
+        # limpa a interface
+        pass
 
     def carrega_dados(self):
         # pega os dados dos banco e popula a interface
@@ -19,22 +30,17 @@ class CadastroPessoa(QWidget, Ui_CadastroPessoa):
         dados = {
             "nome": "pedro",
             "email": "email@email",
-            "telefone": "42999823030"
+            "telefone": "42999823030",
+            "documento": "12345678901",
+            "inscricao_estadual": "",
+            "fantasia": ""
         }
         return dados
 
     def salva_dados(self, dados):
         # envia dicionario de dados pro banco utilizando uma procedure
-        self.db.call_procedure('insert_pessoa', dados)
-
-    def confirma(self):
-        # pega os dados tela e envia pro banco
-        dados_formatados = self.formata_dados()
-        self.salva_dados(dados_formatados)
-
-    def cancela(self):
-        # limpa a interface
-        pass
+        prc = self.db.call_procedure('prc_insert_pessoa', dados)
+        print(prc[1])
 
     def __fechar(self):
         #verifica se tem alguma alteracao pendente e pergunta se deseja fechar

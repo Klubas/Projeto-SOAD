@@ -1,8 +1,13 @@
 from PySide2.QtWidgets import QMainWindow
 from PySide2.QtGui import QCloseEvent
 from View.Ui_MainWindow import Ui_MainWindow
+
 from Controller.About import About
+from Controller.SairDialog import SairDialog
+from Controller.StatusDialog import StatusDialog
+
 from Controller.CadastroPessoa import CadastroPessoa
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -10,10 +15,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.db = db
+        self.window_list = list()
         # self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
         self.connect_menu_actions()
-        self.window_list = list()
 
     def connect_menu_actions(self):
         # Arquivo
@@ -30,28 +35,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionSobre.triggered.connect(self.abrir_sobre)
 
     def abrir_cadastro(self, window_cls):
+        #try:
         cad = window_cls(self.db, self.window_list)
         self.window_list.append(cad)
         cad.show()
+        cad.confirma()
+        #except Exception as e:
+         #   dialog = StatusDialog(status='ERRO')
+          #  dialog.definir_mensagem(str(e))
+           # dialog.exec()
 
     def abrir_sobre(self):
         s = About()
         s.exec()
 
-    def __fechar(self):
-        if len(self.window_list) > 0:
-            sair = input("Deseja fechar? (s/n)").upper()
-            if sair == 'S':
-                return True
-            else:
-                return False
-        elif len(self.window_list) == 0:
-            return True
+    def fechar(self):
+        self.closeEvent(event=QCloseEvent())
 
+    #Override QWidget closeEvent
     def closeEvent(self, event):
-        if self.__fechar():
-            for window in self.window_list:
-                window.close()
-            event.accept() # let the window close
+        if len(self.window_list) > 0:
+            sair = SairDialog()
+            if sair.exec():
+                for window in self.window_list:
+                    window.close() # fecha todas as janelas
+                self.db.fechar_conexao()
+                event.accept()     # fecha a MainWindow
+            else:
+                print(self.window_list)
+                event.ignore()
         else:
-            event.ignore()
+            event.accept()
+

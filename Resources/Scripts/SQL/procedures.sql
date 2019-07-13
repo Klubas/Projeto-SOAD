@@ -17,3 +17,20 @@ INSERT INTO "soad".pessoa (nome, email, telefone, data_cadastro)
 END;
 $BODY$;
 
+--- Exemplo inserir em 3 tabelas
+WITH Y AS (
+  INSERT INTO A (foo)
+  VALUES ('abc')
+  RETURNING id
+), x as (
+  INSERT INTO B (a_id, bar)
+  SELECT id, 'def'
+  FROM Y
+  RETURNING id
+)
+INSERT INTO C (b_id, baz)
+SELECT id, 'ghi'
+FROM X;
+
+select *
+from soad.pessoa

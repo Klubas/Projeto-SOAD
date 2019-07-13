@@ -1,4 +1,5 @@
 from pydal import DAL, Field
+from Controller.StatusDialog import StatusDialog
 
 
 class DataBase:
@@ -27,15 +28,27 @@ class DataBase:
 
     def call_procedure(self, procedure, params):
         params = self.parse_params(params)
-        sql = "CALL soad." + procedure + "(" + params + ")"
-        self.execute_sql(sql)
+        sql = "CALL soad." + procedure + "(" + params + ");"
+        return self.execute_sql(sql)
 
     def execute_sql(self, sql):
         try:
             self.db.executesql(sql)
             self.db.commit()
+            prc = True, 0, str(self.db._lastsql)
+
         except Exception as e:
-            print(e)
+            self.db.rollback()
+            prc = False, e, str(self.db._lastsql)
+            if not prc[0]:
+                dialog = StatusDialog()
+                dialog.definir_mensagem(str(prc[1]) + "\nSQL executada:\n" + prc[2])
+                dialog.exec()
+
+        return prc
+
+    def fechar_conexao(self):
+        self.db.close()
 
 """
 from PySide2.QtSql import QSqlDatabase
