@@ -2,12 +2,12 @@
 
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\StatusDialog.ui'
 #
-# Created: Sat Jul 13 03:29:01 2019
+# Created: Sat Jul 13 03:47:38 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtWidgets
 
 class Ui_StatusDialog(object):
     def setupUi(self, StatusDialog):

@@ -1,15 +1,17 @@
 import os
-from pydal import DAL, Field
+
+from pydal import DAL
+
 from Controller.StatusDialog import StatusDialog
 
 
 class DataBase:
 
-    def __init__(self, username, password, host, port, pool_size=5):
+    def __init__(self, username, password, host='localhost', port=5432, pool_size=5):
 
         self.username = username
         self.host = host
-        self.port=port
+        self.port = port
         self.folder = 'Resources' + os.sep + 'database'
         self.dbinfo = 'postgres://' + username + ':' + password + '@' + host + ':' + str(port) + '/postgres'
 
@@ -41,10 +43,9 @@ class DataBase:
         except Exception as e:
             self.db.rollback()
             prc = False, e, str(self.db._lastsql)
-            if not prc[0]:
-                dialog = StatusDialog()
-                dialog.definir_mensagem(str(prc[1]) + "\nSQL executada:\n" + prc[2])
-                dialog.exec()
+            dialog = StatusDialog()
+            dialog.definir_mensagem(str(prc[1]) + "\nSQL executada:\n" + prc[2])
+            dialog.exec()
 
         return prc
 
