@@ -12,6 +12,7 @@ class DataBase:
         self.username = username
         self.host = host
         self.port = port
+        self.schema = 'soad'
         self.folder = 'Resources' + os.sep + 'database'
         self.dbinfo = 'postgres://' + username + ':' + password + '@' + host + ':' + str(port) + '/postgres'
 
@@ -31,7 +32,7 @@ class DataBase:
 
     def call_procedure(self, procedure, params):
         params = self.parse_params(params)
-        sql = "CALL soad." + procedure + "(" + params + ");"
+        sql = "CALL " + self.schema + "." + procedure + "(" + params + ");"
         return self.execute_sql(sql)
 
     def execute_sql(self, sql):
