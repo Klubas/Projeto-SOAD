@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.2
 
--- Started on 2019-07-14 20:57:04
+-- Started on 2019-07-14 22:22:49
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -94,8 +94,8 @@ BEGIN
 	BEGIN
 		CALL soad.prc_insert_or_update_unidade_medida('unidade', 'un');
 		CALL soad.prc_insert_or_update_unidade_medida('KILOGRAMA', 'kg');
+        CALL soad.prc_insert_or_update_unidade_medida('GRAMA', 'g');
 		CALL soad.prc_insert_or_update_unidade_medida('LITRO', 'l');
-		CALL soad.prc_insert_or_update_unidade_medida('MILIGRAMA', 'mg');
 		CALL soad.prc_insert_or_update_unidade_medida('MILILITRO', 'ml');
 		
 	EXCEPTION WHEN OTHERS THEN
@@ -231,8 +231,40 @@ BEGIN
 		EXCEPTION WHEN OTHERS THEN
 			RAISE NOTICE 'Não foi possível cadastrar os endereços.';
 			RAISE NOTICE '% %', SQLERRM, SQLSTATE;
+			
 		END;
 	END;
+    
+    RAISE NOTICE 'Cadastrando produtos..';
+    BEGIN
+        DECLARE
+		    v_unidade_medida_id integer := NULL;
+		    v_insumo_id integer := NULL;
+			
+		BEGIN
+            -- Produto  
+            SELECT unidade_medida.id_unidade_medida INTO v_unidade_medida_id FROM soad.unidade_medida
+			WHERE unidade_medida.abreviacao = 'un';
+			
+            CALL soad.prc_insert_produto('Produto 1', 'Marca 1', v_unidade_medida_id, 'PRODUTO');
+			
+            -- Insumo
+            SELECT unidade_medida.id_unidade_medida INTO v_unidade_medida_id FROM soad.unidade_medida
+			WHERE unidade_medida.abreviacao = 'ml';
+			
+            CALL soad.prc_insert_produto('Insumo 3', 'HP', '107', 'INSUMO', CAST(v_unidade_medida_id AS text), '276');
+            
+			-- Casco
+			SELECT min(insumo.id_insumo) INTO v_insumo_id FROM soad.insumo;
+			
+            CALL soad.prc_insert_produto('Casco 1', 'HP', '276', 'CASCO', CAST(v_insumo_id AS text), '20');
+			
+		EXCEPTION WHEN OTHERS THEN
+			RAISE NOTICE 'Não foi possível cadastrar os produtos.';
+			RAISE NOTICE '% %', SQLERRM, SQLSTATE;
+			
+        END;
+    END;
 	
 END;
 $$;
@@ -522,7 +554,7 @@ ALTER PROCEDURE "soad"."prc_insert_pessoa"("p_nome" "text", "p_email" "text", "p
 -- Name: prc_insert_produto("text", "text", integer, "text", "text"[]); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
-CREATE PROCEDURE "soad"."prc_insert_produto"("p_descricao" "text", "p_marca" "text", "p_unidade_medida_id" integer, "p_tipo" "text", VARIADIC "args" "text"[])
+CREATE PROCEDURE "soad"."prc_insert_produto"("p_descricao" "text", "p_marca" "text", "p_unidade_medida_id" integer, "p_tipo" "text", VARIADIC "args" "text"[] DEFAULT NULL::"text"[])
     LANGUAGE "plpgsql"
     AS $$
 DECLARE
@@ -531,13 +563,15 @@ DECLARE
 	v_marca text 						:= upper(p_marca);
 	v_unidade_medida_id integer 		:= p_unidade_medida_id;
 	v_tipo text 						:= upper(p_tipo);
+	
 	-- casco
-	v_casco_insumo_id integer			:= args[0];
-	v_casco_quantidade_insumo real		:= args[1];
+	v_casco_insumo_id integer			:= NULL;
+	v_casco_quantidade_insumo real		:= NULL;
+	
 	-- insumo
-	v_insumo_quantidade_embalagem real	:= args[0];
-	v_insumo_unidade_medida_id integer	:= args[1];
-	v_insumo_permite_venda boolean		:= args[2];
+	v_insumo_quantidade_embalagem real	:= NULL;
+	v_insumo_unidade_medida_id integer	:= NULL;
+	v_insumo_permite_venda boolean		:= NULL;
 	
 BEGIN
 	
@@ -550,10 +584,24 @@ BEGIN
 	
 	-- Inserir insumo
 	ELSIF v_tipo = 'INSUMO' THEN
-		
+    
+        IF args[3] IS null THEN args[3] = '0'; END IF;
+        
+		IF 
+			args[1] IS NOT null 
+			AND args[2] IS NOT null
+			AND args[3] IS NOT null 
+		THEN
+			v_insumo_quantidade_embalagem	:= args[1];
+			v_insumo_unidade_medida_id 		:= args[2];
+			v_insumo_permite_venda 			:= args[3];
+		ELSE
+			RAISE EXCEPTION 'Parametros não podem ser nulos % % %', args[1], args[2], args[3];
+		END IF;
+			
 		WITH t_mercadoria AS (
 			INSERT INTO soad.mercadoria (descricao, marca, fk_unidade_medida_id, tipo)
-			VALUES (v_descricao, v_marca, v_tipo, v_unidade_medida_id, v_tipo)
+			VALUES (v_descricao, v_marca, v_unidade_medida_id, v_tipo)
 			RETURNING id_mercadoria
 		) INSERT INTO soad.insumo (fk_mercadoria_id, quantidade_embalagem, fk_unidade_medida_id, permite_venda)
 			SELECT id_mercadoria, v_insumo_quantidade_embalagem, v_insumo_unidade_medida_id, v_insumo_permite_venda
@@ -563,10 +611,19 @@ BEGIN
 	
 	-- Inserir casco
 	ELSIF v_tipo = 'CASCO' THEN
+		IF 
+			args[1] IS NOT null 
+			AND args[2] IS NOT null
+		THEN
+			v_casco_insumo_id			:= args[1];
+			v_casco_quantidade_insumo	:= args[2];
+		ELSE
+			RAISE EXCEPTION 'Parametros não podem ser nulos % %', args[1], args[2];
+		END IF;
 	
 		WITH t_mercadoria AS (
 			INSERT INTO soad.mercadoria (descricao, marca, fk_unidade_medida_id, tipo)
-			VALUES (v_descricao, v_marca, v_tipo, v_unidade_medida_id, v_tipo)
+			VALUES (v_descricao, v_marca, v_unidade_medida_id, v_tipo)
 			RETURNING id_mercadoria
 		) INSERT INTO soad.casco (fk_mercadoria_id, fk_insumo_id, quantidade_insumo)
 			SELECT id_mercadoria, v_casco_insumo_id, v_casco_quantidade_insumo
@@ -576,15 +633,15 @@ BEGIN
 	
 	ELSE
 	
-		RAISE EXCEPTION 'Tipo de mercadoria inválida';
+		RAISE EXCEPTION 'Tipo de mercadoria inválida: %', v_tipo;
 	
 	END IF;
 
 	-- Não deveria chegar nesse raise
 	RAISE EXCEPTION 'Não foi criado nenhum registro';
 
---EXCEPTION WHEN OTHERS THEN
-	--RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
+EXCEPTION WHEN OTHERS THEN
+	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
 
 END;
 $$;
@@ -2203,7 +2260,7 @@ ALTER TABLE ONLY "soad"."usuario"
     ADD CONSTRAINT "fkc_usuario_pessoa_id" FOREIGN KEY ("fk_pessoa_id") REFERENCES "soad"."pessoa"("id_pessoa") ON DELETE CASCADE;
 
 
--- Completed on 2019-07-14 20:57:05
+-- Completed on 2019-07-14 22:22:49
 
 --
 -- PostgreSQL database dump complete
