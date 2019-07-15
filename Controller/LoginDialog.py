@@ -15,6 +15,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.login)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancelar)
 
+        self.lineEdit_usuario.textChanged.connect(self.status_botao)
+        self.lineEdit_usuario.textChanged.connect(self.status_botao)
+
         if self.comboBox_servidor.count() == 1:
             self.verticalWidget_servidor.setVisible(False)
 
@@ -54,6 +57,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             if db:
                 w = MainWindow(db)
                 w.showMaximized()
+
+    def status_botao(self):
+        pass
 
     def cancelar(self):
         self.close()
