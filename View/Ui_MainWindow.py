@@ -169,4 +169,3 @@ class Ui_MainWindow(object):
         self.actionVendas.setText(QtWidgets.QApplication.translate("MainWindow", "Vendas", None, -1))
         self.actionCompras.setText(QtWidgets.QApplication.translate("MainWindow", "Compras", None, -1))
         self.actionDescartes.setText(QtWidgets.QApplication.translate("MainWindow", "Descartes", None, -1))
-
