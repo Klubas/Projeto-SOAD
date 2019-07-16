@@ -1,49 +1,48 @@
-from PySide2.QtWidgets import QMainWindow
 from PySide2.QtGui import QCloseEvent
-from View.Ui_MainWindow import Ui_MainWindow
+from PySide2.QtWidgets import QMainWindow
 
 from Controller.About import About
+from Controller.CadastroPessoa import CadastroPessoa
 from Controller.SairDialog import SairDialog
 from Controller.StatusDialog import StatusDialog
-
-from Controller.CadastroPessoa import CadastroPessoa
+from View.Ui_MainWindow import Ui_MainWindow
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
-    def __init__(self, db, parent=None):
-        super(MainWindow, self).__init__(parent)
+    def __init__(self, db):
+        super(MainWindow, self).__init__()
         self.setupUi(self)
         self.db = db
         self.window_list = list()
-        # self.setWindowIcon()
+        # todo: self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
         self.connect_menu_actions()
 
     def connect_menu_actions(self):
-        # Arquivo
+        # todo: Arquivo
         self.actionSair.triggered.connect(lambda: self.closeEvent(event=QCloseEvent()))
 
-        # Cadastros
+        # todo: Cadastros
         self.actionPessoa.triggered.connect(lambda: self.abrir_cadastro(window_cls=CadastroPessoa))
 
-        # Vendas
+        # todo: Vendas
 
-        # Estoque
+        # todo: Estoque
 
-        # Ajuda
+        # todo: Ajuda
         self.actionSobre.triggered.connect(self.abrir_sobre)
 
     def abrir_cadastro(self, window_cls):
-        #try:
-        cad = window_cls(self.db, self.window_list)
-        self.window_list.append(cad)
-        cad.show()
-        cad.confirma()
-        #except Exception as e:
-         #   dialog = StatusDialog(status='ERRO')
-          #  dialog.definir_mensagem(str(e))
-           # dialog.exec()
+        try:
+            cad = window_cls(self.db, self.window_list)
+            self.window_list.append(cad)
+            cad.show()
+            cad.confirma()
+        except Exception as e:
+            dialog = StatusDialog(status='ERRO')
+            dialog.definir_mensagem('Não foi possível abrir a interface', e)
+            dialog.exec()
 
     def abrir_sobre(self):
         s = About()

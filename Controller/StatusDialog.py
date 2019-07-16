@@ -1,4 +1,7 @@
+import logging
+
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
+
 from View.Ui_StatusDialog import Ui_StatusDialog
 
 
@@ -18,11 +21,13 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             pass
 
         else:
-            print("O valor <" + status + "> não é um status válido para StatusDialog\n")
+            logging.debug("O valor <" + status + "> não é um status válido para StatusDialog\n")
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 
-    def definir_mensagem(self, mensagem):
+    def definir_mensagem(self, mensagem, exception):
+        logging.info(mensagem)
+        logging.debug(exception)
         self.label.setText(mensagem)
 
     def close_clicked(self):

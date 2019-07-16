@@ -15,7 +15,6 @@ class DataBase:
         self.schema = 'soad'
         self.folder = 'Resources' + os.sep + 'database'
         self.dbinfo = 'postgres://' + username + ':' + password + '@' + host + ':' + str(port) + '/postgres'
-        print(self.dbinfo)
         self.db = DAL(
             self.dbinfo,
             folder=self.folder,

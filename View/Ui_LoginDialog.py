@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\LoginDialog.ui'
 #
-# Created: Mon Jul 15 07:35:42 2019
+# Created: Mon Jul 15 20:58:42 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -51,6 +51,7 @@ class Ui_LoginDialog(object):
         self.label_senha.setObjectName("label_senha")
         self.verticalLayout_login.addWidget(self.label_senha)
         self.lineEdit_senha = QtWidgets.QLineEdit(self.verticalWidget_login)
+        self.lineEdit_senha.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_senha.setObjectName("lineEdit_senha")
         self.verticalLayout_login.addWidget(self.lineEdit_senha)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)

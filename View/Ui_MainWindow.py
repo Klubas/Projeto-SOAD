@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\MainWindow.ui'
 #
-# Created: Mon Jul 15 07:35:42 2019
+# Created: Mon Jul 15 20:58:42 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -169,3 +169,4 @@ class Ui_MainWindow(object):
         self.actionVendas.setText(QtWidgets.QApplication.translate("MainWindow", "Vendas", None, -1))
         self.actionCompras.setText(QtWidgets.QApplication.translate("MainWindow", "Compras", None, -1))
         self.actionDescartes.setText(QtWidgets.QApplication.translate("MainWindow", "Descartes", None, -1))
+

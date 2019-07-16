@@ -1,3 +1,6 @@
+import sys
+
+from PySide2.QtGui import QCloseEvent
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
 from Controller.MainWindow import MainWindow
@@ -12,11 +15,13 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         super().__init__()
         self.setupUi(self)
         self.comboBox_servidor.addItem("localhost:5432")
+        self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
+
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.login)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancelar)
 
-        self.lineEdit_usuario.textChanged.connect(self.status_botao)
-        self.lineEdit_usuario.textChanged.connect(self.status_botao)
+        self.lineEdit_usuario.textChanged[str].connect(self.status_botao)
+        self.lineEdit_senha.textChanged[str].connect(self.status_botao)
 
         if self.comboBox_servidor.count() == 1:
             self.verticalWidget_servidor.setVisible(False)
@@ -25,7 +30,6 @@ class LoginDialog(QDialog, Ui_LoginDialog):
     def __setup_db_connection__(self):
         try:
             servidor = self.comboBox_servidor.currentText().split(':')
-            print(servidor)
 
             return DataBase(
                 username=self.lineEdit_usuario.text()
@@ -36,15 +40,14 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
         except Exception as e:
             dialog = StatusDialog()
-            dialog.definir_mensagem("Erro conectar:\n\n" + str(e))
+            dialog.definir_mensagem("Não foi possível se conectar ao banco de dados.", e)
             dialog.exec()
             return False
-
 
     def login(self):
 
         if len(self.lineEdit_usuario.text()) == 0 \
-                or len(self.lineEdit_senha.text().text()) == 0:
+                or len(self.lineEdit_senha.text()) == 0:
 
             dialog = StatusDialog()
             dialog.definir_mensagem("Por favor informe seu usuário e senha.")
@@ -52,15 +55,32 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
         else:
 
-            db = self.__setup_db_connection__()
+            try:
+                db = self.__setup_db_connection__()
 
-            if db:
-                w = MainWindow(db)
-                w.showMaximized()
+                if db:
+                    w = MainWindow(db)
+                    w.showMaximized()
+                    self.close()
+            except Exception as e:
+                dialog = StatusDialog()
+                dialog.definir_mensagem("Não foi possível se conectar ao banco de dados,", e)
+                dialog.exec()
+
+    def user_vazio(self):
+        self.status_botao()
+
+    def pass_vazio(self):
+        self.status_botao()
 
     def status_botao(self):
-        pass
+        self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(
+            (len(self.lineEdit_usuario.text()) == 0) or (len(self.lineEdit_senha.text()) == 0)
+        )
 
     def cancelar(self):
-        self.close()
+        self.closeEvent(event=QCloseEvent())
 
+    def closeEvent(self, event):
+        event.accept()
+        sys.exit()

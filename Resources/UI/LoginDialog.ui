@@ -82,7 +82,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_senha"/>
+        <widget class="QLineEdit" name="lineEdit_senha">
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer">
