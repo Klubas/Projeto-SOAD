@@ -1,4 +1,4 @@
-from PySide2.QtGui import QCloseEvent
+\from PySide2.QtGui import QCloseEvent
 from PySide2.QtWidgets import QMainWindow
 
 from Controller.About import About

@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.2
 
--- Started on 2019-07-15 06:37:50
+-- Started on 2019-07-17 23:24:24
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET row_security = off;
 
 DROP DATABASE "postgres";
 --
--- TOC entry 3051 (class 1262 OID 13012)
+-- TOC entry 3055 (class 1262 OID 13012)
 -- Name: postgres; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -41,8 +41,8 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 3052 (class 0 OID 0)
--- Dependencies: 3051
+-- TOC entry 3056 (class 0 OID 0)
+-- Dependencies: 3055
 -- Name: DATABASE "postgres"; Type: COMMENT; Schema: -; Owner: postgres
 --
 
@@ -58,6 +58,55 @@ CREATE SCHEMA "soad";
 
 
 ALTER SCHEMA "soad" OWNER TO "postgres";
+
+--
+-- TOC entry 260 (class 1255 OID 33610)
+-- Name: fnc_insert_pedido("text", integer, "text", "date"); Type: FUNCTION; Schema: soad; Owner: postgres
+--
+
+CREATE FUNCTION "soad"."fnc_insert_pedido"("p_tipo_pedido" "text", "p_pessoa_id" integer, "p_observacao" "text", "p_data_entrega" "date") RETURNS integer
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+	-- Pedido
+	v_id_pedido		integer	:= NULL; -- Vai receber o id do pedido gravado
+	
+	v_tipo_pedido 	text	:= upper(p_tipo_pedido);
+    v_pessoa_id 	integer	:= p_pessoa_id;
+	v_observacao 	text	:= p_observacao;
+	v_data_entrega 	date	:= p_data_entrega;
+	
+	v_data_cadastro date 	:= statement_timestamp();
+	v_situacao 		text	:= 'CADASTRADO';
+	
+			  
+BEGIN
+
+	IF v_pessoa_id is NULL THEN
+		RAISE EXCEPTION 'Não é possível inserir um pedido sem destinatário';
+	END IF;
+	
+	-- Pedido
+	BEGIN
+		WITH t_pedido as (
+			INSERT INTO soad.pedido (fk_pessoa_id, tipo_pedido, situacao, data_cadastro )
+			VALUES (v_pessoa_id, v_tipo_pedido ,'CADASTRADO', v_data_cadastro)
+			RETURNING id_pedido
+		)
+			SELECT id_pedido INTO v_id_pedido
+			FROM t_pedido;
+		
+		RETURN v_id_pedido;
+	END;
+	
+EXCEPTION WHEN OTHERS THEN
+	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
+
+END;
+$$;
+
+
+ALTER FUNCTION "soad"."fnc_insert_pedido"("p_tipo_pedido" "text", "p_pessoa_id" integer, "p_observacao" "text", "p_data_entrega" "date") OWNER TO "postgres";
 
 --
 -- TOC entry 254 (class 1255 OID 17551)
@@ -80,7 +129,81 @@ $$;
 ALTER FUNCTION "soad"."fnc_relatorio_cidades"("p_pais" character varying, "p_estado" character varying, "p_cidade" character varying) OWNER TO "postgres";
 
 --
--- TOC entry 259 (class 1255 OID 17545)
+-- TOC entry 251 (class 1255 OID 33611)
+-- Name: prc_cadastro_pedido("json"); Type: PROCEDURE; Schema: soad; Owner: postgres
+--
+
+CREATE PROCEDURE "soad"."prc_cadastro_pedido"("p_pedido_json" "json")
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+	-- Retorno
+	v_pedido_id integer;
+	
+	-- Pedido
+	v_tipo_pedido 	text;
+    v_pessoa_id 	integer;
+	v_observacao 	text;
+	v_data_entrega 	date;
+	
+    -- Define qual o tipo de item sendo inserido
+	-- TRUE:  Mercadoria
+	-- FALSE: Remanufatura
+	v_tipo_item 	text;
+
+	-- Se aplicam aos dois tipos
+	v_quantidade 	 real;
+	v_valor_unitario real;
+
+	-- Se aplica Mercadoria
+	v_produto_id 	integer;
+	
+	-- Se aplica a Remanufatura
+	v_casco_id 		integer;
+
+BEGIN
+	-- Parse do json
+	BEGIN
+		RAISE NOTICE 'Parse Json';
+	
+	EXCEPTION WHEN OTHERS THEN
+		RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
+		
+	END;
+	
+	-- Cadastra pedido
+	BEGIN
+
+  		v_pedido_id := soad.fnc_insert_pedido(v_tipo_pedido, v_pessoa_id, v_observacao, v_data_entrega);
+  		
+		-- Loop para vincular item de acordo com o tipo
+		IF v_tipo_item = 'REMANUFATURA' THEN
+ 			call soad.prc_vincular_pedido_remanufatura(v_pedido_id, v_casco_id, v_quantidade, v_valor_unitario);
+		
+		ELSIF v_tipo_item = 'MERCADAORIA' THEN
+			call soad.prc_vincular_pedido_mercadoria(v_pedido_id, v_mercadoria_id, v_quantidade, v_valor_unitario);
+		
+		ELSE 
+			RAISE EXCEPTION 'Tipo de item inválido.';
+		
+		END IF;
+	
+	EXCEPTION WHEN OTHERS THEN
+		RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
+	
+	END;
+	
+EXCEPTION WHEN OTHERS THEN
+	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
+	
+END;
+$$;
+
+
+ALTER PROCEDURE "soad"."prc_cadastro_pedido"("p_pedido_json" "json") OWNER TO "postgres";
+
+--
+-- TOC entry 262 (class 1255 OID 17545)
 -- Name: prc_definicoes_iniciais(); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -181,9 +304,9 @@ BEGIN
 	RAISE NOTICE 'Cadastrando pessoas...';
 	BEGIN
 		CALL soad.prc_insert_pessoa('VIP Cartuchos', '', '4232240660', '00000000000000', '', 'VIP Cartuchos');
-		CALL soad.prc_insert_pessoa('EMPRESA TESTE 1', '', '4232240660', '99999999999999', '', 'EMPRESA TESTE 1');
+		CALL soad.prc_insert_pessoa('EMPRESA TESTE 1', '', '4232240660', '99998899999999', '', 'EMPRESA TESTE 1');
 		CALL soad.prc_insert_pessoa('Lucas Klüber', 'lucas.kluber@gmail.com', '42999823030', '10841793930', '', '');
-		CALL soad.prc_insert_pessoa('PESSOA TESTE 1', '', '', '00000000000', '', '');
+		CALL soad.prc_insert_pessoa('PESSOA TESTE 1', '', '', '00000100000', '', '');
 		
 	EXCEPTION WHEN OTHERS THEN
 		RAISE NOTICE 'Não foi possível realizar o cadastro das pessoas.';
@@ -390,7 +513,7 @@ $$;
 ALTER PROCEDURE "soad"."prc_insert_cidade_estado_pais"("p_cidade_nome" "text", "p_estado_nome" "text", "p_estado_sigla" "text", "p_pais_nome" "text", "p_pais_sigla" "text") OWNER TO "postgres";
 
 --
--- TOC entry 256 (class 1255 OID 25434)
+-- TOC entry 258 (class 1255 OID 25434)
 -- Name: prc_insert_endereco(integer, integer, "text", "text", "text", "text", "text"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -464,7 +587,7 @@ $$;
 ALTER PROCEDURE "soad"."prc_insert_or_update_unidade_medida"("p_descricao" "text", "p_abreviacao" "text") OWNER TO "postgres";
 
 --
--- TOC entry 3053 (class 0 OID 0)
+-- TOC entry 3057 (class 0 OID 0)
 -- Dependencies: 253
 -- Name: PROCEDURE "prc_insert_or_update_unidade_medida"("p_descricao" "text", "p_abreviacao" "text"); Type: COMMENT; Schema: soad; Owner: postgres
 --
@@ -472,29 +595,6 @@ ALTER PROCEDURE "soad"."prc_insert_or_update_unidade_medida"("p_descricao" "text
 COMMENT ON PROCEDURE "soad"."prc_insert_or_update_unidade_medida"("p_descricao" "text", "p_abreviacao" "text") IS 'Cadastra unidade de medida.
 Se a abreviacao ja existir irá atualizar a descrição';
 
-
---
--- TOC entry 251 (class 1255 OID 25452)
--- Name: prc_insert_pedido(); Type: PROCEDURE; Schema: soad; Owner: postgres
---
-
-CREATE PROCEDURE "soad"."prc_insert_pedido"()
-    LANGUAGE "plpgsql"
-    AS $$
-DECLARE
-	
-
-BEGIN
-
--- Compra ou venda
--- Vincualar mercadorias
--- Vincular remanufaturas
-
-END;
-$$;
-
-
-ALTER PROCEDURE "soad"."prc_insert_pedido"() OWNER TO "postgres";
 
 --
 -- TOC entry 250 (class 1255 OID 17202)
@@ -505,13 +605,14 @@ CREATE PROCEDURE "soad"."prc_insert_pessoa"("p_nome" "text", "p_email" "text", "
     LANGUAGE "plpgsql"
     AS $$
 DECLARE
-	v_nome text := p_nome;
-	v_email text := p_email;
-	v_telefone text := p_telefone;
-	v_documento text := p_documento;
-	v_inscricao_estadual text := p_inscricao_estadual;
-	v_fantasia text := p_fantasia;
-	v_data_cadastro date := statement_timestamp();
+	v_nome 					text 	:= p_nome;
+	v_email 				text 	:= p_email;
+	v_telefone 				text 	:= p_telefone;
+	v_documento 			text 	:= p_documento;
+	v_inscricao_estadual 	text 	:= p_inscricao_estadual;
+	v_fantasia 				text 	:= p_fantasia;
+	v_data_cadastro 		date 	:= statement_timestamp();
+	v_id_pessoa 			integer := NULL;
 	
 BEGIN
 
@@ -519,8 +620,7 @@ BEGIN
 		v_inscricao_estadual = 'ISENTO';
 	END IF;
 
-	IF length(v_documento) = 14 THEN -- insere pessoa e pessoa juridica
-		WITH ins_p AS (
+		WITH t_pessoa AS (
 			INSERT INTO soad.pessoa (
 				nome
 				, email
@@ -532,35 +632,18 @@ BEGIN
 				RETURNING id_pessoa
 		)
 		
-		INSERT INTO soad.pessoa_juridica (
-			fk_pessoa_id, cnpj
-			, fantasia
-			, data_cadastro
-		)
-			SELECT id_pessoa, v_documento, v_fantasia, v_data_cadastro
-			FROM ins_p;
+		SELECT id_pessoa INTO v_id_pessoa
+		FROM t_pessoa;
+		
+	IF length(v_documento) = 14 THEN -- insere pessoa e pessoa juridica
+		
+		INSERT INTO soad.pessoa_juridica (fk_pessoa_id, cnpj, fantasia, data_cadastro)
+		VALUES (v_id_pessoa, v_documento, v_fantasia, v_data_cadastro);
 			
-
 	ELSIF length(v_documento) = 11 THEN 	-- insere pessoa e pessoa fisica
-		WITH ins_p AS (
-			INSERT INTO soad.pessoa (
-				nome
-				, email
-				, telefone
-				, inscricao_estadual
-				, data_cadastro
-			)
-				VALUES (v_nome, v_email, v_telefone, v_inscricao_estadual, v_data_cadastro)	
-				RETURNING id_pessoa
-		)
 
-		INSERT INTO soad.pessoa_fisica (
-			fk_pessoa_id
-			, cpf
-			, data_cadastro
-		) 
-		SELECT id_pessoa, v_documento, v_data_cadastro
-		FROM ins_p;
+		INSERT INTO soad.pessoa_fisica (fk_pessoa_id, cpf, data_cadastro) 
+		VALUES(v_id_pessoa, v_documento, v_data_cadastro);
 		
 	END IF;
 	
@@ -573,11 +656,11 @@ $$;
 ALTER PROCEDURE "soad"."prc_insert_pessoa"("p_nome" "text", "p_email" "text", "p_telefone" "text", "p_documento" "text", "p_inscricao_estadual" "text", "p_fantasia" "text") OWNER TO "postgres";
 
 --
--- TOC entry 258 (class 1255 OID 25451)
+-- TOC entry 257 (class 1255 OID 25451)
 -- Name: prc_insert_produto("text", "text", integer, "text", "text"[]); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
-CREATE PROCEDURE "soad"."prc_insert_produto"("p_descricao" "text", "p_marca" "text", "p_unidade_medida_id" integer, "p_tipo" "text", VARIADIC "args" "text"[] DEFAULT NULL::"text"[])
+CREATE PROCEDURE "soad"."prc_insert_produto"("p_descricao" "text", "p_marca" "text", "p_unidade_medida_id" integer, "p_tipo" "text" DEFAULT 'PRODUTO'::"text", VARIADIC "args" "text"[] DEFAULT NULL::"text"[])
     LANGUAGE "plpgsql"
     AS $$
 DECLARE
@@ -673,7 +756,7 @@ $$;
 ALTER PROCEDURE "soad"."prc_insert_produto"("p_descricao" "text", "p_marca" "text", "p_unidade_medida_id" integer, "p_tipo" "text", VARIADIC "args" "text"[]) OWNER TO "postgres";
 
 --
--- TOC entry 257 (class 1255 OID 25399)
+-- TOC entry 259 (class 1255 OID 25399)
 -- Name: prc_vincular_modalidade_pessoa(integer, "text"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -725,6 +808,60 @@ $$;
 
 ALTER PROCEDURE "soad"."prc_vincular_modalidade_pessoa"("p_modalidade_id" integer, "p_documento" "text") OWNER TO "postgres";
 
+--
+-- TOC entry 261 (class 1255 OID 33615)
+-- Name: prc_vincular_pedido_mercadoria(integer, integer, real, real); Type: PROCEDURE; Schema: soad; Owner: postgres
+--
+
+CREATE PROCEDURE "soad"."prc_vincular_pedido_mercadoria"("p_pedido_id" integer, "p_mercadoria_id" integer, "p_quantidade" real, "p_valor_unitario" real)
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+	v_pedido_id		 	integer		:= p_pedido_id;
+	v_mercadoria_id 	integer		:= p_mercadoria_id;
+	v_quantidade 	 	real		:= p_quantidade;
+	v_valor_unitario 	real		:= p_valor_unitario;
+
+	
+BEGIN
+
+	INSERT INTO soad.remanufatura (fk_pedido_id, fk_casco_id, quantidade, valor_unitario)
+	VALUES (v_pedido_id, v_casco_id, v_quantidade, v_valor_unitario);
+
+END;
+$$;
+
+
+ALTER PROCEDURE "soad"."prc_vincular_pedido_mercadoria"("p_pedido_id" integer, "p_mercadoria_id" integer, "p_quantidade" real, "p_valor_unitario" real) OWNER TO "postgres";
+
+--
+-- TOC entry 256 (class 1255 OID 33614)
+-- Name: prc_vincular_pedido_remanufatura(integer, integer, real, real); Type: PROCEDURE; Schema: soad; Owner: postgres
+--
+
+CREATE PROCEDURE "soad"."prc_vincular_pedido_remanufatura"("p_pedido_id" integer, "p_casco_id" integer, "p_quantidade" real, "p_valor_unitario" real)
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+	v_pedido_id		 	integer		:= p_pedido_id;
+	v_casco_id		 	integer		:= p_casco_id;
+	v_quantidade 	 	real		:= p_quantidade;
+	v_valor_unitario 	real		:= p_valor_unitario;
+
+BEGIN
+	
+	INSERT INTO soad.remanufatura (fk_pedido_id, fk_casco_id, quantidade, valor_unitario)
+	VALUES (v_pedido_id, v_casco_id, v_quantidade, v_valor_unitario);
+
+EXCEPTION WHEN OTHERS THEN
+	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
+
+END;
+$$;
+
+
+ALTER PROCEDURE "soad"."prc_vincular_pedido_remanufatura"("p_pedido_id" integer, "p_casco_id" integer, "p_quantidade" real, "p_valor_unitario" real) OWNER TO "postgres";
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -775,7 +912,7 @@ CREATE SEQUENCE "soad"."cidade_id_seq"
 ALTER TABLE "soad"."cidade_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3054 (class 0 OID 0)
+-- TOC entry 3058 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: cidade_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -836,7 +973,7 @@ CREATE SEQUENCE "soad"."endereco_id_seq"
 ALTER TABLE "soad"."endereco_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3055 (class 0 OID 0)
+-- TOC entry 3059 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: endereco_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -876,7 +1013,7 @@ CREATE SEQUENCE "soad"."estado_id_seq"
 ALTER TABLE "soad"."estado_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3056 (class 0 OID 0)
+-- TOC entry 3060 (class 0 OID 0)
 -- Dependencies: 231
 -- Name: estado_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -901,7 +1038,7 @@ CREATE TABLE "soad"."insumo" (
 ALTER TABLE "soad"."insumo" OWNER TO "postgres";
 
 --
--- TOC entry 3057 (class 0 OID 0)
+-- TOC entry 3061 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: COLUMN "insumo"."permite_venda"; Type: COMMENT; Schema: soad; Owner: postgres
 --
@@ -928,7 +1065,7 @@ CREATE SEQUENCE "soad"."insumo_id_seq"
 ALTER TABLE "soad"."insumo_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3058 (class 0 OID 0)
+-- TOC entry 3062 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: insumo_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -955,7 +1092,7 @@ CREATE TABLE "soad"."item_lote" (
 ALTER TABLE "soad"."item_lote" OWNER TO "postgres";
 
 --
--- TOC entry 3059 (class 0 OID 0)
+-- TOC entry 3063 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: COLUMN "item_lote"."fk_item_pedido_id"; Type: COMMENT; Schema: soad; Owner: postgres
 --
@@ -980,7 +1117,7 @@ CREATE SEQUENCE "soad"."item_lote_id_seq"
 ALTER TABLE "soad"."item_lote_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3060 (class 0 OID 0)
+-- TOC entry 3064 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: item_lote_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -996,7 +1133,7 @@ ALTER SEQUENCE "soad"."item_lote_id_seq" OWNED BY "soad"."item_lote"."id_item_lo
 CREATE TABLE "soad"."item_pedido" (
     "id_item_pedido" integer NOT NULL,
     "fk_pedido_id" integer NOT NULL,
-    "fk_produto_id" integer NOT NULL,
+    "fk_mercadoria_id" integer NOT NULL,
     "quantidade" integer NOT NULL,
     "valor_unitario" real NOT NULL
 );
@@ -1021,7 +1158,7 @@ CREATE SEQUENCE "soad"."item_pedido_id_seq"
 ALTER TABLE "soad"."item_pedido_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3061 (class 0 OID 0)
+-- TOC entry 3065 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: item_pedido_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1046,7 +1183,7 @@ CREATE TABLE "soad"."lote" (
 ALTER TABLE "soad"."lote" OWNER TO "postgres";
 
 --
--- TOC entry 3062 (class 0 OID 0)
+-- TOC entry 3066 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: COLUMN "lote"."fk_pedido_id"; Type: COMMENT; Schema: soad; Owner: postgres
 --
@@ -1071,7 +1208,7 @@ CREATE SEQUENCE "soad"."lote_id_seq"
 ALTER TABLE "soad"."lote_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3063 (class 0 OID 0)
+-- TOC entry 3067 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: lote_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1097,7 +1234,7 @@ CREATE TABLE "soad"."mercadoria" (
 ALTER TABLE "soad"."mercadoria" OWNER TO "postgres";
 
 --
--- TOC entry 3064 (class 0 OID 0)
+-- TOC entry 3068 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: COLUMN "mercadoria"."tipo"; Type: COMMENT; Schema: soad; Owner: postgres
 --
@@ -1137,7 +1274,7 @@ CREATE SEQUENCE "soad"."modalidade_id_seq"
 ALTER TABLE "soad"."modalidade_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3065 (class 0 OID 0)
+-- TOC entry 3069 (class 0 OID 0)
 -- Dependencies: 199
 -- Name: modalidade_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1176,7 +1313,7 @@ CREATE SEQUENCE "soad"."modalidade_pessoa_id_seq"
 ALTER TABLE "soad"."modalidade_pessoa_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3066 (class 0 OID 0)
+-- TOC entry 3070 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: modalidade_pessoa_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1215,7 +1352,7 @@ CREATE SEQUENCE "soad"."pais_id_seq"
 ALTER TABLE "soad"."pais_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3067 (class 0 OID 0)
+-- TOC entry 3071 (class 0 OID 0)
 -- Dependencies: 233
 -- Name: pais_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1232,28 +1369,28 @@ CREATE TABLE "soad"."pedido" (
     "id_pedido" integer NOT NULL,
     "fk_pessoa_id" integer NOT NULL,
     "data_entrega" "date",
-    "tipo_pedido" boolean NOT NULL,
+    "tipo_pedido" character varying(10) NOT NULL,
     "data_cadastro" timestamp(4) with time zone NOT NULL,
     "observacao" character varying(300),
     "situacao" character varying(10) NOT NULL,
-    CONSTRAINT "cc_pedido_situacao" CHECK (((("situacao")::"text" = 'CADASTRADO'::"text") OR (("situacao")::"text" = 'ENCERRADO'::"text") OR (("situacao")::"text" = 'CANCELADO'::"text")))
+    CONSTRAINT "cc_pedido_situacao" CHECK (((("situacao")::"text" = 'CADASTRADO'::"text") OR (("situacao")::"text" = 'ENCERRADO'::"text") OR (("situacao")::"text" = 'CANCELADO'::"text"))),
+    CONSTRAINT "cc_pedido_tipo_pedido" CHECK (((("tipo_pedido")::"text" = 'COMPRA'::"text") OR (("tipo_pedido")::"text" = 'VENDA'::"text")))
 );
 
 
 ALTER TABLE "soad"."pedido" OWNER TO "postgres";
 
 --
--- TOC entry 3068 (class 0 OID 0)
+-- TOC entry 3072 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: COLUMN "pedido"."tipo_pedido"; Type: COMMENT; Schema: soad; Owner: postgres
 --
 
-COMMENT ON COLUMN "soad"."pedido"."tipo_pedido" IS '0 = Entrada
-1 = Saida';
+COMMENT ON COLUMN "soad"."pedido"."tipo_pedido" IS 'COMPRA ou VENDA';
 
 
 --
--- TOC entry 3069 (class 0 OID 0)
+-- TOC entry 3073 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: CONSTRAINT "cc_pedido_situacao" ON "pedido"; Type: COMMENT; Schema: soad; Owner: postgres
 --
@@ -1278,7 +1415,7 @@ CREATE SEQUENCE "soad"."pedido_id_seq"
 ALTER TABLE "soad"."pedido_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3070 (class 0 OID 0)
+-- TOC entry 3074 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: pedido_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1335,7 +1472,7 @@ CREATE SEQUENCE "soad"."pessoa_fisica_id_seq"
 ALTER TABLE "soad"."pessoa_fisica_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3071 (class 0 OID 0)
+-- TOC entry 3075 (class 0 OID 0)
 -- Dependencies: 197
 -- Name: pessoa_fisica_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1360,7 +1497,7 @@ CREATE SEQUENCE "soad"."pessoa_id_seq"
 ALTER TABLE "soad"."pessoa_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3072 (class 0 OID 0)
+-- TOC entry 3076 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: pessoa_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1401,7 +1538,7 @@ CREATE SEQUENCE "soad"."pessoa_juridica_id_seq"
 ALTER TABLE "soad"."pessoa_juridica_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3073 (class 0 OID 0)
+-- TOC entry 3077 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: pessoa_juridica_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1426,7 +1563,7 @@ CREATE SEQUENCE "soad"."produto_id_seq"
 ALTER TABLE "soad"."produto_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3074 (class 0 OID 0)
+-- TOC entry 3078 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: produto_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1467,7 +1604,7 @@ CREATE SEQUENCE "soad"."remanufatura_id_seq"
 ALTER TABLE "soad"."remanufatura_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3075 (class 0 OID 0)
+-- TOC entry 3079 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: remanufatura_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1492,7 +1629,7 @@ CREATE SEQUENCE "soad"."toner_id_seq"
 ALTER TABLE "soad"."toner_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3076 (class 0 OID 0)
+-- TOC entry 3080 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: toner_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1531,7 +1668,7 @@ CREATE SEQUENCE "soad"."unidade_medida_id_seq"
 ALTER TABLE "soad"."unidade_medida_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3077 (class 0 OID 0)
+-- TOC entry 3081 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: unidade_medida_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1571,7 +1708,7 @@ CREATE SEQUENCE "soad"."usuario_id_seq"
 ALTER TABLE "soad"."usuario_id_seq" OWNER TO "postgres";
 
 --
--- TOC entry 3078 (class 0 OID 0)
+-- TOC entry 3082 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
@@ -1619,7 +1756,7 @@ CREATE VIEW "soad"."vw_pessoa" AS
 ALTER TABLE "soad"."vw_pessoa" OWNER TO "postgres";
 
 --
--- TOC entry 2823 (class 2604 OID 16919)
+-- TOC entry 2826 (class 2604 OID 16919)
 -- Name: casco id_casco; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1627,7 +1764,7 @@ ALTER TABLE ONLY "soad"."casco" ALTER COLUMN "id_casco" SET DEFAULT "nextval"('"
 
 
 --
--- TOC entry 2835 (class 2604 OID 17009)
+-- TOC entry 2839 (class 2604 OID 17009)
 -- Name: cidade id_cidade; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1635,7 +1772,7 @@ ALTER TABLE ONLY "soad"."cidade" ALTER COLUMN "id_cidade" SET DEFAULT "nextval"(
 
 
 --
--- TOC entry 2834 (class 2604 OID 17001)
+-- TOC entry 2838 (class 2604 OID 17001)
 -- Name: endereco id_endereco; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1643,7 +1780,7 @@ ALTER TABLE ONLY "soad"."endereco" ALTER COLUMN "id_endereco" SET DEFAULT "nextv
 
 
 --
--- TOC entry 2836 (class 2604 OID 17017)
+-- TOC entry 2840 (class 2604 OID 17017)
 -- Name: estado id_estado; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1651,7 +1788,7 @@ ALTER TABLE ONLY "soad"."estado" ALTER COLUMN "id_estado" SET DEFAULT "nextval"(
 
 
 --
--- TOC entry 2824 (class 2604 OID 16927)
+-- TOC entry 2827 (class 2604 OID 16927)
 -- Name: insumo id_insumo; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1659,7 +1796,7 @@ ALTER TABLE ONLY "soad"."insumo" ALTER COLUMN "id_insumo" SET DEFAULT "nextval"(
 
 
 --
--- TOC entry 2832 (class 2604 OID 16985)
+-- TOC entry 2836 (class 2604 OID 16985)
 -- Name: item_lote id_item_lote_id; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1667,7 +1804,7 @@ ALTER TABLE ONLY "soad"."item_lote" ALTER COLUMN "id_item_lote_id" SET DEFAULT "
 
 
 --
--- TOC entry 2831 (class 2604 OID 16977)
+-- TOC entry 2835 (class 2604 OID 16977)
 -- Name: item_pedido id_item_pedido; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1675,7 +1812,7 @@ ALTER TABLE ONLY "soad"."item_pedido" ALTER COLUMN "id_item_pedido" SET DEFAULT 
 
 
 --
--- TOC entry 2833 (class 2604 OID 16993)
+-- TOC entry 2837 (class 2604 OID 16993)
 -- Name: lote id_lote; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1683,7 +1820,7 @@ ALTER TABLE ONLY "soad"."lote" ALTER COLUMN "id_lote" SET DEFAULT "nextval"('"so
 
 
 --
--- TOC entry 2820 (class 2604 OID 16909)
+-- TOC entry 2823 (class 2604 OID 16909)
 -- Name: mercadoria id_mercadoria; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1691,7 +1828,7 @@ ALTER TABLE ONLY "soad"."mercadoria" ALTER COLUMN "id_mercadoria" SET DEFAULT "n
 
 
 --
--- TOC entry 2817 (class 2604 OID 16883)
+-- TOC entry 2820 (class 2604 OID 16883)
 -- Name: modalidade id_modalidade; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1699,7 +1836,7 @@ ALTER TABLE ONLY "soad"."modalidade" ALTER COLUMN "id_modalidade" SET DEFAULT "n
 
 
 --
--- TOC entry 2826 (class 2604 OID 16943)
+-- TOC entry 2829 (class 2604 OID 16943)
 -- Name: modalidade_pessoa id_modalidade_pessoa; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1707,7 +1844,7 @@ ALTER TABLE ONLY "soad"."modalidade_pessoa" ALTER COLUMN "id_modalidade_pessoa" 
 
 
 --
--- TOC entry 2837 (class 2604 OID 17025)
+-- TOC entry 2841 (class 2604 OID 17025)
 -- Name: pais id_pais; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1715,7 +1852,7 @@ ALTER TABLE ONLY "soad"."pais" ALTER COLUMN "id_pais" SET DEFAULT "nextval"('"so
 
 
 --
--- TOC entry 2828 (class 2604 OID 16961)
+-- TOC entry 2831 (class 2604 OID 16961)
 -- Name: pedido id_pedido; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1723,7 +1860,7 @@ ALTER TABLE ONLY "soad"."pedido" ALTER COLUMN "id_pedido" SET DEFAULT "nextval"(
 
 
 --
--- TOC entry 2819 (class 2604 OID 16901)
+-- TOC entry 2822 (class 2604 OID 16901)
 -- Name: pessoa id_pessoa; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1731,7 +1868,7 @@ ALTER TABLE ONLY "soad"."pessoa" ALTER COLUMN "id_pessoa" SET DEFAULT "nextval"(
 
 
 --
--- TOC entry 2816 (class 2604 OID 16873)
+-- TOC entry 2819 (class 2604 OID 16873)
 -- Name: pessoa_fisica id_pessoa_fisica; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1739,7 +1876,7 @@ ALTER TABLE ONLY "soad"."pessoa_fisica" ALTER COLUMN "id_pessoa_fisica" SET DEFA
 
 
 --
--- TOC entry 2818 (class 2604 OID 16891)
+-- TOC entry 2821 (class 2604 OID 16891)
 -- Name: pessoa_juridica id_pessoa_juridica; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1747,7 +1884,7 @@ ALTER TABLE ONLY "soad"."pessoa_juridica" ALTER COLUMN "id_pessoa_juridica" SET 
 
 
 --
--- TOC entry 2830 (class 2604 OID 16969)
+-- TOC entry 2834 (class 2604 OID 16969)
 -- Name: remanufatura id_remanufatura; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1755,7 +1892,7 @@ ALTER TABLE ONLY "soad"."remanufatura" ALTER COLUMN "id_remanufatura" SET DEFAUL
 
 
 --
--- TOC entry 2827 (class 2604 OID 16951)
+-- TOC entry 2830 (class 2604 OID 16951)
 -- Name: unidade_medida id_unidade_medida; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1763,7 +1900,7 @@ ALTER TABLE ONLY "soad"."unidade_medida" ALTER COLUMN "id_unidade_medida" SET DE
 
 
 --
--- TOC entry 2825 (class 2604 OID 16935)
+-- TOC entry 2828 (class 2604 OID 16935)
 -- Name: usuario id_usuario; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -1771,7 +1908,7 @@ ALTER TABLE ONLY "soad"."usuario" ALTER COLUMN "id_usuario" SET DEFAULT "nextval
 
 
 --
--- TOC entry 2889 (class 2606 OID 17011)
+-- TOC entry 2893 (class 2606 OID 17011)
 -- Name: cidade pkc_id_cidade; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1780,7 +1917,7 @@ ALTER TABLE ONLY "soad"."cidade"
 
 
 --
--- TOC entry 2885 (class 2606 OID 17003)
+-- TOC entry 2889 (class 2606 OID 17003)
 -- Name: endereco pkc_id_endereco; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1789,7 +1926,7 @@ ALTER TABLE ONLY "soad"."endereco"
 
 
 --
--- TOC entry 2893 (class 2606 OID 17019)
+-- TOC entry 2897 (class 2606 OID 17019)
 -- Name: estado pkc_id_estado; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1798,7 +1935,7 @@ ALTER TABLE ONLY "soad"."estado"
 
 
 --
--- TOC entry 2863 (class 2606 OID 16929)
+-- TOC entry 2867 (class 2606 OID 16929)
 -- Name: insumo pkc_id_insumo; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1807,7 +1944,7 @@ ALTER TABLE ONLY "soad"."insumo"
 
 
 --
--- TOC entry 2881 (class 2606 OID 16987)
+-- TOC entry 2885 (class 2606 OID 16987)
 -- Name: item_lote pkc_id_item_lote; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1816,7 +1953,7 @@ ALTER TABLE ONLY "soad"."item_lote"
 
 
 --
--- TOC entry 2879 (class 2606 OID 16979)
+-- TOC entry 2883 (class 2606 OID 16979)
 -- Name: item_pedido pkc_id_item_pedido; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1825,7 +1962,7 @@ ALTER TABLE ONLY "soad"."item_pedido"
 
 
 --
--- TOC entry 2883 (class 2606 OID 16995)
+-- TOC entry 2887 (class 2606 OID 16995)
 -- Name: lote pkc_id_lote; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1834,7 +1971,7 @@ ALTER TABLE ONLY "soad"."lote"
 
 
 --
--- TOC entry 2857 (class 2606 OID 16911)
+-- TOC entry 2861 (class 2606 OID 16911)
 -- Name: mercadoria pkc_id_mercadoria; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1843,7 +1980,7 @@ ALTER TABLE ONLY "soad"."mercadoria"
 
 
 --
--- TOC entry 2845 (class 2606 OID 16885)
+-- TOC entry 2849 (class 2606 OID 16885)
 -- Name: modalidade pkc_id_modalidade; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1852,7 +1989,7 @@ ALTER TABLE ONLY "soad"."modalidade"
 
 
 --
--- TOC entry 2867 (class 2606 OID 16945)
+-- TOC entry 2871 (class 2606 OID 16945)
 -- Name: modalidade_pessoa pkc_id_modalidade_pessoa; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1861,7 +1998,7 @@ ALTER TABLE ONLY "soad"."modalidade_pessoa"
 
 
 --
--- TOC entry 2897 (class 2606 OID 17027)
+-- TOC entry 2901 (class 2606 OID 17027)
 -- Name: pais pkc_id_pais; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1870,7 +2007,7 @@ ALTER TABLE ONLY "soad"."pais"
 
 
 --
--- TOC entry 2875 (class 2606 OID 16963)
+-- TOC entry 2879 (class 2606 OID 16963)
 -- Name: pedido pkc_id_pedido; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1879,7 +2016,7 @@ ALTER TABLE ONLY "soad"."pedido"
 
 
 --
--- TOC entry 2855 (class 2606 OID 16903)
+-- TOC entry 2859 (class 2606 OID 16903)
 -- Name: pessoa pkc_id_pessoa; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1888,7 +2025,7 @@ ALTER TABLE ONLY "soad"."pessoa"
 
 
 --
--- TOC entry 2839 (class 2606 OID 16875)
+-- TOC entry 2843 (class 2606 OID 16875)
 -- Name: pessoa_fisica pkc_id_pessoa_fisica; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1897,7 +2034,7 @@ ALTER TABLE ONLY "soad"."pessoa_fisica"
 
 
 --
--- TOC entry 2849 (class 2606 OID 16893)
+-- TOC entry 2853 (class 2606 OID 16893)
 -- Name: pessoa_juridica pkc_id_pessoa_juridica; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1906,7 +2043,7 @@ ALTER TABLE ONLY "soad"."pessoa_juridica"
 
 
 --
--- TOC entry 2877 (class 2606 OID 16971)
+-- TOC entry 2881 (class 2606 OID 16971)
 -- Name: remanufatura pkc_id_remanufatura; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1915,7 +2052,7 @@ ALTER TABLE ONLY "soad"."remanufatura"
 
 
 --
--- TOC entry 2861 (class 2606 OID 16921)
+-- TOC entry 2865 (class 2606 OID 16921)
 -- Name: casco pkc_id_toner; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1924,7 +2061,7 @@ ALTER TABLE ONLY "soad"."casco"
 
 
 --
--- TOC entry 2871 (class 2606 OID 16953)
+-- TOC entry 2875 (class 2606 OID 16953)
 -- Name: unidade_medida pkc_id_unidade_medida; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1933,7 +2070,7 @@ ALTER TABLE ONLY "soad"."unidade_medida"
 
 
 --
--- TOC entry 2865 (class 2606 OID 16937)
+-- TOC entry 2869 (class 2606 OID 16937)
 -- Name: usuario pkc_id_usuario; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1942,7 +2079,7 @@ ALTER TABLE ONLY "soad"."usuario"
 
 
 --
--- TOC entry 2891 (class 2606 OID 17566)
+-- TOC entry 2895 (class 2606 OID 17566)
 -- Name: cidade ukc_cidade_nome_fk_estado_id; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1951,8 +2088,8 @@ ALTER TABLE ONLY "soad"."cidade"
 
 
 --
--- TOC entry 3079 (class 0 OID 0)
--- Dependencies: 2891
+-- TOC entry 3083 (class 0 OID 0)
+-- Dependencies: 2895
 -- Name: CONSTRAINT "ukc_cidade_nome_fk_estado_id" ON "cidade"; Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1960,7 +2097,7 @@ COMMENT ON CONSTRAINT "ukc_cidade_nome_fk_estado_id" ON "soad"."cidade" IS 'Cada
 
 
 --
--- TOC entry 2887 (class 2606 OID 25438)
+-- TOC entry 2891 (class 2606 OID 25438)
 -- Name: endereco ukc_endereco_pessoa_id_cidade_id_logradouro_numero_bairro_cep; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1969,7 +2106,7 @@ ALTER TABLE ONLY "soad"."endereco"
 
 
 --
--- TOC entry 2895 (class 2606 OID 17557)
+-- TOC entry 2899 (class 2606 OID 17557)
 -- Name: estado ukc_estado_sigla_fk_pais_id; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1978,8 +2115,8 @@ ALTER TABLE ONLY "soad"."estado"
 
 
 --
--- TOC entry 3080 (class 0 OID 0)
--- Dependencies: 2895
+-- TOC entry 3084 (class 0 OID 0)
+-- Dependencies: 2899
 -- Name: CONSTRAINT "ukc_estado_sigla_fk_pais_id" ON "estado"; Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1987,7 +2124,7 @@ COMMENT ON CONSTRAINT "ukc_estado_sigla_fk_pais_id" ON "soad"."estado" IS 'Cada 
 
 
 --
--- TOC entry 2859 (class 2606 OID 25432)
+-- TOC entry 2863 (class 2606 OID 25432)
 -- Name: mercadoria ukc_mercadoria_descricao; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -1996,7 +2133,7 @@ ALTER TABLE ONLY "soad"."mercadoria"
 
 
 --
--- TOC entry 2847 (class 2606 OID 17571)
+-- TOC entry 2851 (class 2606 OID 17571)
 -- Name: modalidade ukc_modalidade_descricao; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2005,7 +2142,7 @@ ALTER TABLE ONLY "soad"."modalidade"
 
 
 --
--- TOC entry 2869 (class 2606 OID 17573)
+-- TOC entry 2873 (class 2606 OID 17573)
 -- Name: modalidade_pessoa ukc_modalidade_pessoa_fk_pessoa_id_fk_modalidade_id; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2014,7 +2151,7 @@ ALTER TABLE ONLY "soad"."modalidade_pessoa"
 
 
 --
--- TOC entry 2899 (class 2606 OID 17553)
+-- TOC entry 2903 (class 2606 OID 17553)
 -- Name: pais ukc_pais_sigla; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2023,7 +2160,7 @@ ALTER TABLE ONLY "soad"."pais"
 
 
 --
--- TOC entry 2841 (class 2606 OID 17577)
+-- TOC entry 2845 (class 2606 OID 17577)
 -- Name: pessoa_fisica ukc_pessoa_fisica_cpf; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2032,8 +2169,8 @@ ALTER TABLE ONLY "soad"."pessoa_fisica"
 
 
 --
--- TOC entry 3081 (class 0 OID 0)
--- Dependencies: 2841
+-- TOC entry 3085 (class 0 OID 0)
+-- Dependencies: 2845
 -- Name: CONSTRAINT "ukc_pessoa_fisica_cpf" ON "pessoa_fisica"; Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -2041,7 +2178,7 @@ COMMENT ON CONSTRAINT "ukc_pessoa_fisica_cpf" ON "soad"."pessoa_fisica" IS 'cpf 
 
 
 --
--- TOC entry 2843 (class 2606 OID 17581)
+-- TOC entry 2847 (class 2606 OID 17581)
 -- Name: pessoa_fisica ukc_pessoa_fisica_fk_pessoa; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2050,7 +2187,7 @@ ALTER TABLE ONLY "soad"."pessoa_fisica"
 
 
 --
--- TOC entry 2851 (class 2606 OID 17579)
+-- TOC entry 2855 (class 2606 OID 17579)
 -- Name: pessoa_juridica ukc_pessoa_juridica_cnpj; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2059,8 +2196,8 @@ ALTER TABLE ONLY "soad"."pessoa_juridica"
 
 
 --
--- TOC entry 3082 (class 0 OID 0)
--- Dependencies: 2851
+-- TOC entry 3086 (class 0 OID 0)
+-- Dependencies: 2855
 -- Name: CONSTRAINT "ukc_pessoa_juridica_cnpj" ON "pessoa_juridica"; Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -2068,7 +2205,7 @@ COMMENT ON CONSTRAINT "ukc_pessoa_juridica_cnpj" ON "soad"."pessoa_juridica" IS 
 
 
 --
--- TOC entry 2853 (class 2606 OID 17583)
+-- TOC entry 2857 (class 2606 OID 17583)
 -- Name: pessoa_juridica ukc_pessoa_juridica_fk_pessoa; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2077,7 +2214,7 @@ ALTER TABLE ONLY "soad"."pessoa_juridica"
 
 
 --
--- TOC entry 2873 (class 2606 OID 17569)
+-- TOC entry 2877 (class 2606 OID 17569)
 -- Name: unidade_medida ukc_unidade_medida_abreviacao; Type: CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2086,7 +2223,7 @@ ALTER TABLE ONLY "soad"."unidade_medida"
 
 
 --
--- TOC entry 2920 (class 2606 OID 17291)
+-- TOC entry 2924 (class 2606 OID 17291)
 -- Name: cidade fkc_cidade_estado_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2095,7 +2232,7 @@ ALTER TABLE ONLY "soad"."cidade"
 
 
 --
--- TOC entry 2919 (class 2606 OID 17268)
+-- TOC entry 2923 (class 2606 OID 17268)
 -- Name: endereco fkc_endereco_cidade_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2104,7 +2241,7 @@ ALTER TABLE ONLY "soad"."endereco"
 
 
 --
--- TOC entry 2918 (class 2606 OID 17277)
+-- TOC entry 2922 (class 2606 OID 17277)
 -- Name: endereco fkc_endereco_pessoa_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2113,7 +2250,7 @@ ALTER TABLE ONLY "soad"."endereco"
 
 
 --
--- TOC entry 2921 (class 2606 OID 17357)
+-- TOC entry 2925 (class 2606 OID 17357)
 -- Name: estado fkc_estado_pais_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2122,7 +2259,7 @@ ALTER TABLE ONLY "soad"."estado"
 
 
 --
--- TOC entry 2906 (class 2606 OID 17377)
+-- TOC entry 2910 (class 2606 OID 17377)
 -- Name: insumo fkc_insumo_mercadoria_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2131,7 +2268,7 @@ ALTER TABLE ONLY "soad"."insumo"
 
 
 --
--- TOC entry 2905 (class 2606 OID 17386)
+-- TOC entry 2909 (class 2606 OID 17386)
 -- Name: insumo fkc_insumo_unidade_medida_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2140,7 +2277,7 @@ ALTER TABLE ONLY "soad"."insumo"
 
 
 --
--- TOC entry 2915 (class 2606 OID 17105)
+-- TOC entry 2919 (class 2606 OID 17105)
 -- Name: item_lote fkc_item_lote_lote_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2149,16 +2286,16 @@ ALTER TABLE ONLY "soad"."item_lote"
 
 
 --
--- TOC entry 2914 (class 2606 OID 17408)
+-- TOC entry 2918 (class 2606 OID 17408)
 -- Name: item_pedido fkc_item_pedido_mercadoria_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
 ALTER TABLE ONLY "soad"."item_pedido"
-    ADD CONSTRAINT "fkc_item_pedido_mercadoria_id" FOREIGN KEY ("fk_produto_id") REFERENCES "soad"."mercadoria"("id_mercadoria");
+    ADD CONSTRAINT "fkc_item_pedido_mercadoria_id" FOREIGN KEY ("fk_mercadoria_id") REFERENCES "soad"."mercadoria"("id_mercadoria");
 
 
 --
--- TOC entry 2913 (class 2606 OID 17399)
+-- TOC entry 2917 (class 2606 OID 17399)
 -- Name: item_pedido fkc_item_pedido_pedido_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2167,7 +2304,7 @@ ALTER TABLE ONLY "soad"."item_pedido"
 
 
 --
--- TOC entry 2916 (class 2606 OID 17426)
+-- TOC entry 2920 (class 2606 OID 17426)
 -- Name: lote fkc_lote_mercadoria_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2176,7 +2313,7 @@ ALTER TABLE ONLY "soad"."lote"
 
 
 --
--- TOC entry 2917 (class 2606 OID 17417)
+-- TOC entry 2921 (class 2606 OID 17417)
 -- Name: lote fkc_lote_pedido_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2185,7 +2322,7 @@ ALTER TABLE ONLY "soad"."lote"
 
 
 --
--- TOC entry 2902 (class 2606 OID 17493)
+-- TOC entry 2906 (class 2606 OID 17493)
 -- Name: mercadoria fkc_mercadoria_unidade_medida_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2194,7 +2331,7 @@ ALTER TABLE ONLY "soad"."mercadoria"
 
 
 --
--- TOC entry 2909 (class 2606 OID 17256)
+-- TOC entry 2913 (class 2606 OID 17256)
 -- Name: modalidade_pessoa fkc_modalidade_pessoa_modalidade_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2203,7 +2340,7 @@ ALTER TABLE ONLY "soad"."modalidade_pessoa"
 
 
 --
--- TOC entry 2908 (class 2606 OID 17247)
+-- TOC entry 2912 (class 2606 OID 17247)
 -- Name: modalidade_pessoa fkc_modalidade_pessoa_pessoa_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2212,7 +2349,7 @@ ALTER TABLE ONLY "soad"."modalidade_pessoa"
 
 
 --
--- TOC entry 2910 (class 2606 OID 17450)
+-- TOC entry 2914 (class 2606 OID 17450)
 -- Name: pedido fkc_pedido_pessoa_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2221,7 +2358,7 @@ ALTER TABLE ONLY "soad"."pedido"
 
 
 --
--- TOC entry 2900 (class 2606 OID 17463)
+-- TOC entry 2904 (class 2606 OID 17463)
 -- Name: pessoa_fisica fkc_pessoa_fisica_pessoa_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2230,7 +2367,7 @@ ALTER TABLE ONLY "soad"."pessoa_fisica"
 
 
 --
--- TOC entry 2901 (class 2606 OID 17483)
+-- TOC entry 2905 (class 2606 OID 17483)
 -- Name: pessoa_juridica fkc_pessoa_juridica_pessoa_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2239,7 +2376,7 @@ ALTER TABLE ONLY "soad"."pessoa_juridica"
 
 
 --
--- TOC entry 2911 (class 2606 OID 17514)
+-- TOC entry 2915 (class 2606 OID 17514)
 -- Name: remanufatura fkc_remanufatura_casco_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2248,7 +2385,7 @@ ALTER TABLE ONLY "soad"."remanufatura"
 
 
 --
--- TOC entry 2912 (class 2606 OID 17505)
+-- TOC entry 2916 (class 2606 OID 17505)
 -- Name: remanufatura fkc_remanufatura_pedido_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2257,7 +2394,7 @@ ALTER TABLE ONLY "soad"."remanufatura"
 
 
 --
--- TOC entry 2904 (class 2606 OID 17304)
+-- TOC entry 2908 (class 2606 OID 17304)
 -- Name: casco fkc_toner_insumo_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2266,7 +2403,7 @@ ALTER TABLE ONLY "soad"."casco"
 
 
 --
--- TOC entry 2903 (class 2606 OID 17313)
+-- TOC entry 2907 (class 2606 OID 17313)
 -- Name: casco fkc_toner_mercadoria_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2275,7 +2412,7 @@ ALTER TABLE ONLY "soad"."casco"
 
 
 --
--- TOC entry 2907 (class 2606 OID 17531)
+-- TOC entry 2911 (class 2606 OID 17531)
 -- Name: usuario fkc_usuario_pessoa_id; Type: FK CONSTRAINT; Schema: soad; Owner: postgres
 --
 
@@ -2283,7 +2420,7 @@ ALTER TABLE ONLY "soad"."usuario"
     ADD CONSTRAINT "fkc_usuario_pessoa_id" FOREIGN KEY ("fk_pessoa_id") REFERENCES "soad"."pessoa"("id_pessoa") ON DELETE CASCADE;
 
 
--- Completed on 2019-07-15 06:37:50
+-- Completed on 2019-07-17 23:24:24
 
 --
 -- PostgreSQL database dump complete
