@@ -1,17 +1,25 @@
+import json
+
 from PySide2.QtWidgets import QWidget
 
 from Controller.SairDialog import SairDialog
 from Controller.StatusDialog import StatusDialog
-from View.Ui_CadastroPessoa import Ui_CadastroPessoa
+from Model.Mercadoria import Mercadoria
+from Model.Pedido import Pedido
+from Model.Remanufatura import Remanufatura
+from View.Ui_CadastroPedido import Ui_CadastroPedido
 
 
-class CadastroPessoa(QWidget, Ui_CadastroPessoa):
+class CadastroPedido(QWidget, Ui_CadastroPedido):
 
     def __init__(self, db, window_list):
         super().__init__()
         self.setupUi(self)
         self.db = db
         self.window_list = window_list
+
+        # Componentes da interface
+        # ...
 
     def cancela(self):
         # limpa a interface
@@ -23,16 +31,32 @@ class CadastroPessoa(QWidget, Ui_CadastroPessoa):
 
     def formata_dados(self):
         # pega os dados da tela e popula um dicionario de dados
+        #https://stackoverflow.com/questions/10252010/serializing-class-instance-to-json
+
+        pedido = Pedido()
+        item1 = Mercadoria()
+        item2 = Mercadoria()
+        item3 = Remanufatura()
+
         dados = {
-            "nome": "pedro",
-            "email": "email@email",
-            "telefone": "42999823030",
-            "documento": "12345678901",
-            "inscricao_estadual": "",
-            "fantasia": ""
+            "tipo_pedido": "COMPRA",
+            "pessoa_id": "",
+            "observacao": "",
+            "data_entrega": "",
+            "Item": {
+                "Mercadoria": {
+                    "mercadoria_id": "",
+                    "quantidade": "",
+                    "valor_unitario": ""
+                },
+                "Remanufatura": {
+                    "mercadoria_id": "",
+                    "quantidade": "",
+                    "valor_unitario": ""
+                }
+            }
         }
-        #return json.dumps(dados)
-        return dados
+        return json.dumps(dados)
 
     def confirma(self):
         # pega os dados tela e envia pro banco
@@ -47,14 +71,15 @@ class CadastroPessoa(QWidget, Ui_CadastroPessoa):
             dialog.definir_mensagem("\nSQL executada:\n" + prc[2], str(prc[1]))
             dialog.exec()
 
-    def __fechar(self):
+    def __fechar__(self):
         #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
         dialog = SairDialog()
         dialog.definir_mensagem("Tem certeza que deseja fechar? Todas as alterações serão perdidas.")
         return dialog.exec()
 
-    def closeEvent(self, event): #PySide2.QtGui.QCloseEvent
-        if self.__fechar():
+    # Override PySide2.QtGui.QCloseEvent
+    def closeEvent(self, event):
+        if self.__fechar__():
             self.window_list.remove(self)
             event.accept()
         else:

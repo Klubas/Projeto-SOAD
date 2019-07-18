@@ -10,18 +10,19 @@ from View.Ui_MainWindow import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
-    def __init__(self, db):
-        super(MainWindow, self).__init__()
+    def __init__(self, db, parent):
+        super(MainWindow, self).__init__(parent)
         self.setupUi(self)
+        self.parent = parent
         self.db = db
         self.window_list = list()
         # todo: self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
-        self.connect_menu_actions()
 
-    def connect_menu_actions(self):
+        # Menus
         # todo: Arquivo
         self.actionSair.triggered.connect(lambda: self.closeEvent(event=QCloseEvent()))
+        self.actionReconectar.triggered.connect(lambda: self.login(parent))
 
         # todo: Cadastros
         self.actionPessoa.triggered.connect(lambda: self.abrir_cadastro(window_cls=CadastroPessoa))
@@ -39,6 +40,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.window_list.append(cad)
             cad.show()
             cad.confirma()
+
         except Exception as e:
             dialog = StatusDialog(status='ERRO')
             dialog.definir_mensagem('Não foi possível abrir a interface', e)
@@ -66,3 +68,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             event.accept()
 
+    # metodo para reconectar ao banco
+    def login(self, parent):
+        parent.show()

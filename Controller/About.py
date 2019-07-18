@@ -1,4 +1,5 @@
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
+
 from View.Ui_About import Ui_about
 
 

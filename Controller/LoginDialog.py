@@ -39,8 +39,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             )
 
         except Exception as e:
-            dialog = StatusDialog()
-            dialog.definir_mensagem("Não foi possível se conectar ao banco de dados.", e)
+            dialog = StatusDialog(status='AVISO')
+            print(e.__cause__)
+            dialog.definir_mensagem("Usuário ou senha inválidos.", e)
             dialog.exec()
             return False
 
@@ -55,23 +56,21 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
         else:
 
-            try:
-                db = self.__setup_db_connection__()
+            #load = LoadingDialog(self)
+            #load.show()
+            db = self.__setup_db_connection__()
 
+
+            try:
                 if db:
-                    w = MainWindow(db)
+                    w = MainWindow(db, self)
                     w.showMaximized()
-                    self.close()
+                    self.hide()
+
             except Exception as e:
                 dialog = StatusDialog()
-                dialog.definir_mensagem("Não foi possível se conectar ao banco de dados,", e)
+                dialog.definir_mensagem("Erro ao abrir o sistema.", e)
                 dialog.exec()
-
-    def user_vazio(self):
-        self.status_botao()
-
-    def pass_vazio(self):
-        self.status_botao()
 
     def status_botao(self):
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(

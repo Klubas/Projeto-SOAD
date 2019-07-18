@@ -2,8 +2,6 @@ import os
 
 from pydal import DAL
 
-from Controller.StatusDialog import StatusDialog
-
 
 class DataBase:
 
@@ -43,9 +41,6 @@ class DataBase:
         except Exception as e:
             self.db.rollback()
             prc = False, e, str(self.db._lastsql)
-            dialog = StatusDialog()
-            dialog.definir_mensagem(str(prc[1]) + "\nSQL executada:\n" + prc[2])
-            dialog.exec()
 
         return prc
 
