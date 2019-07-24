@@ -1,3 +1,5 @@
+import json
+import logging
 import os
 
 from pydal import DAL
@@ -10,7 +12,6 @@ class DataBase:
         self.username = username
         self.host = host
         self.port = port
-        self.schema = 'soad'
         self.folder = 'Resources' + os.sep + 'database'
         self.dbinfo = 'postgres://' + username + ':' + password + '@' + host + ':' + str(port) + '/postgres'
         self.db = DAL(
@@ -20,16 +21,14 @@ class DataBase:
         )
         self.db.__call__()
 
-    def parse_params(self, params_dict):
-        params = ''
-        for key in params_dict.keys():
-            params = params + 'p_' + key + '=>' + "'" + params_dict[key] + "'" + ', '
-        # remove a virgula que sobra no ultimo parametro antes de retornar
-        return params[:-2]
+    def call_procedure(self, schema, procedure, params):
+        params = json.dumps(params)
+        sql = "CALL " + schema + ".prc_chamada_de_metodo(" \
+              + "p_metodo=>" + "'" + schema + "." + procedure + "'" \
+              + ", p_json_params=>" + "'" + params + "'" \
+              + ");"
 
-    def call_procedure(self, procedure, params):
-        params = self.parse_params(params)
-        sql = "CALL " + self.schema + "." + procedure + "(" + params + ");"
+        logging.info(sql)
         return self.execute_sql(sql)
 
     def execute_sql(self, sql):

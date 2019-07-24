@@ -26,6 +26,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         if self.comboBox_servidor.count() == 1:
             self.verticalWidget_servidor.setVisible(False)
 
+        self.lineEdit_usuario.setText('soadmin')
+        self.lineEdit_senha.setText('soad2019')
+
 
     def __setup_db_connection__(self):
         try:

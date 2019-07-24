@@ -7,7 +7,7 @@ from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
 class CadastroPessoa(QWidget, Ui_CadastroPessoa):
 
-    def __init__(self, db, window_list):
+    def __init__(self, db, window_list, **kwargs):
         super().__init__()
         self.setupUi(self)
         self.db = db
@@ -24,14 +24,16 @@ class CadastroPessoa(QWidget, Ui_CadastroPessoa):
     def formata_dados(self):
         # pega os dados da tela e popula um dicionario de dados
         dados = {
-            "nome": "pedro",
-            "email": "email@email",
-            "telefone": "42999823030",
-            "documento": "12345678901",
-            "inscricao_estadual": "",
-            "fantasia": ""
+            "metodo": "insert_pessoa",
+            "params": {
+                "nome": "pedro",
+                "email": "email@email",
+                "telefone": "42999823030",
+                "documento": "987654321",
+                "inscricao_estadual": "",
+                "fantasia": ""
+            }
         }
-        #return json.dumps(dados)
         return dados
 
     def confirma(self):
@@ -41,7 +43,7 @@ class CadastroPessoa(QWidget, Ui_CadastroPessoa):
 
     def salva_dados(self, dados):
         # envia dicionario de dados pro banco utilizando uma procedure
-        prc = self.db.call_procedure('prc_insert_pessoa', dados)
+        prc = self.db.call_procedure('soad', 'prc_insert_pessoa', dados)
         if not prc[0]:
             dialog = StatusDialog()
             dialog.definir_mensagem("\nSQL executada:\n" + prc[2], str(prc[1]))

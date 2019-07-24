@@ -15,15 +15,27 @@ class Pedido:
         self.observacao = observacao
         self.data_cadastro = data_cadastro
 
-        self.items = []
+        self.mercadorias = []
+        self.remanufaturas = []
 
-    def adicionar_item(self, item):
-        if type(item) is Mercadoria or type(item) is Remanufatura:
-            self.items.append(item)
-        else:
-            logging.debug("Tipo {", type(item).__name__, "} inválido.")
+    def adicionar_item(self, *items):
+        for item in items:
+
+            if type(item) is Mercadoria:
+                self.mercadorias.append(item)
+
+            elif type(item) is Remanufatura:
+                self.remanufaturas.append(item)
+
+            else:
+                logging.debug("Tipo {", type(item).__name__, ":", str(item), "} inválido.")
 
     def remover_item(self, item):
-        self.items.remove(item)
+        if type(item) is Mercadoria:
+            self.mercadorias.remove(item)
+
+        if type(item) is Remanufatura:
+            self.remanufaturas.remove(item)
+        self.remanufaturas.remove(item)
 
 

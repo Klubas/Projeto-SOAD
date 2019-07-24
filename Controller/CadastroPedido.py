@@ -1,22 +1,20 @@
-import json
-
 from PySide2.QtWidgets import QWidget
 
 from Controller.SairDialog import SairDialog
 from Controller.StatusDialog import StatusDialog
 from Model.Mercadoria import Mercadoria
-from Model.Pedido import Pedido
 from Model.Remanufatura import Remanufatura
 from View.Ui_CadastroPedido import Ui_CadastroPedido
 
 
 class CadastroPedido(QWidget, Ui_CadastroPedido):
 
-    def __init__(self, db, window_list):
+    def __init__(self, db=None, window_list=None, **kwargs):
         super().__init__()
         self.setupUi(self)
         self.db = db
         self.window_list = window_list
+        self.tipo_pedido = kwargs.get('tipo_pedido')
 
         # Componentes da interface
         # ...
@@ -33,39 +31,62 @@ class CadastroPedido(QWidget, Ui_CadastroPedido):
         # pega os dados da tela e popula um dicionario de dados
         #https://stackoverflow.com/questions/10252010/serializing-class-instance-to-json
 
-        pedido = Pedido()
+        #pedido = Pedido()
         item1 = Mercadoria()
         item2 = Mercadoria()
         item3 = Remanufatura()
 
         dados = {
-            "tipo_pedido": "COMPRA",
-            "pessoa_id": "",
-            "observacao": "",
-            "data_entrega": "",
-            "Item": {
-                "Mercadoria": {
-                    "mercadoria_id": "",
-                    "quantidade": "",
-                    "valor_unitario": ""
-                },
-                "Remanufatura": {
-                    "mercadoria_id": "",
-                    "quantidade": "",
-                    "valor_unitario": ""
-                }
+            "metodo": "insert_pedido",
+            "params": {
+                "tipo_pedido": 'COMPRA',
+                "pessoa_id": 134,
+                "observacao": 'teste observacao',
+                "data_entrega": 'NULL',
+                "itens ": [
+                    {
+                        "tipo_item": 'MERCADORIA',
+                        "mercadoria_id": 24,
+                        "quantidade": 5,
+                        "valor_unitario": 25.00
+                    },
+                    {
+                        "tipo_item": 'MERCADORIA',
+                        "mercadoria_id": 25,
+                        "quantidade": 3,
+                        "valor_unitario": 30.00
+                    },
+                    {
+                        "tipo_item": 'REMANUFATURA',
+                        "casco_id": 2,
+                        "quantidade": 1,
+                        "valor_unitario": 15.00
+                    },
+                    {
+                        "tipo_item": 'REMANUFATURA',
+                        "casco_id": 2,
+                        "quantidade": 1,
+                        "valor_unitario": 15.00
+                    }
+                ]
             }
         }
-        return json.dumps(dados)
+
+        return dados
 
     def confirma(self):
         # pega os dados tela e envia pro banco
-        dados_formatados = self.formata_dados()
-        self.salva_dados(dados_formatados)
+        try:
+            dados_formatados = self.formata_dados()
+            self.salva_dados(dados_formatados)
+        except Exception as e:
+            dialog = StatusDialog()
+            dialog.definir_mensagem("Não foi possível salvar o pedido.", e)
+            dialog.exec()
 
     def salva_dados(self, dados):
         # envia dicionario de dados pro banco utilizando uma procedure
-        prc = self.db.call_procedure('prc_insert_pessoa', dados)
+        prc = self.db.call_procedure('soad', 'prc_cadastro_pedido', dados)
         if not prc[0]:
             dialog = StatusDialog()
             dialog.definir_mensagem("\nSQL executada:\n" + prc[2], str(prc[1]))
@@ -81,6 +102,7 @@ class CadastroPedido(QWidget, Ui_CadastroPedido):
     def closeEvent(self, event):
         if self.__fechar__():
             self.window_list.remove(self)
+            self.close()
             event.accept()
         else:
             event.ignore()
