@@ -24,7 +24,7 @@ class CadastroPessoa(QWidget, Ui_CadastroPessoa):
     def formata_dados(self):
         # pega os dados da tela e popula um dicionario de dados
         dados = {
-            "metodo": "insert_pessoa",
+            "metodo": "prc_insert_pessoa",
             "params": {
                 "nome": "pedro",
                 "email": "email@email",

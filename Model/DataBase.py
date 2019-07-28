@@ -22,6 +22,18 @@ class DataBase:
         self.db.__call__()
 
     def call_procedure(self, schema, procedure, params):
+
+        # Remove parametros vazios
+        vazio = []
+        for param in params["params"].items():
+            print(param[1])
+            if param[1] == '':
+                vazio.append(param[0])
+                print(param[0])
+
+        for i in range(len(vazio)):
+            del params["params"][vazio[i]]
+
         params = json.dumps(params)
         sql = "CALL " + schema + ".prc_chamada_de_metodo(" \
               + "p_metodo=>" + "'" + schema + "." + procedure + "'" \
@@ -39,7 +51,7 @@ class DataBase:
 
         except Exception as e:
             self.db.rollback()
-            prc = False, e, str(self.db._lastsql)
+            prc = False, e, str(sql)
 
         return prc
 

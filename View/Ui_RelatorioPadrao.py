@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\RelatorioPadrao.ui'
 #
-# Created: Wed Jul 24 22:44:05 2019
+# Created: Sun Jul 28 16:11:44 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -20,6 +20,7 @@ class Ui_RelatorioPadrao(object):
         sizePolicy.setHeightForWidth(RelatorioPadrao.sizePolicy().hasHeightForWidth())
         RelatorioPadrao.setSizePolicy(sizePolicy)
         RelatorioPadrao.setMinimumSize(QtCore.QSize(568, 559))
+        RelatorioPadrao.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.horizontalLayoutWidget = QtWidgets.QWidget(RelatorioPadrao)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 571, 561))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")

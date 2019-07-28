@@ -35,7 +35,7 @@ class StatusDialog(QDialog, Ui_StatusDialog):
         logging.info(mensagem)
         logging.debug(exception)
         self.label_mensagem.setText(mensagem)
-        self.textBrowser_exception.setText(str(exception))
+        self.textEdit_exception.setText(str(exception))
 
     def close_clicked(self):
         self.close()

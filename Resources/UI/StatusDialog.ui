@@ -31,7 +31,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <widget class="QWidget" name="verticalWidget" native="true">
+  <widget class="QFrame" name="verticalFrame">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -41,7 +41,7 @@
     </rect>
    </property>
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Maximum" vsizetype="MinimumExpanding">
+    <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -58,7 +58,7 @@
      <height>10</height>
     </size>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="10,10,10">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="10,0,10">
     <property name="spacing">
      <number>10</number>
     </property>
@@ -90,7 +90,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QTextBrowser" name="textBrowser_exception">
+     <widget class="QTextEdit" name="textEdit_exception">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>10</horstretch>

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\About.ui'
 #
-# Created: Wed Jul 24 22:44:03 2019
+# Created: Sun Jul 28 16:11:43 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -22,15 +22,19 @@ class Ui_about(object):
         self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.frame = QtWidgets.QFrame(self.verticalLayoutWidget)
+        self.frame.setMaximumSize(QtCore.QSize(16777215, 100))
+        self.frame.setObjectName("frame")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.frame)
         self.verticalLayout_2.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.label = QtWidgets.QLabel(self.verticalLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        self.label = QtWidgets.QLabel(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy)
+        self.label.setMaximumSize(QtCore.QSize(16777215, 10))
         font = QtGui.QFont()
         font.setWeight(75)
         font.setBold(True)
@@ -40,12 +44,13 @@ class Ui_about(object):
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.verticalLayout_2.addWidget(self.label)
-        self.label_2 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        self.label_2 = QtWidgets.QLabel(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
         self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setMaximumSize(QtCore.QSize(16777215, 10))
         font = QtGui.QFont()
         font.setWeight(75)
         font.setBold(True)
@@ -55,7 +60,7 @@ class Ui_about(object):
         self.label_2.setWordWrap(False)
         self.label_2.setObjectName("label_2")
         self.verticalLayout_2.addWidget(self.label_2)
-        self.verticalLayout.addLayout(self.verticalLayout_2)
+        self.verticalLayout.addWidget(self.frame)
         self.label_3 = QtWidgets.QLabel(self.verticalLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -72,6 +77,7 @@ class Ui_about(object):
         self.label_3.setObjectName("label_3")
         self.verticalLayout.addWidget(self.label_3)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.verticalLayoutWidget)
+        self.buttonBox.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.buttonBox.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
