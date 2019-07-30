@@ -67,8 +67,8 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             try:
                 if db:
                     w = MainWindow(db, self)
-                    w.showMaximized()
-                    self.hide()
+                    w.show()
+                    self.setVisible(False)
 
             except Exception as e:
                 dialog = StatusDialog()

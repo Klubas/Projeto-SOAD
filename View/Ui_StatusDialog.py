@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\StatusDialog.ui'
 #
-# Created: Sun Jul 28 16:11:45 2019
+# Created: Sun Jul 28 22:46:06 2019
 #      by: pyside2-uic 2.0.0 running on PySide2 5.6.0~a1
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,9 +37,18 @@ class Ui_StatusDialog(object):
         self.verticalLayout.setContentsMargins(15, 15, 15, 15)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_mensagem = QtWidgets.QLabel(self.verticalFrame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_mensagem.sizePolicy().hasHeightForWidth())
+        self.label_mensagem.setSizePolicy(sizePolicy)
+        self.label_mensagem.setMaximumSize(QtCore.QSize(16777214, 16777215))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_mensagem.setFont(font)
+        self.label_mensagem.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.label_mensagem.setTextFormat(QtCore.Qt.PlainText)
+        self.label_mensagem.setWordWrap(True)
         self.label_mensagem.setObjectName("label_mensagem")
         self.verticalLayout.addWidget(self.label_mensagem)
         self.textEdit_exception = QtWidgets.QTextEdit(self.verticalFrame)

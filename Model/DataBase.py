@@ -26,11 +26,8 @@ class DataBase:
         # Remove parametros vazios
         vazio = []
         for param in params["params"].items():
-            print(param[1])
             if param[1] == '':
                 vazio.append(param[0])
-                print(param[0])
-
         for i in range(len(vazio)):
             del params["params"][vazio[i]]
 
