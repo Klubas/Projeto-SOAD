@@ -30,12 +30,17 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 
-    def definir_mensagem(self, mensagem, exception):
+    def definir_mensagem(self, mensagem, json_exception):
         # todo: configurar mensagem para aparecer no dialogo
+        # Tratar esse formato de json '{"erro": "Não foi possível executar a operacao.","metodo": "%","retorno": "%","parametros": "%","requisicao_id": "%"}'
+
+        #json_mensagem = '{"erro": "Não foi possível executar a operacao.","metodo": "%","retorno": "%","parametros": "%","requisicao_id": "%"}'
+
         logging.info(mensagem)
-        logging.debug(exception)
-        self.label_mensagem.setText(mensagem)
-        self.textEdit_exception.setText(str(exception))
+        logging.debug(json_exception)
+
+        #self.label_mensagem.setText(mensagem)
+        #self.textEdit_exception.setText('\n' + exception["erro"] + '\n' + exception["metodo"] + '\n' + exception["parametros"] + '\n' + exception["retorno"] + '\n' + str(exception))
 
     def close_clicked(self):
         self.close()
