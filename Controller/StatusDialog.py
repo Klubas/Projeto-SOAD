@@ -26,7 +26,7 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             self.textBrowser_exception.setVisible(False)
 
         else:
-            logging.debug("O valor <" + status + "> não é um status válido para StatusDialog\n")
+            logging.debug("O valor " + status + " não é um status válido para StatusDialog\n")
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 
