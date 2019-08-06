@@ -4,6 +4,7 @@ from PySide2.QtGui import QCloseEvent
 from PySide2.QtWidgets import QMainWindow
 
 from Controller.About import About
+from Controller.CadastroMercadoria import CadastroMercadoria
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
 from Controller.SairDialog import SairDialog
@@ -34,15 +35,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # todo: Cadastros
         self.actionPessoa.triggered.connect(
-            lambda: self.abrir_cadastro(window_cls=CadastroPessoa)
+            lambda: self.abrir_cadastro(
+                window_cls=CadastroPessoa)
+        )
+
+        self.actionMercadoria.triggered.connect(
+            lambda: self.abrir_cadastro(
+                window_cls=CadastroMercadoria, tipo='MERCADORIA')
+        )
+
+        self.actionInsumo.triggered.connect(
+            lambda: self.abrir_cadastro(
+                window_cls=CadastroMercadoria, tipo='INSUMO')
+        )
+
+        self.actionCasco.triggered.connect(
+            lambda: self.abrir_cadastro(
+                window_cls=CadastroMercadoria, tipo='CASCO')
         )
 
         # todo: Vendas
         self.actionNova_Venda.triggered.connect(
-            lambda: self.abrir_cadastro(CadastroPedido, tipo_pedido="VENDA")
+            lambda: self.abrir_cadastro(
+                window_cls=CadastroPedido, tipo="VENDA")
         )
 
         # todo: Estoque
+        self.actionRegistrar_compra.triggered.connect(
+            lambda: self.abrir_cadastro(
+                window_cls=CadastroPedido, tipo="COMPRA")
+        )
+
+        #self.actionNova_Remanufatura.triggered.connect(
+        #    lambda: self.abrir_cadastro(CadastrarRemanufatura)
+        #)
+
+        #self.actionDescarte_de_Material.triggered.connect(
+        #    lambda: self.abrir_cadastro(DescarteMercadoria)
+        #)
+
+        # Relatórios
 
         # todo: Ajuda
         self.actionSobre.triggered.connect(self.abrir_sobre)
@@ -51,13 +83,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
 
             cad = window_cls(
-                self.db, self.window_list
-                ,  tipo_pedido=kwargs.get('tipo_pedido')
+                self.db
+                , self.window_list
+                ,  tipo=kwargs.get('tipo_pedido')
             )
 
             self.window_list.append(cad)
-            cad.show()
-            cad.confirma()
+
+            cad.formata_dados_e_salva()
 
         except Exception as e:
             logging.exception(e)

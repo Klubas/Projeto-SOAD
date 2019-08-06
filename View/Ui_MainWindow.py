@@ -3,8 +3,8 @@
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\MainWindow.ui',
 # licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\MainWindow.ui' applies.
 #
-# Created: Thu Aug  1 00:21:53 2019
-#      by: pyside2-uic  running on PySide2 5.12.2
+# Created: Tue Aug  6 00:11:05 2019
+#      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -126,12 +126,12 @@ class Ui_MainWindow(object):
         self.actionSair.setObjectName("actionSair")
         self.actionPessoa = QtWidgets.QAction(MainWindow)
         self.actionPessoa.setObjectName("actionPessoa")
-        self.actionProduto = QtWidgets.QAction(MainWindow)
-        self.actionProduto.setObjectName("actionProduto")
+        self.actionMercadoria = QtWidgets.QAction(MainWindow)
+        self.actionMercadoria.setObjectName("actionMercadoria")
         self.actionInsumo = QtWidgets.QAction(MainWindow)
         self.actionInsumo.setObjectName("actionInsumo")
-        self.actionToners = QtWidgets.QAction(MainWindow)
-        self.actionToners.setObjectName("actionToners")
+        self.actionCasco = QtWidgets.QAction(MainWindow)
+        self.actionCasco.setObjectName("actionCasco")
         self.actionSobre = QtWidgets.QAction(MainWindow)
         self.actionSobre.setObjectName("actionSobre")
         self.actionNova_Venda = QtWidgets.QAction(MainWindow)
@@ -156,16 +156,19 @@ class Ui_MainWindow(object):
         self.actionDescartes.setObjectName("actionDescartes")
         self.actionReconectar = QtWidgets.QAction(MainWindow)
         self.actionReconectar.setObjectName("actionReconectar")
+        self.actionNova_Remanufatura = QtWidgets.QAction(MainWindow)
+        self.actionNova_Remanufatura.setObjectName("actionNova_Remanufatura")
         self.menuArquivo.addAction(self.actionSair)
         self.menuArquivo.addAction(self.actionReconectar)
         self.menuCadastros.addAction(self.actionPessoa)
-        self.menuCadastros.addAction(self.actionProduto)
+        self.menuCadastros.addAction(self.actionMercadoria)
         self.menuCadastros.addAction(self.actionInsumo)
-        self.menuCadastros.addAction(self.actionToners)
+        self.menuCadastros.addAction(self.actionCasco)
         self.menuVendas.addAction(self.actionNova_Venda)
         self.menuVendas.addAction(self.actionDevolucao)
         self.menuEstoque.addAction(self.actionRegistrar_compra)
         self.menuEstoque.addAction(self.actionDescarte_de_Material)
+        self.menuEstoque.addAction(self.actionNova_Remanufatura)
         self.menuAjuda.addAction(self.actionSobre)
         self.menuRelat_rios.addAction(self.actionProdutos_em_Estoque)
         self.menuRelat_rios.addAction(self.actionVendas)
@@ -198,10 +201,10 @@ class Ui_MainWindow(object):
         self.actionSair.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
         self.actionPessoa.setText(QtWidgets.QApplication.translate("MainWindow", "Pessoa", None, -1))
         self.actionPessoa.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Cadastrar Pessoas", None, -1))
-        self.actionProduto.setText(QtWidgets.QApplication.translate("MainWindow", "Produto", None, -1))
-        self.actionProduto.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Cadastrar Produtos", None, -1))
+        self.actionMercadoria.setText(QtWidgets.QApplication.translate("MainWindow", "Mercadoria", None, -1))
+        self.actionMercadoria.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Cadastrar Produtos", None, -1))
         self.actionInsumo.setText(QtWidgets.QApplication.translate("MainWindow", "Insumo", None, -1))
-        self.actionToners.setText(QtWidgets.QApplication.translate("MainWindow", "Toners", None, -1))
+        self.actionCasco.setText(QtWidgets.QApplication.translate("MainWindow", "Casco", None, -1))
         self.actionSobre.setText(QtWidgets.QApplication.translate("MainWindow", "Sobre", None, -1))
         self.actionSobre.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Sobre o sistema", None, -1))
         self.actionNova_Venda.setText(QtWidgets.QApplication.translate("MainWindow", "Nova Venda", None, -1))
@@ -219,4 +222,5 @@ class Ui_MainWindow(object):
         self.actionCompras.setText(QtWidgets.QApplication.translate("MainWindow", "Compras", None, -1))
         self.actionDescartes.setText(QtWidgets.QApplication.translate("MainWindow", "Descartes", None, -1))
         self.actionReconectar.setText(QtWidgets.QApplication.translate("MainWindow", "Reconectar", None, -1))
+        self.actionNova_Remanufatura.setText(QtWidgets.QApplication.translate("MainWindow", "Nova Remanufatura", None, -1))
 

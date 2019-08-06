@@ -38,6 +38,7 @@ class DataBase:
               + ");"
 
         logging.info(sql)
+
         return self.execute_sql(sql)
 
     def execute_sql(self, sql):

@@ -3,8 +3,8 @@
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\RelatorioPadrao.ui',
 # licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\RelatorioPadrao.ui' applies.
 #
-# Created: Thu Aug  1 00:21:53 2019
-#      by: pyside2-uic  running on PySide2 5.12.2
+# Created: Tue Aug  6 00:11:05 2019
+#      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 

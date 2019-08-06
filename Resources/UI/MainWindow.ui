@@ -249,9 +249,9 @@
      <string>Cadastros</string>
     </property>
     <addaction name="actionPessoa"/>
-    <addaction name="actionProduto"/>
+    <addaction name="actionMercadoria"/>
     <addaction name="actionInsumo"/>
-    <addaction name="actionToners"/>
+    <addaction name="actionCasco"/>
    </widget>
    <widget class="QMenu" name="menuVendas">
     <property name="title">
@@ -266,6 +266,7 @@
     </property>
     <addaction name="actionRegistrar_compra"/>
     <addaction name="actionDescarte_de_Material"/>
+    <addaction name="actionNova_Remanufatura"/>
    </widget>
    <widget class="QMenu" name="menuAjuda">
     <property name="title">
@@ -315,9 +316,9 @@
     <string>Cadastrar Pessoas</string>
    </property>
   </action>
-  <action name="actionProduto">
+  <action name="actionMercadoria">
    <property name="text">
-    <string>Produto</string>
+    <string>Mercadoria</string>
    </property>
    <property name="statusTip">
     <string>Cadastrar Produtos</string>
@@ -328,9 +329,9 @@
     <string>Insumo</string>
    </property>
   </action>
-  <action name="actionToners">
+  <action name="actionCasco">
    <property name="text">
-    <string>Toners</string>
+    <string>Casco</string>
    </property>
   </action>
   <action name="actionSobre">
@@ -406,6 +407,11 @@
   <action name="actionReconectar">
    <property name="text">
     <string>Reconectar</string>
+   </property>
+  </action>
+  <action name="actionNova_Remanufatura">
+   <property name="text">
+    <string>Nova Remanufatura</string>
    </property>
   </action>
  </widget>
