@@ -2,14 +2,14 @@ import logging
 import os
 import sys
 
+from PySide2.QtWidgets import QApplication
+
+from Controller.LoginDialog import LoginDialog
+
 __LOG_LEVEL__ = logging.DEBUG
 __LOG_STREAM__ = sys.stderr
 
 logging.basicConfig(stream=__LOG_STREAM__, level=__LOG_LEVEL__)
-
-from PySide2.QtWidgets import QApplication
-
-from Controller.LoginDialog import LoginDialog
 
 
 def update_ui():    # Atualiza os arquivos da pasta View
@@ -32,7 +32,7 @@ def main():
     w = LoginDialog()
     login = w.exec()
 
-    sys.exit(app.exec_())
+    app.exec_()
 
 
 if __name__ == '__main__':
@@ -40,4 +40,5 @@ if __name__ == '__main__':
     main()
 
 else:
+
     print("Sorry Dave, you can't do that!")

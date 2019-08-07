@@ -34,8 +34,9 @@ class Pedido:
         if type(item) is Mercadoria:
             self.mercadorias.remove(item)
 
-        if type(item) is Remanufatura:
+        elif type(item) is Remanufatura:
             self.remanufaturas.remove(item)
-        self.remanufaturas.remove(item)
 
+        else:
+            logging.debug("Tipo {", type(item).__name__, ":", str(item), "} inválido.")
 

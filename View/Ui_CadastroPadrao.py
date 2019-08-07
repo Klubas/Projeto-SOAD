@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\CadastroPadrao.ui',
 # licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\CadastroPadrao.ui' applies.
 #
-# Created: Tue Aug  6 22:23:09 2019
+# Created: Wed Aug  7 00:52:41 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,8 +17,9 @@ class Ui_CadastroPadrao(object):
         CadastroPadrao.setEnabled(True)
         CadastroPadrao.resize(1041, 591)
         CadastroPadrao.setCursor(QtCore.Qt.ArrowCursor)
+        self.gridLayout_5 = QtWidgets.QGridLayout(CadastroPadrao)
+        self.gridLayout_5.setObjectName("gridLayout_5")
         self.widget = QtWidgets.QWidget(CadastroPadrao)
-        self.widget.setGeometry(QtCore.QRect(10, 10, 1021, 561))
         self.widget.setObjectName("widget")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.widget)
         self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -80,6 +81,7 @@ class Ui_CadastroPadrao(object):
         self.gridLayout_2.addLayout(self.horizontalLayout_2, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.frame_buttons)
         self.gridLayout_4.addLayout(self.verticalLayout, 0, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.widget, 0, 0, 1, 1)
 
         self.retranslateUi(CadastroPadrao)
         QtCore.QMetaObject.connectSlotsByName(CadastroPadrao)

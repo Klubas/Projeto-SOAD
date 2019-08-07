@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\SairDialog.ui',
 # licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\SairDialog.ui' applies.
 #
-# Created: Tue Aug  6 22:23:11 2019
+# Created: Wed Aug  7 00:52:42 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,15 +13,20 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_SairDialog(object):
     def setupUi(self, SairDialog):
         SairDialog.setObjectName("SairDialog")
-        SairDialog.resize(430, 100)
-        SairDialog.setMinimumSize(QtCore.QSize(430, 100))
-        SairDialog.setMaximumSize(QtCore.QSize(430, 100))
+        SairDialog.resize(430, 120)
+        SairDialog.setMinimumSize(QtCore.QSize(430, 120))
+        SairDialog.setMaximumSize(QtCore.QSize(430, 150))
         font = QtGui.QFont()
         SairDialog.setFont(font)
         SairDialog.setModal(True)
         self.gridLayout_2 = QtWidgets.QGridLayout(SairDialog)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.verticalFrame = QtWidgets.QFrame(SairDialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.verticalFrame.sizePolicy().hasHeightForWidth())
+        self.verticalFrame.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setPointSize(12)
         self.verticalFrame.setFont(font)

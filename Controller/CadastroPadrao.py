@@ -21,24 +21,34 @@ class CadastroPadrao:
         # formata os dados da interface
         pass
 
-    def salva_dados(self, dados):
-        # envia dicionario de dados pro banco utilizando uma procedure
-        prc = self.db.call_procedure('soad', dados["metodo"], dados)
-        if not prc[0]:
-            dialog = StatusDialog(status='ERRO', mensagem='Não foi possível salvar os dados.', exception=prc[1])
-            dialog.exec()
-
     def confirma(self, dados):
         # pega os dados tela e envia pro banco
-        self.salva_dados(dados)
+        prc = self.db.call_procedure('soad', dados["metodo"], dados)
+
+        if prc[0]:
+            dialog = StatusDialog(
+                status='OK'
+                , mensagem='Cadastro realizado com sucesso!'
+            )
+
+        else:
+            dialog = StatusDialog(
+                status='ERRO'
+                , mensagem='Não foi possível salvar os dados.'
+                , exception=str(prc[1]) + ' ' + str(prc[2])
+            )
+
+        dialog.exec()
+
+        return prc[0]
+
 
 
     def fechar(self):
         #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
         dialog = SairDialog()
         dialog.definir_mensagem("Tem certeza que deseja fechar? Todas as alterações serão perdidas.")
-        fechar = dialog.exec_()
-        print(fechar)
+        fechar = dialog.exec()
         return fechar
 
 

@@ -26,6 +26,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         if self.comboBox_servidor.count() == 1:
             self.verticalWidget_servidor.setVisible(False)
 
+        #dsv
         self.lineEdit_usuario.setText('soadmin')
         self.lineEdit_senha.setText('soad2019')
 
@@ -59,15 +60,12 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
         else:
 
-            #load = LoadingDialog(self)
-            #load.show()
             db = self.__setup_db_connection__()
-
 
             try:
                 if db:
                     w = MainWindow(db, self)
-                    w.show()
+                    w.showNormal()
                     self.hide()
 
             except Exception as e:
