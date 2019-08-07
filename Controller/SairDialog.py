@@ -15,7 +15,7 @@ class SairDialog(QDialog, Ui_SairDialog):
         self.label.setText(mensagem)
 
     def sim_clicked(self):
-        self.close()
+        self.accept()
 
     def nao_clicked(self):
-        self.close()
+        self.reject()

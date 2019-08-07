@@ -27,9 +27,10 @@ def main():
     # update_ui()
 
     app = QApplication(sys.argv)
+    app.setQuitOnLastWindowClosed(False)
 
     w = LoginDialog()
-    w.exec()
+    login = w.exec()
 
     sys.exit(app.exec_())
 

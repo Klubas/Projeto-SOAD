@@ -6,8 +6,9 @@ from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
 class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
-    def __init__(self, db, window_list, **kwargs):
-        super().__init__()
+    def __init__(self, db, window_list, parent=None, **kwargs):
+        super(CadastroPessoa, self).__init__()
+        super(CadastroPadrao, self).__init__()
         self.setupUi(self)
         self.db = db
         self.window_list = window_list
@@ -33,3 +34,10 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         self.confirma(dados)
 
+    # Override PySide2.QtGui.QCloseEvent
+    def closeEvent(self, event):
+        if self.fechar():
+            self.window_list.remove(self)
+            event.accept()
+        else:
+            event.ignore()

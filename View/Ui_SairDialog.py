@@ -3,39 +3,45 @@
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\SairDialog.ui',
 # licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\SairDialog.ui' applies.
 #
-# Created: Tue Aug  6 00:11:06 2019
+# Created: Tue Aug  6 22:23:11 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_SairDialog(object):
     def setupUi(self, SairDialog):
         SairDialog.setObjectName("SairDialog")
-        SairDialog.resize(400, 300)
+        SairDialog.resize(430, 100)
+        SairDialog.setMinimumSize(QtCore.QSize(430, 100))
+        SairDialog.setMaximumSize(QtCore.QSize(430, 100))
+        font = QtGui.QFont()
+        SairDialog.setFont(font)
         SairDialog.setModal(True)
-        self.verticalLayoutWidget = QtWidgets.QWidget(SairDialog)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(40, 20, 341, 251))
-        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.gridLayout_2 = QtWidgets.QGridLayout(SairDialog)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.verticalFrame = QtWidgets.QFrame(SairDialog)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.verticalFrame.setFont(font)
+        self.verticalFrame.setObjectName("verticalFrame")
+        self.gridLayout = QtWidgets.QGridLayout(self.verticalFrame)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label = QtWidgets.QLabel(self.verticalFrame)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setWordWrap(True)
         self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
-        self.buttonBox = QtWidgets.QDialogButtonBox(self.verticalLayoutWidget)
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self.verticalFrame)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.No|QtWidgets.QDialogButtonBox.Yes)
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
-        self.verticalLayout.addWidget(self.buttonBox)
+        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.verticalFrame, 0, 0, 1, 1)
 
         self.retranslateUi(SairDialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), SairDialog.accept)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("rejected()"), SairDialog.reject)
         QtCore.QMetaObject.connectSlotsByName(SairDialog)
 
     def retranslateUi(self, SairDialog):

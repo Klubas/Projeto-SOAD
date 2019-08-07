@@ -2,11 +2,12 @@ from Controller.SairDialog import SairDialog
 from Controller.StatusDialog import StatusDialog
 
 
-class CadastroPadrao():
+class CadastroPadrao:
 
     def __init__(self):
         self.dados_formatados = None
         self.db = None
+        self.window_list = None
 
     def cancela(self):
         # limpa a interface
@@ -36,14 +37,8 @@ class CadastroPadrao():
         #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
         dialog = SairDialog()
         dialog.definir_mensagem("Tem certeza que deseja fechar? Todas as alterações serão perdidas.")
-        return dialog.exec()
+        fechar = dialog.exec_()
+        print(fechar)
+        return fechar
 
-    # Override PySide2.QtGui.QCloseEvent
-    def closeEvent(self, event):
-        if self.fechar():
-            self.window_list.remove(self)
-            self.close()
-            event.accept()
-        else:
-            event.ignore()
 
