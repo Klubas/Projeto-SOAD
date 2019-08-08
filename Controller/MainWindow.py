@@ -8,6 +8,7 @@ from Controller.About import About
 from Controller.CadastroMercadoria import CadastroMercadoria
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
+from Controller.EstornoPedido import EstornoPedido
 from Controller.SairDialog import SairDialog
 from Controller.StatusDialog import StatusDialog
 from View.Ui_MainWindow import Ui_MainWindow
@@ -63,6 +64,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 window_cls=CadastroPedido, tipo="VENDA")
         )
 
+        self.actionDevolucao.triggered.connect(
+            lambda: self.abrir_interface(
+                window_cls=EstornoPedido
+            )
+        )
+
         # todo: Estoque
         self.actionRegistrar_compra.triggered.connect(
             lambda: self.abrir_interface(
@@ -112,7 +119,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     #Override QWidget closeEvent
     def closeEvent(self, event):
-        if len(self.window_list) > 0:
+        if len(self.window_list) > 1:
             sair = SairDialog()
             if sair.exec():
                 for window in self.window_list:

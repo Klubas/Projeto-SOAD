@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-08-07 01:12:40
+-- Started on 2019-08-08 00:16:37
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -172,7 +172,7 @@ $$;
 ALTER FUNCTION "soad"."fnc_insert_mercadoria"("p_descricao" "text", "p_marca" "text", "p_unidade_medida_id" integer, "p_tipo" "text", "p_permite_venda" boolean, VARIADIC "args" "text"[], OUT "p_id_mercadoria" integer) OWNER TO "postgres";
 
 --
--- TOC entry 268 (class 1255 OID 33610)
+-- TOC entry 269 (class 1255 OID 33610)
 -- Name: fnc_insert_pedido("text", integer, "text", "date"); Type: FUNCTION; Schema: soad; Owner: postgres
 --
 
@@ -222,7 +222,7 @@ ALTER FUNCTION "soad"."fnc_insert_pedido"("p_tipo_pedido" "text", "p_pessoa_id" 
 
 --
 -- TOC entry 3200 (class 0 OID 0)
--- Dependencies: 268
+-- Dependencies: 269
 -- Name: FUNCTION "fnc_insert_pedido"("p_tipo_pedido" "text", "p_pessoa_id" integer, "p_observacao" "text", "p_data_entrega" "date"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -301,7 +301,7 @@ $$;
 ALTER FUNCTION "soad"."fnc_insert_pessoa"("p_nome" "text", "p_email" "text", "p_telefone" "text", "p_documento" "text", "p_inscricao_estadual" "text", "p_fantasia" "text", OUT "p_pessoa_id" integer) OWNER TO "postgres";
 
 --
--- TOC entry 272 (class 1255 OID 49998)
+-- TOC entry 273 (class 1255 OID 49998)
 -- Name: fnc_relatorio_municipios(character varying, character varying, character varying); Type: FUNCTION; Schema: soad; Owner: postgres
 --
 
@@ -321,7 +321,7 @@ $$;
 ALTER FUNCTION "soad"."fnc_relatorio_municipios"("p_pais" character varying, "p_estado" character varying, "p_municipio" character varying) OWNER TO "postgres";
 
 --
--- TOC entry 277 (class 1255 OID 41806)
+-- TOC entry 278 (class 1255 OID 41806)
 -- Name: prc_cadastro_pedido("text", integer, "text", "date", "json"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -420,7 +420,7 @@ ALTER PROCEDURE "soad"."prc_cadastro_pedido"("p_tipo_pedido" "text", "p_pessoa_i
 
 --
 -- TOC entry 3201 (class 0 OID 0)
--- Dependencies: 277
+-- Dependencies: 278
 -- Name: PROCEDURE "prc_cadastro_pedido"("p_tipo_pedido" "text", "p_pessoa_id" integer, "p_observacao" "text", "p_data_entrega" "date", "p_itens" "json"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -428,7 +428,7 @@ COMMENT ON PROCEDURE "soad"."prc_cadastro_pedido"("p_tipo_pedido" "text", "p_pes
 
 
 --
--- TOC entry 269 (class 1255 OID 50039)
+-- TOC entry 270 (class 1255 OID 50039)
 -- Name: prc_cancelar_pedido(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -468,7 +468,7 @@ ALTER PROCEDURE "soad"."prc_cancelar_pedido"("p_id_pedido" integer) OWNER TO "po
 
 --
 -- TOC entry 3202 (class 0 OID 0)
--- Dependencies: 269
+-- Dependencies: 270
 -- Name: PROCEDURE "prc_cancelar_pedido"("p_id_pedido" integer); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -476,11 +476,11 @@ COMMENT ON PROCEDURE "soad"."prc_cancelar_pedido"("p_id_pedido" integer) IS 'can
 
 
 --
--- TOC entry 290 (class 1255 OID 41799)
--- Name: prc_chamada_de_metodo("text", "json"); Type: PROCEDURE; Schema: soad; Owner: postgres
+-- TOC entry 263 (class 1255 OID 74547)
+-- Name: prc_chamada_de_metodo("json"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
-CREATE PROCEDURE "soad"."prc_chamada_de_metodo"("p_metodo" "text" DEFAULT NULL::"text", "p_json_params" "json" DEFAULT NULL::"json")
+CREATE PROCEDURE "soad"."prc_chamada_de_metodo"("p_json_params" "json" DEFAULT NULL::"json")
     LANGUAGE "plpgsql"
     AS $$
 DECLARE
@@ -574,19 +574,19 @@ END;
 $$;
 
 
-ALTER PROCEDURE "soad"."prc_chamada_de_metodo"("p_metodo" "text", "p_json_params" "json") OWNER TO "postgres";
+ALTER PROCEDURE "soad"."prc_chamada_de_metodo"("p_json_params" "json") OWNER TO "postgres";
 
 --
 -- TOC entry 3203 (class 0 OID 0)
--- Dependencies: 290
--- Name: PROCEDURE "prc_chamada_de_metodo"("p_metodo" "text", "p_json_params" "json"); Type: COMMENT; Schema: soad; Owner: postgres
+-- Dependencies: 263
+-- Name: PROCEDURE "prc_chamada_de_metodo"("p_json_params" "json"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
-COMMENT ON PROCEDURE "soad"."prc_chamada_de_metodo"("p_metodo" "text", "p_json_params" "json") IS 'Ponto de entrada do banco de dados';
+COMMENT ON PROCEDURE "soad"."prc_chamada_de_metodo"("p_json_params" "json") IS 'Ponto de entrada do banco de dados';
 
 
 --
--- TOC entry 280 (class 1255 OID 17545)
+-- TOC entry 281 (class 1255 OID 17545)
 -- Name: prc_configuracao_definicoes_iniciais(); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -780,7 +780,7 @@ ALTER PROCEDURE "soad"."prc_configuracao_definicoes_iniciais"() OWNER TO "postgr
 
 --
 -- TOC entry 3204 (class 0 OID 0)
--- Dependencies: 280
+-- Dependencies: 281
 -- Name: PROCEDURE "prc_configuracao_definicoes_iniciais"(); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -788,7 +788,7 @@ COMMENT ON PROCEDURE "soad"."prc_configuracao_definicoes_iniciais"() IS 'Algumas
 
 
 --
--- TOC entry 282 (class 1255 OID 58272)
+-- TOC entry 283 (class 1255 OID 58272)
 -- Name: prc_configuracao_gerador_trigger(); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -818,7 +818,7 @@ $$;
 ALTER PROCEDURE "soad"."prc_configuracao_gerador_trigger"() OWNER TO "postgres";
 
 --
--- TOC entry 286 (class 1255 OID 49975)
+-- TOC entry 287 (class 1255 OID 49975)
 -- Name: prc_encerrar_pedido(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -877,7 +877,7 @@ ALTER PROCEDURE "soad"."prc_encerrar_pedido"("p_id_pedido" integer) OWNER TO "po
 
 --
 -- TOC entry 3205 (class 0 OID 0)
--- Dependencies: 286
+-- Dependencies: 287
 -- Name: PROCEDURE "prc_encerrar_pedido"("p_id_pedido" integer); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -885,7 +885,7 @@ COMMENT ON PROCEDURE "soad"."prc_encerrar_pedido"("p_id_pedido" integer) IS 'Pro
 
 
 --
--- TOC entry 283 (class 1255 OID 58177)
+-- TOC entry 284 (class 1255 OID 58177)
 -- Name: prc_estornar_pedido(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1075,7 +1075,7 @@ ALTER PROCEDURE "soad"."prc_estornar_pedido"("p_pedido_id" integer) OWNER TO "po
 
 --
 -- TOC entry 3206 (class 0 OID 0)
--- Dependencies: 283
+-- Dependencies: 284
 -- Name: PROCEDURE "prc_estornar_pedido"("p_pedido_id" integer); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1083,7 +1083,7 @@ COMMENT ON PROCEDURE "soad"."prc_estornar_pedido"("p_pedido_id" integer) IS 'Est
 
 
 --
--- TOC entry 279 (class 1255 OID 58171)
+-- TOC entry 280 (class 1255 OID 58171)
 -- Name: prc_esvazia_lote(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1121,7 +1121,7 @@ ALTER PROCEDURE "soad"."prc_esvazia_lote"("p_lote_id" integer) OWNER TO "postgre
 
 --
 -- TOC entry 3207 (class 0 OID 0)
--- Dependencies: 279
+-- Dependencies: 280
 -- Name: PROCEDURE "prc_esvazia_lote"("p_lote_id" integer); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1129,7 +1129,7 @@ COMMENT ON PROCEDURE "soad"."prc_esvazia_lote"("p_lote_id" integer) IS 'verifica
 
 
 --
--- TOC entry 270 (class 1255 OID 50276)
+-- TOC entry 271 (class 1255 OID 50276)
 -- Name: prc_esvaziar_item_lote(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1167,7 +1167,7 @@ ALTER PROCEDURE "soad"."prc_esvaziar_item_lote"("p_item_lote_id" integer) OWNER 
 
 --
 -- TOC entry 3208 (class 0 OID 0)
--- Dependencies: 270
+-- Dependencies: 271
 -- Name: PROCEDURE "prc_esvaziar_item_lote"("p_item_lote_id" integer); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1175,7 +1175,7 @@ COMMENT ON PROCEDURE "soad"."prc_esvaziar_item_lote"("p_item_lote_id" integer) I
 
 
 --
--- TOC entry 267 (class 1255 OID 49979)
+-- TOC entry 268 (class 1255 OID 49979)
 -- Name: prc_gerar_lote(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1262,7 +1262,7 @@ ALTER PROCEDURE "soad"."prc_gerar_lote"("p_id_pedido" integer) OWNER TO "postgre
 
 --
 -- TOC entry 3209 (class 0 OID 0)
--- Dependencies: 267
+-- Dependencies: 268
 -- Name: PROCEDURE "prc_gerar_lote"("p_id_pedido" integer); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1270,7 +1270,7 @@ COMMENT ON PROCEDURE "soad"."prc_gerar_lote"("p_id_pedido" integer) IS 'procedim
 
 
 --
--- TOC entry 278 (class 1255 OID 50126)
+-- TOC entry 279 (class 1255 OID 50126)
 -- Name: prc_gerar_remanufatura(integer, integer, integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1319,7 +1319,7 @@ $$;
 ALTER PROCEDURE "soad"."prc_gerar_remanufatura"("p_casco_id" integer, "p_insumo_id" integer, "p_quantidade" integer) OWNER TO "postgres";
 
 --
--- TOC entry 273 (class 1255 OID 49999)
+-- TOC entry 274 (class 1255 OID 49999)
 -- Name: prc_insert_endereco(integer, integer, "text", "text", "text", "text", "text"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1351,7 +1351,7 @@ ALTER PROCEDURE "soad"."prc_insert_endereco"("p_pessoa_id" integer, "p_municipio
 
 --
 -- TOC entry 3210 (class 0 OID 0)
--- Dependencies: 273
+-- Dependencies: 274
 -- Name: PROCEDURE "prc_insert_endereco"("p_pessoa_id" integer, "p_municipio_id" integer, "p_logradouro" "text", "p_numero" "text", "p_bairro" "text", "p_cep" "text", "p_complemento" "text"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1359,7 +1359,7 @@ COMMENT ON PROCEDURE "soad"."prc_insert_endereco"("p_pessoa_id" integer, "p_muni
 
 
 --
--- TOC entry 276 (class 1255 OID 50262)
+-- TOC entry 277 (class 1255 OID 50262)
 -- Name: prc_insert_mercadoria("text", "text", integer, "text", boolean, "text"[]); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1467,7 +1467,7 @@ ALTER PROCEDURE "soad"."prc_insert_mercadoria"("p_descricao" "text", "p_marca" "
 
 --
 -- TOC entry 3211 (class 0 OID 0)
--- Dependencies: 276
+-- Dependencies: 277
 -- Name: PROCEDURE "prc_insert_mercadoria"("p_descricao" "text", "p_marca" "text", "p_unidade_medida_id" integer, "p_tipo" "text", "p_permite_venda" boolean, VARIADIC "args" "text"[]); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1475,7 +1475,7 @@ COMMENT ON PROCEDURE "soad"."prc_insert_mercadoria"("p_descricao" "text", "p_mar
 
 
 --
--- TOC entry 264 (class 1255 OID 17241)
+-- TOC entry 265 (class 1255 OID 17241)
 -- Name: prc_insert_modalidade("text"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1495,7 +1495,7 @@ ALTER PROCEDURE "soad"."prc_insert_modalidade"("p_modalidade" "text") OWNER TO "
 
 --
 -- TOC entry 3212 (class 0 OID 0)
--- Dependencies: 264
+-- Dependencies: 265
 -- Name: PROCEDURE "prc_insert_modalidade"("p_modalidade" "text"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1503,7 +1503,7 @@ COMMENT ON PROCEDURE "soad"."prc_insert_modalidade"("p_modalidade" "text") IS 'C
 
 
 --
--- TOC entry 263 (class 1255 OID 49997)
+-- TOC entry 264 (class 1255 OID 49997)
 -- Name: prc_insert_municipio_estado_pais("text", "text", "text", "text", "text", "text"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1621,7 +1621,7 @@ ALTER PROCEDURE "soad"."prc_insert_municipio_estado_pais"("p_municipio_nome" "te
 
 --
 -- TOC entry 3213 (class 0 OID 0)
--- Dependencies: 263
+-- Dependencies: 264
 -- Name: PROCEDURE "prc_insert_municipio_estado_pais"("p_municipio_nome" "text", "p_cod_ibge" "text", "p_estado_nome" "text", "p_estado_sigla" "text", "p_pais_nome" "text", "p_pais_sigla" "text"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1629,7 +1629,7 @@ COMMENT ON PROCEDURE "soad"."prc_insert_municipio_estado_pais"("p_municipio_nome
 
 
 --
--- TOC entry 265 (class 1255 OID 17541)
+-- TOC entry 266 (class 1255 OID 17541)
 -- Name: prc_insert_or_update_unidade_medida("text", "text"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1654,7 +1654,7 @@ ALTER PROCEDURE "soad"."prc_insert_or_update_unidade_medida"("p_descricao" "text
 
 --
 -- TOC entry 3214 (class 0 OID 0)
--- Dependencies: 265
+-- Dependencies: 266
 -- Name: PROCEDURE "prc_insert_or_update_unidade_medida"("p_descricao" "text", "p_abreviacao" "text"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -1743,7 +1743,7 @@ prc_cadastro_pessoa';
 
 
 --
--- TOC entry 281 (class 1255 OID 50147)
+-- TOC entry 282 (class 1255 OID 50147)
 -- Name: prc_movimentar_lote(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -1913,7 +1913,7 @@ $$;
 ALTER PROCEDURE "soad"."prc_movimentar_lote"("p_id_pedido" integer) OWNER TO "postgres";
 
 --
--- TOC entry 284 (class 1255 OID 58186)
+-- TOC entry 285 (class 1255 OID 58186)
 -- Name: prc_movimentar_lote_teste(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -2080,7 +2080,7 @@ $$;
 ALTER PROCEDURE "soad"."prc_movimentar_lote_teste"("p_id_pedido" integer) OWNER TO "postgres";
 
 --
--- TOC entry 287 (class 1255 OID 50137)
+-- TOC entry 288 (class 1255 OID 50137)
 -- Name: prc_realizar_remanufatura(integer); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -2176,7 +2176,7 @@ ALTER PROCEDURE "soad"."prc_realizar_remanufatura"("p_id_remanufatura" integer) 
 
 --
 -- TOC entry 3216 (class 0 OID 0)
--- Dependencies: 287
+-- Dependencies: 288
 -- Name: PROCEDURE "prc_realizar_remanufatura"("p_id_remanufatura" integer); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -2184,7 +2184,7 @@ COMMENT ON PROCEDURE "soad"."prc_realizar_remanufatura"("p_id_remanufatura" inte
 
 
 --
--- TOC entry 266 (class 1255 OID 25399)
+-- TOC entry 267 (class 1255 OID 25399)
 -- Name: prc_vincular_modalidade_pessoa(integer, "text"); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -2238,7 +2238,7 @@ ALTER PROCEDURE "soad"."prc_vincular_modalidade_pessoa"("p_modalidade_id" intege
 
 --
 -- TOC entry 3217 (class 0 OID 0)
--- Dependencies: 266
+-- Dependencies: 267
 -- Name: PROCEDURE "prc_vincular_modalidade_pessoa"("p_modalidade_id" integer, "p_documento" "text"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -2246,7 +2246,7 @@ COMMENT ON PROCEDURE "soad"."prc_vincular_modalidade_pessoa"("p_modalidade_id" i
 
 
 --
--- TOC entry 275 (class 1255 OID 50202)
+-- TOC entry 276 (class 1255 OID 50202)
 -- Name: prc_vincular_pedido_mercadoria(integer, integer, integer, real, real); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -2292,7 +2292,7 @@ ALTER PROCEDURE "soad"."prc_vincular_pedido_mercadoria"("p_pedido_id" integer, "
 
 --
 -- TOC entry 3218 (class 0 OID 0)
--- Dependencies: 275
+-- Dependencies: 276
 -- Name: PROCEDURE "prc_vincular_pedido_mercadoria"("p_pedido_id" integer, "p_mercadoria_id" integer, "p_unidade_medida_id" integer, "p_quantidade" real, "p_valor_unitario" real); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -2300,7 +2300,7 @@ COMMENT ON PROCEDURE "soad"."prc_vincular_pedido_mercadoria"("p_pedido_id" integ
 
 
 --
--- TOC entry 274 (class 1255 OID 50136)
+-- TOC entry 275 (class 1255 OID 50136)
 -- Name: prc_vincular_pedido_remanufatura(integer, integer, integer, real, real, boolean); Type: PROCEDURE; Schema: soad; Owner: postgres
 --
 
@@ -2370,7 +2370,7 @@ $$;
 ALTER PROCEDURE "soad"."prc_vincular_pedido_remanufatura"("p_pedido_id" integer, "p_casco_id" integer, "p_insumo_id" integer, "p_quantidade" real, "p_valor_unitario" real, "p_nova_remanufatura" boolean) OWNER TO "postgres";
 
 --
--- TOC entry 288 (class 1255 OID 58249)
+-- TOC entry 289 (class 1255 OID 58249)
 -- Name: trg_auditoria(); Type: FUNCTION; Schema: soad; Owner: postgres
 --
 
@@ -2428,7 +2428,7 @@ $$;
 ALTER FUNCTION "soad"."trg_auditoria"() OWNER TO "postgres";
 
 --
--- TOC entry 271 (class 1255 OID 50192)
+-- TOC entry 272 (class 1255 OID 50192)
 -- Name: trg_chamada_metodo(); Type: FUNCTION; Schema: soad; Owner: postgres
 --
 
@@ -2457,7 +2457,7 @@ CREATE FUNCTION "soad"."trg_chamada_metodo"() RETURNS "trigger"
 ALTER FUNCTION "soad"."trg_chamada_metodo"() OWNER TO "postgres";
 
 --
--- TOC entry 285 (class 1255 OID 58188)
+-- TOC entry 286 (class 1255 OID 58188)
 -- Name: trg_pedido_mercadoria_unica(); Type: FUNCTION; Schema: soad; Owner: postgres
 --
 
@@ -2482,7 +2482,7 @@ CREATE FUNCTION "soad"."trg_pedido_mercadoria_unica"() RETURNS "trigger"
 ALTER FUNCTION "soad"."trg_pedido_mercadoria_unica"() OWNER TO "postgres";
 
 --
--- TOC entry 289 (class 1255 OID 58191)
+-- TOC entry 290 (class 1255 OID 58191)
 -- Name: trg_remover_lote_com_vinculo(); Type: FUNCTION; Schema: soad; Owner: postgres
 --
 
@@ -4892,7 +4892,7 @@ ALTER TABLE ONLY "soad"."usuario"
     ADD CONSTRAINT "fkc_usuario_pessoa_id" FOREIGN KEY ("fk_pessoa_id") REFERENCES "soad"."pessoa"("id_pessoa") ON DELETE CASCADE;
 
 
--- Completed on 2019-08-07 01:12:40
+-- Completed on 2019-08-08 00:16:37
 
 --
 -- PostgreSQL database dump complete

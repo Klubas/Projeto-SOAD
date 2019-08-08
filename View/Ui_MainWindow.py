@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\MainWindow.ui',
 # licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\MainWindow.ui' applies.
 #
-# Created: Wed Aug  7 00:52:42 2019
+# Created: Thu Aug  8 00:08:22 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,10 +26,11 @@ class Ui_MainWindow(object):
         MainWindow.setInputMethodHints(QtCore.Qt.ImhPreferUppercase)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setMinimumSize(QtCore.QSize(1418, 0))
         self.centralwidget.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalWidget.setGeometry(QtCore.QRect(0, 10, 1401, 770))
+        self.horizontalWidget.setGeometry(QtCore.QRect(0, 10, 1178, 786))
         self.horizontalWidget.setObjectName("horizontalWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalWidget)
         self.horizontalLayout.setContentsMargins(10, -1, -1, -1)
@@ -90,8 +91,6 @@ class Ui_MainWindow(object):
         self.gridLayout.addLayout(self.verticalLayout_4, 0, 1, 1, 1)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
-        self.verticalLayout_2.addItem(spacerItem)
         self.gridLayout.addLayout(self.verticalLayout_2, 0, 2, 1, 1)
         self.horizontalLayout.addWidget(self.gridWidget_2)
         MainWindow.setCentralWidget(self.centralwidget)

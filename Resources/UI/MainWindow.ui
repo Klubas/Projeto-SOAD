@@ -44,6 +44,12 @@
    <enum>QTabWidget::Rounded</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>1418</width>
+     <height>0</height>
+    </size>
+   </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
@@ -52,8 +58,8 @@
      <rect>
       <x>0</x>
       <y>10</y>
-      <width>1401</width>
-      <height>770</height>
+      <width>1178</width>
+      <height>786</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -185,24 +191,7 @@
          </layout>
         </item>
         <item row="0" column="2">
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::MinimumExpanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+         <layout class="QVBoxLayout" name="verticalLayout_2"/>
         </item>
        </layout>
       </widget>

@@ -8,13 +8,17 @@ from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
 class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
-    def __init__(self, db, window_list, parent=None, **kwargs):
+    def __init__(self, db, window_list, **kwargs):
         super(CadastroPessoa, self).__init__()
         super(CadastroPadrao, self).__init__()
+
         self.setupUi(self)
 
         self.db = db
         self.window_list = window_list
+        self.modo_edicao = False
+
+        # self.dados = None
 
         self.frame_menu.setDisabled(False)
         self.widget.setDisabled(True)
@@ -24,8 +28,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.pushButton_editar.clicked.connect(self.editar)
         self.pushButton_excluir.clicked.connect(self.excluir)
 
-        self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.formata_dados_e_salva)
-        self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.limpar_dados)
+        self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
+        self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
 
         # Marca como isento o lineEdit
         self.checkBox_isento.clicked.connect(
@@ -38,23 +42,21 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.show()
 
     def cadastrar(self):
+        super(CadastroPessoa, self).cadastrar()
         self.widget_tipo_pessoa.setDisabled(False)
-        self.frame_menu.setDisabled(True)
-        self.frame_buttons.setDisabled(False)
-        self.widget.setDisabled(False)
+
 
     def editar(self):
+        super(CadastroPessoa, self).editar()
         self.widget_tipo_pessoa.setDisabled(True)
-        self.frame_menu.setDisabled(True)
-        self.frame_buttons.setDisabled(False)
-        self.widget.setDisabled(False)
+        self.carrega_dados('vw_pessoa', 'id_pessoa', 133)
 
     def excluir(self):
-        #excluir
-        self.limpar_dados()
+        super(CadastroPessoa, self).excluir()
 
     def limpar_dados(self):
         # limpa todos os campos
+        super(CadastroPessoa, self).limpar_dados()
         self.lineEdit_nome.clear()
         self.lineEdit_email.clear()
         self.lineEdit_telefone.clear()
@@ -62,19 +64,12 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.lineEdit_documento.clear()
         self.lineEdit_fantasia.clear()
 
-        self.frame_menu.setDisabled(False)
-        self.widget.setDisabled(True)
-        self.frame_buttons.setDisabled(True)
-
-    def carrega_dados(self):
+    def carrega_dados(self, nome_tabela, id_campo, id_valor):
+        super(CadastroPessoa, self).carrega_dados(nome_tabela, id_campo, id_valor)
         # pega os dados dos banco e popula a interface
         pass
 
-    def define_tipo(self):
-        print('Tipo')
-        pass
-
-    def formata_dados_e_salva(self):
+    def confirma(self):
 
         if self.checkBox_isento.isChecked():
             IE_pessoa = 'ISENTO'
@@ -91,8 +86,9 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         )
 
         # pega os dados da tela e popula um dicionario de dados
-        dados = {
-            "metodo": "fnc_insert_pessoa",
+        self.dados = {
+            "metodo": "prc_insert_pessoa",
+            "schema": "soad",
             "params": {
                 "nome": pessoa.nome,
                 "email": pessoa.email,
@@ -104,7 +100,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         }
 
         #todo: tratar existencia de ID para verificar se cadastra ou edita
-        if self.confirma(dados):
+        if super(CadastroPessoa, self).confirma():
             print('Sucesso')
             self.limpar_dados()
             self.carrega_dados()
@@ -112,6 +108,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         else:
             print('Erro ao salvar')
 
+    def define_tipo(self):
+        print('Tipo')
 
     # Override PySide2.QtGui.QCloseEvent
     def closeEvent(self, event):

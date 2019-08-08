@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\DescarteMercadoria.ui',
-# licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\DescarteMercadoria.ui' applies.
+# Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\EstornoPedido.ui',
+# licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\EstornoPedido.ui' applies.
 #
 # Created: Thu Aug  8 00:08:22 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
@@ -10,11 +10,11 @@
 
 from PySide2 import QtCore, QtWidgets
 
-class Ui_Descarte(object):
+class Ui_EstornoPedido(object):
     def setupUi(self, Descarte):
         Descarte.setObjectName("Descarte")
         Descarte.setWindowModality(QtCore.Qt.NonModal)
-        Descarte.resize(578, 560)
+        Descarte.setGeometry(QtCore.QRect(0, 0, 578, 560))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -33,5 +33,5 @@ class Ui_Descarte(object):
         QtCore.QMetaObject.connectSlotsByName(Descarte)
 
     def retranslateUi(self, Descarte):
-        Descarte.setWindowTitle(QtWidgets.QApplication.translate("Descarte", "Descarte de Mercadoria", None, -1))
+        Descarte.setWindowTitle(QtWidgets.QApplication.translate("EstornoPedido", "Estornar Pedido", None, -1))
 

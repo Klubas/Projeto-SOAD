@@ -1,15 +1,14 @@
 from PySide2.QtWidgets import QWidget
 
 from Controller.CadastroPadrao import CadastroPadrao
-from Model.Mercadoria import Mercadoria
-from Model.Remanufatura import Remanufatura
 from View.Ui_CadastroPedido import Ui_CadastroPedido
 
 
 class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def __init__(self, db=None, window_list=None, **kwargs):
-        super().__init__()
+        super(CadastroPadrao, self).__init__()
+        super(CadastroPedido, self).__init__()
         self.setupUi(self)
         self.db = db
         self.window_list = window_list
@@ -28,9 +27,9 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         #https://stackoverflow.com/questions/10252010/serializing-class-instance-to-json
 
         #pedido = Pedido()
-        item1 = Mercadoria()
-        item2 = Mercadoria()
-        item3 = Remanufatura()
+        #item1 = Mercadoria()
+        #item2 = Mercadoria()
+        #item3 = Remanufatura()
 
         dados = {
             "metodo": "prc_cadastro_pedido",

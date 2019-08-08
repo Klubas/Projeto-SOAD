@@ -2,13 +2,13 @@ import json
 import logging
 import os
 
-from pydal import DAL
+from pydal import DAL, Field
 
 
 class DataBase:
 
     def __init__(self, username, password, host='localhost', port=5432, pool_size=5):
-
+        self.schema = 'soad'
         self.username = username
         self.host = host
         self.port = port
@@ -17,11 +17,33 @@ class DataBase:
         self.db = DAL(
             self.dbinfo,
             folder=self.folder,
-            pool_size=pool_size
+            pool_size=pool_size,
+            migrate=False
         )
         self.db.__call__()
 
-    def call_procedure(self, schema, procedure, params):
+        # Define o schema
+        self.execute_sql("SET search_path TO " + self.schema)
+        self.db.commit()
+
+    def busca_registro(self, nome_tabela, id_campo, id_valor):
+        tabela = self.db.define_table(
+            nome_tabela
+            , Field(id_campo)
+            , primarykey=[str(id_campo)]
+        )
+
+        rows = self.db(id_valor).select(tabela).ALL
+
+
+        print(rows)
+
+        registro = tabela(id_valor).as_dict()
+
+        return registro
+
+
+    def call_procedure(self, schema, params):
 
         # Remove parametros vazios
         vazio = []
@@ -33,8 +55,7 @@ class DataBase:
 
         params = json.dumps(params)
         sql = "CALL " + schema + ".prc_chamada_de_metodo(" \
-              + "p_metodo=>" + "'" + schema + "." + procedure + "'" \
-              + ", p_json_params=>" + "'" + params + "'" \
+              + "p_json_params=>" + "'" + params + "'" \
               + ");"
 
         logging.info(sql)
