@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\About.ui',
 # licensing of 'C:\Users\Lucas\PycharmProjects\Projeto-SOAD\Resources\UI\About.ui' applies.
 #
-# Created: Thu Aug  8 00:08:20 2019
+# Created: Thu Aug  8 00:30:28 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

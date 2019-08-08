@@ -2,7 +2,7 @@ import json
 import logging
 import os
 
-from pydal import DAL, Field
+from pydal import DAL
 
 
 class DataBase:
@@ -27,20 +27,20 @@ class DataBase:
         self.db.commit()
 
     def busca_registro(self, nome_tabela, id_campo, id_valor):
+
+        sql = 'SELECT * FROM ' + str(nome_tabela) + ' WHERE ' + str(id_campo) + ' = ' + str(id_valor)
+
+        return self.execute_sql(sql)
+
+    """
         tabela = self.db.define_table(
             nome_tabela
             , Field(id_campo)
             , primarykey=[str(id_campo)]
         )
 
-        rows = self.db(id_valor).select(tabela).ALL
-
-
-        print(rows)
-
-        registro = tabela(id_valor).as_dict()
-
-        return registro
+        return tabela(id_valor).as_dict()
+    """
 
 
     def call_procedure(self, schema, params):
@@ -64,9 +64,9 @@ class DataBase:
 
     def execute_sql(self, sql):
         try:
-            self.db.executesql(sql)
+            retorno = self.db.executesql(sql)
             self.db.commit()
-            prc = True, 0, str(self.db._lastsql)
+            prc = True, retorno, str(self.db._lastsql)
 
         except Exception as e:
             self.db.rollback()

@@ -45,11 +45,9 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         super(CadastroPessoa, self).cadastrar()
         self.widget_tipo_pessoa.setDisabled(False)
 
-
     def editar(self):
         super(CadastroPessoa, self).editar()
         self.widget_tipo_pessoa.setDisabled(True)
-        self.carrega_dados('vw_pessoa', 'id_pessoa', 133)
 
     def excluir(self):
         super(CadastroPessoa, self).excluir()

@@ -59,6 +59,11 @@ class CadastroPadrao:
             self.widget.setDisabled(True)
             self.frame_buttons.setDisabled(True)
 
+    # todo: implementar botão localizar
+    def localizar(self):
+        # abre modal para informar ID do pedido
+        self.carrega_dados('vw_pessoa', 'id_pessoa', 133)
+
     # Reimplementar chamando super
     def limpar_dados(self):
         # limpa todos os campos
@@ -83,6 +88,7 @@ class CadastroPadrao:
     # Reimplementar chamando super
     def carrega_dados(self, nome_tabela, id_campo, id_valor):
         self.dados = self.db.busca_registro(nome_tabela, id_campo, id_valor)
+        print(self.dados)
         self.modo_edicao = False
 
     # Reimplementar chamando super
