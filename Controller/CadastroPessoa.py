@@ -1,8 +1,10 @@
 from PySide2.QtWidgets import QDialogButtonBox
 from PySide2.QtWidgets import QWidget
 
-from Controller.CadastroPadrao import CadastroPadrao
 from Model.Pessoa import Pessoa
+
+from Controller.CadastroPadrao import CadastroPadrao
+
 from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
 

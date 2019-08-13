@@ -3,7 +3,7 @@ import logging
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
-from View.Ui_StatusDialog import Ui_StatusDialog
+from View.Componentes.Ui_StatusDialog import Ui_StatusDialog
 
 
 class StatusDialog(QDialog, Ui_StatusDialog):

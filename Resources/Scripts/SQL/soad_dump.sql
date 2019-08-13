@@ -77,15 +77,15 @@ DECLARE
 	v_unidade_medida_id integer 		:= p_unidade_medida_id;
 	v_tipo text 						:= upper(p_tipo);
 	v_permite_venda boolean				:= p_permite_venda;
-	
+
 	-- casco
 	v_casco_insumo_id integer			:= NULL;
 	v_casco_quantidade_insumo real		:= NULL;
-	
+
 	-- insumo
 	v_insumo_quantidade_embalagem real	:= NULL;
 	v_insumo_unidade_medida_id integer	:= NULL;
-	
+
 BEGIN
 
 	IF v_permite_venda IS NULL THEN
@@ -94,31 +94,31 @@ BEGIN
 		ELSIF v_tipo 'INSUMO' 		THEN v_permite_venda := False;
 		END IF;
 	END IF;
-		
+
 	-- Inserir produto/mercadoria
-	
+
 	WITH t_mercadoria AS (
 		INSERT INTO soad.mercadoria (descricao, marca, fk_unidade_medida_id, permite_venda)
 		VALUES (v_descricao, v_marca, v_unidade_medida_id, v_permite_venda)
 		RETURNING id_mercadoria
-	) 
+	)
 
-	SELECT id_mercadoria 
+	SELECT id_mercadoria
 	INTO v_id_mercadoria
 	FROM t_mercadoria;
 
 	p_id_mercadoria := v_id_mercadoria;
-		
-	
+
+
 	-- Inserir insumo
 	IF v_tipo = 'INSUMO' THEN
-    
-        IF args[3] IS null THEN 
-			args[3] = '0'; 
+
+        IF args[3] IS null THEN
+			args[3] = '0';
 		END IF;
-        
-		IF 
-			args[1] IS NOT null 
+
+		IF
+			args[1] IS NOT null
 			AND args[2] IS NOT null
 		THEN
 			v_insumo_quantidade_embalagem	:= args[1];
@@ -126,16 +126,16 @@ BEGIN
 		ELSE
 			RAISE EXCEPTION 'Parametros não podem ser nulos % %', args[1], args[2];
 		END IF;
-			
+
 		INSERT INTO soad.insumo (fk_mercadoria_id, quantidade_embalagem, fk_unidade_medida_id)
 		VALUES (v_id_mercadoria, v_insumo_quantidade_embalagem, v_insumo_unidade_medida_id);
-			
+
 		RETURN;
-	
+
 	-- Inserir casco
 	ELSIF v_tipo = 'CASCO' THEN
-		IF 
-			args[1] IS NOT null 
+		IF
+			args[1] IS NOT null
 			AND args[2] IS NOT null
 		THEN
 			v_casco_insumo_id			:= args[1];
@@ -143,20 +143,20 @@ BEGIN
 		ELSE
 			RAISE EXCEPTION 'Parametros não podem ser nulos % %', args[1], args[2];
 		END IF;
-	
+
 		INSERT INTO soad.casco (fk_mercadoria_id, fk_insumo_id, quantidade_insumo)
 		VALUES (v_id_mercadoria, v_casco_insumo_id, v_casco_quantidade_insumo);
-	
+
 		RETURN;
-			
+
 	ELSIF v_tipo = 'MERCADORIA' THEN
-		
+
 		RETURN;
-		
+
 	ELSE
-	
+
 		RAISE EXCEPTION 'Tipo de mercadoria inválida: %', v_tipo;
-	
+
 	END IF;
 
 	-- Não deveria chegar nesse raise
@@ -182,22 +182,22 @@ CREATE FUNCTION "soad"."fnc_insert_pedido"("p_tipo_pedido" "text", "p_pessoa_id"
 DECLARE
 	-- Pedido
 	v_id_pedido		integer	:= NULL; -- Vai receber o id do pedido gravado
-	
+
 	v_tipo_pedido 	text	:= upper(p_tipo_pedido);
     v_pessoa_id 	integer	:= p_pessoa_id;
 	v_observacao 	text	:= p_observacao;
 	v_data_entrega 	date	:= p_data_entrega;
-	
+
 	v_data_cadastro date 	:= statement_timestamp();
 	v_situacao 		text	:= 'CADASTRADO';
-	
-			  
+
+
 BEGIN
 
 	IF v_pessoa_id is NULL THEN
 		RAISE EXCEPTION 'Não é possível inserir um pedido sem destinatário';
 	END IF;
-	
+
 	-- Pedido
 	BEGIN
 		WITH t_pedido as (
@@ -207,10 +207,10 @@ BEGIN
 		)
 			SELECT id_pedido INTO v_id_pedido
 			FROM t_pedido;
-		
+
 		RETURN v_id_pedido;
 	END;
-	
+
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
 
@@ -245,13 +245,13 @@ DECLARE
 	v_inscricao_estadual 	text 	:= p_inscricao_estadual;
 	v_fantasia 				text 	:= p_fantasia;
 	v_id_pessoa 			integer := NULL;
-	
+
 BEGIN
 
 	IF v_inscricao_estadual = '' THEN
 		v_inscricao_estadual = 'ISENTO';
 	END IF;
-	
+
 	BEGIN
 
 		WITH t_pessoa AS (
@@ -261,13 +261,13 @@ BEGIN
 				, telefone
 				, inscricao_estadual
 			)
-				VALUES (v_nome, v_email, v_telefone, v_inscricao_estadual)	
+				VALUES (v_nome, v_email, v_telefone, v_inscricao_estadual)
 				RETURNING id_pessoa
 		)
-		
+
 		SELECT id_pessoa INTO v_id_pessoa
 		FROM t_pessoa;
-		
+
 		IF length(v_documento) = 14 THEN -- insere pessoa e pessoa juridica
 
 			INSERT INTO soad.pessoa_juridica (fk_pessoa_id, cnpj, fantasia)
@@ -275,22 +275,22 @@ BEGIN
 
 		ELSIF length(v_documento) = 11 THEN 	-- insere pessoa e pessoa fisica
 
-			INSERT INTO soad.pessoa_fisica (fk_pessoa_id, cpf) 
+			INSERT INTO soad.pessoa_fisica (fk_pessoa_id, cpf)
 			VALUES(v_id_pessoa, v_documento);
-		
+
 		ELSE
 			RAISE EXCEPTION 'Documento % inválido.', v_documento;
 
 		END IF;
-		
+
 		p_pessoa_id := v_id_pessoa;
 		RETURN;
-	
+
 	EXCEPTION WHEN OTHERS THEN
-		RAISE EXCEPTION 'Não foi possível cadastrar a pessoa. % %', SQLERRM, SQLSTATE;		
-	
+		RAISE EXCEPTION 'Não foi possível cadastrar a pessoa. % %', SQLERRM, SQLSTATE;
+
 	END;
-	
+
 
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
@@ -331,49 +331,49 @@ CREATE PROCEDURE "soad"."prc_cadastro_pedido"("p_tipo_pedido" "text", "p_pessoa_
 DECLARE
 	-- Retorno
 	v_pedido_id 	integer;
-	
+
 	-- Pedido
 	v_tipo_pedido 	text 	:= p_tipo_pedido;
     v_pessoa_id 	integer := p_pessoa_id;
 	v_observacao 	text	:= p_observacao;
 	v_data_entrega 	date	:= p_data_entrega;
-	
+
 	-- manipular json
 	v_json_itens	json	:= p_itens;
 	v_json_temp		json	:= NULL;
-	
+
     -- Define qual o tipo de item sendo inserido
 	v_tipo_item 	text;
 
 	-- Se aplica Mercadoria
 	v_mercadoria_id 	integer	:= NULL;
 	v_unidade_medida_id integer := NULL;
-	
+
 	-- Se aplica a Remanufatura
 	v_casco_id 			integer := NULL;
 	v_insumo_id			integer := NULL;
 	v_nova_remanufatura boolean	:= TRUE;
-	
+
 	-- Se aplicam aos dois tipos
 	v_quantidade 	 real;
 	v_valor_unitario real;
-	
+
 
 BEGIN
-	
+
 	-- Cadastra pedido
 	BEGIN
 		v_pedido_id := soad.fnc_insert_pedido(v_tipo_pedido, v_pessoa_id, v_observacao, v_data_entrega);
 		RAISE NOTICE 'JSON: %', v_json_itens;
 	END;
-	
+
 	-- Desmonta a 'lista de jsons' do parametro em jsons separados e percorre
 	BEGIN
-		FOR v_json_temp IN 
+		FOR v_json_temp IN
 			SELECT value
-			FROM json_array_elements(v_json_itens) 
+			FROM json_array_elements(v_json_itens)
 		-- Loop para vincular item de acordo com o tipo
-		LOOP 
+		LOOP
 
 			v_tipo_item			:= v_json_temp::json->'tipo_item';
 			v_tipo_item			:= trim('"' FROM v_tipo_item::text);
@@ -384,34 +384,34 @@ BEGIN
 				v_casco_id 			:= v_json_temp::json->'casco_id';
 				v_nova_remanufatura := v_json_temp::json->'nova_remanufatura';
 				v_insumo_id			:= v_json_temp::json->'insumo_id';
-				
+
 				BEGIN
-				
+
 					CALL soad.prc_vincular_pedido_remanufatura(v_pedido_id, v_casco_id, v_insumo_id, v_quantidade, v_valor_unitario, v_nova_remanufatura);
-					
+
 				END;
 
 			ELSIF v_tipo_item = 'MERCADORIA' THEN
 				v_mercadoria_id  	:= v_json_temp::json->'mercadoria_id';
 				v_unidade_medida_id	:= v_json_temp::json->'unidade_medida_id';
-				
+
 				BEGIN
-					
+
 					CALL soad.prc_vincular_pedido_mercadoria(v_pedido_id, v_mercadoria_id, v_unidade_medida_id, v_quantidade, v_valor_unitario);
-					
+
 				END;
 
-			ELSE 
+			ELSE
 				RAISE EXCEPTION 'Tipo de item (%) inválido.', v_tipo_item;
 
 			END IF;
 
 		END LOOP;
 	END;
-	
+
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
-	
+
 END;
 $$;
 
@@ -439,10 +439,10 @@ DECLARE
 	v_id_pedido integer := p_id_pedido;
 	v_situacao_pedido text;
 BEGIN
-	
-	SELECT pedido.situacao INTO v_situacao_pedido 
+
+	SELECT pedido.situacao INTO v_situacao_pedido
 	FROM soad.pedido WHERE id_pedido = v_id_pedido;
-	
+
 	IF v_situacao_pedido = 'ENCERRADO' THEN
 		RAISE EXCEPTION 'Não é possível cancelar um pedido encerrado. Realize o estorno desse pedido.';
 	ELSIF v_situacao_pedido = 'CANCELADO' THEN
@@ -451,14 +451,14 @@ BEGIN
 		UPDATE soad.pedido
 		SET situacao='CANCELADO'
 		WHERE pedido.id_pedido = v_id_pedido;
-		
+
 		RAISE NOTICE 'Pedido % cancelado', v_id_pedido;
-		
+
 	ELSE
 		RAISE EXCEPTION 'Situação do pedido não identificada, não é possível cancelar.';
 	END IF;
 EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Não foi possível cancelar o pedido. % %', SQLERRM, SQLSTATE; 
+	RAISE EXCEPTION 'Não foi possível cancelar o pedido. % %', SQLERRM, SQLSTATE;
 
 END;
 $$;
@@ -488,7 +488,7 @@ DECLARE
 	v_metodo		text 	:= p_json_params::json->'metodo';
 	v_json_params	json	:= p_json_params::json->'params';
 	v_json 			json	:= p_json_params;
-	
+
 	v_id_requisicao integer	:= NULL;
 	v_params_temp	text	:= NULL;
 	v_params		text	:= NULL;
@@ -496,9 +496,9 @@ DECLARE
 	v_mensagem 		text;
 
 BEGIN
-	
+
 	-- TODO: Permitir que receba vários métodos em um mesmo json
-	
+
 	-- REGISTRA REQUISICAO
 	BEGIN
 		v_metodo := 'soad.' || trim('"' FROM v_metodo::text);
@@ -506,7 +506,7 @@ BEGIN
 			INSERT INTO soad.requisicao (metodo, params_json)
 			VALUES (v_metodo, v_json_params)
 			RETURNING id_requisicao
-		) 
+		)
 
 		SELECT id_requisicao INTO v_id_requisicao
 		FROM t_requisicao;
@@ -514,23 +514,23 @@ BEGIN
 	EXCEPTION WHEN OTHERS THEN
 		RAISE EXCEPTION 'Método/Parâmetros não podem ser nulos. % %', SQLERRM, SQLSTATE;
 	END;
-		
+
 	BEGIN
 
-		-- Fazer um for para pegar mais de um método do 
+		-- Fazer um for para pegar mais de um método do
 
-		-- JSON PARSE 
+		-- JSON PARSE
 		BEGIN
 			-- transforma os parametros em uma string
 			v_params := '';
-			FOR v_params_temp IN 
+			FOR v_params_temp IN
 				SELECT concat('p_', key, '=>', E'\'', value, E'\'', ', ')
-				FROM json_each_text(v_json_params) 
+				FROM json_each_text(v_json_params)
 			LOOP
 				v_params := v_params || v_params_temp;
 			END LOOP;
 			v_params := TRIM(trailing ', ' from v_params); -- remove ultima virgula
-		EXCEPTION WHEN OTHERS THEN 
+		EXCEPTION WHEN OTHERS THEN
 			RAISE EXCEPTION 'Erro ao fazer o parse dos parâmetros. % % %', v_json_params, SQLERRM, SQLSTATE;
 		END;
 
@@ -544,13 +544,13 @@ BEGIN
 			END;
 		END;
 
-		-- REGISTRA RETORNO 
-		-- 0 	- falha 
+		-- REGISTRA RETORNO
+		-- 0 	- falha
 		-- 100 	- sucesso
 		UPDATE soad.requisicao
 		SET retorno=v_retorno
 		WHERE id_requisicao = v_id_requisicao;
-		
+
 -- 	EXCEPTION WHEN OTHERS THEN
 -- 		v_retorno := 0;
 -- 		v_mensagem := SQLERRM;
@@ -560,13 +560,13 @@ BEGIN
 -- 		WHERE id_requisicao = v_id_requisicao;
 
 	END;
-	
+
 --COMMIT;
 
 IF v_retorno = '0' THEN
 	-- Montar em json
-	RAISE EXCEPTION 
-		'{"erro": "Não foi possível executar a operacao.","metodo": "%","retorno": "%","parametros": "%","requisicao_id": "%"}' 
+	RAISE EXCEPTION
+		'{"erro": "Não foi possível executar a operacao.","metodo": "%","retorno": "%","parametros": "%","requisicao_id": "%"}'
 		, v_metodo, v_mensagem, v_json_params, v_id_requisicao;
 END IF;
 
@@ -603,11 +603,11 @@ BEGIN
         CALL soad.prc_insert_or_update_unidade_medida('GRAMA', 'g');
 		CALL soad.prc_insert_or_update_unidade_medida('LITRO', 'l');
 		CALL soad.prc_insert_or_update_unidade_medida('MILILITRO', 'ml');
-		
+
 	EXCEPTION WHEN OTHERS THEN
 		RAISE NOTICE 'Não foi possível realizar o cadastro das unidades de medida.';
 		RAISE NOTICE '% %', SQLERRM, SQLSTATE;
-		
+
 	END;
 
 	-- Cadastra Modalidades
@@ -615,24 +615,24 @@ BEGIN
 	BEGIN
 		CALL soad.prc_insert_modalidade('Cliente'); -- 1
 		CALL soad.prc_insert_modalidade('Fornecedor'); -- 2
-		
+
 	EXCEPTION WHEN OTHERS THEN
 		RAISE NOTICE 'Não foi possível realizar o cadastro das modalidades.';
 		RAISE NOTICE '% %', SQLERRM, SQLSTATE;
-		
+
 	END;
-	
+
 	-- Cadastra paises
 	RAISE NOTICE 'Cadastrando paises...';
 	BEGIN
 		CALL soad.prc_insert_municipio_estado_pais('', '', '', 'Brasil', 'BR');
-		
+
 	EXCEPTION WHEN OTHERS THEN
 		RAISE NOTICE 'Não foi possível realizar o cadastro dos paises.';
 		RAISE NOTICE '% %', SQLERRM, SQLSTATE;
-		
+
 	END;
-	
+
 	-- Cadastra estados
 	RAISE NOTICE 'Cadastrando estados...';
 	BEGIN
@@ -663,11 +663,11 @@ BEGIN
 		CALL soad.prc_insert_municipio_estado_pais('São Paulo', 'São Paulo', 'SP', 'Brasil', 'BR');
 		CALL soad.prc_insert_municipio_estado_pais('', 'Sergipe', 'SE', 'Brasil', 'BR');
 		CALL soad.prc_insert_municipio_estado_pais('', 'Tocantins', 'TO', 'Brasil', 'BR');
-		
+
 	EXCEPTION WHEN OTHERS THEN
 		RAISE NOTICE 'Não foi possível realizar o cadastro dos estados.';
 		RAISE NOTICE '% %', SQLERRM, SQLSTATE;
-		
+
 	END;
 
 	-- Cadastra municipios
@@ -676,13 +676,13 @@ BEGIN
 		CALL soad.prc_insert_municipio_estado_pais('Ponta Grossa', 'Paraná', 'PR', 'Brasil', 'BR');
 		CALL soad.prc_insert_municipio_estado_pais('Curitiba', 'Paraná', 'PR', 'Brasil', 'BR');
 		CALL soad.prc_insert_municipio_estado_pais('Castro', 'Paraná', 'PR', 'Brasil', 'BR');
-		
+
 	EXCEPTION WHEN OTHERS THEN
 		RAISE NOTICE 'Não foi possível realizar o cadastro das municipios.';
 		RAISE NOTICE '% %', SQLERRM, SQLSTATE;
-		
+
 	END;
-	
+
 	-- Cadastra pessoa
 	RAISE NOTICE 'Cadastrando pessoas...';
 	BEGIN
@@ -690,13 +690,13 @@ BEGIN
 		CALL soad.prc_insert_pessoa('EMPRESA TESTE 1', '', '4232240660', '99998899999999', '', 'EMPRESA TESTE 1');
 		CALL soad.prc_insert_pessoa('Lucas Klüber', 'lucas.kluber@gmail.com', '42999823030', '10841793930', '', '');
 		CALL soad.prc_insert_pessoa('PESSOA TESTE 1', '', '', '00000100000', '', '');
-		
+
 	EXCEPTION WHEN OTHERS THEN
 		RAISE NOTICE 'Não foi possível realizar o cadastro das pessoas.';
 		RAISE NOTICE '% %', SQLERRM, SQLSTATE;
-		
+
 	END;
-	
+
    	-- Vincula as pessoas com as modalidades
 	RAISE NOTICE 'Definindo modalidades das pessoas cadastradas';
 	BEGIN
@@ -717,61 +717,61 @@ BEGIN
 
 		END;
 	END;
-	
+
 	-- Cadastra endereços das pessoas
 	RAISE NOTICE 'Cadastrando endereços...';
 	BEGIN
 		DECLARE
 			v_pessoa_id integer := NULL;
 			v_municipio_id integer := NULL;
-			
+
 		BEGIN
 			SELECT vw_pessoa.id_pessoa INTO v_pessoa_id FROM soad.vw_pessoa
 			WHERE vw_pessoa.documento = '10841793930';
-			
+
 			SELECT vw_municipio.id_municipio INTO v_municipio_id FROM soad.vw_municipio
 			WHERE vw_municipio.municipio = upper('PONTA GROSSA');
-			
+
 			CALL soad.prc_insert_endereco(v_pessoa_id, v_municipio_id, 'Rua Comandante Paulo Pinheiro Schimdt', '354', 'Uvaranas', '84031029', '');
-			
+
 		EXCEPTION WHEN OTHERS THEN
 			RAISE NOTICE 'Não foi possível cadastrar os endereços.';
 			RAISE NOTICE '% %', SQLERRM, SQLSTATE;
-			
+
 		END;
 	END;
-    
+
     RAISE NOTICE 'Cadastrando produtos..';
     BEGIN
         DECLARE
 		    v_unidade_medida_id integer := NULL;
 		    v_insumo_id integer := NULL;
-			
+
 		BEGIN
-            -- Produto  
+            -- Produto
             SELECT unidade_medida.id_unidade_medida INTO v_unidade_medida_id FROM soad.unidade_medida
 			WHERE unidade_medida.abreviacao = 'un';
-			
+
             CALL soad.prc_insert_produto('Produto 1', 'Marca 1', v_unidade_medida_id, 'PRODUTO');
-			
+
             -- Insumo
             SELECT unidade_medida.id_unidade_medida INTO v_unidade_medida_id FROM soad.unidade_medida
 			WHERE unidade_medida.abreviacao = 'ml';
-			
+
             CALL soad.prc_insert_produto('Insumo 3', 'HP', '107', 'INSUMO', CAST(v_unidade_medida_id AS text), '276');
-            
+
 			-- Casco
 			SELECT min(insumo.id_insumo) INTO v_insumo_id FROM soad.insumo;
-			
+
             CALL soad.prc_insert_produto('Casco 1', 'HP', '276', 'CASCO', CAST(v_insumo_id AS text), '20');
-			
+
 		EXCEPTION WHEN OTHERS THEN
 			RAISE NOTICE 'Não foi possível cadastrar os produtos.';
 			RAISE NOTICE '% %', SQLERRM, SQLSTATE;
-			
+
         END;
     END;
-	
+
 END;
 $$;
 
@@ -830,7 +830,7 @@ CREATE PROCEDURE "soad"."prc_encerrar_pedido"("p_id_pedido" integer)
 	v_tipo_pedido text;
 
 BEGIN
-	
+
 	-- verifica se pedido existe
 	IF (SELECT id_pedido FROM soad.pedido WHERE id_pedido = v_id_pedido) IS NULL THEN
 		RAISE EXCEPTION 'Pedido % não encontrado', v_id_pedido;
@@ -840,16 +840,16 @@ BEGIN
 	v_situacao := (SELECT pedido.situacao FROM soad.pedido WHERE id_pedido = v_id_pedido);
 
 	-- tenho quase certeza que esse não é a melhor forma de fazer isso
-	IF v_situacao <> 'CADASTRADO' THEN 
+	IF v_situacao <> 'CADASTRADO' THEN
 		IF v_situacao <> 'ESTORNADO'  THEN
 			RAISE EXCEPTION 'Não é possível encerrar um pedido %. O pedido precisa estar CADASTRADO ou ESTORNADO', v_situacao;
-		END IF;	
+		END IF;
 	END IF;
 
 	-- Muda status
 	UPDATE soad.pedido
 	SET situacao='ENCERRADO'
-	WHERE id_pedido = v_id_pedido; 
+	WHERE id_pedido = v_id_pedido;
 
 	-- Identifica qual o tipo de pedido para tratar
 	SELECT pedido.tipo_pedido INTO v_tipo_pedido
@@ -860,7 +860,7 @@ BEGIN
 		-- cadastrar lote
 		CALL soad.prc_gerar_lote(v_id_pedido);
 	ELSIF v_tipo_pedido = 'VENDA' THEN
-		-- Vincular lotes existentes a um pedido de venda 
+		-- Vincular lotes existentes a um pedido de venda
 		-- Tratar remanufaturas
 		CALL soad.prc_movimentar_lote(v_id_pedido);
 	ELSE
@@ -868,7 +868,7 @@ BEGIN
 	END IF;
 
 	-- todo: Registra Log
-	
+
 END;
 $$;
 
@@ -897,26 +897,26 @@ DECLARE
 	v_tipo_pedido 	text;
 	v_pedido		RECORD;
 	t_item			RECORD;
-	
+
 BEGIN
 	SELECT tipo_pedido, situacao
-	INTO v_pedido 
-	FROM soad.pedido 
+	INTO v_pedido
+	FROM soad.pedido
 	WHERE id_pedido = v_pedido_id;
-	
+
 	-- estornar pedido
 	IF v_pedido.situacao <> 'ENCERRADO' THEN
 		RAISE EXCEPTION 'Não é possível estornar um pedido na situacao %. O pedido deve estar ENCERRADO.', v_pedido.situacao;
 	END IF;
-	
+
 	BEGIN
-		
+
 		-- usar vw_item_lote
 		IF v_pedido.tipo_pedido = 'COMPRA' THEN
 				<<VINCULOS_PEDIDO>>
-				FOR t_item IN 
+				FOR t_item IN
 					-- Localiza os vinculos com pedidos de venda e remanufaturas dos lotes gerados pelo pedido
-					SELECT 
+					SELECT
 						vw_item_lote.id_pedido_saida as pedido_saida_id
 						, vw_item_lote.id_pedido_entrada as pedido_entrada_id
 						, vw_item_lote.id_item_lote as item_lote_id
@@ -926,14 +926,14 @@ BEGIN
 						, vw_item_lote.aberto
 						, vw_item_lote.quantidade_item as quantidade
 					FROM soad.vw_item_lote
-						LEFT JOIN soad.item_lote_remanufatura item_rem 
+						LEFT JOIN soad.item_lote_remanufatura item_rem
 							ON vw_item_lote.id_item_lote = item_rem.fk_item_lote_id
 						WHERE vw_item_lote.id_pedido_entrada = v_pedido_id
 				LOOP
 						-- Tratamento caso não seja possível estornar
 						-- Verifica se não tem venda OU remanufatura_item_lote vinculadas e não está aberto
 						IF t_item.id_item_lote_remanufatura IS NOT NULL THEN
-							RAISE EXCEPTION 
+							RAISE EXCEPTION
 								'O item ID % do lote ID % desse pedido foi utilizado na remanufatura ID %. Não é possível realizar o estorno.'
 								, t_item.item_lote_id, t_item.lote_id, t_item.remanufatura_id;
 						ELSIF t_item.quantidade = 0 THEN
@@ -945,14 +945,14 @@ BEGIN
 								'O item ID % já foi aberto. Não é possível realizar o estorno.'
 								, t_item.item_lote_id;
 						END IF;
-						
+
 				END LOOP VINCULOS_PEDIDO;
-				
+
 				t_item := NULL; -- só por desencargo , reinicia a variável
-				
+
 				-- Se chegar até aqui então irá procurar todos os lotes e item_lotes gerados e excluir
 				BEGIN
-					
+
 					<<REMOVER_LOTES>>
 					FOR t_item IN
 						-- localiza os lotes e itens lote viculados ao pedido
@@ -960,68 +960,68 @@ BEGIN
 						FROM soad.vw_item_lote
 						WHERE id_pedido_entrada = v_pedido_id
 					LOOP
-						
-						DELETE FROM soad.item_lote 
+
+						DELETE FROM soad.item_lote
 						WHERE item_lote.id_item_lote = t_item.id_item_lote;
-						
+
 						RAISE NOTICE 'Removido item_lote ID %.', t_item.id_item_lote;
-					
+
 					END LOOP REMOVER_LOTES;
-					
-					DELETE FROM soad.lote 
+
+					DELETE FROM soad.lote
 					WHERE lote.fk_pedido_id = v_pedido_id;
-					
+
 					RAISE NOTICE 'Lotes vinculados ao pedido removidos.';
-					
+
 					-- Sanity check, verifica se não ficou nenhum lote vinculado ao pedido antes de finalizar.
 					IF (SELECT COUNT(*) FROM soad.lote WHERE lote.fk_pedido_id = v_pedido_id) <> 0 THEN
 						RAISE EXCEPTION 'Não foi possível realizar o estorno do pedido. Lote(s) ainda vinculado(s).';
-					END IF;					
+					END IF;
 
 				END;
-				
-		
+
+
 		ELSIF v_pedido.tipo_pedido = 'VENDA' THEN
-			-- Se tiver remanufatura REALIZADA vinculada, desvincula o pedido da remanufatura, 
+			-- Se tiver remanufatura REALIZADA vinculada, desvincula o pedido da remanufatura,
 			-- Se tiver só cadastrada EXCLUI
 			<<REMANUFATURA>>
-			FOR t_item IN 
+			FOR t_item IN
 				SELECT id_remanufatura, situacao FROM soad.remanufatura
 				WHERE remanufatura.fk_pedido_id = v_pedido_id
-				
+
 			LOOP
 				IF t_item.situacao = 'CADASTRADA' THEN
 					DELETE FROM soad.remanufatura
 					WHERE id_remanufatura = t_item.id_remanufatura;
-					
+
 				ELSIF t_item.situacao = 'REALIZADA' THEN
 					UPDATE soad.remanufatura
 					SET fk_pedido_id = NULL
 						, valor_unitario = 0
 					WHERE id_remanufatura = t_item.id_remanufatura;
-					
-				ELSE 
+
+				ELSE
 					RAISE EXCEPTION 'Remanufatura vinculada SITUACAO: %', t_item.situacao;
-					
+
 				END IF;
 			END LOOP REMANUFATURA;
-			
+
 			t_item := NULL;
-			
+
 			-- localiza os item_lote vinculados ao pedido de venda, desvincula e muda a quantidade para 1
 			-- aberto=false
 			-- quantidade=0
 			-- fk_pedido_origem = v_pedido_id
-			-- 
-			
+			--
+
 			FOR t_item IN
 				SELECT vw_item_lote.id_item_lote
 					, vw_item_lote.id_lote
 					, vw_item_lote.quantidade_item
-					, vw_item_lote.aberto 
+					, vw_item_lote.aberto
 				FROM soad.vw_item_lote
 				WHERE vw_item_lote.id_pedido_saida = v_pedido_id
-				
+
 			LOOP
 				-- validacoes
 				IF t_item.aberto THEN
@@ -1029,7 +1029,7 @@ BEGIN
 				ELSIF t_item.quantidade_item <> 0 THEN
 					RAISE EXCEPTION 'O item do lote vínculado a venda não está vazio. Não foi possível estornar o pedido.';
 				END IF;
-				
+
 				-- desfaz vinculos com pedido
 				UPDATE soad.item_lote
 				SET fk_item_pedido_saida_id = NULL
@@ -1037,36 +1037,36 @@ BEGIN
 					, motivo_retirada = NULL
 					, quantidade_item = 1
 				WHERE id_item_lote = t_item.id_item_lote;
-				
+
 				-- Muda lote para vazio=false
 				BEGIN
 					CALL soad.prc_esvazia_lote(t_item.id_lote);
 				END;
-				
+
 			END LOOP;
-			
+
 		ELSE
 			RAISE EXCEPTION 'Esse tipo de pedido não pode ser estornado.';
 		END IF;
 	END;
-	
-	BEGIN 
-			
+
+	BEGIN
+
 		-- Muda status para 'ESTORNADO'
 		UPDATE soad.pedido
 		SET situacao='ESTORNADO'
 			, observacao = observacao || '\nPedido estornado'
 		WHERE id_pedido = v_pedido_id;
-			
+
 		RAISE NOTICE 'Pedido estornado com sucesso.';
-			
+
 	END;
-	
+
 	-- todo: Registra log
 
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
-	
+
 END;
 $$;
 
@@ -1092,13 +1092,13 @@ CREATE PROCEDURE "soad"."prc_esvazia_lote"("p_lote_id" integer)
     AS $$DECLARE
 	v_lote_id integer = p_lote_id;
 	v_quantidade real;
-	
+
 BEGIN
-	
+
 	IF (SELECT COUNT(*) FROM soad.item_lote) = 0 THEN
 		RAISE EXCEPTION 'Lote % não encontrado', v_lote_id;
 	END IF;
-	
+
 	SELECT SUM(quantidade_item) INTO v_quantidade
 	FROM soad.item_lote
 	WHERE item_lote.fk_lote_id = v_lote_id;
@@ -1138,17 +1138,17 @@ CREATE PROCEDURE "soad"."prc_esvaziar_item_lote"("p_item_lote_id" integer)
     AS $$DECLARE
 	v_item_lote_id integer := p_item_lote_id;
 	v_item_lote RECORD;
-	
+
 BEGIN
 
-	SELECT aberto, quantidade_item INTO v_item_lote 
+	SELECT aberto, quantidade_item INTO v_item_lote
 	FROM soad.item_lote
 	WHERE id_item_lote = v_item_lote_id;
 
 	IF v_item_lote.quantidade_item = 0 THEN
 		RAISE EXCEPTION 'Esse item já está vazio.';
 	END IF;
-	
+
 	IF v_item_lote.aberto = False THEN
 		RAISE EXCEPTION 'Não é possível esvaziar um item fechado.';
 	END IF;
@@ -1194,38 +1194,38 @@ BEGIN
 	IF (SELECT pedido.situacao FROM soad.pedido WHERE id_pedido = v_id_pedido) <> 'ENCERRADO' THEN
 		RAISE EXCEPTION 'O pedido precisa estar encerrado para gerar um lote.';
 	END IF;
-		
+
 	BEGIN
-		
+
 		-- Identifica qual o tipo de pedido para tratar
-		SELECT pedido.tipo_pedido INTO v_tipo_pedido 
+		SELECT pedido.tipo_pedido INTO v_tipo_pedido
 		FROM soad.pedido WHERE id_pedido = v_id_pedido;
-		
+
 		-- registrar um novo lote
 		IF v_tipo_pedido = 'COMPRA' THEN
-			
+
 			<<LOTE>>
-			FOR v_item IN 
-				SELECT 
+			FOR v_item IN
+				SELECT
 					id_item_pedido
 					, fk_mercadoria_id
 					, quantidade
 					, fk_unidade_medida_id
-					, valor_unitario 
+					, valor_unitario
 				FROM soad.item_pedido
 				WHERE item_pedido.fk_pedido_id = v_id_pedido
 			LOOP
 				--RAISE EXCEPTION '%', v_item;
-			
+
 				WITH t_lote as (
-					INSERT INTO soad.lote 
+					INSERT INTO soad.lote
 						(fk_mercadoria_id, fk_pedido_id, fk_unidade_medida_id, valor_unitario)
-					VALUES 
+					VALUES
 						(v_item.fk_mercadoria_id, v_id_pedido, v_item.fk_unidade_medida_id, v_item.valor_unitario)
 					RETURNING id_lote
-					
+
 				) SELECT id_lote INTO v_id_lote FROM t_lote;
-				
+
 				-- Caso aconteça de ser inserido um item com valor 'quebrado' vai ficar toda a quanitdade em um item_lote
 				-- Ideal seria permitir que o usuário configurasse como seria feita a divisão dos item_lotes
 				IF CEILING(v_item.quantidade) <> v_item.quantidade THEN -- Verifica se o valor é decimal
@@ -1233,27 +1233,27 @@ BEGIN
 				ELSE
 					v_quantidade := v_item.quantidade;
 				END IF;
-				
+
 				<<ITEM_LOTE>>
 				FOR n in 1..v_quantidade LOOP
-					INSERT INTO soad.item_lote 
+					INSERT INTO soad.item_lote
 						(fk_lote_id, fk_item_pedido_entrada_id, quantidade_item)
-					VALUES 
+					VALUES
 -- 					    se gerar um item_lote a quantidade total da mercadoria fica nele
 -- 					    se gerar mais de um item_lote cada um terá a quantidade 1
 						(v_id_lote, v_item.id_item_pedido, v_item.quantidade/v_quantidade);
-						
+
 					RAISE NOTICE '[Lote ID %] Cadastrado item_lote % do item_pedido (ID %)', v_id_lote, n, v_item.id_item_pedido;
-					
+
 					END LOOP ITEM_LOTE;
-				
+
 			END LOOP LOTE;
 
-		ELSE 
+		ELSE
 			RAISE EXCEPTION 'Esse tipo de pedido não gera lote';
 		END IF;
 	END;
-	
+
 END;
 $$;
 
@@ -1287,8 +1287,8 @@ BEGIN
 	IF v_quantidade <= 0 THEN
 		RAISE EXCEPTION 'Quantidade não pode ser 0';
 	END IF;
-	
-	FOR i IN 1..v_quantidade 
+
+	FOR i IN 1..v_quantidade
 	LOOP
 		-- cadastra remanufatura
 		BEGIN
@@ -1296,17 +1296,17 @@ BEGIN
 				INSERT INTO soad.remanufatura (fk_casco_id, fk_insumo_id, situacao)
 				VALUES (v_casco_id, v_insumo_id, 'CADASTRADA')
 				RETURNING id_remanufatura
-			) 
-			SELECT id_remanufatura 
+			)
+			SELECT id_remanufatura
 			INTO v_remanufatura_id
 			FROM t_remanufatura;
 		END;
-		
+
 		-- Movimenta o estoque para essa remanufatura
 		BEGIN
 			CALL soad.prc_realizar_remanufatura(v_remanufatura_id);
 		END;
-		
+
 	END LOOP;
 
 EXCEPTION WHEN OTHERS THEN
@@ -1373,15 +1373,15 @@ DECLARE
 	v_unidade_medida_id integer 		:= p_unidade_medida_id;
 	v_tipo text 						:= upper(p_tipo);
 	v_permite_venda boolean				:= p_permite_venda;
-	
+
 	-- casco
 	v_casco_insumo_id integer			:= NULL;
 	v_casco_quantidade_insumo real		:= NULL;
-	
+
 	-- insumo
 	v_insumo_quantidade_embalagem real	:= NULL;
 	v_insumo_unidade_medida_id integer	:= NULL;
-	
+
 BEGIN
 
 	IF v_permite_venda IS NULL THEN
@@ -1390,23 +1390,23 @@ BEGIN
 		ELSIF v_tipo 'INSUMO' 		THEN v_permite_venda := False;
 		END IF;
 	END IF;
-		
+
 	-- Inserir produto/mercadoria
 	IF v_tipo = 'MERCADORIA' THEN
 		INSERT INTO soad.mercadoria (descricao, marca, fk_unidade_medida_id, permite_venda)
 		VALUES (v_descricao, v_marca, v_unidade_medida_id, v_permite_venda);
-		
+
 	RETURN;
-	
+
 	-- Inserir insumo
 	ELSIF v_tipo = 'INSUMO' THEN
-    
-        IF args[3] IS null THEN 
-			args[3] = '0'; 
+
+        IF args[3] IS null THEN
+			args[3] = '0';
 		END IF;
-        
-		IF 
-			args[1] IS NOT null 
+
+		IF
+			args[1] IS NOT null
 			AND args[2] IS NOT null
 		THEN
 			v_insumo_quantidade_embalagem	:= args[1];
@@ -1414,7 +1414,7 @@ BEGIN
 		ELSE
 			RAISE EXCEPTION 'Parametros não podem ser nulos % %', args[1], args[2];
 		END IF;
-			
+
 		WITH t_mercadoria AS (
 			INSERT INTO soad.mercadoria (descricao, marca, fk_unidade_medida_id, permite_venda)
 			VALUES (v_descricao, v_marca, v_unidade_medida_id, v_permite_venda)
@@ -1422,13 +1422,13 @@ BEGIN
 		) INSERT INTO soad.insumo (fk_mercadoria_id, quantidade_embalagem, fk_unidade_medida_id)
 			SELECT id_mercadoria, v_insumo_quantidade_embalagem, v_insumo_unidade_medida_id
 			FROM t_mercadoria;
-			
+
 	RETURN;
-	
+
 	-- Inserir casco
 	ELSIF v_tipo = 'CASCO' THEN
-		IF 
-			args[1] IS NOT null 
+		IF
+			args[1] IS NOT null
 			AND args[2] IS NOT null
 		THEN
 			v_casco_insumo_id			:= args[1];
@@ -1436,7 +1436,7 @@ BEGIN
 		ELSE
 			RAISE EXCEPTION 'Parametros não podem ser nulos % %', args[1], args[2];
 		END IF;
-	
+
 		WITH t_mercadoria AS (
 			INSERT INTO soad.mercadoria (descricao, marca, fk_unidade_medida_id, permite_venda)
 			VALUES (v_descricao, v_marca, v_unidade_medida_id, v_permite_venda)
@@ -1444,13 +1444,13 @@ BEGIN
 		) INSERT INTO soad.casco (fk_mercadoria_id, fk_insumo_id, quantidade_insumo)
 			SELECT id_mercadoria, v_casco_insumo_id, v_casco_quantidade_insumo
 			FROM t_mercadoria;
-			
+
 	RETURN;
-	
+
 	ELSE
-	
+
 		RAISE EXCEPTION 'Tipo de mercadoria inválida: %', v_tipo;
-	
+
 	END IF;
 
 	-- Não deveria chegar nesse raise
@@ -1483,7 +1483,7 @@ CREATE PROCEDURE "soad"."prc_insert_modalidade"("p_modalidade" "text")
     LANGUAGE "plpgsql"
     AS $$DECLARE
 	v_modalidade text := upper(p_modalidade);
-	
+
 BEGIN
 	INSERT INTO soad.modalidade (descricao)
 	VALUES (v_modalidade);
@@ -1523,15 +1523,15 @@ CREATE PROCEDURE "soad"."prc_insert_municipio_estado_pais"("p_municipio_nome" "t
 
 BEGIN
 	------ É possível inserir apenas o estado ou apenas o pais caso municipio ou municipio e estado estejam em branco -------
-	
+
 	-- Insere apenas pais OU atualiza o pais
 	IF v_municipio_nome = '' AND v_estado_nome = '' AND v_pais_nome <> '' THEN
-	
+
 		INSERT INTO soad.pais (nome, sigla)
-		VALUES (v_pais_nome, v_pais_sigla); 
-		
+		VALUES (v_pais_nome, v_pais_sigla);
+
 	RETURN;
-	
+
 	-- Insere apenas estado
 	ELSIF v_municipio_nome = '' AND v_estado_nome <> '' AND v_pais_nome <> '' THEN
 
@@ -1539,16 +1539,16 @@ BEGIN
 
 		INSERT INTO soad.estado (fk_pais_id, nome, sigla)
 		VALUES (v_aux, v_estado_nome, v_estado_sigla);
-		
+
 	RETURN;
-	
+
 	END IF;
 
-   -- Precisa dessa separacao por que se não tiver inserido o registro pai ainda 
+   -- Precisa dessa separacao por que se não tiver inserido o registro pai ainda
    -- o postgres nao acha a chave primaria pra colocar como estrangeira no filho
-   
+
    -------- A partir daqui tenta inserir novo pais, novo estado e nova municipio ---------
-	
+
 	-- valida parametros
 	IF v_pais_nome = '' OR v_pais_sigla = '' THEN
 		RAISE EXCEPTION 'É preciso informar um país.';
@@ -1557,7 +1557,7 @@ BEGIN
 	ELSIF v_municipio_nome = '' THEN
 		RAISE EXCEPTION 'É preciso informar uma municipio';
 	END IF;
-	
+
 	-- Insere municipio, estado e pais
 	IF (SELECT count(*) FROM soad.pais WHERE pais.sigla = v_pais_sigla) = 0 THEN
 
@@ -1574,14 +1574,14 @@ BEGIN
 		INSERT INTO soad.municipio (fk_estado_id, nome, cod_ibge)
 		SELECT id_estado, v_municipio_nome, v_cod_ibge
 		FROM t_estado;
-	
+
 	RETURN;
-		
+
 	-- Insere novo estado e novo municipio
 	ELSIF (SELECT count(*) FROM soad.estado WHERE estado.sigla = v_estado_sigla) = 0 THEN
-		
+
 		SELECT id_pais into v_aux FROM soad.pais WHERE pais.sigla = v_pais_sigla;
-	
+
 		WITH t_estado AS (
 		  INSERT INTO soad.estado (fk_pais_id, nome, sigla)
 		  VALUES (v_aux, v_estado_nome, v_estado_sigla)
@@ -1590,29 +1590,29 @@ BEGIN
 		INSERT INTO soad.municipio (fk_estado_id, nome, cod_ibge)
 		SELECT id_estado, v_municipio_nome, v_cod_ibge
 		FROM t_estado;
-	
+
 	RETURN;
-		
+
 	-- Insere apenas nova municipio
 	ELSIF (SELECT count(*) FROM soad.municipio WHERE municipio.nome = v_municipio_nome) = 0 THEN
-		
-		SELECT estado.id_estado into v_aux 
-		FROM soad.estado 
+
+		SELECT estado.id_estado into v_aux
+		FROM soad.estado
 		INNER JOIN soad.pais ON estado.fk_pais_id = pais.id_pais
 		WHERE estado.sigla = v_estado_sigla;
 
 		INSERT INTO soad.municipio (fk_estado_id, nome, cod_ibge)
 		VALUES (v_aux, v_municipio_nome, v_cod_ibge);
-		
+
 	RETURN;
-	
+
 	END IF;
-	
+
 	RAISE NOTICE 'ERRO: Nenhuma informação foi registrada';
 
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
-	
+
 END;
 $$;
 
@@ -1638,7 +1638,7 @@ CREATE PROCEDURE "soad"."prc_insert_or_update_unidade_medida"("p_descricao" "tex
     AS $$DECLARE
 	v_abreviacao text := lower(p_abreviacao);
 	v_descricao text := upper(p_descricao);
-	
+
 BEGIN
 	-- Insere ou atualiza unidade de medida
 	-- Não pode atualizar a abreviacao
@@ -1678,13 +1678,13 @@ DECLARE
 	v_inscricao_estadual 	text 	:= p_inscricao_estadual;
 	v_fantasia 				text 	:= p_fantasia;
 	v_id_pessoa 			integer := NULL;
-	
+
 BEGIN
 
 	IF v_inscricao_estadual = '' THEN
 		v_inscricao_estadual = 'ISENTO';
 	END IF;
-	
+
 	BEGIN
 
 		WITH t_pessoa AS (
@@ -1694,13 +1694,13 @@ BEGIN
 				, telefone
 				, inscricao_estadual
 			)
-				VALUES (v_nome, v_email, v_telefone, v_inscricao_estadual)	
+				VALUES (v_nome, v_email, v_telefone, v_inscricao_estadual)
 				RETURNING id_pessoa
 		)
-		
+
 		SELECT id_pessoa INTO v_id_pessoa
 		FROM t_pessoa;
-		
+
 		IF length(v_documento) = 14 THEN -- insere pessoa e pessoa juridica
 
 			INSERT INTO soad.pessoa_juridica (fk_pessoa_id, cnpj, fantasia)
@@ -1708,21 +1708,21 @@ BEGIN
 
 		ELSIF length(v_documento) = 11 THEN 	-- insere pessoa e pessoa fisica
 
-			INSERT INTO soad.pessoa_fisica (fk_pessoa_id, cpf) 
+			INSERT INTO soad.pessoa_fisica (fk_pessoa_id, cpf)
 			VALUES(v_id_pessoa, v_documento);
-		
+
 		ELSE
 			RAISE EXCEPTION 'Documento % inválido.', v_documento;
 
 		END IF;
-		
+
 		RETURN;
-	
+
 	EXCEPTION WHEN OTHERS THEN
-		RAISE EXCEPTION 'Não foi possível cadastrar a pessoa. % %', SQLERRM, SQLSTATE;		
-	
+		RAISE EXCEPTION 'Não foi possível cadastrar a pessoa. % %', SQLERRM, SQLSTATE;
+
 	END;
-	
+
 
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
@@ -1738,7 +1738,7 @@ ALTER PROCEDURE "soad"."prc_insert_pessoa"("p_nome" "text", "p_email" "text", "p
 -- Name: PROCEDURE "prc_insert_pessoa"("p_nome" "text", "p_email" "text", "p_telefone" "text", "p_documento" "text", "p_inscricao_estadual" "text", "p_fantasia" "text"); Type: COMMENT; Schema: soad; Owner: postgres
 --
 
-COMMENT ON PROCEDURE "soad"."prc_insert_pessoa"("p_nome" "text", "p_email" "text", "p_telefone" "text", "p_documento" "text", "p_inscricao_estadual" "text", "p_fantasia" "text") IS 'Insere pessoa no banco, não deve ser chamado diretamente, utilizar o 
+COMMENT ON PROCEDURE "soad"."prc_insert_pessoa"("p_nome" "text", "p_email" "text", "p_telefone" "text", "p_documento" "text", "p_inscricao_estadual" "text", "p_fantasia" "text") IS 'Insere pessoa no banco, não deve ser chamado diretamente, utilizar o
 prc_cadastro_pessoa';
 
 
@@ -1767,51 +1767,51 @@ BEGIN
 	SELECT id_pedido, fk_pessoa_id, tipo_pedido INTO v_pedido FROM soad.pedido
 	WHERE pedido.id_pedido = v_id_pedido
 	AND pedido.situacao = 'ENCERRADO';
-	
+
 	IF v_pedido IS NULL THEN
 		RAISE EXCEPTION 'Pedido (ID %) não encontrado.', v_id_pedido;
 	END IF;
-	
+
 	BEGIN
 		<<ITEM_PEDIDO>>
-		FOR v_item_pedido IN 
+		FOR v_item_pedido IN
 			-- pega todos os item_pedido do pedido v_id_pedido
 			SELECT id_item_pedido, fk_mercadoria_id, quantidade FROM soad.item_pedido
 			WHERE item_pedido.fk_pedido_id = v_id_pedido
-		LOOP	
-		
+		LOOP
+
 -- 				-- valida se permite venda da mercadoria
 -- 				v_mercadoria := (SELECT id_mercadoria, permite_venda, descricao FROM soad.mercadoria WHERE id_mercadoria = v_item_pedido.fk_mercadoria_id);
-				
+
 -- 				IF v_mercadoria.permite_venda  = FALSE THEN
 -- 					RAISE EXCEPTION 'A mercadoria % - % não permite venda.', v_mercadoria.id_mercadoria, v_mercadoria.descricao;
 -- 				END IF;
-				
+
 				-- todo: permitir que o usuário informe qual o lote a ser utilizado
-				
+
 				-- pega lote mais antigo que tem a mercadoria do item_pedido
 				-- Para que isso não cause erro na movimentação foi criado a trg_pedido_mercadoria_unica
 				-- Idealmente deveria permitir que informe mais de uma vez o mesmo item no pedido
-				SELECT lote.id_lote INTO v_lote_id 
+				SELECT lote.id_lote INTO v_lote_id
 				FROM soad.lote
-				INNER JOIN soad.item_pedido 
+				INNER JOIN soad.item_pedido
 					ON lote.fk_mercadoria_id = v_item_pedido.fk_mercadoria_id
 				WHERE item_pedido.id_item_pedido = v_item_pedido.id_item_pedido
 					AND lote.vazio = false
 				ORDER BY lote.data_cadastro ASC LIMIT 1; -- pega só uma linha
-				
+
 				IF v_lote_id IS NULL THEN
-					
+
 					SELECT id_mercadoria, descricao INTO v_mercadoria
 					FROM soad.mercadoria
 					WHERE id_mercadoria = v_item_pedido.fk_mercadoria_id;
-					
-					RAISE EXCEPTION 
+
+					RAISE EXCEPTION
 						'Não há estoque disponível da mercadoria % - %. Por favor edite ou cadastre um novo pedido.'
 						, v_mercadoria.id_mercadoria, v_mercadoria.descricao;
-					
+
 				END IF;
-				
+
 				--RAISE NOTICE 'Item pedido: (%) Lote: (%)', v_item_pedido.id_item_pedido, v_lote_id;
 
 				IF CEILING(v_item_pedido.quantidade) <> v_item_pedido.quantidade THEN -- Verifica se o valor é decimal
@@ -1832,25 +1832,25 @@ BEGIN
 					AND item_lote.quantidade_item > 0
 				LOOP
 					BEGIN
-						
+
 						IF v_item_lote IS NULL THEN
-							
-							RAISE EXCEPTION 
+
+							RAISE EXCEPTION
 								'Não há estoque disponível da mercadoria % - %. Por favor edite ou cadastre um novo pedido. (Lote ID: %)'
 								, v_mercadoria.id_mercadoria, v_mercadoria.descricao, v_lote_id;
-								
+
 						END IF;
 						-- todo: permitir que o usuário informe qual o item_lote a ser utilizado
 						v_item_lote_id := v_item_lote.id_item_lote;
-						
+
 						--RAISE NOTICE 'Lote/Item lote: (%/%)', v_item_lote.fk_lote_id, v_item_lote.id_item_lote;
-						
+
 						IF v_item_lote.quantidade_item = 0 THEN
 							RAISE NOTICE 'Item_lote % vazio.', v_item_lote.id_item_lote;
 							EXIT;
 						END IF;
-						
-						BEGIN	
+
+						BEGIN
 							RAISE NOTICE 'Atualizando Item lote (ID %) (Mercadoria)', v_item_lote_id;
 							UPDATE soad.item_lote
 							SET fk_item_pedido_saida_id=v_item_pedido.id_item_pedido
@@ -1858,53 +1858,53 @@ BEGIN
 								, motivo_retirada=CONCAT('Pedido ', v_id_pedido, ' Tipo: ', v_pedido.tipo_pedido)
 								, quantidade_item=0
 							WHERE item_lote.id_item_lote = v_item_lote_id;
-							
+
 							v_quantidade_movimentada := v_quantidade_movimentada + 1;
 
 						EXCEPTION WHEN OTHERS THEN
 							RAISE EXCEPTION 'Não foi possível movimentar o item (ID %) do lote (ID %).', v_item_lote_id, v_item_lote.fk_lote_id;
 						END;
-						
+
 						RAISE NOTICE 'Quantidade: %', v_quantidade;
-						
+
 						v_quantidade = v_quantidade - 1;
-						
+
 						RAISE NOTICE 'v_quantidade=% e v_quantidade_movimentada=%', v_quantidade, v_quantidade_movimentada;
-						
+
 						IF v_quantidade = 0 THEN
 							EXIT;
 						END IF;
-						
+
 					END;
 				END LOOP ITEM_LOTE;
-				
-				
+
+
 				BEGIN
 					CALL soad.prc_esvazia_lote(v_lote_id);
 				END;
 
 		END LOOP ITEM_PEDIDO;
 	END;
-	
+
 	-- movimenta lote das remanufaturas a serem feitas
 	BEGIN
 		<<REMANUFATURA>>
-		FOR v_remanufatura IN 
+		FOR v_remanufatura IN
 			-- pega todas as remanufaturas do pedido v_id_pedido
 			SELECT id_remanufatura FROM soad.remanufatura
 			WHERE remanufatura.fk_pedido_id = v_id_pedido
 			AND remanufatura.situacao = 'CADASTRADA'
 		LOOP
 			RAISE NOTICE 'Remanufatura: (ID %)', v_remanufatura.id_remanufatura;
-			BEGIN	
+			BEGIN
 				CALL soad.prc_realizar_remanufatura(v_remanufatura.id_remanufatura);
 			END;
-			
+
 		END LOOP REMANUFATURA;
 	END;
 
 EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;	
+	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
 
 END;
 $$;
@@ -1937,48 +1937,48 @@ BEGIN
 	SELECT id_pedido, fk_pessoa_id, tipo_pedido INTO v_pedido FROM soad.pedido
 	WHERE pedido.id_pedido = v_pedido_id
 	AND pedido.situacao = 'ENCERRADO';
-	
+
 	IF v_pedido IS NULL THEN
 		RAISE EXCEPTION 'Pedido (ID %) não encontrado.', v_pedido_id;
 	END IF;
-	
+
 	BEGIN
 		<<ITEM_PEDIDO>>
-		FOR v_item_pedido IN 
+		FOR v_item_pedido IN
 			-- pega todos os item_pedido do pedido v_pedido_id
 			-- vicular item_pedido > lote
-			SELECT 
+			SELECT
 				  ip.id_pedido
 				, ip.id_mercadoria
 				, ip.id_item_pedido
 				, il.id_item_lote
 				, ip.descricao
-				, ip.quantidade 
+				, ip.quantidade
 				, il.id_lote
 				, il.id_pedido_entrada
 				, il.quantidade_item
 			FROM soad.vw_item_pedido ip
-			JOIN soad.vw_item_lote il 
-				ON ip.id_mercadoria = il.id_mercadoria 
+			JOIN soad.vw_item_lote il
+				ON ip.id_mercadoria = il.id_mercadoria
 			WHERE ip.id_pedido = 266
 				AND il.aberto = False
 				AND il.vazio = False
 				AND il.quantidade_item > 0
-			
-		LOOP	
-		
+
+		LOOP
+
 				IF v_item_pedido IS NULL THEN
-					
+
 					SELECT id_mercadoria, descricao INTO v_mercadoria
 					FROM soad.mercadoria
 					WHERE id_mercadoria = v_item_pedido.fk_mercadoria_id;
-					
-					RAISE EXCEPTION 
+
+					RAISE EXCEPTION
 						'Não há estoque disponível da mercadoria % - %. Por favor edite ou cadastre um novo pedido.'
 						, v_mercadoria.id_mercadoria, v_mercadoria.descricao;
-					
+
 				END IF;
-				
+
 				RAISE NOTICE 'Item pedido: (%) Lote: (%)', v_item_pedido.id_item_pedido, v_lote_id;
 
 				IF CEILING(v_item_pedido.quantidade) <> v_item_pedido.quantidade THEN -- Verifica se o valor é decimal
@@ -1999,25 +1999,25 @@ BEGIN
 					AND item_lote.quantidade_item > 0
 				LOOP
 					BEGIN
-						
+
 						IF v_item_lote IS NULL THEN
-							
-							RAISE EXCEPTION 
+
+							RAISE EXCEPTION
 								'Não há estoque disponível da mercadoria % - %. Por favor edite ou cadastre um novo pedido. (Lote ID: %)'
 								, v_mercadoria.id_mercadoria, v_mercadoria.descricao, v_lote_id;
-								
+
 						END IF;
 						-- todo: permitir que o usuário informe qual o item_lote a ser utilizado
 						v_item_lote_id := v_item_lote.id_item_lote;
-						
+
 						--RAISE NOTICE 'Lote/Item lote: (%/%)', v_item_lote.fk_lote_id, v_item_lote.id_item_lote;
-						
+
 						IF v_item_lote.quantidade_item = 0 THEN
 							RAISE NOTICE 'Item_lote % vazio.', v_item_lote.id_item_lote;
 							EXIT;
 						END IF;
-						
-						BEGIN	
+
+						BEGIN
 							RAISE NOTICE 'Atualizando Item lote (ID %) (Mercadoria)', v_item_lote_id;
 							UPDATE soad.item_lote
 							SET fk_item_pedido_saida_id=v_item_pedido.id_item_pedido
@@ -2025,53 +2025,53 @@ BEGIN
 								, motivo_retirada=CONCAT('Pedido ', v_pedido_id, ' Tipo: ', v_pedido.tipo_pedido)
 								, quantidade_item=0
 							WHERE item_lote.id_item_lote = v_item_lote_id;
-							
+
 							v_quantidade_movimentada := v_quantidade_movimentada + 1;
 
 						EXCEPTION WHEN OTHERS THEN
 							RAISE EXCEPTION 'Não foi possível movimentar o item (ID %) do lote (ID %).', v_item_lote_id, v_item_lote.fk_lote_id;
 						END;
-						
+
 						RAISE NOTICE 'Quantidade: %', v_quantidade;
-						
+
 						v_quantidade = v_quantidade - 1;
-						
+
 						RAISE NOTICE 'v_quantidade=% e v_quantidade_movimentada=%', v_quantidade, v_quantidade_movimentada;
-						
+
 						IF v_quantidade = 0 THEN
 							EXIT;
 						END IF;
-						
+
 					END;
 				END LOOP ITEM_LOTE;
-				
-				
+
+
 				BEGIN
 					CALL soad.prc_esvazia_lote(v_lote_id);
 				END;
 
 		END LOOP ITEM_PEDIDO;
 	END;
-	
+
 	-- movimenta lote das remanufaturas a serem feitas
 	BEGIN
 		<<REMANUFATURA>>
-		FOR v_remanufatura IN 
+		FOR v_remanufatura IN
 			-- pega todas as remanufaturas do pedido v_pedido_id
 			SELECT id_remanufatura FROM soad.remanufatura
 			WHERE remanufatura.fk_pedido_id = v_pedido_id
 			AND remanufatura.situacao = 'CADASTRADA'
 		LOOP
 			RAISE NOTICE 'Remanufatura: (ID %)', v_remanufatura.id_remanufatura;
-			BEGIN	
+			BEGIN
 				CALL soad.prc_realizar_remanufatura(v_remanufatura.id_remanufatura);
 			END;
-			
+
 		END LOOP REMANUFATURA;
 	END;
 
 EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;	
+	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
 
 END;
 $$;
@@ -2091,17 +2091,17 @@ CREATE PROCEDURE "soad"."prc_realizar_remanufatura"("p_id_remanufatura" integer)
 	v_id_insumo			integer;
 	v_insumo			RECORD;
 	v_item_lote			RECORD;
-	
+
 BEGIN
-	
+
 	IF (SELECT situacao FROM soad.remanufatura WHERE remanufatura.id_remanufatura = v_id_remanufatura) = 'REALIZADA' THEN
 		RAISE EXCEPTION 'A remanufatura (%) já foi realizada.', v_id_remanufatura;
 	END IF;
-	
-	SELECT fk_insumo_id INTO v_id_insumo 
+
+	SELECT fk_insumo_id INTO v_id_insumo
 	FROM soad.remanufatura
 	WHERE remanufatura.id_remanufatura = v_id_remanufatura;
-	
+
 	-- localiza lotes que podem ser utilizados
 	WITH t_item_lote as (
 		SELECT item_lote.id_item_lote, item_lote.aberto, item_lote.fk_lote_id as id_lote
@@ -2116,22 +2116,22 @@ BEGIN
 	-- localiza primeiro item_lote que pode ser utilizado
 	SELECT id_item_lote, id_lote INTO v_item_lote
 	  FROM t_item_lote
-	  ORDER BY t_item_lote.aberto DESC 
+	  ORDER BY t_item_lote.aberto DESC
 	LIMIT 1;
-	
+
 	IF v_item_lote.id_item_lote IS NULL THEN
 		SELECT id_insumo, descricao INTO v_insumo FROM soad.vw_insumo
 		WHERE id_insumo = v_id_insumo;
 		RAISE EXCEPTION 'Não há estoque do insumo % - % disponível para remanufatura.', v_id_insumo, v_insumo.descricao;
 	END IF;
-	
+
 	RAISE NOTICE 'Item lote a ser movimentado para remanufatura: (%)', v_item_lote.id_item_lote;
-	
+
 	-- movimenta lote
 	BEGIN
-	
+
 		RAISE NOTICE 'Atualizando lote (Remanufatura)';
-		
+
 		BEGIN
 			UPDATE soad.item_lote
 			SET aberto=true
@@ -2139,7 +2139,7 @@ BEGIN
 				, data_retirada=NOW()
 			WHERE item_lote.id_item_lote = v_item_lote.id_item_lote;
 		END;
-		
+
 		-- Atualiza lote se está vazio ou não
 		BEGIN
 			CALL soad.prc_esvazia_lote(v_item_lote.id_lote::integer);
@@ -2147,16 +2147,16 @@ BEGIN
 
 		-- Atualiza remanufatura
 		RAISE NOTICE 'Atualizando Remanufatura';
-		
+
 		BEGIN
 			UPDATE soad.remanufatura
 			SET situacao = 'REALIZADA'
 			WHERE remanufatura.id_remanufatura = v_id_remanufatura;
 		END;
-		
+
 		-- Criar relacionamento entre item_lote e remanufatura
 		RAISE NOTICE 'Relacionando remanufatura e item';
-		
+
 		BEGIN
 			INSERT INTO soad.item_lote_remanufatura(fk_remanufatura_id, fk_item_lote_id)
 			VALUES(v_id_remanufatura, v_item_lote.id_item_lote);
@@ -2200,27 +2200,27 @@ BEGIN
 	IF v_modalidade_id is null THEN
 		RAISE EXCEPTION 'Informe uma modalidade';
 	END IF;
-	
+
 	IF v_documento = '' THEN
 		RAISE EXCEPTION 'Informe uma pessoa';
 	END IF;
-	
+
 	-- Valida documento e busca o pessoa.pessoa_id
 	IF length(v_documento) = 11 THEN -- CPF
 		SELECT fk_pessoa_id INTO v_pessoa_id FROM soad.pessoa_fisica WHERE pessoa_fisica.cpf = v_documento;
-		
+
 	ELSIF length(v_documento) = 14 THEN -- CNPJ
 		SELECT fk_pessoa_id INTO v_pessoa_id FROM soad.pessoa_juridica WHERE pessoa_juridica.cnpj = v_documento;
-		
+
 	ELSE -- Tamanho inválido
 		RAISE EXCEPTION 'Documento % é inválido', v_documento;
 	END IF;
-	
+
 	-- Valida se modalidade existe
-	IF (SELECT COUNT(*) FROM soad.modalidade WHERE modalidade.id_modalidade = v_modalidade_id) = 0 THEN 
+	IF (SELECT COUNT(*) FROM soad.modalidade WHERE modalidade.id_modalidade = v_modalidade_id) = 0 THEN
 		RAISE EXCEPTION 'Modalidade ID % não existe', v_modalidade_id;
 	END IF;
-	
+
 	-- Vincula modalidade com pessoa
 	IF v_pessoa_id IS NOT null THEN
 		INSERT INTO soad.modalidade_pessoa (fk_modalidade_id, fk_pessoa_id)
@@ -2259,31 +2259,31 @@ CREATE PROCEDURE "soad"."prc_vincular_pedido_mercadoria"("p_pedido_id" integer, 
 	v_valor_unitario 	real		:= p_valor_unitario;
 	v_unidade_medida_id integer		:= p_unidade_medida_id;
 	v_mercadoria 		RECORD;
-	v_pedido			RECORD;	
-	
-	
+	v_pedido			RECORD;
+
+
 BEGIN
-	
+
 	--valida se permite venda da mercadoria
 	SELECT permite_venda, descricao INTO v_mercadoria
-	FROM soad.mercadoria 
+	FROM soad.mercadoria
 	WHERE id_mercadoria = v_mercadoria_id;
-	
+
 	SELECT id_pedido, tipo_pedido INTO v_pedido
 	FROM soad.pedido
 	WHERE id_pedido = v_pedido_id;
-	
+
 	IF v_mercadoria.permite_venda = FALSE AND v_pedido.tipo_pedido = 'VENDA' THEN
 		RAISE EXCEPTION 'A mercadoria % - % não permite venda.', v_mercadoria_id, v_mercadoria.descricao;
 	END IF;
 
 	INSERT INTO soad.item_pedido (fk_pedido_id, fk_mercadoria_id, fk_unidade_medida_id, quantidade, valor_unitario)
 	VALUES (v_pedido_id, v_mercadoria_id, v_unidade_medida_id, v_quantidade, v_valor_unitario);
-	
+
 	RAISE NOTICE 'Novo Item_pedido cadastrado';
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
-	
+
 END;
 $$;
 
@@ -2320,19 +2320,19 @@ DECLARE
 BEGIN
 
 	SELECT situacao, tipo_pedido INTO v_pedido
-	FROM soad.vw_pedido 
+	FROM soad.vw_pedido
 	WHERE id_pedido = v_pedido_id;
-	
+
 	IF v_pedido.situacao <> 'CADASTRADO' THEN
 		RAISE EXCEPTION 'Para vincular uma remanufatura o pedido precisa estar na situacao CADASTRADO';
 	ELSIF v_pedido.tipo_pedido = 'COMPRA' THEN
 		RAISE EXCEPTION 'Não é possível víncular uma remanufatura a um pedido do tipo COMPRA';
 	END IF;
-	
+
 	--procurar remanufatura existente
 	IF v_nova_remanufatura = false THEN
 		-- procurar remanufatura e vincular com pedido
-		FOR i IN 1..v_quantidade 
+		FOR i IN 1..v_quantidade
 		LOOP
 			SELECT id_remanufatura INTO v_id_remanufatura
 				FROM soad.remanufatura
@@ -2341,20 +2341,20 @@ BEGIN
 					AND remanufatura.fk_insumo_id = v_insumo_id
 					AND remanufatura.situacao = 'REALIZADA'
 				LIMIT 1;
-				
+
 			IF v_id_remanufatura IS NOT null THEN
 					UPDATE soad.remanufatura
 					SET fk_pedido_id=v_pedido_id
 						, valor_unitario=v_valor_unitario
 					WHERE remanufatura.id_remanufatura = v_id_remanufatura;
-					
+
 					RAISE NOTICE 'Pedido vinculado a remanufatura % já existente.', v_id_remanufatura;
-					
-			ELSIF v_id_remanufatura IS NULL AND i <= v_quantidade THEN 
+
+			ELSIF v_id_remanufatura IS NULL AND i <= v_quantidade THEN
 					-- cadastrar nova
 					INSERT INTO soad.remanufatura (fk_pedido_id, fk_casco_id, fk_insumo_id, valor_unitario, situacao)
 					VALUES (v_pedido_id, v_casco_id, v_insumo_id, v_valor_unitario, 'CADASTRADA');
-					
+
 					RAISE NOTICE 'Nova remanufatura cadastrada.';
 			END IF;
 		END LOOP;
@@ -2381,24 +2381,24 @@ DECLARE
 	v_record RECORD;
 	v_new RECORD;
 	v_old RECORD;
-	
+
 
 BEGIN
-		
+
 	IF TG_OP = 'UPDATE' THEN
 	-- Criar forma de peagr apenas o que está diferente
-	
+
 -- 		select * into v_old from OLD.TG_TABLE;
 -- 		select * into v_new from NEW;
-		
-	
+
+
 -- 		v_old = each(hstore(v_old));
 -- 		v_new = each(hstore(v_new));
 
 -- 		SELECT v_new.key, v_new.value INTO v_record FROM v_old
 -- 		INNER JOIN v_new ON v_old.key = v_new.key
 -- 		WHERE v_new.value <> v_old.value;
-		
+
 	END IF;
 
 	INSERT INTO soad.auditoria(
@@ -2419,7 +2419,7 @@ BEGIN
 		, USER
 		, NOW()
 	);
-	
+
 	RETURN NEW;
 END;
 $$;
@@ -2437,10 +2437,10 @@ CREATE FUNCTION "soad"."trg_chamada_metodo"() RETURNS "trigger"
     AS $$
     BEGIN
 
-		IF NEW.mensagem IS NOT NULL OR NEW.retorno = '0' 
+		IF NEW.mensagem IS NOT NULL OR NEW.retorno = '0'
 		THEN
 			BEGIN
-				RAISE EXCEPTION 
+				RAISE EXCEPTION
 					'Não foi possível executar a operacao.\n Método: % \n Retorno: % \n Parametros: % \n Requisicao: ID %'
 					, NEW.metodo, NEW.mensagem, NEW.params_json, NEW.id_requisicao;
 			EXCEPTION WHEN OTHERS THEN
@@ -2465,13 +2465,13 @@ CREATE FUNCTION "soad"."trg_pedido_mercadoria_unica"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     AS $$
     BEGIN
-	
+
 		IF (SELECT COUNT(*) FROM soad.item_pedido
 			WHERE fk_pedido_id = NEW.fk_pedido_id
-		   	AND fk_mercadoria_id = NEW.fk_mercadoria_id) > 0 
+		   	AND fk_mercadoria_id = NEW.fk_mercadoria_id) > 0
 		THEN
 			RAISE EXCEPTION 'A mesma mercadoria não pode constar duas vezes no mesmo pedido.';
-		ELSE 
+		ELSE
 			RETURN NEW;
 		END IF;
 
@@ -2490,7 +2490,7 @@ CREATE FUNCTION "soad"."trg_remover_lote_com_vinculo"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     AS $$
     BEGIN
-		
+
 		IF OLD.fk_item_pedido_saida_id IS NOT NULL THEN
 			RAISE EXCEPTION 'Não é possível remover um item de lote vínculado a um pedido de saída.';
 		ELSIF OLD.aberto = True THEN

@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
-from View.Ui_SairDialog import Ui_SairDialog
+from View.Componentes.Ui_SairDialog import Ui_SairDialog
 
 
 class SairDialog(QDialog, Ui_SairDialog):

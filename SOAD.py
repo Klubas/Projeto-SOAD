@@ -1,10 +1,8 @@
-import logging
-import os
 import sys
+import os
+import logging
 
-from PySide2.QtWidgets import QApplication
 
-from Controller.LoginDialog import LoginDialog
 
 __LOG_LEVEL__ = logging.DEBUG
 __LOG_STREAM__ = sys.stderr
@@ -15,16 +13,28 @@ logging.basicConfig(stream=__LOG_STREAM__, level=__LOG_LEVEL__)
 def update_ui():    # Atualiza os arquivos da pasta View
     from Resources.Scripts.Builder import Builder
 
+    print(os.getcwd())
+
     b = Builder(
         pyuic_path="pyside2-uic",
-        ui_folder=os.path.join(".", "View"),
-        py_folder=os.path.join(".", "Resources", "UI"))
+        py_folder=os.path.join(".", "View"),
+        ui_folder=os.path.join(".", "Resources", "UI"))
     b.build_files_from_folder(os.path.join(".", "Resources", "UI"))
+
+    b = Builder(
+        pyuic_path="pyside2-uic",
+        py_folder=os.path.join(".", "View", "Componentes"),
+        ui_folder=os.path.join(".", "Resources", "UI", "Componentes"))
+    b.build_files_from_folder(os.path.join(".", "Resources", "UI", "Componentes"))
 
 
 def main():
 
-    # update_ui()
+    update_ui()
+    #sys.exit()
+
+    from PySide2.QtWidgets import QApplication
+    from Controller.LoginDialog import LoginDialog
 
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)

@@ -15,10 +15,10 @@ class Builder:
     O caminho da ferramenta pode ser informado no constructor
     """
 
-    def __init__(self, pyuic_path='pyside2-uic', ui_folder="View", py_folder="Resources"):
+    def __init__(self, pyuic_path='pyside2-uic', py_folder="View", ui_folder="Resources"):
         self.py_uic_path = pyuic_path
-        self.view = ui_folder
-        self.resources = py_folder
+        self.view = py_folder
+        self.resources = ui_folder
 
     def build_files(self, file_list):
         for file in file_list:
@@ -29,12 +29,16 @@ class Builder:
             self.build_py_file(file, self.view + os.sep + new_file_name)
 
     def build_files_from_folder(self, folder_path):
+        cmd = 'rm ' + self.view + os.sep + '*.py'
+        print("Removendo aquivos .py")
+        print(cmd)
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         self.build_files(self.get_files_from_folder(folder_path))
 
     def get_files_from_folder(self, folder_path):
         file_list = []        
         # cant have spaces in file name
-        pathlist = Path(folder_path).glob('**' + os.sep + '*.ui')
+        pathlist = Path(folder_path).glob('.' + os.sep + '*.ui')
         for path in pathlist:
             file_list.append(str(path))
         return file_list

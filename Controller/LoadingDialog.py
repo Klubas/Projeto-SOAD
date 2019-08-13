@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QDialog
 
-from View.Ui_LoadingDialog import Ui_LoadingDialog
+from View.Componentes.Ui_LoadingDialog import Ui_LoadingDialog
 
 
 class LoadingDialog(QDialog, Ui_LoadingDialog):
