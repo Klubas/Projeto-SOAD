@@ -1,10 +1,8 @@
 from PySide2.QtWidgets import QDialogButtonBox
 from PySide2.QtWidgets import QWidget
 
-from Model.Pessoa import Pessoa
-
 from Controller.CadastroPadrao import CadastroPadrao
-
+from Model.Pessoa import Pessoa
 from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
 
@@ -19,7 +17,9 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.db = db
         self.window_list = window_list
         self.modo_edicao = False
+        self.view_busca = 'vw_pessoa'
 
+        self.localizar_campos = None
         # self.dados = None
 
         self.frame_menu.setDisabled(False)
@@ -29,6 +29,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.pushButton_cadastrar.clicked.connect(self.cadastrar)
         self.pushButton_editar.clicked.connect(self.editar)
         self.pushButton_excluir.clicked.connect(self.excluir)
+        self.pushButton_localizar.clicked.connect(self.localizar)
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
@@ -64,10 +65,13 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.lineEdit_documento.clear()
         self.lineEdit_fantasia.clear()
 
-    def carrega_dados(self, nome_tabela, id_campo, id_valor):
-        super(CadastroPessoa, self).carrega_dados(nome_tabela, id_campo, id_valor)
-        # pega os dados dos banco e popula a interface
-        pass
+    def localizar(self):
+        self.localizar_campos = {
+            "id_pessoa": 'ID',
+            "nome": 'Nome',
+            'documento': "Documento"
+        }
+        super(CadastroPessoa, self).localizar()
 
     def confirma(self):
 

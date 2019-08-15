@@ -2,7 +2,10 @@ import json
 import logging
 import os
 
+from PySide2.QtCore import QThreadPool
 from pydal import DAL
+
+from Controller.Componentes.Worker import Worker
 
 
 class DataBase:
@@ -20,15 +23,17 @@ class DataBase:
             pool_size=pool_size,
             migrate=False
         )
-        self.db.__call__()
+        self.connection = None
+        self.threadpool = QThreadPool()
 
-        # Define o schema
-        self.execute_sql("SET search_path TO " + self.schema)
-        self.db.commit()
 
     def busca_registro(self, nome_tabela, id_campo, id_valor):
 
-        sql = 'SELECT * FROM ' + str(nome_tabela) + ' WHERE ' + str(id_campo) + ' = ' + str(id_valor)
+        # todo: usar fnc em banco para buscar registros
+        sql = \
+            'SELECT ' + '*' \
+            + ' FROM ' + self.schema + '.' + str(nome_tabela) \
+            + ' WHERE ' + str(id_campo) + ' = ' + str(id_valor)
 
         return self.execute_sql(sql)
 
@@ -64,7 +69,7 @@ class DataBase:
 
     def execute_sql(self, sql):
         try:
-            retorno = self.db.executesql(sql)
+            retorno = self.db.executesql(query=sql, as_dict=True)
             self.db.commit()
             prc = True, retorno, str(self.db._lastsql)
 
@@ -74,10 +79,42 @@ class DataBase:
 
         return prc
 
+    def __conectar_banco__(self, progress_callback):
+        try:
+            self.connection = self.db.__call__()
+            progress_callback.emit(100)
+        except Exception as e:
+            progress_callback.emit(0)
+        return self
+
+    def definir_schema(self, schema):
+        self.schema = schema
+        self.execute_sql("SET search_path TO " + self.schema)  # Define o schema
+
     def fechar_conexao(self):
         self.db.close()
 
+    def progress_fn(self, n):
+        print("%d%% done" % n)
+
+    def retorno_conexao(self, s):
+        self.connection = s
+
+    def thread_complete(self):
+        print("THREAD COMPLETE!")
+
+    def abrir_conexao(self):
+        # Pass the function to execute
+        worker = Worker(self.__conectar_banco__)  # Any other args, kwargs are passed to the run function
+        worker.signals.result.connect(self.retorno_conexao)
+        worker.signals.finished.connect(self.thread_complete)
+        worker.signals.progress.connect(self.progress_fn)
+
+        # Execute
+        self.threadpool.start(worker)
+
 """
+
 from PySide2.QtSql import QSqlDatabase
 
 self.db = QSqlDatabase.addDatabase('QPSQL')
@@ -91,4 +128,5 @@ if self.db.open():
     self.db = QSqlDatabase.database()
 else:
     print(self.db.lastError())
+    
 """

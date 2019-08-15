@@ -8,9 +8,9 @@ from Controller.About import About
 from Controller.CadastroMercadoria import CadastroMercadoria
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
+from Controller.Componentes.SairDialog import SairDialog
+from Controller.Componentes.StatusDialog import StatusDialog
 from Controller.EstornoPedido import EstornoPedido
-from Controller.SairDialog import SairDialog
-from Controller.StatusDialog import StatusDialog
 from View.Ui_MainWindow import Ui_MainWindow
 
 
@@ -25,7 +25,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # todo: self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
 
-        self.window_list.append(self)
+        #self.window_list.append(self)
 
         # Menus
         # todo: Arquivo
@@ -34,7 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
 
         self.actionReconectar.triggered.connect(
-            lambda: self.login(parent)
+            lambda: self.reconectar()
         )
 
         # todo: Cadastros
@@ -114,12 +114,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         s = About()
         s.exec()
 
+    def reconectar(self):
+        self.parent.exec()
+
     def fechar(self):
         self.closeEvent(event=QCloseEvent())
 
     #Override QWidget closeEvent
     def closeEvent(self, event):
-        if len(self.window_list) > 1:
+        if len(self.window_list) > 0:
             sair = SairDialog()
             if sair.exec():
                 for window in self.window_list:
