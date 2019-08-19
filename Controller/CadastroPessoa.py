@@ -17,10 +17,6 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.db = db
         self.window_list = window_list
         self.modo_edicao = False
-        self.view_busca = 'vw_pessoa'
-
-        self.localizar_campos = None
-        # self.dados = None
 
         self.frame_menu.setDisabled(False)
         self.widget.setDisabled(True)
@@ -71,6 +67,15 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             "nome": 'Nome',
             'documento': "Documento"
         }
+
+        self.colunas_busca = {
+            "id_pessoa": 'ID',
+            "nome": 'Nome',
+            'documento': "Documento"
+        }
+
+        self.view_busca = 'vw_pessoa'
+
         super(CadastroPessoa, self).localizar()
 
     def confirma(self):

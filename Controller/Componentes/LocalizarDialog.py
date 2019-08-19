@@ -1,11 +1,11 @@
-from PySide2.QtWidgets import QDialog, QDialogButtonBox
+from PySide2.QtWidgets import QDialog, QDialogButtonBox, QTableWidgetItem
 
 from View.Componentes.Ui_LocalizarDialog import Ui_LocalizarDialog
 
 
 class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
-    def __init__(self, db, campos, tabela, parent=None):
+    def __init__(self, db, campos, tabela, colunas, parent=None):
         super(LocalizarDialog, self).__init__(parent)
         self.setupUi(self)
         self.db = db
@@ -13,9 +13,19 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
         self.campos = campos
 
+        self.operador = '='
+
         self.linhas = None
 
-        # dicionário nome_coluna : descricao amigavel
+        self.colunas = colunas
+        self.colunas_descricao = list(colunas.values())
+        self.colunas_chave = list(colunas.keys())
+
+        # coluna do QTableWidget (dicionário nome_coluna : descricao
+        self.tableWidget_linhas.setColumnCount(len(self.colunas_descricao))
+        self.tableWidget_linhas.setHorizontalHeaderLabels(self.colunas_descricao)
+
+        # dicionário nome_coluna : descricao
 
         for campo in campos:
             self.comboBox_campo.addItem(campos[campo])
@@ -29,21 +39,55 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
     def buscar(self):
 
+        valor = self.lineEdit_valor.text()
+        operador = '='
         campo = None
         for c in self.campos:
             if self.campos[c] == self.comboBox_campo.currentText():
                 campo = c
+                try:
+                    valor = int(valor)
+                    operador = '='
+                except:
+
+                    try:
+                        valor = float(valor)
+                        operador = '='
+                    except:
+                        valor = str(valor)
+                        operador = 'like'
                 break
+        valor = str(valor)
+        # retorna uma lista de dicionários
+        retorno = self.db.busca_registro(self.tabela, campo, valor, operador)
 
-        valor = self.lineEdit_valor.text()
+        if not retorno[0]:
+            retorno = retorno[0]
+        else:
+            retorno = retorno[1][0]['fnc_buscar_registro']
 
-        self.linhas = self.db.busca_registro(self.tabela, campo, valor)
+        self.preencher_tabela(retorno)
 
-        print(self.linhas)
-        self.preencher_tabela()
+    def preencher_tabela(self, linhas):
 
-    def preencher_tabela(self):
-        pass
+        if not linhas:
+            self.tableWidget_linhas.setRowCount(0)
+            return
+
+        self.tableWidget_linhas.setRowCount(len(linhas))
+
+        row = 0
+        for linha in linhas:
+            print(linha)
+            col = 0
+            for coluna in self.colunas:
+                valor = linha[coluna]
+                print(valor)
+                self.tableWidget_linhas.setItem(row, col, QTableWidgetItem(str(valor)))
+                col = col + 1
+            row = row + 1
+
+        self.tableWidget_linhas.resizeColumnsToContents()
 
     def retornar_selecionado(self):
         pass

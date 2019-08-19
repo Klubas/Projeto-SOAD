@@ -15,6 +15,7 @@ class CadastroPadrao:
         self.dados = None
         self.modo_edicao = False
         self.view_busca = None
+        self.colunas_busca = None
 
         # QFrame
         self.frame_menu = None
@@ -67,7 +68,12 @@ class CadastroPadrao:
     # todo: implementar botão localizar
     def localizar(self):
         # abre modal para informar ID do pedido
-        localizar = LocalizarDialog(db=self.db, campos=self.localizar_campos, tabela=self.view_busca)
+        localizar = LocalizarDialog(
+            db=self.db
+            , campos=self.localizar_campos
+            , tabela=self.view_busca
+            , colunas=self.colunas_busca
+        )
 
         if localizar.exec() != 0:
             # posiciona dados na interface

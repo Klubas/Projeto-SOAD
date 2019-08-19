@@ -27,26 +27,20 @@ class DataBase:
         self.threadpool = QThreadPool()
 
 
-    def busca_registro(self, nome_tabela, id_campo, id_valor):
+    def busca_registro(self, nome_tabela, id_campo, id_valor, operador):
 
         # todo: usar fnc em banco para buscar registros
-        sql = \
-            'SELECT ' + '*' \
-            + ' FROM ' + self.schema + '.' + str(nome_tabela) \
-            + ' WHERE ' + str(id_campo) + ' = ' + str(id_valor)
+
+        sql = "select * from " + self.schema + ".fnc_buscar_registro(" \
+              + "p_tabela=>" + "'" + nome_tabela + "'" \
+              + ", p_coluna=>" + "'" + id_campo + "'" \
+              + ", p_valor=>" + "'" + id_valor + "'" \
+              + ", p_operador=>" + "'" + operador + "'" \
+              + ");"
+
+        print(sql)
 
         return self.execute_sql(sql)
-
-    """
-        tabela = self.db.define_table(
-            nome_tabela
-            , Field(id_campo)
-            , primarykey=[str(id_campo)]
-        )
-
-        return tabela(id_valor).as_dict()
-    """
-
 
     def call_procedure(self, schema, params):
 
@@ -115,18 +109,18 @@ class DataBase:
 
 """
 
-from PySide2.QtSql import QSqlDatabase
-
-self.db = QSqlDatabase.addDatabase('QPSQL')
-self.db.setHostName(host)
-self.db.setPort(port)
-self.db.setDatabaseName("postgres")
-self.db.setUserName(username)
-self.db.setPassword(password)
-
-if self.db.open():
-    self.db = QSqlDatabase.database()
-else:
-    print(self.db.lastError())
+    from PySide2.QtSql import QSqlDatabase
+    
+    self.db = QSqlDatabase.addDatabase('QPSQL')
+    self.db.setHostName(host)
+    self.db.setPort(port)
+    self.db.setDatabaseName("postgres")
+    self.db.setUserName(username)
+    self.db.setPassword(password)
+    
+    if self.db.open():
+        self.db = QSqlDatabase.database()
+    else:
+        print(self.db.lastError())
     
 """
