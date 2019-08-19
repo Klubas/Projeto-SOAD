@@ -69,10 +69,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
             #db = True
 
-            db.definir_schema('soad')
-
             try:
                 if db:
+                    db.definir_schema('soad')
                     w = MainWindow(db, self)
                     w.showNormal()
                     self.hide()

@@ -29,8 +29,6 @@ class DataBase:
 
     def busca_registro(self, nome_tabela, id_campo, id_valor, operador):
 
-        # todo: usar fnc em banco para buscar registros
-
         sql = "select * from " + self.schema + ".fnc_buscar_registro(" \
               + "p_tabela=>" + "'" + nome_tabela + "'" \
               + ", p_coluna=>" + "'" + id_campo + "'" \
@@ -38,7 +36,7 @@ class DataBase:
               + ", p_operador=>" + "'" + operador + "'" \
               + ");"
 
-        print(sql)
+        logging.info(sql)
 
         return self.execute_sql(sql)
 
@@ -55,7 +53,7 @@ class DataBase:
         params = json.dumps(params)
         sql = "CALL " + schema + ".prc_chamada_de_metodo(" \
               + "p_json_params=>" + "'" + params + "'" \
-              + ");"
+            + ");"
 
         logging.info(sql)
 
@@ -76,9 +74,11 @@ class DataBase:
     def __conectar_banco__(self, progress_callback):
         try:
             self.connection = self.db.__call__()
-            progress_callback.emit(100)
+            #progress_callback.emit(100)
         except Exception as e:
-            progress_callback.emit(0)
+            pass
+
+            #progress_callback.emit(0)
         return self
 
     def definir_schema(self, schema):
@@ -99,10 +99,10 @@ class DataBase:
 
     def abrir_conexao(self):
         # Pass the function to execute
-        worker = Worker(self.__conectar_banco__)  # Any other args, kwargs are passed to the run function
+        worker = Worker(self.db.__call__)  # Any other args, kwargs are passed to the run function
         worker.signals.result.connect(self.retorno_conexao)
         worker.signals.finished.connect(self.thread_complete)
-        worker.signals.progress.connect(self.progress_fn)
+        #worker.signals.progress.connect(self.progress_fn)
 
         # Execute
         self.threadpool.start(worker)

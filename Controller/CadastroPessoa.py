@@ -78,6 +78,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         super(CadastroPessoa, self).localizar()
 
+        self.popular_interface(self.dados[0])
+
     def confirma(self):
 
         if self.checkBox_isento.isChecked():
@@ -98,14 +100,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.dados = {
             "metodo": "prc_insert_pessoa",
             "schema": "soad",
-            "params": {
-                "nome": pessoa.nome,
-                "email": pessoa.email,
-                "telefone": pessoa.telefone,
-                "documento": pessoa.documento,
-                "inscricao_estadual": pessoa.inscricao_estadual,
-                "fantasia": pessoa.fantasia
-            }
+            "params": pessoa.to_dict()
         }
 
         #todo: tratar existencia de ID para verificar se cadastra ou edita
@@ -116,6 +111,35 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         else:
             print('Erro ao salvar')
+
+    def popular_interface(self, dados):
+
+        pessoa = Pessoa(
+            nome=dados['nome']
+            , email=dados['email']
+            , telefone=dados['telefone']
+            , inscricao_estadual=dados['inscricao_estadual']
+            , documento=dados['documento']
+            , fantasia=dados['fantasia']
+        )
+
+        self.lineEdit_nome.setText(pessoa.nome)
+        self.lineEdit_email.setText(pessoa.email)
+        self.lineEdit_telefone.setText(pessoa.telefone)
+        if pessoa.inscricao_estadual == 'ISENTO':
+            self.checkBox_isento.setChecked(True)
+        else:
+            self.checkBox_isento.setChecked(False)
+        self.lineEdit_IE.setText(pessoa.inscricao_estadual)
+        self.lineEdit_documento.setText(pessoa.documento)
+        self.lineEdit_fantasia.setText(pessoa.fantasia)
+
+        if len(pessoa.documento) == 11:
+            self.radioButton_pf.setChecked(True)
+        elif len(pessoa.documento) == 14:
+            self.radioButton_pj.setChecked(True)
+
+
 
     def define_tipo(self):
         print('Tipo')

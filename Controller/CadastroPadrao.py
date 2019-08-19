@@ -14,6 +14,7 @@ class CadastroPadrao:
         self.localizar_campos = None
         self.dados = None
         self.modo_edicao = False
+        self.novo_cadastro = True
         self.view_busca = None
         self.colunas_busca = None
 
@@ -26,6 +27,7 @@ class CadastroPadrao:
 
     # Reimplementar chamando super
     def cadastrar(self):
+        self.novo_cadastro = True
         if self.modo_edicao:
             dialog = StatusDialog(
                 status='ERRO'
@@ -40,6 +42,7 @@ class CadastroPadrao:
 
     # Reimplementar chamando super
     def editar(self):
+        self.novo_cadastro = False
         if self.modo_edicao:
             dialog = StatusDialog(
                 status='ERRO'
@@ -68,12 +71,15 @@ class CadastroPadrao:
     # todo: implementar botão localizar
     def localizar(self):
         # abre modal para informar ID do pedido
+
         localizar = LocalizarDialog(
             db=self.db
             , campos=self.localizar_campos
             , tabela=self.view_busca
             , colunas=self.colunas_busca
         )
+
+        localizar.retorno_dados.connect(self.receber_dados)
 
         if localizar.exec() != 0:
             # posiciona dados na interface
@@ -89,6 +95,9 @@ class CadastroPadrao:
         self.frame_menu.setDisabled(False)
         self.widget.setDisabled(True)
         self.frame_buttons.setDisabled(True)
+
+    def receber_dados(self, dados):
+        self.dados = dados
 
     # Reimplementar chamando super e limpar_dados
     def cancela(self):
@@ -160,4 +169,6 @@ class CadastroPadrao:
 
     def verifica_modo_edicao(self):
         pass
+
+
 
