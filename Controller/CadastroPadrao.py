@@ -1,5 +1,6 @@
-from Controller.SairDialog import SairDialog
-from Controller.StatusDialog import StatusDialog
+from Controller.Componentes.LocalizarDialog import LocalizarDialog
+from Controller.Componentes.SairDialog import SairDialog
+from Controller.Componentes.StatusDialog import StatusDialog
 
 
 class CadastroPadrao:
@@ -8,8 +9,14 @@ class CadastroPadrao:
         self.dados_formatados = None
         self.db = None
         self.window_list = None
+
+        # Configuracoes
+        self.localizar_campos = None
         self.dados = None
         self.modo_edicao = False
+        self.novo_cadastro = True
+        self.view_busca = None
+        self.colunas_busca = None
 
         # QFrame
         self.frame_menu = None
@@ -20,6 +27,7 @@ class CadastroPadrao:
 
     # Reimplementar chamando super
     def cadastrar(self):
+        self.novo_cadastro = True
         if self.modo_edicao:
             dialog = StatusDialog(
                 status='ERRO'
@@ -34,6 +42,7 @@ class CadastroPadrao:
 
     # Reimplementar chamando super
     def editar(self):
+        self.novo_cadastro = False
         if self.modo_edicao:
             dialog = StatusDialog(
                 status='ERRO'
@@ -62,7 +71,23 @@ class CadastroPadrao:
     # todo: implementar botão localizar
     def localizar(self):
         # abre modal para informar ID do pedido
-        self.carrega_dados('vw_pessoa', 'id_pessoa', 133)
+
+        localizar = LocalizarDialog(
+            db=self.db
+            , campos=self.localizar_campos
+            , tabela=self.view_busca
+            , colunas=self.colunas_busca
+        )
+
+        localizar.retorno_dados.connect(self.receber_dados)
+
+        if localizar.exec() != 0:
+            # posiciona dados na interface
+            pass
+        else:
+            # Não faz nada
+            pass
+
 
     # Reimplementar chamando super
     def limpar_dados(self):
@@ -70,6 +95,9 @@ class CadastroPadrao:
         self.frame_menu.setDisabled(False)
         self.widget.setDisabled(True)
         self.frame_buttons.setDisabled(True)
+
+    def receber_dados(self, dados):
+        self.dados = dados
 
     # Reimplementar chamando super e limpar_dados
     def cancela(self):
@@ -83,13 +111,6 @@ class CadastroPadrao:
             self.limpar_dados()
             self.modo_edicao = False
             pass
-
-
-    # Reimplementar chamando super
-    def carrega_dados(self, nome_tabela, id_campo, id_valor):
-        self.dados = self.db.busca_registro(nome_tabela, id_campo, id_valor)
-        print(self.dados)
-        self.modo_edicao = False
 
     # Reimplementar chamando super
     def valida_obrigatorios(self):
@@ -105,8 +126,17 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
+
+            # verifica campos obrigatórios
+            if not self.valida_obrigatorios():
+                dialog = StatusDialog(
+                    status='ALERTA',
+                    mensagem='Por favor preencha todos os campos obrigatórios.'
+                )
+                return dialog.exec()
+
             # pega os dados tela e envia pro banco
-            prc = self.db.call_procedure('soad', self.dados)
+            prc = self.db.call_procedure(self.db.schema, self.dados)
 
             if prc[0]:
                 dialog = StatusDialog(
@@ -139,4 +169,6 @@ class CadastroPadrao:
 
     def verifica_modo_edicao(self):
         pass
+
+
 

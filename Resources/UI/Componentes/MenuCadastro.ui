@@ -21,7 +21,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="MenuCadastro" name="frame_menu" native="true">
+    <widget class="Ui_MenuCadastro" name="frame_menu" native="true">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -110,9 +110,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MenuCadastro</class>
+   <class>Ui_MenuCadastro</class>
    <extends>QWidget</extends>
-   <header location="global">Controller.Componentes.MenuCadastro.h</header>
+   <header>View.Componentes.Ui_MenuCadastro.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

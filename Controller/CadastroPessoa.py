@@ -1,10 +1,8 @@
 from PySide2.QtWidgets import QDialogButtonBox
 from PySide2.QtWidgets import QWidget
 
-from Model.Pessoa import Pessoa
-
 from Controller.CadastroPadrao import CadastroPadrao
-
+from Model.Pessoa import Pessoa
 from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
 
@@ -20,8 +18,6 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.window_list = window_list
         self.modo_edicao = False
 
-        # self.dados = None
-
         self.frame_menu.setDisabled(False)
         self.widget.setDisabled(True)
         self.frame_buttons.setDisabled(True)
@@ -29,6 +25,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.pushButton_cadastrar.clicked.connect(self.cadastrar)
         self.pushButton_editar.clicked.connect(self.editar)
         self.pushButton_excluir.clicked.connect(self.excluir)
+        self.pushButton_localizar.clicked.connect(self.localizar)
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
@@ -64,10 +61,24 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.lineEdit_documento.clear()
         self.lineEdit_fantasia.clear()
 
-    def carrega_dados(self, nome_tabela, id_campo, id_valor):
-        super(CadastroPessoa, self).carrega_dados(nome_tabela, id_campo, id_valor)
-        # pega os dados dos banco e popula a interface
-        pass
+    def localizar(self):
+        self.localizar_campos = {
+            "id_pessoa": 'ID',
+            "nome": 'Nome',
+            'documento': "Documento"
+        }
+
+        self.colunas_busca = {
+            "id_pessoa": 'ID',
+            "nome": 'Nome',
+            'documento': "Documento"
+        }
+
+        self.view_busca = 'vw_pessoa'
+
+        super(CadastroPessoa, self).localizar()
+
+        self.popular_interface(self.dados[0])
 
     def confirma(self):
 
@@ -89,14 +100,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.dados = {
             "metodo": "prc_insert_pessoa",
             "schema": "soad",
-            "params": {
-                "nome": pessoa.nome,
-                "email": pessoa.email,
-                "telefone": pessoa.telefone,
-                "documento": pessoa.documento,
-                "inscricao_estadual": pessoa.inscricao_estadual,
-                "fantasia": pessoa.fantasia
-            }
+            "params": pessoa.to_dict()
         }
 
         #todo: tratar existencia de ID para verificar se cadastra ou edita
@@ -107,6 +111,35 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         else:
             print('Erro ao salvar')
+
+    def popular_interface(self, dados):
+
+        pessoa = Pessoa(
+            nome=dados['nome']
+            , email=dados['email']
+            , telefone=dados['telefone']
+            , inscricao_estadual=dados['inscricao_estadual']
+            , documento=dados['documento']
+            , fantasia=dados['fantasia']
+        )
+
+        self.lineEdit_nome.setText(pessoa.nome)
+        self.lineEdit_email.setText(pessoa.email)
+        self.lineEdit_telefone.setText(pessoa.telefone)
+        if pessoa.inscricao_estadual == 'ISENTO':
+            self.checkBox_isento.setChecked(True)
+        else:
+            self.checkBox_isento.setChecked(False)
+        self.lineEdit_IE.setText(pessoa.inscricao_estadual)
+        self.lineEdit_documento.setText(pessoa.documento)
+        self.lineEdit_fantasia.setText(pessoa.fantasia)
+
+        if len(pessoa.documento) == 11:
+            self.radioButton_pf.setChecked(True)
+        elif len(pessoa.documento) == 14:
+            self.radioButton_pj.setChecked(True)
+
+
 
     def define_tipo(self):
         print('Tipo')

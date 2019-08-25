@@ -1,8 +1,5 @@
-import sys
-import os
 import logging
-
-
+import sys
 
 __LOG_LEVEL__ = logging.DEBUG
 __LOG_STREAM__ = sys.stderr
@@ -11,9 +8,8 @@ logging.basicConfig(stream=__LOG_STREAM__, level=__LOG_LEVEL__)
 
 
 def update_ui():    # Atualiza os arquivos da pasta View
+    import os
     from Resources.Scripts.Builder import Builder
-
-    print(os.getcwd())
 
     b = Builder(
         pyuic_path="pyside2-uic",
@@ -30,7 +26,7 @@ def update_ui():    # Atualiza os arquivos da pasta View
 
 def main():
 
-    update_ui()
+    #update_ui()
     #sys.exit()
 
     from PySide2.QtWidgets import QApplication
