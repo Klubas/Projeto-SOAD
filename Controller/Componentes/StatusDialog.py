@@ -14,19 +14,24 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         # todo: definir características de cada tipo de alerta
         if status == 'ERRO':
+            self.setWindowTitle("Mensagem de Erro")
             self.groupBox_mensagem.setVisible(True)
 
-        elif status == 'AVISO':
+        elif status == 'ALERTA':
+            self.setWindowTitle("Mensagem de Alerta")
             self.label_mensagem.setAlignment(Qt.AlignCenter)
             self.groupBox_mensagem.setVisible(False)
-            pass
+
 
         elif status == 'OK':
+            self.setWindowTitle("Mensagem de Confirmação")
             self.label_mensagem.setAlignment(Qt.AlignCenter)
             self.groupBox_mensagem.setVisible(False)
 
         else:
+            self.definir_mensagem("O valor " + status + " não é um status válido para StatusDialog\n")
             logging.debug("O valor " + status + " não é um status válido para StatusDialog\n")
+            self.exec()
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 

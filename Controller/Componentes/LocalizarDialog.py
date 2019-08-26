@@ -103,6 +103,7 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         if item[0]:
             item = item[1][0]['fnc_buscar_registro']
             self.retorno_dados.emit(item)
+            self.setResult(self.tableWidget_linhas.item(row, 0).text()) # retorna o ID
             self.accept()
         else:
             dialog = StatusDialog(status='AVISO', exception=item[1])

@@ -27,18 +27,29 @@ class DataBase:
         self.threadpool = QThreadPool()
 
 
-    def busca_registro(self, nome_tabela, id_campo, id_valor, operador):
+    def busca_registro(self, nome_tabela, coluna, valor='', operador='='):
 
         sql = "select * from " + self.schema + ".fnc_buscar_registro(" \
               + "p_tabela=>" + "'" + nome_tabela + "'" \
-              + ", p_coluna=>" + "'" + id_campo + "'" \
-              + ", p_valor=>" + "'" + id_valor + "'" \
+              + ", p_coluna=>" + "'" + coluna + "'" \
+              + ", p_valor=>" + "'" + valor + "'" \
               + ", p_operador=>" + "'" + operador + "'" \
               + ");"
 
         logging.info(sql)
 
         return self.execute_sql(sql)
+
+    def get_registro(self, fnc, campo, valor):
+
+        sql = "select * from " + self.schema + "." + fnc + "(" \
+              + "p_" + campo + "=>" + "'" + valor + "'" \
+              + ");"
+
+        logging.info(sql)
+
+        return self.execute_sql(sql)
+
 
     def call_procedure(self, schema, params):
 

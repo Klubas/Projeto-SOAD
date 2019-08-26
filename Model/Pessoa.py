@@ -2,7 +2,7 @@
 class Pessoa:
 
     def __init__(self, nome, email, telefone, documento, inscricao_estadual='ISENTO', fantasia=None, id_pessoa=None):
-        self.id_pessoa = id_pessoa
+        self.id_pessoa = str(id_pessoa)
         self.nome = nome
         self.email = email
         self.telefone = telefone

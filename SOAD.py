@@ -26,7 +26,7 @@ def update_ui():    # Atualiza os arquivos da pasta View
 
 def main():
 
-    #update_ui()
+    update_ui()
     #sys.exit()
 
     from PySide2.QtWidgets import QApplication
