@@ -62,7 +62,7 @@ class DataBase:
             del params["params"][vazio[i]]
 
         params = json.dumps(params)
-        sql = "CALL " + schema + ".prc_chamada_de_metodo(" \
+        sql = "CALL " + schema + ".fnc_chamada_de_metodo(" \
               + "p_json_params=>" + "'" + params + "'" \
             + ");"
 

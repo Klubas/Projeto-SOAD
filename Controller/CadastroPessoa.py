@@ -134,9 +134,11 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             , fantasia=self.lineEdit_fantasia.text()
         )
 
+        #endereco = Endereco()
+
         # pega os dados da tela e popula um dicionario de dados
         self.dados = {
-            "metodo": "prc_insert_pessoa",
+            "metodo": "fnc_insert_pessoa",
             "schema": "soad",
             "params": pessoa.to_dict()
         }
@@ -160,6 +162,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             , fantasia=dados['fantasia']
             , id_pessoa=dados['id_pessoa']
         )
+
+        #endereco = Endereco()
 
         self.label_id.setText(pessoa.id_pessoa)
         self.lineEdit_nome.setText(pessoa.nome)
