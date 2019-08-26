@@ -21,8 +21,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>568</width>
-    <height>559</height>
+    <width>1099</width>
+    <height>598</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -120,67 +120,169 @@
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout_7">
-        <item row="0" column="0">
-         <widget class="QWidget" name="widget" native="true">
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="0" column="0">
-            <layout class="QGridLayout" name="dados_pessoa">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetMaximumSize</enum>
-             </property>
-             <property name="leftMargin">
-              <number>20</number>
-             </property>
-             <property name="topMargin">
-              <number>20</number>
-             </property>
-             <property name="rightMargin">
-              <number>20</number>
-             </property>
-             <property name="bottomMargin">
-              <number>20</number>
-             </property>
+        <item row="2" column="0">
+         <widget class="QGroupBox" name="groupBox_endereco">
+          <property name="title">
+           <string>Endereco</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <layout class="QFormLayout" name="formLayout_enderco">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_cep">
+               <property name="text">
+                <string>CEP</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="lineEdit_cep">
+               <property name="inputMask">
+                <string>9999-999</string>
+               </property>
+               <property name="maxLength">
+                <number>8</number>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_logradouro">
+               <property name="text">
+                <string>Logradouro</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="lineEdit_logradouro">
+               <property name="inputMask">
+                <string>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</string>
+               </property>
+               <property name="maxLength">
+                <number>80</number>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_numero">
+               <property name="text">
+                <string>Número</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="lineEdit_numero">
+               <property name="inputMask">
+                <string>00000</string>
+               </property>
+               <property name="maxLength">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_bairro">
+               <property name="text">
+                <string>Bairro</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="lineEdit_bairro">
+               <property name="inputMask">
+                <string>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</string>
+               </property>
+               <property name="maxLength">
+                <number>60</number>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_complemento">
+               <property name="text">
+                <string>Complemento</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLineEdit" name="lineEdit_complemento">
+               <property name="inputMask">
+                <string>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'</string>
+               </property>
+               <property name="maxLength">
+                <number>101</number>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="0">
-              <layout class="QGridLayout" name="gridLayout">
-               <property name="leftMargin">
-                <number>0</number>
+              <widget class="QLabel" name="label_uf">
+               <property name="text">
+                <string>UF</string>
                </property>
-               <property name="topMargin">
-                <number>5</number>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QComboBox" name="comboBox_uf">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777210</height>
+                </size>
                </property>
-               <property name="rightMargin">
-                <number>5</number>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
                </property>
-               <property name="bottomMargin">
-                <number>5</number>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_municipio">
+               <property name="text">
+                <string>Município</string>
                </property>
-               <property name="spacing">
-                <number>5</number>
-               </property>
-               <item row="0" column="0">
-                <layout class="QFormLayout" name="formLayout">
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QComboBox" name="comboBox_municipio"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QFrame" name="frame_identificacao_modalidade">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>250</height>
+           </size>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_identificacao">
+           <item>
+            <widget class="QGroupBox" name="groupBox_identificacao">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>200</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>Identificação</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_3">
+              <item row="0" column="0">
+               <widget class="QWidget" name="widget_identificacao" native="true">
+                <property name="minimumSize">
+                 <size>
+                  <width>650</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <layout class="QFormLayout" name="formLayout_identificacao">
                  <property name="sizeConstraint">
                   <enum>QLayout::SetDefaultConstraint</enum>
                  </property>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_tipo_pessoa">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777214</width>
-                     <height>17</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Tipo:</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="1">
                   <widget class="QWidget" name="widget_tipo_pessoa" native="true">
                    <property name="enabled">
@@ -199,7 +301,7 @@
                        </size>
                       </property>
                       <property name="text">
-                       <string>Jurídica</string>
+                       <string>Pessoa Jurídica</string>
                       </property>
                       <property name="checked">
                        <bool>true</bool>
@@ -218,13 +320,32 @@
                        </size>
                       </property>
                       <property name="text">
-                       <string>Física</string>
+                       <string>Pessoa Física</string>
                       </property>
                       <property name="checked">
                        <bool>false</bool>
                       </property>
                       <property name="autoRepeat">
                        <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_documento">
+                      <property name="maximumSize">
+                       <size>
+                        <width>250</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="inputMask">
+                       <string>999.999.999-99</string>
+                      </property>
+                      <property name="text">
+                       <string>000.000.000-00</string>
+                      </property>
+                      <property name="maxLength">
+                       <number>14</number>
                       </property>
                      </widget>
                     </item>
@@ -239,61 +360,111 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="lineEdit_nome"/>
+                  <widget class="QLineEdit" name="lineEdit_nome">
+                   <property name="inputMask">
+                    <string/>
+                   </property>
+                   <property name="maxLength">
+                    <number>100</number>
+                   </property>
+                   <property name="cursorMoveStyle">
+                    <enum>Qt::VisualMoveStyle</enum>
+                   </property>
+                   <property name="clearButtonEnabled">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_fantasia">
                    <property name="text">
-                    <string>Nome Fantasia</string>
+                    <string>Nome Fantasia:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QLineEdit" name="lineEdit_fantasia"/>
+                  <widget class="QLineEdit" name="lineEdit_fantasia">
+                   <property name="inputMask">
+                    <string/>
+                   </property>
+                   <property name="maxLength">
+                    <number>100</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QLabel" name="label_documento">
+                  <widget class="QLabel" name="label">
                    <property name="text">
-                    <string>Documento:</string>
+                    <string>Email:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QLineEdit" name="lineEdit_documento"/>
+                  <layout class="QHBoxLayout" name="horizontalLayout_2">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_5">
+                     <item>
+                      <widget class="QLineEdit" name="lineEdit_email">
+                       <property name="inputMask">
+                        <string/>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                       <property name="maxLength">
+                        <number>100</number>
+                       </property>
+                       <property name="dragEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="placeholderText">
+                        <string>email@dominio.com</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="label_3">
+                       <property name="text">
+                        <string>Tel:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="lineEdit_telefone">
+                       <property name="inputMask">
+                        <string/>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                       <property name="maxLength">
+                        <number>32767</number>
+                       </property>
+                       <property name="placeholderText">
+                        <string>+55 (042) 99999999</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
                  </item>
                  <item row="4" column="0">
-                  <widget class="QLabel" name="label_email">
-                   <property name="text">
-                    <string>e-Mail:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="1">
-                  <widget class="QLineEdit" name="lineEdit_email"/>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QLabel" name="label_telefone">
-                   <property name="text">
-                    <string>Telefone:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="1">
-                  <widget class="QLineEdit" name="lineEdit_telefone"/>
-                 </item>
-                 <item row="6" column="0">
                   <widget class="QLabel" name="label_IE">
                    <property name="text">
                     <string>Inscrição Estadual:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="6" column="1">
+                 <item row="4" column="1">
                   <layout class="QHBoxLayout" name="horizontalLayout_IE">
                    <item>
                     <widget class="QLineEdit" name="lineEdit_IE">
                      <property name="enabled">
                       <bool>false</bool>
+                     </property>
+                     <property name="maxLength">
+                      <number>15</number>
                      </property>
                     </widget>
                    </item>
@@ -315,11 +486,58 @@
                    </item>
                   </layout>
                  </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_documento">
+                   <property name="text">
+                    <string>Documento:</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
-               </item>
-              </layout>
-             </item>
-            </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_modalidade">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>200</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>Modalidades</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="0" column="0">
+               <widget class="QListWidget" name="listWidget_modalidade">
+                <property name="tabKeyNavigation">
+                 <bool>true</bool>
+                </property>
+                <property name="showDropIndicator" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::MultiSelection</enum>
+                </property>
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
+                <property name="viewMode">
+                 <enum>QListView::ListMode</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -342,6 +560,13 @@
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_id">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QDialogButtonBox" name="buttonBox">
           <property name="standardButtons">

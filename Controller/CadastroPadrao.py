@@ -17,60 +17,35 @@ class CadastroPadrao:
         self.novo_cadastro = True
         self.view_busca = None
         self.colunas_busca = None
+        self.campos_obrigatorios = dict()
 
         # QFrame
         self.frame_menu = None
         self.frame_buttons = None
 
+        self.label_id = None
+
         # QWidget
-        self.widget = None
+        self.frame_contents = None
 
     # Reimplementar chamando super
     def cadastrar(self):
+        self.entrar_modo_edicao()
         self.novo_cadastro = True
-        if self.modo_edicao:
-            dialog = StatusDialog(
-                status='ERRO'
-                , mensagem='A interface está em modo de edição!'
-            )
-            return dialog.exec()
-        else:
-            self.frame_menu.setDisabled(True)
-            self.frame_buttons.setDisabled(False)
-            self.widget.setDisabled(False)
-            self.modo_edicao = True
 
     # Reimplementar chamando super
     def editar(self):
+        self.entrar_modo_edicao()
         self.novo_cadastro = False
-        if self.modo_edicao:
-            dialog = StatusDialog(
-                status='ERRO'
-                , mensagem='A interface está em modo de edição!'
-            )
-            return dialog.exec()
-        else:
-            self.frame_menu.setDisabled(True)
-            self.frame_buttons.setDisabled(False)
-            self.widget.setDisabled(False)
-            self.modo_edicao = True
 
     # Reimplementar chamando super
     def excluir(self):
-        if self.modo_edicao:
-            dialog = StatusDialog(
-                status='ERRO'
-                , mensagem='A interface está em modo de edição!'
-            )
-            return dialog.exec()
-        else:
+        if self.nao_esta_em_modo_edicao():
             self.frame_menu.setDisabled(False)
-            self.widget.setDisabled(True)
+            self.frame_contents.setDisabled(True)
             self.frame_buttons.setDisabled(True)
 
-    # todo: implementar botão localizar
     def localizar(self):
-        # abre modal para informar ID do pedido
 
         localizar = LocalizarDialog(
             db=self.db
@@ -80,60 +55,73 @@ class CadastroPadrao:
         )
 
         localizar.retorno_dados.connect(self.receber_dados)
+        modal = localizar.exec()
+        return modal
 
-        if localizar.exec() != 0:
-            # posiciona dados na interface
-            pass
+        if modal == 1:
+            return self.dados
         else:
-            # Não faz nada
-            pass
-
+            return list(0)
 
     # Reimplementar chamando super
     def limpar_dados(self):
         # limpa todos os campos
-        self.frame_menu.setDisabled(False)
-        self.widget.setDisabled(True)
-        self.frame_buttons.setDisabled(True)
+        #self.frame_menu.setDisabled(True)
+        #self.frame_contents.setDisabled(False)
+        #self.frame_buttons.setDisabled(False)
+        self.label_id.setText('')
 
     def receber_dados(self, dados):
         self.dados = dados
 
     # Reimplementar chamando super e limpar_dados
     def cancela(self):
-        if not self.modo_edicao:
-            dialog = StatusDialog(
-                status='ERRO'
-                , mensagem='A interface não está em modo de edição!'
-            )
-            return dialog.exec()
+        if self.modo_edicao:
+            dialog = SairDialog()
+            dialog.definir_mensagem("Tem certeza que deseja cancelar? Todas as alterações serão perdidas.")
+            cancelar = dialog.exec()
+
         else:
-            self.limpar_dados()
-            self.modo_edicao = False
-            pass
+            return
+
+        if cancelar:
+            self.sair_modo_edicao()
 
     # Reimplementar chamando super
     def valida_obrigatorios(self):
-        # Validar campos obrigatórios da interface
-        pass
+        print(self.campos_obrigatorios)
+        if len(self.campos_obrigatorios) > 0:
+            for campo, valor in self.campos_obrigatorios.items():
+                try:
+                    if valor.text() == '':
+                        dialog = StatusDialog(
+                            status='ALERTA',
+                            mensagem='O campo ' + campo + ' é obrigatório.'
+                        )
+                        return dialog.exec()
+                except AttributeError as attr:
+                    if valor.currentText() == '':
+                        dialog = StatusDialog(
+                            status='ALERTA',
+                            mensagem='O campo ' + campo + ' é obrigatório.'
+                        )
+                        return dialog.exec()
+                except Exception as e:
+                    dialog = StatusDialog(
+                        status='ERRO',
+                        mensagem='Erro ao verificar campos obrigatórios.',
+                        exception=e
+                    )
+                    return dialog.exec()
+
+        return 'OK'
 
     # Reimplementar chamando super
     def confirma(self):
-        if not self.modo_edicao:
-            dialog = StatusDialog(
-                status='ERRO'
-                , mensagem='A interface não está em modo de edição!'
-            )
-            return dialog.exec()
-        else:
+        if self.esta_em_modo_edicao():
 
-            # verifica campos obrigatórios
-            if not self.valida_obrigatorios():
-                dialog = StatusDialog(
-                    status='ALERTA',
-                    mensagem='Por favor preencha todos os campos obrigatórios.'
-                )
-                return dialog.exec()
+            if self.valida_obrigatorios() != 'OK':
+                return False
 
             # pega os dados tela e envia pro banco
             prc = self.db.call_procedure(self.db.schema, self.dados)
@@ -143,7 +131,9 @@ class CadastroPadrao:
                     status='OK'
                     , mensagem='Cadastro realizado com sucesso!'
                 )
-                self.modo_edicao = False
+
+                self.sair_modo_edicao()
+
             else:
                 dialog = StatusDialog(
                     status='ERRO'
@@ -159,16 +149,50 @@ class CadastroPadrao:
     # Não precisa ser reimplementado na tela
     def fechar(self):
         #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
-        fechar = True
         if self.modo_edicao:
             dialog = SairDialog()
             dialog.definir_mensagem("Tem certeza que deseja fechar? Todas as alterações serão perdidas.")
             fechar = dialog.exec()
+        else:
+            fechar = True
 
         return fechar
 
-    def verifica_modo_edicao(self):
-        pass
+    def nao_esta_em_modo_edicao(self):
+        if self.modo_edicao:
+            dialog = StatusDialog(
+                status='ERRO'
+                , mensagem='A interface está em modo de edição!'
+            )
+            return dialog.exec()
+        else:
+            return True
+
+    def esta_em_modo_edicao(self):
+        if not self.modo_edicao:
+            dialog = StatusDialog(
+                status='ERRO'
+                , mensagem='A interface não está em modo de edição!'
+            )
+            return dialog.exec()
+        else:
+            return True
+
+    def entrar_modo_edicao(self):
+        if self.nao_esta_em_modo_edicao():
+            self.modo_edicao = True
+            self.frame_menu.setDisabled(True)
+            self.frame_buttons.setDisabled(False)
+            self.frame_contents.setDisabled(False)
+            self.label_id.setText('')
+
+    def sair_modo_edicao(self):
+        if self.esta_em_modo_edicao():
+            self.modo_edicao = False
+            self.frame_menu.setDisabled(False)
+            self.frame_buttons.setDisabled(True)
+            self.frame_contents.setDisabled(True)
+            self.label_id.setText('')
 
 
 
