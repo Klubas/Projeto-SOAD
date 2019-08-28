@@ -56,6 +56,7 @@ class CadastroPadrao:
 
         localizar.retorno_dados.connect(self.receber_dados)
         modal = localizar.exec()
+        print(modal)
         return modal
 
         if modal == 1:

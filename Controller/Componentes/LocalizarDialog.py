@@ -100,11 +100,11 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
     def retornar_selecionado(self):
         row = self.tableWidget_linhas.currentRow()
         item = self.db.busca_registro(self.tabela, self.colunas_chave[0], self.tableWidget_linhas.item(row, 0).text(), '=')
+        print(str(int(self.tableWidget_linhas.item(row, 0).text())))
         if item[0]:
-            item = item[1][0]['fnc_buscar_registro']
-            self.retorno_dados.emit(item)
-            self.setResult(self.tableWidget_linhas.item(row, 0).text()) # retorna o ID
-            self.accept()
+           # item = item[1][0]['fnc_buscar_registro']
+           # self.retorno_dados.emit(item)
+            self.done(int(self.tableWidget_linhas.item(row, 0).text())) # retorna o ID
         else:
             dialog = StatusDialog(status='AVISO', exception=item[1])
             dialog.definir_mensagem("Não foi possível buscar os dados desse registro.")

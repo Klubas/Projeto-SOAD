@@ -1,8 +1,11 @@
+import logging
+
 from PySide2.QtWidgets import QDialogButtonBox
 from PySide2.QtWidgets import QWidget
 
 from Controller.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
+from Model.Endereco import Endereco
 from Model.Pessoa import Pessoa
 from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
@@ -112,11 +115,10 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         dados = super(CadastroPessoa, self).localizar()
 
         dados = self.db.get_registro("fnc_get_pessoa", "pessoa_id", dados)
-        # todo: banco
-        print("precisa implementar no banco essa funcao")
 
-        if dados[0] != 0:
-            self.popular_interface(dados[0])
+        if dados[0]:
+            dados = dados[1][0]['json_pessoa']
+            self.popular_interface(dados)
 
     def confirma(self):
 
@@ -153,17 +155,18 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             print('Erro ao salvar')
 
     def popular_interface(self, dados):
-        pessoa = Pessoa(
-            nome=dados['nome']
-            , email=dados['email']
-            , telefone=dados['telefone']
-            , inscricao_estadual=dados['inscricao_estadual']
-            , documento=dados['documento']
-            , fantasia=dados['fantasia']
-            , id_pessoa=dados['id_pessoa']
-        )
 
-        #endereco = Endereco()
+        pessoa = dados[0]
+
+        pessoa = Pessoa(
+            nome=pessoa['nome']
+            , email=pessoa['email']
+            , telefone=pessoa['telefone']
+            , inscricao_estadual=pessoa['inscricao_estadual']
+            , documento=pessoa['documento']
+            , fantasia=pessoa['fantasia']
+            , id_pessoa=pessoa['id_pessoa']
+        )
 
         self.label_id.setText(pessoa.id_pessoa)
         self.lineEdit_nome.setText(pessoa.nome)
@@ -182,9 +185,59 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         elif len(pessoa.documento) == 14:
             self.radioButton_pj.setChecked(True)
 
-        # buscar endereco
+        try:
+            endereco = dados[1][0] # pode retornar vários endereços, pego apenas o primeiro
 
-        # buscar modalidade
+            endereco = Endereco(
+                id_pessoa=endereco['id_pessoa']
+                , id_municipio=endereco['id_municipio']
+                , id_estado=endereco['id_estado']
+                , id_pais=endereco['id_pais']
+                , logradouro=endereco['logradouro']
+                , numero=endereco['numero']
+                , bairro=endereco['bairro']
+                , cep=endereco['cep']
+                , complemento=endereco['complemento']
+                , tipo=endereco['tipo']
+            )
+
+            for uf in self.ufs:
+                if uf['id_estado'] == endereco.id_estado:
+                    self.comboBox_uf.setCurrentText(uf['sigla_uf'])
+                    self.altera_uf()
+                    for mun in self.ufs_municipios:
+                        if mun['id_municipio'] == endereco.id_municipio:
+                            self.comboBox_municipio.setCurrentText(mun['municipio'])
+                            break
+                    break
+
+            self.lineEdit_cep.setText(endereco.cep)
+            self.lineEdit_logradouro.setText(endereco.logradouro)
+            self.lineEdit_numero.setText(endereco.numero)
+            self.lineEdit_bairro.setText(endereco.bairro)
+            self.lineEdit_complemento.setText(endereco.complemento)
+
+        except TypeError as te:
+            logging.debug(te)
+            logging.info('Não foi possível buscar endereço.')
+
+        try:
+
+            # percorrer modalidades da pessoa
+            # desmarcar tudo no listView
+            # encontrar elas no listView e marcar
+
+            modalidade = dados[2]
+            print(modalidade)
+
+            for item in self.listWidget_modalidade.item
+
+            for mod in modalidade:
+                self.listWidget_modalidade.setItemSelected(self.listWidget_modalidade.item(0), True)
+
+        except TypeError as te:
+            logging.debug(te)
+            logging.info('Não foi possível buscar modalidades.')
 
     def popular_dados_padrao(self):
         # preenche modalidades
@@ -235,14 +288,13 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.label_documento.setText('CPF:')
             self.lineEdit_documento.setInputMask('999.999.999-99')
 
-
     def altera_uf(self):
+
         items = self.db.busca_registro("vw_municipio", "sigla_uf", self.comboBox_uf.currentText())
-        print(items)
+
         if items[0]:
             self.ufs_municipios = items[1][0]['fnc_buscar_registro']
-            if self.ufs_municipios is not None :
-                print(self.ufs_municipios)
+            if self.ufs_municipios is not None:
                 self.comboBox_municipio.clear()
                 for mun in self.ufs_municipios:
                     self.comboBox_municipio.addItem(mun["municipio"])

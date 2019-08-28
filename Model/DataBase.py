@@ -43,7 +43,7 @@ class DataBase:
     def get_registro(self, fnc, campo, valor):
 
         sql = "select * from " + self.schema + "." + fnc + "(" \
-              + "p_" + campo + "=>" + "'" + valor + "'" \
+              + "p_" + campo + "=>" + "'" + str(valor) + "'" \
               + ");"
 
         logging.info(sql)
