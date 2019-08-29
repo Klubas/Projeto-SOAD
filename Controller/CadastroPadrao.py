@@ -32,6 +32,7 @@ class CadastroPadrao:
     def cadastrar(self):
         self.entrar_modo_edicao()
         self.novo_cadastro = True
+        self.label_id.setText('')
 
     # Reimplementar chamando super
     def editar(self):
@@ -41,9 +42,9 @@ class CadastroPadrao:
     # Reimplementar chamando super
     def excluir(self):
         if self.nao_esta_em_modo_edicao():
-            self.frame_menu.setDisabled(False)
-            self.frame_contents.setDisabled(True)
-            self.frame_buttons.setDisabled(True)
+            return self.db.call_procedure(self.db.schema, self.dados)[0]
+        else:
+            return False
 
     def localizar(self):
 
@@ -56,13 +57,8 @@ class CadastroPadrao:
 
         localizar.retorno_dados.connect(self.receber_dados)
         modal = localizar.exec()
-        print(modal)
-        return modal
 
-        if modal == 1:
-            return self.dados
-        else:
-            return list(0)
+        return modal
 
     # Reimplementar chamando super
     def limpar_dados(self):
@@ -128,9 +124,15 @@ class CadastroPadrao:
             prc = self.db.call_procedure(self.db.schema, self.dados)
 
             if prc[0]:
+
+                if self.novo_cadastro:
+                    acao = 'realizado'
+                else:
+                    acao = 'atualizado'
+
                 dialog = StatusDialog(
                     status='OK'
-                    , mensagem='Cadastro realizado com sucesso!'
+                    , mensagem='Cadastro ' + acao + ' com sucesso!'
                 )
 
                 self.sair_modo_edicao()
@@ -185,7 +187,6 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(True)
             self.frame_buttons.setDisabled(False)
             self.frame_contents.setDisabled(False)
-            self.label_id.setText('')
 
     def sair_modo_edicao(self):
         if self.esta_em_modo_edicao():
@@ -193,7 +194,6 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(False)
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
-            self.label_id.setText('')
 
 
 

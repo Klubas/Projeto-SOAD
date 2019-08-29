@@ -26,6 +26,8 @@ class StatusDialog(QDialog, Ui_StatusDialog):
         elif status == 'OK':
             self.setWindowTitle("Mensagem de Confirmação")
             self.label_mensagem.setAlignment(Qt.AlignCenter)
+            self.setMinimumHeight(200)
+            self.setMaximumHeight(200)
             self.groupBox_mensagem.setVisible(False)
 
         else:

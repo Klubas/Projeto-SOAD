@@ -102,7 +102,6 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         item = self.db.busca_registro(self.tabela, self.colunas_chave[0], self.tableWidget_linhas.item(row, 0).text(), '=')
         print(str(int(self.tableWidget_linhas.item(row, 0).text())))
         if item[0]:
-           # item = item[1][0]['fnc_buscar_registro']
            # self.retorno_dados.emit(item)
             self.done(int(self.tableWidget_linhas.item(row, 0).text())) # retorna o ID
         else:

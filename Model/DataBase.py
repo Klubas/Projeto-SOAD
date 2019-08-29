@@ -36,8 +36,6 @@ class DataBase:
               + ", p_operador=>" + "'" + operador + "'" \
               + ");"
 
-        logging.info(sql)
-
         return self.execute_sql(sql)
 
     def get_registro(self, fnc, campo, valor):
@@ -46,10 +44,11 @@ class DataBase:
               + "p_" + campo + "=>" + "'" + str(valor) + "'" \
               + ");"
 
-        logging.info(sql)
-
         return self.execute_sql(sql)
 
+    def del_registro(self, fnc, campo, id):
+
+        return self.call_procedure(self.schema, )
 
     def call_procedure(self, schema, params):
 
@@ -62,11 +61,9 @@ class DataBase:
             del params["params"][vazio[i]]
 
         params = json.dumps(params)
-        sql = "CALL " + schema + ".fnc_chamada_de_metodo(" \
+        sql = "select * from " + schema + ".fnc_chamada_de_metodo(" \
               + "p_json_params=>" + "'" + params + "'" \
             + ");"
-
-        logging.info(sql)
 
         return self.execute_sql(sql)
 
@@ -74,6 +71,8 @@ class DataBase:
         try:
             retorno = self.db.executesql(query=sql, as_dict=True)
             self.db.commit()
+            logging.debug('sql=' + str(sql))
+            logging.debug('retorno=' + str(retorno))
             prc = True, retorno, str(self.db._lastsql)
 
         except Exception as e:
