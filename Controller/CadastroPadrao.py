@@ -23,7 +23,13 @@ class CadastroPadrao:
         self.frame_menu = None
         self.frame_buttons = None
 
-        self.label_id = None
+        self.lineEdit_id = None
+
+        self.lineEdit_id.setDisabled(True)
+
+        self.lineEdit_id.textChanged.connect(
+            lambda: self.pushButton_editar.setDisabled(self.lineEdit_id.text() == '')
+        )
 
         # QWidget
         self.frame_contents = None
@@ -32,7 +38,7 @@ class CadastroPadrao:
     def cadastrar(self):
         self.entrar_modo_edicao()
         self.novo_cadastro = True
-        self.label_id.setText('')
+        self.lineEdit_id.setText('')
 
     # Reimplementar chamando super
     def editar(self):
@@ -66,7 +72,7 @@ class CadastroPadrao:
         #self.frame_menu.setDisabled(True)
         #self.frame_contents.setDisabled(False)
         #self.frame_buttons.setDisabled(False)
-        self.label_id.setText('')
+        self.lineEdit_id.setText('')
 
     def receber_dados(self, dados):
         self.dados = dados
@@ -195,5 +201,5 @@ class CadastroPadrao:
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
 
-
-
+    def define_permite_editar(self):
+        self.pushButton_editar.setDisabled(self.lineEdit_id.text() == '')

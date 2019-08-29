@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/MenuCadastro.ui',
 # licensing of 'Resources/UI/Componentes/MenuCadastro.ui' applies.
 #
-# Created: Thu Aug 22 19:17:22 2019
+# Created: Thu Aug 29 20:20:50 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ class Ui_MenuCadastro(object):
         MenuCadastro.setMaximumSize(QtCore.QSize(1013, 82))
         self.horizontalLayout = QtWidgets.QHBoxLayout(MenuCadastro)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.frame_menu = MenuCadastro(MenuCadastro)
+        self.frame_menu = Ui_MenuCadastro(MenuCadastro)
         self.frame_menu.setMinimumSize(QtCore.QSize(0, 60))
         self.frame_menu.setMaximumSize(QtCore.QSize(16777215, 60))
         self.frame_menu.setObjectName("frame_menu")
@@ -62,4 +62,4 @@ class Ui_MenuCadastro(object):
         self.pushButton_excluir.setText(QtWidgets.QApplication.translate("MenuCadastro", "Excluir", None, -1))
         self.pushButton_localizar.setText(QtWidgets.QApplication.translate("MenuCadastro", "Localizar", None, -1))
 
-from Controller.Componentes.MenuCadastro import MenuCadastro
+from View.Componentes.Ui_MenuCadastro import Ui_MenuCadastro

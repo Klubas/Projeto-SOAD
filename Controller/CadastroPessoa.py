@@ -82,7 +82,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             "metodo": "prc_delete_pessoa",
             "schema": "soad",
             "params": {
-                "pessoa_id": self.label_id.text()
+                "pessoa_id": self.lineEdit_id.text()
             }
         }
 
@@ -169,7 +169,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         if self.novo_cadastro:
             pessoa.id_pessoa = ''
         else:
-            pessoa.id_pessoa = self.label_id.text()
+            pessoa.id_pessoa = self.lineEdit_id.text()
 
         endereco = Endereco(
             id_pessoa=pessoa.id_pessoa
@@ -232,7 +232,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             , id_pessoa=pessoa['id_pessoa']
         )
 
-        self.label_id.setText(str(pessoa.id_pessoa))
+        self.lineEdit_id.setText(str(pessoa.id_pessoa))
         self.lineEdit_nome.setText(pessoa.nome)
         self.lineEdit_email.setText(pessoa.email)
         self.lineEdit_telefone.setText(pessoa.telefone)
@@ -382,6 +382,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.lineEdit_IE.setText('ISENTO')
         else:
             self.lineEdit_IE.setText('')
+
 
     def get_municipio_selecionado(self):
         for mun in self.ufs_municipios:

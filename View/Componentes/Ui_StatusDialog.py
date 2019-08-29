@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/StatusDialog.ui',
 # licensing of 'Resources/UI/Componentes/StatusDialog.ui' applies.
 #
-# Created: Thu Aug 22 19:17:22 2019
+# Created: Thu Aug 29 20:20:51 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,6 +13,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_StatusDialog(object):
     def setupUi(self, StatusDialog):
         StatusDialog.setObjectName("StatusDialog")
+        StatusDialog.setWindowModality(QtCore.Qt.WindowModal)
         StatusDialog.setEnabled(True)
         StatusDialog.resize(750, 300)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -21,6 +22,7 @@ class Ui_StatusDialog(object):
         sizePolicy.setHeightForWidth(StatusDialog.sizePolicy().hasHeightForWidth())
         StatusDialog.setSizePolicy(sizePolicy)
         StatusDialog.setMinimumSize(QtCore.QSize(750, 300))
+        StatusDialog.setMaximumSize(QtCore.QSize(16777215, 16777215))
         StatusDialog.setSizeGripEnabled(True)
         StatusDialog.setModal(True)
         self.gridLayout = QtWidgets.QGridLayout(StatusDialog)
@@ -32,7 +34,7 @@ class Ui_StatusDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.verticalWidget.sizePolicy().hasHeightForWidth())
         self.verticalWidget.setSizePolicy(sizePolicy)
-        self.verticalWidget.setMinimumSize(QtCore.QSize(730, 280))
+        self.verticalWidget.setMinimumSize(QtCore.QSize(0, 0))
         self.verticalWidget.setSizeIncrement(QtCore.QSize(0, 0))
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
