@@ -1,8 +1,11 @@
+import logging
+
 from PySide2.QtWidgets import QDialogButtonBox
-from PySide2.QtWidgets import QWidget
+from PySide2.QtWidgets import QWidget, QListWidgetItem
 
 from Controller.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
+from Model.Endereco import Endereco
 from Model.Pessoa import Pessoa
 from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
@@ -14,6 +17,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         super(CadastroPadrao, self).__init__()
 
         self.setupUi(self)
+
+        self.setWindowTitle('SOAD - Cadastro de Pessoa')
 
         self.db = db
         self.window_list = window_list
@@ -32,9 +37,9 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
 
         # Marca como isento o lineEdit
-        self.checkBox_isento.clicked.connect(
-            lambda: self.checkBox_isento.setDisabled(not self.checkBox_isento.isEnabled())
-        )
+        self.checkBox_isento.setChecked(False)
+        self.label_IE.setDisabled(False)
+        self.checkBox_isento.toggled.connect(self.altera_ie)
 
         # campos obrigatorios
         self.campos_obrigatorios = dict([
@@ -55,9 +60,9 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         # Atualiza combobox de municipios
         self.comboBox_uf.currentTextChanged[str].connect(self.altera_uf)
 
-        self.modalidades = dict()
-        self.ufs = dict()
-        self.ufs_municipios = dict()
+        self.ufs = list(dict())
+        self.ufs_municipios = list(dict())
+        self.modalidades = list(dict())
 
         self.popular_dados_padrao()
 
@@ -73,7 +78,20 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.widget_tipo_pessoa.setDisabled(True)
 
     def excluir(self):
-        super(CadastroPessoa, self).excluir()
+        self.dados = {
+            "metodo": "prc_delete_pessoa",
+            "schema": "soad",
+            "params": {
+                "pessoa_id": self.label_id.text()
+            }
+        }
+
+        if super(CadastroPessoa, self).excluir():
+            dialog = StatusDialog(status='OK', mensagem='Registro excluido com sucesso.')
+            dialog.exec()
+            self.limpar_dados()
+
+
 
     def limpar_dados(self):
         # limpa todos os campos
@@ -88,11 +106,14 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.lineEdit_fantasia.clear()
 
         # endereco
+        self.label_endereco_id.setText('')
         self.lineEdit_cep.clear()
         self.lineEdit_logradouro.clear()
         self.lineEdit_numero.clear()
         self.lineEdit_bairro.clear()
         self.lineEdit_complemento.clear()
+        self.comboBox_uf.setCurrentIndex(-1)
+        self.comboBox_municipio.setCurrentIndex(-1)
 
     def localizar(self):
         self.localizar_campos = {
@@ -112,13 +133,16 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         dados = super(CadastroPessoa, self).localizar()
 
         dados = self.db.get_registro("fnc_get_pessoa", "pessoa_id", dados)
-        # todo: banco
-        print("precisa implementar no banco essa funcao")
 
-        if dados[0] != 0:
-            self.popular_interface(dados[0])
+        if dados[0]:
+            dados = dados[1][0]['json_pessoa']
+            self.popular_interface(dados)
+
+        self.get_modalidades_selecionadas()
 
     def confirma(self):
+
+        self.valida_obrigatorios()
 
         if self.checkBox_isento.isChecked():
             IE_pessoa = 'ISENTO'
@@ -129,16 +153,49 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             nome=self.lineEdit_nome.text()
             , email=self.lineEdit_email.text()
             , telefone=self.lineEdit_telefone.text()
+                    .replace(' ', '')
+                    .replace('+', '')
+                    .replace('(', '')
+                    .replace(')', '')
+                    .replace('-', '')
             , inscricao_estadual=IE_pessoa
             , documento=self.lineEdit_documento.text()
+                    .replace('.', '')
+                    .replace('-', '')
+                    .replace('/', '')
             , fantasia=self.lineEdit_fantasia.text()
         )
 
-        #endereco = Endereco()
+        if self.novo_cadastro:
+            pessoa.id_pessoa = ''
+        else:
+            pessoa.id_pessoa = self.label_id.text()
+
+        endereco = Endereco(
+            id_pessoa=pessoa.id_pessoa
+            , id_municipio=self.get_municipio_selecionado()['id_municipio']
+            , logradouro=self.lineEdit_logradouro.text()
+            , numero=self.lineEdit_numero.text()
+            , bairro=self.lineEdit_bairro.text()
+            , cep=self.lineEdit_cep.text().replace('-', '')
+            , complemento=self.lineEdit_complemento.text()
+        )
+
+        if self.label_endereco_id.text() == '':
+            endereco.id_endereco = ''
+        else:
+            endereco.id_endereco = self.label_endereco_id.text()
+
+        # tratar em loop quando for dar suporte a vários endereços
+        pessoa.endereco.append(endereco)
+
+        pessoa.modalidade = (self.get_modalidades_selecionadas())
+
+        print(pessoa.to_dict())
 
         # pega os dados da tela e popula um dicionario de dados
         self.dados = {
-            "metodo": "fnc_insert_pessoa",
+            "metodo": "fnc_cadastro_pessoa",
             "schema": "soad",
             "params": pessoa.to_dict()
         }
@@ -147,32 +204,44 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         if super(CadastroPessoa, self).confirma():
             print('Sucesso')
             self.limpar_dados()
-            self.carrega_dados()
+            self.popular_dados_padrao()
+
+            dados = self.db.get_registro("fnc_get_pessoa", "pessoa_id", pessoa.id_pessoa)
+
+            if dados[0]:
+                dados = dados[1][0]['json_pessoa']
+                self.popular_interface(dados)
 
         else:
             print('Erro ao salvar')
+            return
 
     def popular_interface(self, dados):
+
+        self.limpar_dados()
+
+        pessoa = dados[0]
+
         pessoa = Pessoa(
-            nome=dados['nome']
-            , email=dados['email']
-            , telefone=dados['telefone']
-            , inscricao_estadual=dados['inscricao_estadual']
-            , documento=dados['documento']
-            , fantasia=dados['fantasia']
-            , id_pessoa=dados['id_pessoa']
+            nome=pessoa['nome']
+            , email=pessoa['email']
+            , telefone=pessoa['telefone']
+            , inscricao_estadual=pessoa['inscricao_estadual']
+            , documento=pessoa['documento']
+            , fantasia=pessoa['fantasia']
+            , id_pessoa=pessoa['id_pessoa']
         )
 
-        #endereco = Endereco()
-
-        self.label_id.setText(pessoa.id_pessoa)
+        self.label_id.setText(str(pessoa.id_pessoa))
         self.lineEdit_nome.setText(pessoa.nome)
         self.lineEdit_email.setText(pessoa.email)
         self.lineEdit_telefone.setText(pessoa.telefone)
+
         if pessoa.inscricao_estadual == 'ISENTO':
             self.checkBox_isento.setChecked(True)
         else:
             self.checkBox_isento.setChecked(False)
+
         self.lineEdit_IE.setText(pessoa.inscricao_estadual)
         self.lineEdit_documento.setText(pessoa.documento)
         self.lineEdit_fantasia.setText(pessoa.fantasia)
@@ -182,22 +251,76 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         elif len(pessoa.documento) == 14:
             self.radioButton_pj.setChecked(True)
 
-        # buscar endereco
+        try:
+            endereco = dados[1][0] # pode retornar vários endereços, pego apenas o primeiro
 
-        # buscar modalidade
+            endereco = Endereco(
+                id_pessoa=endereco['id_pessoa']
+                , id_municipio=endereco['id_municipio']
+                , id_estado=endereco['id_estado']
+                , id_pais=endereco['id_pais']
+                , logradouro=endereco['logradouro']
+                , numero=endereco['numero']
+                , bairro=endereco['bairro']
+                , cep=endereco['cep']
+                , complemento=endereco['complemento']
+                , tipo=endereco['tipo']
+                , id_endereco=endereco['id_endereco']
+            )
+
+            for uf in self.ufs:
+                if uf['id_estado'] == endereco.id_estado:
+                    self.comboBox_uf.setCurrentText(uf['sigla_uf'])
+                    self.altera_uf()
+                    for mun in self.ufs_municipios:
+                        if mun['id_municipio'] == endereco.id_municipio:
+                            self.comboBox_municipio.setCurrentText(mun['municipio'])
+                            break
+                    break
+
+            self.label_endereco_id.setText(str(endereco.id_endereco))
+            self.lineEdit_cep.setText(endereco.cep)
+            self.lineEdit_logradouro.setText(endereco.logradouro)
+            self.lineEdit_numero.setText(endereco.numero)
+            self.lineEdit_bairro.setText(endereco.bairro)
+            self.lineEdit_complemento.setText(endereco.complemento)
+
+        except TypeError as te:
+            logging.debug(te)
+            logging.info('Não foi possível buscar endereço.')
+
+        for mod in self.modalidades:
+            self.listWidget_modalidade.setItemSelected(mod['item'], False)
+
+        try:
+
+            modalidade = dados[2]
+
+            for mod_pessoa in modalidade:
+                for mod in self.modalidades:
+                    if mod_pessoa['id_modalidade'] == mod['id_modalidade']:
+                        self.listWidget_modalidade.setItemSelected(mod['item'], True)
+
+        except TypeError as te:
+            logging.debug(te)
+            logging.info('Não foi possível buscar modalidades.')
 
     def popular_dados_padrao(self):
         # preenche modalidades
+
+        self.listWidget_modalidade.clear()
+
         items = self.db.busca_registro("modalidade", "id_modalidade")
 
         if items[0]:
+
             self.modalidades = items[1][0]['fnc_buscar_registro']
 
             for mod in self.modalidades:
-                self.listWidget_modalidade.addItem(mod["descricao"])
+                mod['item'] = QListWidgetItem(mod["descricao"], self.listWidget_modalidade)
 
         else:
-            dialog = StatusDialog(status='AVISO', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1])
             dialog.definir_mensagem("Não foi possível localizar as Modalidades")
             dialog.exec()
 
@@ -214,7 +337,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.comboBox_uf.setCurrentIndex(0)
 
         else:
-            dialog = StatusDialog(status='AVISO', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1])
             dialog.definir_mensagem("Não foi possível localizar as UFs")
             dialog.exec()
 
@@ -235,22 +358,42 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.label_documento.setText('CPF:')
             self.lineEdit_documento.setInputMask('999.999.999-99')
 
-
     def altera_uf(self):
+
         items = self.db.busca_registro("vw_municipio", "sigla_uf", self.comboBox_uf.currentText())
-        print(items)
+
         if items[0]:
             self.ufs_municipios = items[1][0]['fnc_buscar_registro']
-            if self.ufs_municipios is not None :
-                print(self.ufs_municipios)
+            if self.ufs_municipios is not None:
                 self.comboBox_municipio.clear()
                 for mun in self.ufs_municipios:
                     self.comboBox_municipio.addItem(mun["municipio"])
 
         else:
-            dialog = StatusDialog(status='AVISO', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1])
             dialog.definir_mensagem("Não foi possível localizar os municipios.")
             dialog.exec()
+
+    def altera_ie(self):
+
+        self.lineEdit_IE.setDisabled(self.checkBox_isento.isChecked())
+
+        if self.checkBox_isento.isChecked():
+            self.lineEdit_IE.setText('ISENTO')
+        else:
+            self.lineEdit_IE.setText('')
+
+    def get_municipio_selecionado(self):
+        for mun in self.ufs_municipios:
+            if self.comboBox_municipio.currentText() == mun['municipio']:
+                return mun
+
+    def get_modalidades_selecionadas(self):
+        modalidades = list()
+        for mod in self.modalidades:
+            if mod['item'].isSelected():
+                modalidades.append(mod['id_modalidade'])
+        return modalidades
 
     # Override PySide2.QtGui.QCloseEvent
     def closeEvent(self, event):
