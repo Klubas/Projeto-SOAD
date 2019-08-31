@@ -48,7 +48,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             return db
 
         except Exception as e:
-            dialog = StatusDialog(status='AVISO')
+            dialog = StatusDialog(status='ALERTA')
             print(e.__cause__)
             dialog.definir_mensagem("Usuário ou senha inválidos.", e)
             dialog.exec()

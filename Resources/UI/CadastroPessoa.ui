@@ -649,6 +649,16 @@
          </widget>
         </item>
         <item>
+         <widget class="QLineEdit" name="lineEdit_id">
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QDialogButtonBox" name="buttonBox">
           <property name="standardButtons">
            <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>

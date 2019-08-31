@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\Componentes\CadastroPadrao.ui',
-# licensing of 'Resources\UI\Componentes\CadastroPadrao.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/Componentes/CadastroPadrao.ui',
+# licensing of 'Resources/UI/Componentes/CadastroPadrao.ui' applies.
 #
-# Created: Sat Aug 31 16:27:11 2019
+# Created: Thu Aug 29 20:20:51 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_CadastroPadrao(object):
     def setupUi(self, CadastroPadrao):

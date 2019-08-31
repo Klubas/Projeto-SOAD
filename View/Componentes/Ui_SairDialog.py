@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\Componentes\SairDialog.ui',
-# licensing of 'Resources\UI\Componentes\SairDialog.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/Componentes/SairDialog.ui',
+# licensing of 'Resources/UI/Componentes/SairDialog.ui' applies.
 #
-# Created: Sat Aug 31 16:27:12 2019
+# Created: Thu Aug 29 20:20:50 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\CadastroPessoa.ui',
-# licensing of 'Resources\UI\CadastroPessoa.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/CadastroPessoa.ui',
+# licensing of 'Resources/UI/CadastroPessoa.ui' applies.
 #
-# Created: Sat Aug 31 16:27:10 2019
+# Created: Thu Aug 29 20:20:49 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -305,6 +305,11 @@ class Ui_CadastroPessoa(object):
         self.label_id.setText("")
         self.label_id.setObjectName("label_id")
         self.horizontalLayout.addWidget(self.label_id)
+        self.lineEdit_id = QtWidgets.QLineEdit(self.frame_buttons)
+        self.lineEdit_id.setAutoFillBackground(False)
+        self.lineEdit_id.setReadOnly(True)
+        self.lineEdit_id.setObjectName("lineEdit_id")
+        self.horizontalLayout.addWidget(self.lineEdit_id)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame_buttons)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
