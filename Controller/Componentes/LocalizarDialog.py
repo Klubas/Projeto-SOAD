@@ -39,10 +39,13 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         if campos is not None:
             self.define_campos(campos)
 
+        self.tableWidget_linhas.horizontalHeader().setVisible(True)
+
         self.pushButton_buscar.clicked.connect(self.buscar)
         self.tableWidget_linhas.doubleClicked.connect(self.retornar_selecionado)
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.retornar_selecionado)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.close)
+
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
 
     def define_colunas(self, colunas):
@@ -70,6 +73,7 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
     def define_valor_padrao(self, campo, valor):
         self.comboBox_campo.setCurrentText(campo)
         self.lineEdit_valor.setText(str(valor))
+        self.lineEdit_valor.setFocus()
 
     def buscar(self):
 
@@ -96,6 +100,8 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
                 break
 
         valor = str(valor)
+        if operador == '=':
+            valor.replace('%', '')
 
         # retorna uma lista de dicionários
         retorno = self.db.busca_registro(self.tabela, campo, valor, operador)
@@ -121,14 +127,14 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         for linha in linhas:
             col = 0
             for coluna in self.colunas:
-                valor = linha[coluna]
+                valor = '' if linha[coluna] is None else linha[coluna]
                 item = QTableWidgetItem(str(valor))
                 item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                 self.tableWidget_linhas.setItem(row, col, item)
                 col = col + 1
             row = row + 1
 
-        self.tableWidget_linhas.resizeColumnsToContents()
+        #self.tableWidget_linhas.resizeColumnsToContents()
 
     def retornar_selecionado(self):
         row = self.tableWidget_linhas.currentRow()

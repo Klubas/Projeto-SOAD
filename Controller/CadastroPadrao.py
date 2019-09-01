@@ -50,6 +50,7 @@ class CadastroPadrao:
 
         self.lineEdit_id = None
         self.pushButton_editar = None
+        self.pushButton_excluir = None
 
         # QWidget
         self.frame_contents = None
@@ -72,13 +73,14 @@ class CadastroPadrao:
         else:
             return False
 
-    def localizar(self):
+    def localizar(self, parent=None):
 
         localizar = LocalizarDialog(
             db=self.db
             , campos=self.localizar_campos
             , tabela=self.view_busca
             , colunas=self.colunas_busca
+            , parent=parent
         )
 
         localizar.retorno_dados.connect(self.receber_dados)
@@ -112,7 +114,6 @@ class CadastroPadrao:
 
     # Reimplementar chamando super
     def valida_obrigatorios(self):
-        print(self.campos_obrigatorios)
         if len(self.campos_obrigatorios) > 0:
             for campo, valor in self.campos_obrigatorios.items():
                 try:
@@ -215,6 +216,8 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(True)
             self.frame_buttons.setDisabled(False)
             self.frame_contents.setDisabled(False)
+            logging.debug('Entrando do modo edição')
+
 
     def sair_modo_edicao(self):
         if self.esta_em_modo_edicao():
@@ -222,8 +225,9 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(False)
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
+            logging.debug('Saindo em modo edição')
 
     def define_permite_editar(self):
         logging.debug('Editar: ' + str(self.lineEdit_id.text() == ''))
         self.pushButton_editar.setDisabled(self.lineEdit_id.text() == '')
-
+        self.pushButton_excluir.setDisabled(self.lineEdit_id.text() == '')

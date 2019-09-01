@@ -16,6 +16,7 @@ class Pedido:
         self.observacao = observacao
         self.data_cadastro = data_cadastro
 
+        self.itens = []
         self.mercadorias = []
         self.remanufaturas = []
 
@@ -42,5 +43,19 @@ class Pedido:
             logging.debug("Tipo {", type(item).__name__, ":", str(item), "} inválido.")
 
     def to_dict(self):
-        pass
+        itens = list(dict())
+        if self.itens is not None:
+            for i in self.itens:
+                itens.append(i.to_dict())
+
+        return {
+            "pedido_id": self.pedido_id
+            , "pessoa_id": self.pessoa_id
+            , "tipo_pedido": self.tipo_pedido
+            #, "situacao": self.situacao
+            , "data_entrega": self.data_entrega
+            , "observacao": self.observacao
+            , "data_cadastro": self.data_cadastro
+            , "itens": itens
+        }
 

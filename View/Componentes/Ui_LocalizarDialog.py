@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\LocalizarDialog.ui',
 # licensing of 'Resources\UI\Componentes\LocalizarDialog.ui' applies.
 #
-# Created: Sun Sep  1 05:05:45 2019
+# Created: Sun Sep  1 20:27:02 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -43,7 +43,9 @@ class Ui_LocalizarDialog(object):
         self.verticalLayout_2.addLayout(self.gridLayout)
         self.tableWidget_linhas = QtWidgets.QTableWidget(LocalizarDialog)
         self.tableWidget_linhas.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
+        self.tableWidget_linhas.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget_linhas.setTabKeyNavigation(True)
+        self.tableWidget_linhas.setProperty("showDropIndicator", False)
         self.tableWidget_linhas.setDragEnabled(False)
         self.tableWidget_linhas.setAlternatingRowColors(True)
         self.tableWidget_linhas.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
@@ -58,6 +60,7 @@ class Ui_LocalizarDialog(object):
         self.tableWidget_linhas.setHorizontalHeaderItem(0, item)
         self.tableWidget_linhas.horizontalHeader().setVisible(True)
         self.tableWidget_linhas.horizontalHeader().setHighlightSections(False)
+        self.tableWidget_linhas.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_linhas.verticalHeader().setVisible(False)
         self.tableWidget_linhas.verticalHeader().setHighlightSections(False)
         self.verticalLayout_2.addWidget(self.tableWidget_linhas)
