@@ -1,7 +1,6 @@
 import logging
 
-from PySide2.QtWidgets import QDialogButtonBox
-from PySide2.QtWidgets import QWidget, QListWidgetItem
+from PySide2.QtWidgets import QWidget, QListWidgetItem, QDialogButtonBox
 
 from Controller.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -65,6 +64,10 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.modalidades = list(dict())
 
         self.popular_dados_padrao()
+
+        # Define se ativa o botão editar
+        self.pushButton_editar.setDisabled(True)
+        self.lineEdit_id.textChanged[str].connect(self.define_permite_editar)
 
         self.show()
 
@@ -142,7 +145,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
     def confirma(self):
 
-        self.valida_obrigatorios()
+        if self.valida_obrigatorios() != 'OK':
+            return
 
         if self.checkBox_isento.isChecked():
             IE_pessoa = 'ISENTO'

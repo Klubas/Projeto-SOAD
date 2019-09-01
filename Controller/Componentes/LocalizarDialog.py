@@ -7,11 +7,22 @@ from View.Componentes.Ui_LocalizarDialog import Ui_LocalizarDialog
 
 class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
+    """
+    Modal de busca de registros
+    Retornar ID do registro selecionado e emite um json com o registro selecionado em retorno_dados
+
+    db = conexao com o banco
+    campos dict() = campos a serem exibidos no comboBox
+    tabela str = tabela onde os dados serão buscados
+    colunas dict() = colunas a serem exibidas no tableWidget
+
+    """
+
     retorno_dados = Signal(list)
 
-    def __init__(self, db, campos, tabela, colunas, parent=None):
+    def __init__(self, db, campos, tabela, colunas, parent=None, hidden=False):
         super(LocalizarDialog, self).__init__(parent)
-        self.setupUi(self)
+
         self.db = db
         self.tabela = tabela
 
@@ -19,8 +30,20 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
         self.operador = '='
 
+        self.setupUi(self)
+
         self.linhas = None
 
+        self.define_colunas(colunas)
+        self.define_campos(campos)
+
+        self.pushButton_buscar.clicked.connect(self.buscar)
+        self.tableWidget_linhas.doubleClicked.connect(self.retornar_selecionado)
+        self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.retornar_selecionado)
+        self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.close)
+
+    def define_colunas(self, colunas):
+        # dicionário nome_coluna : descricao
         self.colunas = colunas # colunas do tablewidget
         self.colunas_descricao = list(colunas.values())
         self.colunas_chave = list(colunas.keys())
@@ -31,18 +54,9 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         self.tableWidget_linhas.setHorizontalHeaderLabels(self.colunas_descricao)
 
 
-        # dicionário nome_coluna : descricao
-
+    def define_campos(self, campos):
         for campo in campos:
             self.comboBox_campo.addItem(campos[campo])
-
-        self.pushButton_buscar.clicked.connect(self.buscar)
-
-        self.tableWidget_linhas.doubleClicked.connect(self.retornar_selecionado)
-        self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.retornar_selecionado)
-        self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.close)
-
-        self.show()
 
     def buscar(self):
 
@@ -65,7 +79,9 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
                         valor = str(valor)
                         operador = 'like'
                 break
+
         valor = str(valor)
+
         # retorna uma lista de dicionários
         retorno = self.db.busca_registro(self.tabela, campo, valor, operador)
 
@@ -100,9 +116,11 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
     def retornar_selecionado(self):
         row = self.tableWidget_linhas.currentRow()
         item = self.db.busca_registro(self.tabela, self.colunas_chave[0], self.tableWidget_linhas.item(row, 0).text(), '=')
-        print(str(int(self.tableWidget_linhas.item(row, 0).text())))
+
+        # print(str(int(self.tableWidget_linhas.item(row, 0).text())))
+
         if item[0]:
-           # self.retorno_dados.emit(item)
+            self.retorno_dados.emit(item)
             self.done(int(self.tableWidget_linhas.item(row, 0).text())) # retorna o ID
         else:
             dialog = StatusDialog(status='AVISO', exception=item[1])

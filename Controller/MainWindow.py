@@ -89,6 +89,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # todo: Ajuda
         self.actionSobre.triggered.connect(self.abrir_sobre)
 
+        self.pushButton_venda.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=CadastroPedido, tipo="VENDA")
+        )
+
+        self.pushButton_pessoa.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=CadastroPessoa)
+        )
+
     def abrir_interface(self, window_cls, **kwargs):
         try:
 
@@ -96,13 +106,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.db
                 , self.window_list
                 , parent=self
-                , tipo=kwargs.get('tipo')
+                , **kwargs
             )
 
             self.window_list.append(cad)
             print('MAIN: ' + str(self.window_list))
-
-            #cad.formata_dados_e_salva()
 
         except Exception as e:
             logging.exception(e)

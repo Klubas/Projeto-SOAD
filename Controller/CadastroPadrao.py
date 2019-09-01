@@ -1,9 +1,34 @@
+import logging
+
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.SairDialog import SairDialog
 from Controller.Componentes.StatusDialog import StatusDialog
 
 
 class CadastroPadrao:
+    """
+    Classe padrão para cadastros
+    Alguns métodos devem ser reimplementados chamando super(ClasseFilha, self).metodo()
+
+    Métodos:
+
+    void cadastrar()
+    void editar()
+    void excluir()
+    int localizar()
+    void limpar_dados()
+    void receber_dados(dict())
+    void cancela()
+    str/int valida_obrigatorios()
+    bool confirma()
+    bool fechar
+    bool nao_esta_em_modo_edicao()
+    bool esta_em_modo_edicao()
+    void entrar_modo_edicao()
+    void sair_modo_edicao()
+    void define_permite_editar()
+
+    """
 
     def __init__(self):
         self.dados_formatados = None
@@ -24,12 +49,7 @@ class CadastroPadrao:
         self.frame_buttons = None
 
         self.lineEdit_id = None
-
-        self.lineEdit_id.setDisabled(True)
-
-        self.lineEdit_id.textChanged.connect(
-            lambda: self.pushButton_editar.setDisabled(self.lineEdit_id.text() == '')
-        )
+        self.pushButton_editar = None
 
         # QWidget
         self.frame_contents = None
@@ -156,8 +176,8 @@ class CadastroPadrao:
             return prc[0]
 
     # Não precisa ser reimplementado na tela
+    #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
     def fechar(self):
-        #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
         if self.modo_edicao:
             dialog = SairDialog()
             dialog.definir_mensagem("Tem certeza que deseja fechar? Todas as alterações serão perdidas.")
@@ -175,6 +195,7 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
+            logging.debug('Não está está em modo de edição.')
             return True
 
     def esta_em_modo_edicao(self):
@@ -185,6 +206,7 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
+            logging.debug('Está está em modo de edição.')
             return True
 
     def entrar_modo_edicao(self):
@@ -202,4 +224,6 @@ class CadastroPadrao:
             self.frame_contents.setDisabled(True)
 
     def define_permite_editar(self):
+        logging.debug('Editar: ' + str(self.lineEdit_id.text() == ''))
         self.pushButton_editar.setDisabled(self.lineEdit_id.text() == '')
+

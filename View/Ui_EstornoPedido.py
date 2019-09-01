@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources/UI/EstornoPedido.ui',
-# licensing of 'Resources/UI/EstornoPedido.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\EstornoPedido.ui',
+# licensing of 'Resources\UI\EstornoPedido.ui' applies.
 #
-# Created: Thu Aug 29 20:20:49 2019
+# Created: Sun Sep  1 03:22:24 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtWidgets
 
 class Ui_EstornoPedido(object):
     def setupUi(self, Descarte):
