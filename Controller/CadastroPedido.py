@@ -7,6 +7,7 @@ from PySide2.QtWidgets import QWidget, QDialogButtonBox
 from Controller.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.StatusDialog import StatusDialog
+from Model.Pedido import Pedido
 from View.Ui_CadastroPedido import Ui_CadastroPedido
 
 
@@ -38,9 +39,11 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         # Compra ou venda
         if self.tipo_pedido == 'VENDA':
+            self.formGroupBox_pessoa.setTitle('Cliente')
             self.horizontalFrame_tipo_item.setVisible(True)
 
         elif self.tipo_pedido == 'COMPRA':
+            self.formGroupBox_pessoa.setTitle('Fornecedor')
             self.radioButton_mercadoria.setChecked(True)
             self.horizontalFrame_tipo_item.setVisible(False)
         else:
@@ -65,15 +68,11 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.pushButton_editar.setDisabled(True)
         self.lineEdit_id.textChanged[str].connect(self.define_permite_editar)
 
-        # Atualiza valores
-        self.lineEdit_quantidade.editingFinished.connect(self.calcula_totais)
-        self.lineEdit_valor_unitario.editingFinished.connect(self.calcula_totais)
-
         # Validadores de tipos de dados
         validador_double = QDoubleValidator(bottom=0.00, top=1000000.00, decimals=6)
         validador_integer = QIntValidator(bottom=1, top=1000000)
         validador_regex = QRegExpValidator()
-        validador_regex.setRegExp(QRegExp("[1-9]+[ ]*"))
+        validador_regex.setRegExp(QRegExp("[0-9]{1,14}"))
 
         self.lineEdit_quantidade.setValidator(validador_integer)
         self.lineEdit_valor_unitario.setValidator(validador_double)
@@ -81,6 +80,11 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.lineEdit_mercadoria_id.setValidator(validador_integer)
         self.lineEdit_casco_id.setValidator(validador_integer)
         self.lineEdit_insumo_id.setValidator(validador_integer)
+        self.lineEdit_documento.setValidator(validador_regex)
+
+        # Atualiza valores
+        self.lineEdit_quantidade.editingFinished.connect(self.calcula_totais)
+        self.lineEdit_valor_unitario.editingFinished.connect(self.calcula_totais)
 
         # Buscar registros
         self.lineEdit_documento.editingFinished.connect(self.busca_pessoa)
@@ -92,6 +96,14 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         #self.lineEdit_casco_id.inputRejected.connect(lambda: self.busca_mercadoria(tipo='CASCO'))
         #self.lineEdit_insumo_id.inputRejected.connect(lambda: self.busca_mercadoria(tipo='INSUMO'))
         #self.lineEdit_mercadoria_id.inputRejected.connect(lambda: self.busca_mercadoria(tipo='MERCADORIA'))
+
+        # Variaveis para gravar o pedido
+        self.pedido = Pedido(pessoa_id=None, tipo_pedido=self.tipo_pedido)
+
+        #self.mercadoria = Mercadoria()
+        #self.remanufatura = Remanufatura()
+
+        self.localizar = LocalizarDialog(db=self.db)
 
         self.show()
 
@@ -105,13 +117,32 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
 
     def salva_item(self):
+        # Adiciona na tabela
+        # Adiciona ao objeto pedido
+        # Limpa campos
         pass
 
     def apagar_item(self):
+        # Remove da tabela
+        # Remove do objeto pedido
+        #limpa campos
         pass
 
     def limpar_item(self):
-        pass
+
+        if self.radioButton_mercadoria.isChecked():
+            self.lineEdit_mercadoria_id.clear()
+            self.lineEdit_mercadoria.clear()
+        elif self.radioButton_remanufatura.isChecked():
+            self.lineEdit_casco_id.clear()
+            self.lineEdit_casco.clear()
+            self.lineEdit_insumo_id.clear()
+            self.lineEdit_insumo.clear()
+            self.checkBox_reutilizar_casco.setChecked(False)
+
+        self.lineEdit_quantidade.clear()
+        self.lineEdit_valor_unitario.clear()
+        self.lineEdit_valor_total_item.clear()
 
     def carrega_dados(self):
         # pega os dados dos banco e popula a interface
@@ -227,15 +258,13 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                 'documento': "Documento"
             }
 
-            localizar = LocalizarDialog(
-                self.db
-                , campos=localizar_campos
-                , tabela=tabela
-                , colunas=colunas_busca
-                , parent=self
-            )
+            self.localizar.define_tabela(tabela)
+            self.localizar.define_campos(localizar_campos)
+            self.localizar.define_colunas(colunas_busca)
 
-            pessoa_id = localizar.exec()
+            self.localizar.define_valor_padrao(localizar_campos['documento'], self.lineEdit_documento.text())
+
+            pessoa_id = self.localizar.exec()
             pessoa = self.db.busca_registro(tabela, 'id_pessoa', str(pessoa_id), '=')[1][0]['fnc_buscar_registro']
 
             if pessoa is not None:
@@ -244,6 +273,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         if pessoa:
             self.lineEdit_documento.setText(pessoa['documento'])
             self.lineEdit_nome_pessoa.setText(pessoa['nome'])
+            self.pedido.pessoa_id = pessoa['id_pessoa']
             return True
 
         else:
@@ -299,15 +329,13 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                 'marca': "Marca"
             }
 
-            localizar = LocalizarDialog(
-                self.db
-                , campos=localizar_campos
-                , tabela=tabela
-                , colunas=colunas_busca
-                , parent=self
-            )
+            self.localizar.define_tabela(tabela)
+            self.localizar.define_campos(localizar_campos)
+            self.localizar.define_colunas(colunas_busca)
 
-            mercadoria_id = localizar.exec()
+            self.localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
+
+            mercadoria_id = self.localizar.exec()
             mercadoria = self.db.busca_registro(tabela, campo, str(mercadoria_id), '=')[1][0]['fnc_buscar_registro']
 
             if mercadoria is not None:

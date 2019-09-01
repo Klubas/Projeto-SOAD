@@ -20,27 +20,30 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
     retorno_dados = Signal(list)
 
-    def __init__(self, db, campos, tabela, colunas, parent=None, hidden=False):
+    def __init__(self, db, campos=None, tabela=None, colunas=None, parent=None):
         super(LocalizarDialog, self).__init__(parent)
 
         self.db = db
-        self.tabela = tabela
-
-        self.campos = campos # items do combobox
-
         self.operador = '='
-
         self.setupUi(self)
 
         self.linhas = None
+        self.campos = campos
+        self.tabela = tabela
 
-        self.define_colunas(colunas)
-        self.define_campos(campos)
+        self.define_tabela(tabela)
+
+        if colunas is not None:
+            self.define_colunas(colunas)
+
+        if campos is not None:
+            self.define_campos(campos)
 
         self.pushButton_buscar.clicked.connect(self.buscar)
         self.tableWidget_linhas.doubleClicked.connect(self.retornar_selecionado)
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.retornar_selecionado)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.close)
+        self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
 
     def define_colunas(self, colunas):
         # dicionário nome_coluna : descricao
@@ -53,10 +56,20 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         self.tableWidget_linhas.setColumnCount(len(self.colunas_descricao))
         self.tableWidget_linhas.setHorizontalHeaderLabels(self.colunas_descricao)
 
-
     def define_campos(self, campos):
+        self.comboBox_campo.clear()
+        self.campos = campos
         for campo in campos:
             self.comboBox_campo.addItem(campos[campo])
+
+    def define_tabela(self, tabela):
+        if self.tabela != tabela:
+            self.tableWidget_linhas.setRowCount(0)
+            self.tabela = tabela
+
+    def define_valor_padrao(self, campo, valor):
+        self.comboBox_campo.setCurrentText(campo)
+        self.lineEdit_valor.setText(str(valor))
 
     def buscar(self):
 
@@ -75,9 +88,11 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
                     try:
                         valor = float(valor)
                         operador = '='
+
                     except:
                         valor = str(valor)
                         operador = 'like'
+
                 break
 
         valor = str(valor)
@@ -96,9 +111,11 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
         if not linhas:
             self.tableWidget_linhas.setRowCount(0)
+            self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
             return
 
         self.tableWidget_linhas.setRowCount(len(linhas))
+        self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(False)
 
         row = 0
         for linha in linhas:

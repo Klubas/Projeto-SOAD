@@ -162,7 +162,7 @@
               <item row="0" column="0">
                <widget class="QLabel" name="label_documento">
                 <property name="text">
-                 <string>Documento</string>
+                 <string>CPF/CNPJ</string>
                 </property>
                </widget>
               </item>
@@ -196,7 +196,7 @@
         <item row="1" column="0">
          <widget class="QGroupBox" name="groupBox_items">
           <property name="title">
-           <string>Items</string>
+           <string>Itens</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
            <item row="1" column="0">
@@ -208,7 +208,7 @@
               <enum>QTabWidget::Rounded</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="tab_campos">
               <property name="sizePolicy">
@@ -608,6 +608,12 @@
                             </item>
                             <item row="2" column="1">
                              <widget class="QLabel" name="label_reutilizar_casco">
+                              <property name="font">
+                               <font>
+                                <weight>75</weight>
+                                <bold>true</bold>
+                               </font>
+                              </property>
                               <property name="toolTip">
                                <string>Define se irá utilizar remanufaturas que já foram realizadas ou será registrada uma nova remanufatura</string>
                               </property>
@@ -768,6 +774,12 @@
                          </item>
                          <item>
                           <widget class="QLabel" name="label_3">
+                           <property name="font">
+                            <font>
+                             <weight>75</weight>
+                             <bold>true</bold>
+                            </font>
+                           </property>
                            <property name="text">
                             <string>Total Item</string>
                            </property>
@@ -789,6 +801,12 @@
                              <width>100</width>
                              <height>16777215</height>
                             </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <weight>75</weight>
+                             <bold>true</bold>
+                            </font>
                            </property>
                            <property name="inputMask">
                             <string/>
@@ -840,6 +858,7 @@
                           <widget class="QLabel" name="label_valor_total_pedido">
                            <property name="font">
                             <font>
+                             <pointsize>10</pointsize>
                              <weight>75</weight>
                              <bold>true</bold>
                             </font>
@@ -862,6 +881,7 @@
                            </property>
                            <property name="font">
                             <font>
+                             <pointsize>10</pointsize>
                              <weight>75</weight>
                              <bold>true</bold>
                             </font>
@@ -1007,7 +1027,65 @@
                    <number>0</number>
                   </property>
                   <item row="0" column="0">
-                   <widget class="QTableWidget" name="tableWidget_items"/>
+                   <widget class="QTableWidget" name="tableWidget_items">
+                    <property name="showDropIndicator" stdset="0">
+                     <bool>false</bool>
+                    </property>
+                    <property name="alternatingRowColors">
+                     <bool>true</bool>
+                    </property>
+                    <property name="selectionMode">
+                     <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
+                    <property name="selectionBehavior">
+                     <enum>QAbstractItemView::SelectRows</enum>
+                    </property>
+                    <property name="showGrid">
+                     <bool>true</bool>
+                    </property>
+                    <attribute name="horizontalHeaderVisible">
+                     <bool>false</bool>
+                    </attribute>
+                    <attribute name="horizontalHeaderCascadingSectionResizes">
+                     <bool>false</bool>
+                    </attribute>
+                    <attribute name="horizontalHeaderHighlightSections">
+                     <bool>true</bool>
+                    </attribute>
+                    <attribute name="verticalHeaderVisible">
+                     <bool>false</bool>
+                    </attribute>
+                    <column>
+                     <property name="text">
+                      <string>ID</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Tipo</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Descrição</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Quantidade</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Valor Unitário</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Valor Total</string>
+                     </property>
+                    </column>
+                   </widget>
                   </item>
                  </layout>
                 </widget>

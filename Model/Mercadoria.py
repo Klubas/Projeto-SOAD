@@ -7,3 +7,6 @@ class Mercadoria:
         self.marca = marca
         self.ativo = ativo
         self.permite_venda = permite_venda
+
+    def to_dict(self):
+        pass

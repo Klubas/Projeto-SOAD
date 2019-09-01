@@ -94,10 +94,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 window_cls=CadastroPedido, tipo="VENDA")
         )
 
+        self.pushButton_compra.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=CadastroPedido, tipo="COMPRA")
+        )
+
         self.pushButton_pessoa.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=CadastroPessoa)
         )
+
+
 
     def abrir_interface(self, window_cls, **kwargs):
         try:
