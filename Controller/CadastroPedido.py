@@ -18,6 +18,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
     def __init__(self, db=None, window_list=None, **kwargs):
         super(CadastroPadrao, self).__init__()
         super(CadastroPedido, self).__init__()
+        self.parent_window=self
         self.setupUi(self)
 
         self.db = db
@@ -55,7 +56,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.label_data.setText('Data compra')
 
         else:
-            dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO INVÁLIDO')
+            dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO INVÁLIDO', parent=self.parent_window)
             dialog.exec()
 
         # buttonBox items
@@ -66,12 +67,12 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         # campos obrigatorios:
         self.campos_obrigatorios = dict([
             ('Documento', self.lineEdit_documento)
-            , ('Quantidade', self.lineEdit_quantidade)
-            , ('Valor Unitário', self.lineEdit_valor_unitario)
-            , ('Valor Total Item', self.lineEdit_valor_total_item)
             , ('Casco', self.lineEdit_casco_id)
             , ('Mercadoria', self.lineEdit_mercadoria_id)
             , ('Insumo', self.lineEdit_insumo_id)
+            , ('Quantidade', self.lineEdit_quantidade)
+            , ('Valor Unitário', self.lineEdit_valor_unitario)
+            , ('Valor Total Item', self.lineEdit_valor_total_item)
         ])
 
         # Radio Button item
@@ -134,7 +135,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             , "descricao": 'Descrição'
             , "quantidade": "Documento"
             , "valor_unitario": "Valor Unitário"
-            , "valor_total": "Valor_total"
+            , "valor_total": "Valor total"
         }
 
         self.colunas_descricao = list(self.colunas_item.values())
@@ -171,7 +172,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         }
 
         if super(CadastroPedido, self).excluir():
-            dialog = StatusDialog(status='OK', mensagem='Pedido Cancelado com Sucesso.')
+            dialog = StatusDialog(status='OK', mensagem='Pedido Cancelado com Sucesso.', parent=self.parent_window)
             dialog.exec()
             self.limpar_dados()
 
@@ -179,12 +180,12 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.campos_obrigatorios = dict([
             ('Documento', self.lineEdit_documento)
-            , ('Quantidade', self.lineEdit_quantidade)
-            , ('Valor Unitário', self.lineEdit_valor_unitario)
-            , ('Valor Total Item', self.lineEdit_valor_total_item)
             , ('Casco', self.lineEdit_casco_id)
             , ('Mercadoria', self.lineEdit_mercadoria_id)
             , ('Insumo', self.lineEdit_insumo_id)
+            , ('Quantidade', self.lineEdit_quantidade)
+            , ('Valor Unitário', self.lineEdit_valor_unitario)
+            , ('Valor Total Item', self.lineEdit_valor_total_item)
         ])
 
         if self.radioButton_mercadoria.isChecked():
@@ -227,18 +228,54 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.view_busca = 'vw_pedido'
 
         dados = super(CadastroPedido, self).localizar(parent=self)
+
         dados = self.db.get_registro("fnc_get_pedido", "pedido_id", dados)
 
         if dados[0]:
             dados = dados[1][0]['json_pedido']
             self.popular_interface(dados)
 
+    def popular_interface(self, dados):
+        # Preenche identificação
+        print(dados)
+
+        pedido = dados[0]
+
+        self.lineEdit_documento.setText(pedido['documento'])
+        self.lineEdit_nome_pessoa.setText(pedido['pessoa'])
+
+        pedido = Pedido(
+            pedido_id=pedido['id_pedido']
+            , pessoa_id=pedido['id_pessoa']
+            , tipo_pedido=pedido['tipo_pedido']
+            , data_entrega=pedido['data_entrega']
+            , situacao=pedido['situacao']
+            , data_cadastro=pedido['data_cadastro']
+            , observacao=pedido['observacao']
+        )
+
+        self.lineEdit_id.setText(str(pedido.pedido_id))
+
+        if pedido.data_entrega is not None:
+            self.dateEdit_entrega.setDate(QDate(dados['data_entrega']))
+        else:
+            self.dateEdit_entrega.clear()
+
+        # Montar ItemPedido
+
+        # Preenche tabela
+
+        # Posiciona o primeiro item da tabela no stack
+
+        pass
+
     def valida_obrigatorios(self):
         if self.tableWidget_items.rowCount() == 0:
             dialog = StatusDialog(
                 status='ALERTA'
                 , mensagem='Não é possível realizar uma '
-                           + self.tipo_pedido +  ' sem itens.')
+                           + self.tipo_pedido +  ' sem itens.'
+                , parent=self.parent_window)
             return dialog.exec()
         return super(CadastroPedido, self).valida_obrigatorios()
 
@@ -268,11 +305,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         # Volta os obrigatorios para a forma inicial
         self.define_tipo()
 
-    def popular_iterface(self, dados):
-        # Preenche identificação
-        # Preenche tabela
-        # Posiciona o primeiro item da tabela no stack
-        pass
 
     def salva_item(self):
 
@@ -356,35 +388,24 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
     def calcula_totais_item(self):
 
         if self.lineEdit_valor_unitario.text() == '':
-
             valor_unitario = 0
-
             self.lineEdit_valor_unitario.setText('0,00')
 
         else:
-
             valor_unitario = float(self.lineEdit_valor_unitario.text().replace(',', '.').replace(' ', ''))
-
             self.lineEdit_valor_unitario.setText(
-                str(valor_unitario).replace('.', ',')
-            )
+                str(valor_unitario).replace('.', ','))
 
         if self.lineEdit_quantidade.text() == '':
-
             quantidade = 0
-
             self.lineEdit_quantidade.setText('0,00')
 
         else:
-
             quantidade = float(self.lineEdit_quantidade.text().replace(',', '.').replace(' ', ''))
-
             self.lineEdit_quantidade.setText(
-                str(quantidade).replace('.', ',')
-            )
+                str(quantidade).replace('.', ','))
 
         total_item = quantidade * valor_unitario
-
         self.lineEdit_valor_total_item.setText(str(total_item).replace('.', ','))
 
     def calcula_totais_pedido(self):
@@ -394,11 +415,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             v = 0 if self.tableWidget_items.item(row, 5).text() is None \
                 else self.tableWidget_items.item(row, 5).text().replace(',', '.')
             valor = valor + float(v)
-            print(valor)
-
-        print(self.lineEdit_valor_total_item.text()) #.replace(',', '.'))
-
-        valor = valor + float(1)
+        #valor = valor + float() self.lineEdit_valor_total_item.text().replace(',', '.')
         self.lineEdit_valor_total_pedido.setText(str(valor).replace('.', ','))
 
     def busca_pessoa(self):

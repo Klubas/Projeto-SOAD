@@ -8,8 +8,8 @@ from View.Componentes.Ui_StatusDialog import Ui_StatusDialog
 
 class StatusDialog(QDialog, Ui_StatusDialog):
 
-    def __init__(self, status='ERRO', mensagem='', exception=''):
-        super().__init__()
+    def __init__(self, status='ERRO', mensagem='', exception='', parent=None):
+        super(StatusDialog, self).__init__(parent)
         self.setupUi(self)
 
         # todo: definir características de cada tipo de alerta

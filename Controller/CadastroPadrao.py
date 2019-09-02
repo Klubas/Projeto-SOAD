@@ -54,6 +54,7 @@ class CadastroPadrao:
 
         # QWidget
         self.frame_contents = None
+        self.parent_window = None
 
     # Reimplementar chamando super
     def cadastrar(self):
@@ -119,22 +120,25 @@ class CadastroPadrao:
                 try:
                     if valor.text() == '':
                         dialog = StatusDialog(
-                            status='ALERTA',
-                            mensagem='O campo ' + campo + ' é obrigatório.'
+                            status='ALERTA'
+                            , mensagem='O campo ' + campo + ' é obrigatório.'
+                            , parent=self.parent_window
                         )
                         return dialog.exec()
                 except AttributeError as attr:
                     if valor.currentText() == '':
                         dialog = StatusDialog(
-                            status='ALERTA',
-                            mensagem='O campo ' + campo + ' é obrigatório.'
+                            status='ALERTA'
+                            , mensagem='O campo ' + campo + ' é obrigatório.'
+                            , parent=self.parent_window
                         )
                         return dialog.exec()
                 except Exception as e:
                     dialog = StatusDialog(
-                        status='ERRO',
-                        mensagem='Erro ao verificar campos obrigatórios.',
-                        exception=e
+                        status='ERRO'
+                        , mensagem='Erro ao verificar campos obrigatórios.'
+                        , exception=e
+                        , parent=self.parent_window
                     )
                     return dialog.exec()
 
@@ -160,6 +164,7 @@ class CadastroPadrao:
                 dialog = StatusDialog(
                     status='OK'
                     , mensagem='Cadastro ' + acao + ' com sucesso!'
+                    , parent=self.parent_window
                 )
 
                 self.sair_modo_edicao()
@@ -169,6 +174,7 @@ class CadastroPadrao:
                     status='ERRO'
                     , mensagem='Não foi possível salvar os dados.'
                     , exception=str(prc[1]) + ' ' + str(prc[2])
+                    , parent=self.parent_window
                 )
                 self.modo_edicao = True
 
@@ -193,6 +199,7 @@ class CadastroPadrao:
             dialog = StatusDialog(
                 status='ERRO'
                 , mensagem='A interface está em modo de edição!'
+                , parent=self.parent_window
             )
             return dialog.exec()
         else:
@@ -204,6 +211,7 @@ class CadastroPadrao:
             dialog = StatusDialog(
                 status='ERRO'
                 , mensagem='A interface não está em modo de edição!'
+                , parent=self.parent_window
             )
             return dialog.exec()
         else:

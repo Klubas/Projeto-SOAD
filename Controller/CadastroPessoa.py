@@ -14,7 +14,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
     def __init__(self, db, window_list, **kwargs):
         super(CadastroPessoa, self).__init__()
         super(CadastroPadrao, self).__init__()
-
+        self.parent_window=self
         self.setupUi(self)
 
         self.setWindowTitle('SOAD - Cadastro de Pessoa')
@@ -90,7 +90,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         }
 
         if super(CadastroPessoa, self).excluir():
-            dialog = StatusDialog(status='OK', mensagem='Registro excluido com sucesso.')
+            dialog = StatusDialog(status='OK', mensagem='Registro excluido com sucesso.', parent=self.parent_window)
             dialog.exec()
             self.limpar_dados()
 
@@ -323,7 +323,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
                 mod['item'] = QListWidgetItem(mod["descricao"], self.listWidget_modalidade)
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
             dialog.definir_mensagem("Não foi possível localizar as Modalidades")
             dialog.exec()
 
@@ -340,7 +340,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.comboBox_uf.setCurrentIndex(0)
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
             dialog.definir_mensagem("Não foi possível localizar as UFs")
             dialog.exec()
 
@@ -373,7 +373,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
                     self.comboBox_municipio.addItem(mun["municipio"])
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
             dialog.definir_mensagem("Não foi possível localizar os municipios.")
             dialog.exec()
 
