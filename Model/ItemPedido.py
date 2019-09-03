@@ -1,19 +1,19 @@
 
 class ItemPedido:
-    def __init__(self, tipo, quantidade, valor_unitario, valor_total,item_pedido_id=None, **kwargs):
+    def __init__(self, tipo, quantidade, valor_unitario, valor_total=None, item_pedido_id=None, **kwargs):
         self.item_pedido_id = item_pedido_id
         self.tipo = tipo
         self.descricao = kwargs.get('descricao')
         self.quantidade = quantidade
         self.valor_unitario = valor_unitario
-        self.valor_total = valor_total #int(quantidade) * float(valor_unitario)
+        self.valor_total = float(quantidade) * float(valor_unitario)
 
 
         if tipo == 'MERCADORIA':
             self.mercadoria_id = kwargs.get('mercadoria_id')
             self.unidade_medida = kwargs.get('unidade_medida')
             self.unidade_medida_id = kwargs.get('unidade_medida_id')
-            self.mercadoria_id = kwargs.get('mercadoria')
+            self.mercadoria = kwargs.get('mercadoria')
 
         if tipo == 'REMANUFATURA':
             self.casco_id = kwargs.get('casco_id')

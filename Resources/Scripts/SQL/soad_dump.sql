@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-09-02 00:45:39
+-- Started on 2019-09-02 00:53:16
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -5433,7 +5433,7 @@ ALTER TABLE ONLY "soad"."usuario"
     ADD CONSTRAINT "fkc_usuario_pessoa_id" FOREIGN KEY ("fk_pessoa_id") REFERENCES "soad"."pessoa"("id_pessoa") ON DELETE CASCADE;
 
 
--- Completed on 2019-09-02 00:45:39
+-- Completed on 2019-09-02 00:53:17
 
 --
 -- PostgreSQL database dump complete

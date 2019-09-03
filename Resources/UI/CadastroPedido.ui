@@ -51,6 +51,9 @@
           <property name="text">
            <string>Cadastrar</string>
           </property>
+          <property name="shortcut">
+           <string>Alt+C</string>
+          </property>
           <property name="checkable">
            <bool>false</bool>
           </property>
@@ -76,6 +79,9 @@
           <property name="text">
            <string>Editar</string>
           </property>
+          <property name="shortcut">
+           <string>Alt+E</string>
+          </property>
           <property name="checkable">
            <bool>false</bool>
           </property>
@@ -98,6 +104,9 @@
           <property name="text">
            <string>Excluir</string>
           </property>
+          <property name="shortcut">
+           <string>Alt+D</string>
+          </property>
           <property name="checkable">
            <bool>false</bool>
           </property>
@@ -119,6 +128,9 @@
           </property>
           <property name="text">
            <string>Localizar</string>
+          </property>
+          <property name="shortcut">
+           <string>Alt+L</string>
           </property>
           <property name="checkable">
            <bool>false</bool>
@@ -145,6 +157,12 @@
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
          <widget class="QGroupBox" name="groupBox_identificacao">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <weight>50</weight>
@@ -158,10 +176,23 @@
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="0" column="0">
             <widget class="QGroupBox" name="formGroupBox_pessoa">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="title">
               <string>Pessoa</string>
              </property>
              <layout class="QFormLayout" name="formLayout">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Data Cadastro</string>
+                </property>
+               </widget>
+              </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_documento">
                 <property name="text">
@@ -190,43 +221,103 @@
                 </item>
                </layout>
               </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_data">
-                <property name="text">
-                 <string>Data Entrega</string>
+              <item row="0" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <property name="spacing">
+                 <number>6</number>
                 </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QDateEdit" name="dateEdit_entrega">
-                <property name="maximumSize">
-                 <size>
-                  <width>120</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="wrapping">
-                 <bool>false</bool>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="accelerated">
-                 <bool>false</bool>
-                </property>
-                <property name="showGroupSeparator" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="calendarPopup">
-                 <bool>true</bool>
-                </property>
-                <property name="timeSpec">
-                 <enum>Qt::LocalTime</enum>
-                </property>
-               </widget>
+                <item>
+                 <widget class="QDateEdit" name="dateEdit_cadastro">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>120</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="wrapping">
+                   <bool>false</bool>
+                  </property>
+                  <property name="frame">
+                   <bool>true</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="accelerated">
+                   <bool>false</bool>
+                  </property>
+                  <property name="showGroupSeparator" stdset="0">
+                   <bool>true</bool>
+                  </property>
+                  <property name="calendarPopup">
+                   <bool>true</bool>
+                  </property>
+                  <property name="timeSpec">
+                   <enum>Qt::LocalTime</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_data">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Data Entrega</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDateEdit" name="dateEdit_entrega">
+                  <property name="maximumSize">
+                   <size>
+                    <width>120</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="wrapping">
+                   <bool>false</bool>
+                  </property>
+                  <property name="frame">
+                   <bool>true</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="accelerated">
+                   <bool>false</bool>
+                  </property>
+                  <property name="showGroupSeparator" stdset="0">
+                   <bool>true</bool>
+                  </property>
+                  <property name="calendarPopup">
+                   <bool>true</bool>
+                  </property>
+                  <property name="timeSpec">
+                   <enum>Qt::LocalTime</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -236,6 +327,12 @@
         </item>
         <item row="1" column="0">
          <widget class="QGroupBox" name="groupBox_items">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <weight>50</weight>
@@ -257,6 +354,12 @@
           <layout class="QGridLayout" name="gridLayout_3">
            <item row="1" column="0">
             <widget class="QTabWidget" name="tabWidget">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="tabPosition">
               <enum>QTabWidget::East</enum>
              </property>
@@ -264,11 +367,20 @@
               <enum>QTabWidget::Rounded</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
+             </property>
+             <property name="tabsClosable">
+              <bool>false</bool>
+             </property>
+             <property name="movable">
+              <bool>false</bool>
+             </property>
+             <property name="tabBarAutoHide">
+              <bool>false</bool>
              </property>
              <widget class="QWidget" name="tab_campos">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -281,8 +393,8 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>746</width>
-                <height>265</height>
+                <width>16777215</width>
+                <height>16777215</height>
                </size>
               </property>
               <attribute name="title">
@@ -307,7 +419,7 @@
                <item row="0" column="0">
                 <widget class="QFrame" name="frame">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -402,7 +514,7 @@
                         <item>
                          <widget class="QRadioButton" name="radioButton_remanufatura">
                           <property name="sizePolicy">
-                           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                            </sizepolicy>
@@ -422,6 +534,28 @@
                           </property>
                          </widget>
                         </item>
+                        <item>
+                         <widget class="QLineEdit" name="lineEdit_item_pedido_id">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>50</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="autoFillBackground">
+                           <bool>false</bool>
+                          </property>
+                          <property name="frame">
+                           <bool>false</bool>
+                          </property>
+                          <property name="readOnly">
+                           <bool>false</bool>
+                          </property>
+                         </widget>
+                        </item>
                        </layout>
                       </widget>
                      </item>
@@ -436,7 +570,13 @@
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>100</height>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="sizeIncrement">
+                        <size>
+                         <width>0</width>
+                         <height>0</height>
                         </size>
                        </property>
                        <property name="lineWidth">
@@ -511,6 +651,17 @@
                               </item>
                              </layout>
                             </item>
+                            <item row="1" column="1">
+                             <layout class="QHBoxLayout" name="horizontalLayout_4">
+                              <item>
+                               <widget class="QLineEdit" name="lineEdit_marca_mercadoria">
+                                <property name="enabled">
+                                 <bool>false</bool>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </item>
                            </layout>
                           </widget>
                          </item>
@@ -544,7 +695,7 @@
                            <property name="maximumSize">
                             <size>
                              <width>16777215</width>
-                             <height>100</height>
+                             <height>16777215</height>
                             </size>
                            </property>
                            <property name="frameShape">
@@ -593,6 +744,19 @@
                                 <property name="enabled">
                                  <bool>false</bool>
                                 </property>
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>300</width>
+                                  <height>0</height>
+                                 </size>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLineEdit" name="lineEdit_marca_casco">
+                                <property name="enabled">
+                                 <bool>false</bool>
+                                </property>
                                </widget>
                               </item>
                              </layout>
@@ -629,6 +793,25 @@
                                <widget class="QLineEdit" name="lineEdit_insumo">
                                 <property name="enabled">
                                  <bool>false</bool>
+                                </property>
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>300</width>
+                                  <height>0</height>
+                                 </size>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLineEdit" name="lineEdit_marca_insumo">
+                                <property name="enabled">
+                                 <bool>false</bool>
+                                </property>
+                                <property name="sizePolicy">
+                                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                                  <horstretch>0</horstretch>
+                                  <verstretch>0</verstretch>
+                                 </sizepolicy>
                                 </property>
                                </widget>
                               </item>
@@ -911,81 +1094,6 @@
                          </item>
                         </layout>
                        </item>
-                       <item row="2" column="1">
-                        <layout class="QHBoxLayout" name="horizontalLayout_15">
-                         <property name="spacing">
-                          <number>10</number>
-                         </property>
-                         <property name="leftMargin">
-                          <number>6</number>
-                         </property>
-                         <property name="topMargin">
-                          <number>9</number>
-                         </property>
-                         <item>
-                          <spacer name="horizontalSpacer_2">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
-                           </property>
-                           <property name="sizeHint" stdset="0">
-                            <size>
-                             <width>40</width>
-                             <height>20</height>
-                            </size>
-                           </property>
-                          </spacer>
-                         </item>
-                         <item>
-                          <widget class="QLabel" name="label_valor_total_pedido">
-                           <property name="font">
-                            <font>
-                             <pointsize>10</pointsize>
-                             <weight>75</weight>
-                             <bold>true</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>Total Pedido (R$)</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QLineEdit" name="lineEdit_valor_total_pedido">
-                           <property name="enabled">
-                            <bool>false</bool>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>100</width>
-                             <height>16777215</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <pointsize>10</pointsize>
-                             <weight>75</weight>
-                             <bold>true</bold>
-                            </font>
-                           </property>
-                           <property name="inputMask">
-                            <string/>
-                           </property>
-                           <property name="text">
-                            <string/>
-                           </property>
-                           <property name="frame">
-                            <bool>false</bool>
-                           </property>
-                           <property name="alignment">
-                            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                           </property>
-                           <property name="placeholderText">
-                            <string>0,00</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
                        <item row="1" column="1">
                         <layout class="QVBoxLayout" name="verticalLayout_4"/>
                        </item>
@@ -1027,7 +1135,7 @@
                         <bool>true</bool>
                        </property>
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
@@ -1048,7 +1156,7 @@
                         <enum>Qt::Vertical</enum>
                        </property>
                        <property name="standardButtons">
-                        <set>QDialogButtonBox::Discard|QDialogButtonBox::Reset|QDialogButtonBox::Save</set>
+                        <set>QDialogButtonBox::Reset|QDialogButtonBox::Save</set>
                        </property>
                        <property name="centerButtons">
                         <bool>false</bool>
@@ -1068,15 +1176,27 @@
                <bool>true</bool>
               </property>
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="maximumSize">
                <size>
-                <width>746</width>
-                <height>265</height>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="sizeIncrement">
+               <size>
+                <width>0</width>
+                <height>0</height>
                </size>
               </property>
               <attribute name="title">
@@ -1118,13 +1238,22 @@
                   </property>
                   <item row="0" column="0">
                    <widget class="QTableWidget" name="tableWidget_items">
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::CustomContextMenu</enum>
+                    </property>
+                    <property name="lineWidth">
+                     <number>1</number>
+                    </property>
                     <property name="autoScrollMargin">
                      <number>17</number>
                     </property>
                     <property name="editTriggers">
-                     <set>QAbstractItemView::NoEditTriggers</set>
+                     <set>QAbstractItemView::DoubleClicked</set>
                     </property>
                     <property name="showDropIndicator" stdset="0">
+                     <bool>false</bool>
+                    </property>
+                    <property name="dragEnabled">
                      <bool>false</bool>
                     </property>
                     <property name="alternatingRowColors">
@@ -1144,6 +1273,12 @@
                     </property>
                     <property name="wordWrap">
                      <bool>false</bool>
+                    </property>
+                    <property name="rowCount">
+                     <number>0</number>
+                    </property>
+                    <property name="columnCount">
+                     <number>0</number>
                     </property>
                     <attribute name="horizontalHeaderVisible">
                      <bool>false</bool>
@@ -1166,11 +1301,6 @@
                     <attribute name="verticalHeaderHighlightSections">
                      <bool>false</bool>
                     </attribute>
-                    <column>
-                     <property name="text">
-                      <string>ID</string>
-                     </property>
-                    </column>
                    </widget>
                   </item>
                  </layout>
@@ -1179,6 +1309,87 @@
               </layout>
              </widget>
             </widget>
+           </item>
+           <item row="2" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_15">
+             <property name="spacing">
+              <number>9</number>
+             </property>
+             <property name="leftMargin">
+              <number>9</number>
+             </property>
+             <property name="topMargin">
+              <number>9</number>
+             </property>
+             <property name="rightMargin">
+              <number>40</number>
+             </property>
+             <property name="bottomMargin">
+              <number>9</number>
+             </property>
+             <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_valor_total_pedido">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Total Pedido (R$)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_valor_total_pedido">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>100</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="placeholderText">
+                <string>0,00</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -1202,13 +1413,6 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLabel" name="label_id">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QLineEdit" name="lineEdit_id">
           <property name="enabled">
            <bool>false</bool>
@@ -1230,6 +1434,37 @@
           </property>
           <property name="readOnly">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_situacao">
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>16</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+            <underline>false</underline>
+            <strikeout>false</strikeout>
+            <kerning>false</kerning>
+           </font>
+          </property>
+          <property name="text">
+           <string>SITUAÇÃO</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <property name="indent">
+           <number>0</number>
           </property>
          </widget>
         </item>

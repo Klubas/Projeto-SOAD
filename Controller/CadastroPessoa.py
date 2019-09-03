@@ -386,7 +386,6 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         else:
             self.lineEdit_IE.setText('')
 
-
     def get_municipio_selecionado(self):
         for mun in self.ufs_municipios:
             if self.comboBox_municipio.currentText() == mun['municipio']:

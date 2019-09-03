@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
 # licensing of 'Resources\UI\MainWindow.ui' applies.
 #
-# Created: Mon Sep  2 00:43:49 2019
+# Created: Tue Sep  3 07:46:19 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowModality(QtCore.Qt.NonModal)
+        MainWindow.setWindowModality(QtCore.Qt.WindowModal)
         MainWindow.setEnabled(True)
         MainWindow.resize(1418, 768)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
@@ -22,9 +22,12 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMinimumSize(QtCore.QSize(1024, 768))
-        MainWindow.setMaximumSize(QtCore.QSize(2560, 1080))
+        MainWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        MainWindow.setBaseSize(QtCore.QSize(0, 0))
+        MainWindow.setFocusPolicy(QtCore.Qt.TabFocus)
         MainWindow.setInputMethodHints(QtCore.Qt.ImhPreferUppercase)
         MainWindow.setAnimated(True)
+        MainWindow.setDocumentMode(False)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setMinimumSize(QtCore.QSize(1418, 0))

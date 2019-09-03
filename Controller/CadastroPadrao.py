@@ -108,10 +108,12 @@ class CadastroPadrao:
             cancelar = dialog.exec()
 
         else:
-            return
+            return False
 
         if cancelar:
             self.sair_modo_edicao()
+
+        return cancelar
 
     # Reimplementar chamando super
     def valida_obrigatorios(self):
@@ -203,7 +205,7 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
-            logging.debug('Não está está em modo de edição.')
+            logging.info('Não está está em modo de edição.')
             return True
 
     def esta_em_modo_edicao(self):
@@ -215,7 +217,7 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
-            logging.debug('Está está em modo de edição.')
+            logging.info('Está está em modo de edição.')
             return True
 
     def entrar_modo_edicao(self):
@@ -224,7 +226,7 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(True)
             self.frame_buttons.setDisabled(False)
             self.frame_contents.setDisabled(False)
-            logging.debug('Entrando do modo edição')
+            logging.info('Entrando do modo edição')
 
 
     def sair_modo_edicao(self):
@@ -233,9 +235,9 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(False)
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
-            logging.debug('Saindo em modo edição')
+            logging.info('Saindo em modo edição')
 
     def define_permite_editar(self):
-        logging.debug('Editar: ' + str(self.lineEdit_id.text() == ''))
+        logging.info('Editar: ' + str(self.lineEdit_id.text() == ''))
         self.pushButton_editar.setDisabled(self.lineEdit_id.text() == '')
         self.pushButton_excluir.setDisabled(self.lineEdit_id.text() == '')

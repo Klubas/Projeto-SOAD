@@ -3,7 +3,7 @@
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="windowModality">
-   <enum>Qt::NonModal</enum>
+   <enum>Qt::WindowModal</enum>
   </property>
   <property name="enabled">
    <bool>true</bool>
@@ -30,9 +30,18 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>2560</width>
-    <height>1080</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::TabFocus</enum>
   </property>
   <property name="windowTitle">
    <string>SOAD </string>
@@ -42,6 +51,9 @@
   </property>
   <property name="animated">
    <bool>true</bool>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
