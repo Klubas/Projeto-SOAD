@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources/UI/Componentes/RelatorioPadrao.ui',
-# licensing of 'Resources/UI/Componentes/RelatorioPadrao.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\Componentes\RelatorioPadrao.ui',
+# licensing of 'Resources\UI\Componentes\RelatorioPadrao.ui' applies.
 #
-# Created: Thu Sep  5 18:58:24 2019
+# Created: Tue Sep  3 19:57:41 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtWidgets
 
 class Ui_RelatorioPadrao(object):
     def setupUi(self, RelatorioPadrao):

@@ -79,6 +79,9 @@ class DataBase:
             self.db.rollback()
             prc = False, e, str(sql)
 
+        except:
+            prc = False, 'Exceção não tratada', str(sql)
+
         return prc
 
     def __conectar_banco__(self, progress_callback):

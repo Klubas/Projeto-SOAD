@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources/UI/LoginDialog.ui',
-# licensing of 'Resources/UI/LoginDialog.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\LoginDialog.ui',
+# licensing of 'Resources\UI\LoginDialog.ui' applies.
 #
-# Created: Thu Aug 29 20:20:49 2019
+# Created: Tue Sep  3 19:57:40 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -132,12 +132,14 @@ class Ui_LoginDialog(object):
         self.gridLayout_3.setContentsMargins(10, 10, 10, 10)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.graphicsView = QtWidgets.QGraphicsView(self.verticalFrame)
+        self.graphicsView.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.graphicsView.sizePolicy().hasHeightForWidth())
         self.graphicsView.setSizePolicy(sizePolicy)
         self.graphicsView.setMaximumSize(QtCore.QSize(150, 110))
+        self.graphicsView.setInteractive(False)
         self.graphicsView.setObjectName("graphicsView")
         self.gridLayout_3.addWidget(self.graphicsView, 0, 0, 1, 1)
         self.horizontalLayout.addLayout(self.gridLayout_3)

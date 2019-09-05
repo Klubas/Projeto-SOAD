@@ -1,7 +1,6 @@
 import logging
 
-from PySide2.QtWidgets import QDialogButtonBox
-from PySide2.QtWidgets import QWidget, QListWidgetItem
+from PySide2.QtWidgets import QWidget, QListWidgetItem, QDialogButtonBox
 
 from Controller.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -15,7 +14,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
     def __init__(self, db, window_list, **kwargs):
         super(CadastroPessoa, self).__init__()
         super(CadastroPadrao, self).__init__()
-
+        self.parent_window=self
         self.setupUi(self)
 
         self.setWindowTitle('SOAD - Cadastro de Pessoa')
@@ -66,6 +65,10 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         self.popular_dados_padrao()
 
+        # Define se ativa o botão editar
+        self.pushButton_editar.setDisabled(True)
+        self.lineEdit_id.textChanged[str].connect(self.define_permite_editar)
+
         self.show()
 
     def cadastrar(self):
@@ -87,7 +90,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         }
 
         if super(CadastroPessoa, self).excluir():
-            dialog = StatusDialog(status='OK', mensagem='Registro excluido com sucesso.')
+            dialog = StatusDialog(status='OK', mensagem='Registro excluido com sucesso.', parent=self.parent_window)
             dialog.exec()
             self.limpar_dados()
 
@@ -115,7 +118,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.comboBox_uf.setCurrentIndex(-1)
         self.comboBox_municipio.setCurrentIndex(-1)
 
-    def localizar(self):
+    def localizar(self, parent=None):
         self.localizar_campos = {
             "id_pessoa": 'ID',
             "nome": 'Nome',
@@ -130,8 +133,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         self.view_busca = 'vw_pessoa'
 
-        dados = super(CadastroPessoa, self).localizar()
-
+        dados = super(CadastroPessoa, self).localizar(parent=self)
         dados = self.db.get_registro("fnc_get_pessoa", "pessoa_id", dados)
 
         if dados[0]:
@@ -142,7 +144,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
     def confirma(self):
 
-        self.valida_obrigatorios()
+        if self.valida_obrigatorios() != 'OK':
+            return
 
         if self.checkBox_isento.isChecked():
             IE_pessoa = 'ISENTO'
@@ -320,7 +323,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
                 mod['item'] = QListWidgetItem(mod["descricao"], self.listWidget_modalidade)
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
             dialog.definir_mensagem("Não foi possível localizar as Modalidades")
             dialog.exec()
 
@@ -337,7 +340,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.comboBox_uf.setCurrentIndex(0)
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
             dialog.definir_mensagem("Não foi possível localizar as UFs")
             dialog.exec()
 
@@ -370,7 +373,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
                     self.comboBox_municipio.addItem(mun["municipio"])
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1])
+            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
             dialog.definir_mensagem("Não foi possível localizar os municipios.")
             dialog.exec()
 
@@ -382,7 +385,6 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.lineEdit_IE.setText('ISENTO')
         else:
             self.lineEdit_IE.setText('')
-
 
     def get_municipio_selecionado(self):
         for mun in self.ufs_municipios:

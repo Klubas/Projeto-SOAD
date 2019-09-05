@@ -6,15 +6,17 @@ from Model.Remanufatura import Remanufatura
 
 class Pedido:
 
-    def __init__(self, pessoa, tipo_pedido, data_entrega=None, situacao='CADASTRADO', data_cadastro=None, observacao=None):
+    def __init__(self, pessoa_id, tipo_pedido, data_entrega=None, situacao='CADASTRADO', data_cadastro=None, observacao=None, pedido_id = None):
 
-        self.pessoa = pessoa
+        self.pedido_id = pedido_id
+        self.pessoa_id = pessoa_id
         self.tipo_pedido = tipo_pedido
         self.situacao = situacao
         self.data_entrega = data_entrega
         self.observacao = observacao
         self.data_cadastro = data_cadastro
 
+        self.itens = []
         self.mercadorias = []
         self.remanufaturas = []
 
@@ -39,4 +41,21 @@ class Pedido:
 
         else:
             logging.debug("Tipo {", type(item).__name__, ":", str(item), "} inválido.")
+
+    def to_dict(self):
+        itens = list(dict())
+        if self.itens is not None:
+            for i in self.itens:
+                itens.append(i.to_dict())
+
+        return {
+            "pedido_id": self.pedido_id
+            , "pessoa_id": self.pessoa_id
+            , "tipo_pedido": self.tipo_pedido
+            #, "situacao": self.situacao
+            , "data_entrega": self.data_entrega
+            , "observacao": self.observacao
+            , "data_cadastro": self.data_cadastro
+            , "itens": itens
+        }
 
