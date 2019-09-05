@@ -367,7 +367,7 @@
               <enum>QTabWidget::Rounded</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <property name="tabsClosable">
               <bool>false</bool>
@@ -1248,7 +1248,7 @@
                      <number>17</number>
                     </property>
                     <property name="editTriggers">
-                     <set>QAbstractItemView::DoubleClicked</set>
+                     <set>QAbstractItemView::NoEditTriggers</set>
                     </property>
                     <property name="showDropIndicator" stdset="0">
                      <bool>false</bool>

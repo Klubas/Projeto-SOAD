@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\CadastroPedido.ui',
-# licensing of 'Resources\UI\CadastroPedido.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
+# licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Tue Sep  3 19:57:39 2019
+# Created: Thu Sep  5 20:25:42 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -557,7 +557,7 @@ class Ui_CadastroPedido(object):
         self.tableWidget_items.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableWidget_items.setLineWidth(1)
         self.tableWidget_items.setAutoScrollMargin(17)
-        self.tableWidget_items.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
+        self.tableWidget_items.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget_items.setProperty("showDropIndicator", False)
         self.tableWidget_items.setDragEnabled(False)
         self.tableWidget_items.setAlternatingRowColors(True)
@@ -656,7 +656,7 @@ class Ui_CadastroPedido(object):
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
         self.retranslateUi(CadastroPedido)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.stackedWidget_item.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(CadastroPedido)
 

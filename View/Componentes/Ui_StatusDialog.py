@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\Componentes\StatusDialog.ui',
-# licensing of 'Resources\UI\Componentes\StatusDialog.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/Componentes/StatusDialog.ui',
+# licensing of 'Resources/UI/Componentes/StatusDialog.ui' applies.
 #
-# Created: Tue Sep  3 19:57:41 2019
+# Created: Thu Sep  5 20:25:44 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

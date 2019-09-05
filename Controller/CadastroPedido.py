@@ -64,6 +64,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         #self.buttonBox_item.button(QDialogButtonBox.Discard).clicked.connect(self.apagar_item)
         self.buttonBox_item.button(QDialogButtonBox.Reset).clicked.connect(self.limpar_item)
 
+        self.tableWidget_items.itemDoubleClicked.connect(self.posicionar_item)
+
         # campos obrigatorios:
         self.campos_obrigatorios = dict([
             ('Documento', self.lineEdit_documento)
@@ -98,14 +100,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.lineEdit_casco_id.setValidator(validador_regex_id)
         self.lineEdit_insumo_id.setValidator(validador_regex_id)
         self.lineEdit_documento.setValidator(validador_regex_doc)
-
-        hoje = str(date.today()).split('-')
-
-        self.hoje = QDate(
-            int(hoje[0])
-            , int(hoje[1])
-            , int(hoje[2])
-        )
 
         self.dateEdit_entrega.setDate(QDate().currentDate())
         self.dateEdit_cadastro.setDate(QDate().currentDate())
@@ -406,7 +400,43 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def posicionar_item(self, item):
 
-        return item
+        # buscar item em pedido.itens
+
+        item_pedido = ItemPedido
+        item_pedido.item_pedido_id = int(self.tableWidget_items.item(item.row(), 0).text())
+
+        for it in self.pedido.itens:
+            if int(it.item_pedido_id) == int(item_pedido.item_pedido_id):
+                item_pedido = it
+                break
+
+        self.lineEdit_item_pedido_id.setText(str(item_pedido.item_pedido_id))
+
+        if item_pedido.tipo == 'REMANUFATURA':
+
+            self.radioButton_remanufatura.setChecked(True)
+
+            self.lineEdit_casco_id.setText(item_pedido.casco_id)
+            self.busca_mercadoria('CASCO')
+
+            self.lineEdit_insumo_id.setText(item_pedido.insumo_id)
+            self.busca_mercadoria('INSUMO')
+
+        elif item_pedido.tipo == 'MERCADORIA':
+
+            self.radioButton_mercadoria.setChecked(True)
+
+            self.lineEdit_mercadoria_id.setText(item_pedido.mercadoria_id)
+            self.busca_mercadoria('MERCADORIA')
+
+        self.lineEdit_quantidade.setText(str(item_pedido.quantidade).replace('.',','))
+        self.lineEdit_valor_unitario.setText(str(item_pedido.valor_unitario).replace('.',','))
+
+        self.calcula_totais_item()
+
+        self.tabWidget.setCurrentWidget(self.tab_campos)
+
+        return item_pedido
 
     def salva_item(self):
 
@@ -448,6 +478,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             for item_antigo in self.pedido.itens:
                 if item.item_pedido_id == item_pedido_id:
                     self.pedido.itens.pop(item_antigo)
+                    logging.log('REMOVER ITEM DO TABLE WIDGET')
                     break
 
         self.pedido.itens.append(item)
