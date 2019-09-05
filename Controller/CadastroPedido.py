@@ -107,8 +107,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             , int(hoje[2])
         )
 
-        self.dateEdit_entrega.setDate(self.hoje)
-        self.dateEdit_cadastro.setDate(self.hoje)
+        self.dateEdit_entrega.setDate(QDate().currentDate())
+        self.dateEdit_cadastro.setDate(QDate().currentDate())
 
         self.label_situacao.setText('')
 
@@ -225,7 +225,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.limpar_item()
         self.lineEdit_documento.clear()
         self.lineEdit_nome_pessoa.clear()
-        self.dateEdit_entrega.setDate(self.hoje)
+        self.dateEdit_entrega.setDate(QDate().currentDate())
 
     def localizar(self, parent=None):
 
@@ -280,7 +280,12 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.lineEdit_id.setText(str(pedido.pedido_id))
         self.label_situacao.setText(pedido.situacao if pedido.situacao is not None else '')
-        self.dateEdit_cadastro.setDate(QDate(pedido.data_cadastro))
+
+        self.dateEdit_cadastro.setDate(
+            QDate.fromString(
+                pedido.data_cadastro
+                , 'yyyy-MM-ddTHH:mm:ss')
+        )
 
         if pedido.situacao == 'CADASTRADO'\
                 or pedido.situacao == 'ESTORNADO':
@@ -290,7 +295,13 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.pushButton_excluir.setText('Estornar Pedido')
 
         if pedido.data_entrega is not None:
-            self.dateEdit_entrega.setDate(QDate(pedido.data_entrega))
+
+            self.dateEdit_entrega.setDate(
+                QDate.fromString(
+                    pedido.data_entrega
+                    , 'yyyy-MM-ddTHH:mm:ss')
+            )
+
         else:
             self.dateEdit_entrega.clear()
 
@@ -357,7 +368,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         if self.valida_obrigatorios() != 'OK':
             return False
 
-        self.pedido.data_entrega = self.dateEdit_entrega.text()
+        self.pedido.data_entrega = self.dateEdit_entrega.date()
 
         if self.novo_cadastro:
             self.pedido.pedido_id = ''
@@ -399,10 +410,9 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def salva_item(self):
 
-        if self.lineEdit_item_pedido_id.text() == '':
-            novo_item = True
-        else:
-            novo_item = False
+        item_pedido_id = self.lineEdit_item_pedido_id.text()
+
+        novo_item = True if item_pedido_id == '' else False
 
         if super(CadastroPedido, self).valida_obrigatorios() != 'OK':
             return
@@ -434,12 +444,13 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             , nova_remanufatura=(not self.checkBox_reutilizar_casco.isChecked())
         )
 
-        if novo_item:
-            self.pedido.itens.append(item)
-        else:
-            #busca item e substitui
-            logging.INFO('PRECISA IMPLEMENTAR')
-            return
+        if not novo_item:
+            for item_antigo in self.pedido.itens:
+                if item.item_pedido_id == item_pedido_id:
+                    self.pedido.itens.pop(item_antigo)
+                    break
+
+        self.pedido.itens.append(item)
 
         logging.info('COLOCAR MODO DE VISUALIZAÇÃO')
 

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroPedido.ui',
 # licensing of 'Resources\UI\CadastroPedido.ui' applies.
 #
-# Created: Tue Sep  3 07:46:17 2019
+# Created: Tue Sep  3 19:57:39 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -554,7 +554,7 @@ class Ui_CadastroPedido(object):
         self.gridLayout_5.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_5.setObjectName("gridLayout_5")
         self.tableWidget_items = QtWidgets.QTableWidget(self.widget_tabela)
-        self.tableWidget_items.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
+        self.tableWidget_items.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableWidget_items.setLineWidth(1)
         self.tableWidget_items.setAutoScrollMargin(17)
         self.tableWidget_items.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
