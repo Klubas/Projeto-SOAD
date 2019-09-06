@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
-# licensing of 'Resources/UI/CadastroPedido.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\CadastroPedido.ui',
+# licensing of 'Resources\UI\CadastroPedido.ui' applies.
 #
-# Created: Thu Sep  5 20:25:42 2019
+# Created: Fri Sep  6 00:35:25 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -227,9 +227,18 @@ class Ui_CadastroPedido(object):
         self.horizontalFrame_tipo_item.setMaximumSize(QtCore.QSize(16777215, 40))
         self.horizontalFrame_tipo_item.setObjectName("horizontalFrame_tipo_item")
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.horizontalFrame_tipo_item)
-        self.horizontalLayout_8.setSpacing(10)
-        self.horizontalLayout_8.setContentsMargins(10, -1, 10, 0)
+        self.horizontalLayout_8.setSpacing(6)
+        self.horizontalLayout_8.setContentsMargins(0, -1, 0, 0)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        self.lineEdit_item_pedido_id = QtWidgets.QLineEdit(self.horizontalFrame_tipo_item)
+        self.lineEdit_item_pedido_id.setEnabled(False)
+        self.lineEdit_item_pedido_id.setMaximumSize(QtCore.QSize(50, 16777215))
+        self.lineEdit_item_pedido_id.setAutoFillBackground(True)
+        self.lineEdit_item_pedido_id.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
+        self.lineEdit_item_pedido_id.setFrame(False)
+        self.lineEdit_item_pedido_id.setReadOnly(False)
+        self.lineEdit_item_pedido_id.setObjectName("lineEdit_item_pedido_id")
+        self.horizontalLayout_8.addWidget(self.lineEdit_item_pedido_id)
         self.radioButton_mercadoria = QtWidgets.QRadioButton(self.horizontalFrame_tipo_item)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -258,14 +267,6 @@ class Ui_CadastroPedido(object):
         self.radioButton_remanufatura.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.radioButton_remanufatura.setObjectName("radioButton_remanufatura")
         self.horizontalLayout_8.addWidget(self.radioButton_remanufatura)
-        self.lineEdit_item_pedido_id = QtWidgets.QLineEdit(self.horizontalFrame_tipo_item)
-        self.lineEdit_item_pedido_id.setEnabled(False)
-        self.lineEdit_item_pedido_id.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.lineEdit_item_pedido_id.setAutoFillBackground(False)
-        self.lineEdit_item_pedido_id.setFrame(False)
-        self.lineEdit_item_pedido_id.setReadOnly(False)
-        self.lineEdit_item_pedido_id.setObjectName("lineEdit_item_pedido_id")
-        self.horizontalLayout_8.addWidget(self.lineEdit_item_pedido_id)
         self.verticalLayout_3.addWidget(self.horizontalFrame_tipo_item)
         self.stackedWidget_item = QtWidgets.QStackedWidget(self.frame_items)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.MinimumExpanding)
@@ -275,6 +276,8 @@ class Ui_CadastroPedido(object):
         self.stackedWidget_item.setSizePolicy(sizePolicy)
         self.stackedWidget_item.setMaximumSize(QtCore.QSize(16777215, 150))
         self.stackedWidget_item.setSizeIncrement(QtCore.QSize(0, 0))
+        self.stackedWidget_item.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.stackedWidget_item.setFrameShadow(QtWidgets.QFrame.Raised)
         self.stackedWidget_item.setLineWidth(1)
         self.stackedWidget_item.setObjectName("stackedWidget_item")
         self.page_mercadoria = QtWidgets.QWidget()
@@ -657,7 +660,7 @@ class Ui_CadastroPedido(object):
 
         self.retranslateUi(CadastroPedido)
         self.tabWidget.setCurrentIndex(0)
-        self.stackedWidget_item.setCurrentIndex(1)
+        self.stackedWidget_item.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(CadastroPedido)
 
     def retranslateUi(self, CadastroPedido):

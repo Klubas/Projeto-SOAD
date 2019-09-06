@@ -6,17 +6,17 @@ from Model.Remanufatura import Remanufatura
 
 class Pedido:
 
-    def __init__(self, pessoa_id, tipo_pedido, data_entrega=None, situacao='CADASTRADO', data_cadastro=None, observacao=None, pedido_id = None):
+    def __init__(self, tipo_pedido, pessoa_id=None, data_entrega=None, situacao='CADASTRADO', data_cadastro=None, observacao=None, pedido_id=None):
 
-        self.pedido_id = pedido_id
-        self.pessoa_id = pessoa_id
-        self.tipo_pedido = tipo_pedido
-        self.situacao = situacao
+        self.pedido_id = None if pedido_id is None else int(pedido_id)
+        self.pessoa_id = None if pessoa_id is None else int(pessoa_id)
+        self.tipo_pedido = str(tipo_pedido)
+        self.situacao = str(situacao)
         self.data_entrega = data_entrega
-        self.observacao = observacao
+        self.observacao = str(observacao)
         self.data_cadastro = data_cadastro
 
-        self.itens = []
+        self.itens = [] #ItemPedido
         self.mercadorias = []
         self.remanufaturas = []
 

@@ -477,17 +477,42 @@
                        </property>
                        <layout class="QHBoxLayout" name="horizontalLayout_8">
                         <property name="spacing">
-                         <number>10</number>
+                         <number>6</number>
                         </property>
                         <property name="leftMargin">
-                         <number>10</number>
+                         <number>0</number>
                         </property>
                         <property name="rightMargin">
-                         <number>10</number>
+                         <number>0</number>
                         </property>
                         <property name="bottomMargin">
                          <number>0</number>
                         </property>
+                        <item>
+                         <widget class="QLineEdit" name="lineEdit_item_pedido_id">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>50</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="autoFillBackground">
+                           <bool>true</bool>
+                          </property>
+                          <property name="locale">
+                           <locale language="Portuguese" country="Brazil"/>
+                          </property>
+                          <property name="frame">
+                           <bool>false</bool>
+                          </property>
+                          <property name="readOnly">
+                           <bool>false</bool>
+                          </property>
+                         </widget>
+                        </item>
                         <item>
                          <widget class="QRadioButton" name="radioButton_mercadoria">
                           <property name="sizePolicy">
@@ -534,28 +559,6 @@
                           </property>
                          </widget>
                         </item>
-                        <item>
-                         <widget class="QLineEdit" name="lineEdit_item_pedido_id">
-                          <property name="enabled">
-                           <bool>false</bool>
-                          </property>
-                          <property name="maximumSize">
-                           <size>
-                            <width>50</width>
-                            <height>16777215</height>
-                           </size>
-                          </property>
-                          <property name="autoFillBackground">
-                           <bool>false</bool>
-                          </property>
-                          <property name="frame">
-                           <bool>false</bool>
-                          </property>
-                          <property name="readOnly">
-                           <bool>false</bool>
-                          </property>
-                         </widget>
-                        </item>
                        </layout>
                       </widget>
                      </item>
@@ -579,11 +582,17 @@
                          <height>0</height>
                         </size>
                        </property>
+                       <property name="frameShape">
+                        <enum>QFrame::StyledPanel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Raised</enum>
+                       </property>
                        <property name="lineWidth">
                         <number>1</number>
                        </property>
                        <property name="currentIndex">
-                        <number>1</number>
+                        <number>0</number>
                        </property>
                        <widget class="QWidget" name="page_mercadoria">
                         <property name="maximumSize">

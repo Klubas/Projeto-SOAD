@@ -1,5 +1,4 @@
 import logging
-from datetime import date
 
 from PySide2.QtCore import QRegExp, QDate
 from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator
@@ -123,7 +122,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         #self.lineEdit_mercadoria_id.inputRejected.connect(lambda: self.busca_mercadoria(tipo='MERCADORIA'))
 
         # Variaveis para gravar o pedido
-        self.pedido = Pedido(pessoa_id=None, tipo_pedido=self.tipo_pedido)
+        self.pedido = Pedido(tipo_pedido=self.tipo_pedido)
 
         ## Monta QTableWidget
         self.colunas_item = {
@@ -138,6 +137,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.colunas_descricao = list(self.colunas_item.values())
         self.colunas_chave = list(self.colunas_item.keys())
 
+        self.tableWidget_items.setRowCount(len(self.pedido.itens))
         self.tableWidget_items.setColumnCount(len(self.colunas_descricao))
         self.tableWidget_items.setHorizontalHeaderLabels(self.colunas_descricao)
         self.tableWidget_items.horizontalHeader().setVisible(True)
@@ -301,7 +301,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         # Montar ItemPedido
         for item in dados[1]:
-            print(item)
             if item['id_item_pedido'] is not None:
 
                 item_pedido = ItemPedido(
@@ -312,7 +311,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                     , mercadoria_id=item['id_mercadoria']
                     , unidade_medida_id=item['id_unidade_medida']
                     , unidade_medida=item['unidade_medida']
-                    , mercadoria =item['descricao']
+                    , mercadoria=item['descricao']
+                    , descricao=item['descricao']
                 )
 
             elif item['id_remanufatura'] is not None:
@@ -325,6 +325,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                     , casco_id=item['id_casco']
                     , insumo_id=item['id_insumo']
                     , nova_remanufatura=item['nova_remanufatura']
+                    , descricao='Casco: ' + item['casco']
+                                + ' Insumo: ' + item['insumo']
                 )
 
             else:
@@ -403,7 +405,10 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         # buscar item em pedido.itens
 
         item_pedido = ItemPedido
-        item_pedido.item_pedido_id = int(self.tableWidget_items.item(item.row(), 0).text())
+
+        selecionado = self.tableWidget_items.selectedItems()[0]
+
+        item_pedido.item_pedido_id = int(self.tableWidget_items.item(selecionado.row(), 0).text())
 
         for it in self.pedido.itens:
             if int(it.item_pedido_id) == int(item_pedido.item_pedido_id):
@@ -416,17 +421,17 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
             self.radioButton_remanufatura.setChecked(True)
 
-            self.lineEdit_casco_id.setText(item_pedido.casco_id)
+            self.lineEdit_casco_id.setText(str(item_pedido.casco_id))
             self.busca_mercadoria('CASCO')
 
-            self.lineEdit_insumo_id.setText(item_pedido.insumo_id)
+            self.lineEdit_insumo_id.setText(str(item_pedido.insumo_id))
             self.busca_mercadoria('INSUMO')
 
         elif item_pedido.tipo == 'MERCADORIA':
 
             self.radioButton_mercadoria.setChecked(True)
 
-            self.lineEdit_mercadoria_id.setText(item_pedido.mercadoria_id)
+            self.lineEdit_mercadoria_id.setText(str(item_pedido.mercadoria_id))
             self.busca_mercadoria('MERCADORIA')
 
         self.lineEdit_quantidade.setText(str(item_pedido.quantidade).replace('.',','))
@@ -440,10 +445,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def salva_item(self):
 
-        item_pedido_id = self.lineEdit_item_pedido_id.text()
-
-        novo_item = True if item_pedido_id == '' else False
-
         if super(CadastroPedido, self).valida_obrigatorios() != 'OK':
             return
 
@@ -452,33 +453,45 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         if tipo_item == 'REMANUFATURA':
             descricao = 'Casco: ' + self.lineEdit_casco.text() \
                         + ' Insumo: ' + self.lineEdit_insumo.text()
+
+            item = ItemPedido(
+                tipo=tipo_item
+                , quantidade=self.lineEdit_quantidade.text().replace(',', '.')
+                , valor_unitario=self.lineEdit_valor_unitario.text().replace(',', '.')
+                , casco_id=self.lineEdit_casco_id.text()
+                , insumo_id=self.lineEdit_insumo_id.text()
+                , nova_remanufatura=(not self.checkBox_reutilizar_casco.isChecked())
+                , descricao=descricao
+            )
+
         else:
             descricao = self.lineEdit_mercadoria.text()
 
-        item = ItemPedido(
-            item_pedido_id=(len(self.pedido.itens)+1)*-1
-            , tipo=tipo_item
-            , descricao=descricao
-            , quantidade=self.lineEdit_quantidade.text().replace(',', '.')
-            , valor_unitario=self.lineEdit_valor_unitario.text().replace(',', '.')
-            , valor_total=self.lineEdit_valor_total_item.text().replace(',', '.')
-            , unidade_medida_id=self.db.busca_registro( # todo: Fazer dinâmico
-                'unidade_medida'
-                , 'abreviacao'
-                , 'UN'
-                , 'like'
-            )[1][0]['fnc_buscar_registro'][0]['id_unidade_medida']
-            , mercadoria_id = self.lineEdit_mercadoria_id.text()
-            , casco_id=self.lineEdit_casco_id.text()
-            , insumo_id=self.lineEdit_insumo_id.text()
-            , nova_remanufatura=(not self.checkBox_reutilizar_casco.isChecked())
-        )
+            item = ItemPedido(
+                tipo=tipo_item
+                , quantidade=self.lineEdit_quantidade.text().replace(',', '.')
+                , valor_unitario=self.lineEdit_valor_unitario.text().replace(',', '.')
+                , mercadoria_id=self.lineEdit_mercadoria_id.text()
+                , unidade_medida_id=self.db.busca_registro( # todo: Fazer dinâmico
+                    'unidade_medida'
+                    , 'abreviacao'
+                    , 'UN'
+                    , 'like')[1][0]['fnc_buscar_registro'][0]['id_unidade_medida']
+                , mercadoria=descricao
+                , descricao=descricao
+            )
 
-        if not novo_item:
+        item_pedido_id = self.lineEdit_item_pedido_id.text()
+        novo_item = True if item_pedido_id == '' else False
+
+        if novo_item:
+            item.item_pedido_id = (len(self.pedido.itens) + 1) * -1
+        else:
+            item.item_pedido_id = item_pedido_id
+
             for item_antigo in self.pedido.itens:
-                if item.item_pedido_id == item_pedido_id:
-                    self.pedido.itens.pop(item_antigo)
-                    logging.log('REMOVER ITEM DO TABLE WIDGET')
+                if int(item_antigo.item_pedido_id) == int(item_pedido_id):
+                    self.pedido.itens.remove(item_antigo)
                     break
 
         self.pedido.itens.append(item)
@@ -492,15 +505,16 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.tableWidget_items.setRowCount(len(self.pedido.itens))
 
-        row = 0
-        for item_pedido in self.pedido.itens:
-            col = 0
-            for coluna in self.colunas_item:
-                valor = item_pedido.to_item_dict()[coluna]
-                item = QTableWidgetItem(str(valor))
-                self.tableWidget_items.setItem(row, col, item)
-                col = col + 1
-            row = row + 1
+        if len(self.pedido.itens) > 0:
+            row = 0
+            for item_pedido in self.pedido.itens:
+                col = 0
+                for coluna in self.colunas_item:
+                    valor = item_pedido.to_item_dict()[coluna]
+                    item = QTableWidgetItem(str(valor))
+                    self.tableWidget_items.setItem(row, col, item)
+                    col = col + 1
+                row = row + 1
 
         self.limpar_item()
 
@@ -525,13 +539,10 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.lineEdit_marca_insumo.clear()
             self.checkBox_reutilizar_casco.setChecked(False)
 
+        self.lineEdit_item_pedido_id.clear()
         self.lineEdit_quantidade.clear()
         self.lineEdit_valor_unitario.clear()
         self.lineEdit_valor_total_item.clear()
-
-    def carrega_dados(self):
-        # pega os dados dos banco e popula a interface
-        pass
 
     def calcula_totais_item(self):
 
