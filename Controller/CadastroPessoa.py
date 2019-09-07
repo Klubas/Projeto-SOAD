@@ -196,8 +196,6 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         pessoa.modalidade = (self.get_modalidades_selecionadas())
 
-        print(pessoa.to_dict())
-
         # pega os dados da tela e popula um dicionario de dados
         self.dados = {
             "metodo": "fnc_cadastro_pessoa",
@@ -212,7 +210,6 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.atualizar_interface(pessoa_id)
 
         else:
-            print('Erro ao salvar')
             return
 
     def atualizar_interface(self, pessoa_id):
@@ -308,8 +305,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.lineEdit_complemento.setText(endereco.complemento)
 
         except TypeError as te:
-            logging.debug(te)
-            logging.info('Não foi possível buscar endereço.')
+            logging.debug('[CadastroPessoa] ' + str(te))
+            logging.info('[CadastroPessoa] Não foi possível buscar endereço.')
 
         for mod in self.modalidades:
             self.listWidget_modalidade.setItemSelected(mod['item'], False)
@@ -324,8 +321,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
                         self.listWidget_modalidade.setItemSelected(mod['item'], True)
 
         except TypeError as te:
-            logging.debug(te)
-            logging.info('Não foi possível buscar modalidades.')
+            logging.debug('[CadastroPessoa] ' + str(te))
+            logging.info('[CadastroPessoa] Não foi possível buscar modalidades.')
 
     def popular_dados_padrao(self):
         # preenche modalidades

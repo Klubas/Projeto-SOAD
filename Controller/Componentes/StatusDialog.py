@@ -33,7 +33,7 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         else:
             self.__definir_mensagem__("O valor " + status + " não é um status válido para StatusDialog\n")
-            logging.debug("O valor " + status + " não é um status válido para StatusDialog\n")
+            logging.debug("[StatusDialog] O valor " + status + " não é um status válido para StatusDialog\n")
             self.exec()
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
@@ -42,8 +42,8 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
     def __definir_mensagem__(self, mensagem='', exception=None):
 
-        logging.info('status_msg=' + str(mensagem))
-        logging.debug('status_exception=' + str(exception))
+        logging.info('[StatusDialog] status_msg=' + str(mensagem))
+        logging.debug('[StatusDialog] status_exception=' + str(exception))
 
         string_exception = ''
         string_mensagem = mensagem + '\n\n'
@@ -78,7 +78,7 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         else:
             string_exception = str(exception)
-            logging.debug('Tipo de mensagem não tratado.')
+            logging.debug('[StatusDialog] Tipo de mensagem não tratado.')
 
         self.label_mensagem.setText(string_mensagem)
         self.textBrowser_exception.setText(string_exception)

@@ -183,7 +183,7 @@ class CadastroPadrao:
             # Finaliza e retorna
             dialog.exec()
             for i in prc:
-                logging.debug('prc=' + str(i))
+                logging.debug('[CadastroPadrao] prc=' + str(i))
             return prc[0], prc[1][0]
 
     # Não precisa ser reimplementado na tela
@@ -207,7 +207,7 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
-            logging.info('Não está em modo de edição.')
+            logging.info('[CadastroPadrao] Não está em modo de edição.')
             return True
 
     def esta_em_modo_edicao(self):
@@ -219,7 +219,7 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
-            logging.info('Está em modo de edição.')
+            logging.info('[CadastroPadrao] Está em modo de edição.')
             return True
 
     def entrar_modo_edicao(self):
@@ -228,7 +228,7 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(True)
             self.frame_buttons.setDisabled(False)
             self.frame_contents.setDisabled(False)
-            logging.info('Entrando em modo edição')
+            logging.info('[CadastroPadrao] Entrando em modo edição')
 
     def sair_modo_edicao(self):
         if self.esta_em_modo_edicao():
@@ -236,7 +236,7 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(False)
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
-            logging.info('Saindo do modo edição')
+            logging.info('[CadastroPadrao] Saindo do modo edição')
 
     def entrar_modo_visualizacao(self):
         if self.nao_esta_em_modo_edicao():
@@ -246,6 +246,6 @@ class CadastroPadrao:
             self.frame_contents.setDisabled(False)
 
     def define_permite_editar(self):
-        logging.info('Editar: ' + str(self.lineEdit_id.text() == ''))
+        logging.info('[CadastroPadrao] Editar: ' + str(self.lineEdit_id.text() == ''))
         self.pushButton_editar.setDisabled(self.lineEdit_id.text() == '')
         self.pushButton_excluir.setDisabled(self.lineEdit_id.text() == '')

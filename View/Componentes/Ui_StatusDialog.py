@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\StatusDialog.ui',
 # licensing of 'Resources\UI\Componentes\StatusDialog.ui' applies.
 #
-# Created: Sat Sep  7 18:36:36 2019
+# Created: Sat Sep  7 19:24:55 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

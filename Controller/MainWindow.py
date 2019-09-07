@@ -126,7 +126,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.window_list.append(cad)
 
         except Exception as e:
-            logging.exception(e)
+            logging.exception('[MainWindow] ' + str(e))
             dialog = StatusDialog(
                 status='ERRO'
                 , mensagem='Não foi possível abrir a interface'

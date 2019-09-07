@@ -53,6 +53,9 @@ class DataBase:
         for param in params["params"].items():
             if param[1] == '':
                 vazio.append(param[0])
+
+        logging.info('[DataBase] Parâmetros vazios: ' + str(vazio))
+
         for i in range(len(vazio)):
             del params["params"][vazio[i]]
 
@@ -63,26 +66,26 @@ class DataBase:
 
         return self.execute_sql(sql)
 
-    def execute_sql(self, sql):
+    def execute_sql(self, sql, as_dict=True):
         retorno = list()
         try:
-            retorno = self.db.executesql(query=sql, as_dict=True)
+            retorno = self.db.executesql(query=sql, as_dict=as_dict)
             self.db.commit()
-            logging.debug('sql=' + str(sql))
-            logging.debug('retorno=' + str(retorno))
+            logging.debug('[DataBase] sql=' + str(sql))
+            logging.debug('[DataBase] retorno=' + str(retorno))
             prc = True, retorno, str(self.db._lastsql)
 
         except Exception as e:
             self.db.rollback()
-            logging.debug('sql=' + str(sql))
-            logging.debug('exception=' + str(e))
+            logging.debug('[DataBase] sql=' + str(sql))
+            logging.debug('[DataBase] exception=' + str(e))
             retorno.append(e)
             prc = False, retorno, str(sql)
 
         except:
-            logging.debug('sql=' + str(sql))
-            logging.debug('exception2=' + str('Exceção não tratada'))
             e = 'Exceção não tratada'
+            logging.debug('[DataBase] sql=' + str(sql))
+            logging.debug('[DataBase] exception2=' + str(e))
             retorno.append(e)
             prc = False, e, str(sql)
 
@@ -93,14 +96,14 @@ class DataBase:
             self.connection = self.db.__call__()
             #progress_callback.emit(100)
         except Exception as e:
+            logging.debug('[DataBase] ' + str(e))
             pass
-
             #progress_callback.emit(0)
         return self
 
     def definir_schema(self, schema):
         self.schema = schema
-        self.execute_sql("SET search_path TO " + self.schema)  # Define o schema
+        self.execute_sql("SET search_path TO " + self.schema, as_dict=False)
 
     def fechar_conexao(self):
         self.db.close()
@@ -112,7 +115,7 @@ class DataBase:
         self.connection = s
 
     def thread_complete(self):
-        print("THREAD COMPLETE!")
+        logging.debug('[DataBase] Thread Completed')
 
     def abrir_conexao(self):
         # Pass the function to execute

@@ -191,7 +191,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             prc = 'prc_estornar_pedido'
 
         else:
-            logging.debug('Situacao invalida=' + self.label_situacao.text())
+            logging.debug('[CadastroPedido] Situacao invalida=' + self.label_situacao.text())
             return
 
         pedido_id = self.lineEdit_id.text()
@@ -445,8 +445,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                 )
 
             else:
-                logging.debug('Não foi possível identificar o tipo do item do pedido')
-                logging.debug('Abortando...')
+                logging.debug('[CadastroPedido] Não foi possível identificar o tipo do item do pedido')
+                logging.debug('[CadastroPedido] Abortando...')
                 return
 
             pedido.itens.append(item_pedido)
@@ -786,7 +786,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             lineEdit_marca = self.lineEdit_marca_insumo
 
         else:
-            logging.debug("Tipo inválido: " + tipo)
+            logging.debug("[CadastroPedido] Tipo inválido: " + tipo)
             return False
 
         valor = lineEdit_id.text().replace(' ', '')
@@ -795,7 +795,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
             mercadoria = self.db.busca_registro(tabela, campo, valor, '=')[1][0]['fnc_buscar_registro']
 
-            logging.debug(str(mercadoria))
+            logging.debug('[CadastroPedido] ' + str(mercadoria))
             if mercadoria is not None:
                 mercadoria = mercadoria[0]
 

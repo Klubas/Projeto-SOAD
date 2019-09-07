@@ -1,3 +1,4 @@
+import logging
 import sys
 
 from PySide2.QtGui import QCloseEvent
@@ -27,6 +28,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             self.verticalWidget_servidor.setVisible(False)
 
         #dsv
+        self.load_configs()
         self.lineEdit_usuario.setText('soadmin')
         self.lineEdit_senha.setText('soad2019')
 
@@ -46,6 +48,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             return db
 
         except Exception as e:
+            logging.debug('[LoginDialog] ' + str(e))
             dialog = StatusDialog(
                 status='ALERTA'
                 , mensagem="Usuário ou senha inválidos."
@@ -54,6 +57,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             print(e.__cause__)
             dialog.exec()
             return False
+
+    def load_configs(self):
+        logging.info('[LoginDialog] Implementar forma de carregar usuário e ambiente de um arquivo de texto.')
 
     def login(self):
 
@@ -78,7 +84,8 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                     self.hide()
 
             except Exception as e:
-                dialog = StatusDialog(status='ALERTA'
+                logging.debug('[LoginDialog] ' + str(e))
+                dialog = StatusDialog(status='ERRO'
                                       , mensagem="Erro ao abrir o sistema."
                                       , exception=e
                                       , parent=self)
