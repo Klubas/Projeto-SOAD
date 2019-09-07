@@ -114,6 +114,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Lista de Vendas</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -155,6 +162,20 @@
              </property>
              <property name="flat">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_6">
+             <property name="text">
+              <string>Lista de Mercadorias</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_4">
+             <property name="text">
+              <string>Estoque</string>
              </property>
             </widget>
            </item>
@@ -202,6 +223,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="text">
+              <string>Lista de Compras</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -243,6 +271,20 @@
              </property>
              <property name="flat">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_5">
+             <property name="text">
+              <string>Lista de Cliente</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="text">
+              <string>Lista de Fornecedores</string>
              </property>
             </widget>
            </item>

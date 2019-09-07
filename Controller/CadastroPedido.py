@@ -18,6 +18,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
     def __init__(self, db=None, window_list=None, **kwargs):
         super(CadastroPadrao, self).__init__()
         super(CadastroPedido, self).__init__()
+
         self.parent_window=self
         self.setupUi(self)
 
@@ -352,8 +353,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             , self.pedido.pedido_id
         )
 
-        print(dados)
-
         if dados[0]:
             dados = dados[1][0]['json_pedido']
             self.popular_interface(dados)
@@ -369,7 +368,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def popular_interface(self, dados):
         # Preenche identificação
-        print(dados)
+
         pedido = dados[0]
 
         self.lineEdit_documento.setText(pedido['documento'])
@@ -416,10 +415,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.dateEdit_entrega.clear()
 
         # Montar ItemPedido
-        print(dados)
-        print(dados[1])
         for item in dados[1]:
-            print(item)
             if item['tipo'] == 'MERCADORIA':
 
                 item_pedido = ItemPedido(
@@ -516,7 +512,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.movimentar(pedido_id)
 
         else:
-            print('Erro ao salvar')
             return
 
     def cancela(self):

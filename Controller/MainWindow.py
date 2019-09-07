@@ -91,20 +91,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.pushButton_venda.clicked.connect(
             lambda: self.abrir_interface(
-                window_cls=CadastroPedido, tipo="VENDA")
+                window_cls=CadastroPedido, tipo="VENDA"
+            )
         )
 
         self.pushButton_compra.clicked.connect(
             lambda: self.abrir_interface(
-                window_cls=CadastroPedido, tipo="COMPRA")
+                window_cls=CadastroPedido, tipo="COMPRA"
+            )
         )
 
         self.pushButton_pessoa.clicked.connect(
             lambda: self.abrir_interface(
-                window_cls=CadastroPessoa)
+                window_cls=CadastroPessoa
+            )
         )
 
-
+        self.pushButton_mercadoria.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=CadastroMercadoria
+            )
+        )
 
     def abrir_interface(self, window_cls, **kwargs):
         try:
@@ -117,7 +124,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
 
             self.window_list.append(cad)
-            print('MAIN: ' + str(self.window_list))
 
         except Exception as e:
             logging.exception(e)

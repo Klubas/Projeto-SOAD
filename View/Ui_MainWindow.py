@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
 # licensing of 'Resources\UI\MainWindow.ui' applies.
 #
-# Created: Sat Sep  7 18:20:37 2019
+# Created: Sat Sep  7 18:36:35 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -64,6 +64,9 @@ class Ui_MainWindow(object):
         self.pushButton_venda.setFlat(True)
         self.pushButton_venda.setObjectName("pushButton_venda")
         self.verticalLayout_6.addWidget(self.pushButton_venda)
+        self.pushButton = QtWidgets.QPushButton(self.frame_venda)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout_6.addWidget(self.pushButton)
         self.gridLayout.addWidget(self.frame_venda, 0, 0, 1, 1)
         self.frame_mercadoria = QtWidgets.QFrame(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -90,6 +93,12 @@ class Ui_MainWindow(object):
         self.pushButton_mercadoria.setFlat(True)
         self.pushButton_mercadoria.setObjectName("pushButton_mercadoria")
         self.verticalLayout_4.addWidget(self.pushButton_mercadoria)
+        self.pushButton_6 = QtWidgets.QPushButton(self.frame_mercadoria)
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.verticalLayout_4.addWidget(self.pushButton_6)
+        self.pushButton_4 = QtWidgets.QPushButton(self.frame_mercadoria)
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.verticalLayout_4.addWidget(self.pushButton_4)
         self.gridLayout.addWidget(self.frame_mercadoria, 1, 1, 1, 1)
         self.frame_compra = QtWidgets.QFrame(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -116,6 +125,9 @@ class Ui_MainWindow(object):
         self.pushButton_compra.setFlat(True)
         self.pushButton_compra.setObjectName("pushButton_compra")
         self.verticalLayout_5.addWidget(self.pushButton_compra)
+        self.pushButton_2 = QtWidgets.QPushButton(self.frame_compra)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.verticalLayout_5.addWidget(self.pushButton_2)
         self.gridLayout.addWidget(self.frame_compra, 0, 1, 1, 1)
         self.frame_pessoa = QtWidgets.QFrame(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -142,6 +154,12 @@ class Ui_MainWindow(object):
         self.pushButton_pessoa.setFlat(True)
         self.pushButton_pessoa.setObjectName("pushButton_pessoa")
         self.verticalLayout_3.addWidget(self.pushButton_pessoa)
+        self.pushButton_5 = QtWidgets.QPushButton(self.frame_pessoa)
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.verticalLayout_3.addWidget(self.pushButton_5)
+        self.pushButton_3 = QtWidgets.QPushButton(self.frame_pessoa)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.verticalLayout_3.addWidget(self.pushButton_3)
         self.gridLayout.addWidget(self.frame_pessoa, 1, 0, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout)
         self.gridLayout_3.addLayout(self.verticalLayout_2, 1, 0, 1, 1)
@@ -242,9 +260,15 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "SOAD ", None, -1))
         self.pushButton_venda.setText(QtWidgets.QApplication.translate("MainWindow", "Registrar Venda", None, -1))
+        self.pushButton.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Vendas", None, -1))
         self.pushButton_mercadoria.setText(QtWidgets.QApplication.translate("MainWindow", "Mercadorias", None, -1))
+        self.pushButton_6.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Mercadorias", None, -1))
+        self.pushButton_4.setText(QtWidgets.QApplication.translate("MainWindow", "Estoque", None, -1))
         self.pushButton_compra.setText(QtWidgets.QApplication.translate("MainWindow", "Registrar Compra", None, -1))
+        self.pushButton_2.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Compras", None, -1))
         self.pushButton_pessoa.setText(QtWidgets.QApplication.translate("MainWindow", "Clientes / Fornecedores", None, -1))
+        self.pushButton_5.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Cliente", None, -1))
+        self.pushButton_3.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Fornecedores", None, -1))
         self.menuArquivo.setTitle(QtWidgets.QApplication.translate("MainWindow", "Arquivo", None, -1))
         self.menuCadastros.setTitle(QtWidgets.QApplication.translate("MainWindow", "Cadastros", None, -1))
         self.menuVendas.setTitle(QtWidgets.QApplication.translate("MainWindow", "Vendas", None, -1))
