@@ -1,7 +1,7 @@
 import logging
 
+from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
-from Controller.Componentes.SairDialog import SairDialog
 from Controller.Componentes.StatusDialog import StatusDialog
 
 
@@ -103,7 +103,7 @@ class CadastroPadrao:
     # Reimplementar chamando super e limpar_dados
     def cancela(self):
         if self.modo_edicao:
-            dialog = SairDialog()
+            dialog = ConfirmDialog()
             dialog.definir_mensagem("Tem certeza que deseja cancelar? Todas as alterações serão perdidas.")
             cancelar = dialog.exec()
 
@@ -180,15 +180,16 @@ class CadastroPadrao:
                 )
                 self.modo_edicao = True
 
+            # Finaliza e retorna
             dialog.exec()
-
-            return prc[0]
+            logging.debug('prc=' + str(prc[1][0]))
+            return prc[0], prc[1][0]
 
     # Não precisa ser reimplementado na tela
     #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
     def fechar(self):
         if self.modo_edicao:
-            dialog = SairDialog()
+            dialog = ConfirmDialog()
             dialog.definir_mensagem("Tem certeza que deseja fechar? Todas as alterações serão perdidas.")
             fechar = dialog.exec()
         else:
@@ -205,7 +206,7 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
-            logging.info('Não está está em modo de edição.')
+            logging.info('Não está em modo de edição.')
             return True
 
     def esta_em_modo_edicao(self):
@@ -217,7 +218,7 @@ class CadastroPadrao:
             )
             return dialog.exec()
         else:
-            logging.info('Está está em modo de edição.')
+            logging.info('Está em modo de edição.')
             return True
 
     def entrar_modo_edicao(self):
@@ -226,7 +227,7 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(True)
             self.frame_buttons.setDisabled(False)
             self.frame_contents.setDisabled(False)
-            logging.info('Entrando do modo edição')
+            logging.info('Entrando em modo edição')
 
 
     def sair_modo_edicao(self):
@@ -235,7 +236,7 @@ class CadastroPadrao:
             self.frame_menu.setDisabled(False)
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
-            logging.info('Saindo em modo edição')
+            logging.info('Saindo do modo edição')
 
     def define_permite_editar(self):
         logging.info('Editar: ' + str(self.lineEdit_id.text() == ''))

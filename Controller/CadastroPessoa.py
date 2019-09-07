@@ -204,7 +204,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         }
 
         #todo: tratar existencia de ID para verificar se cadastra ou edita
-        if super(CadastroPessoa, self).confirma():
+        prc = super(CadastroPessoa, self).confirma()
+        if prc[0]:
             print('Sucesso')
             self.limpar_dados()
             self.popular_dados_padrao()

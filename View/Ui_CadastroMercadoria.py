@@ -3,12 +3,12 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroMercadoria.ui',
 # licensing of 'Resources\UI\CadastroMercadoria.ui' applies.
 #
-# Created: Sat Sep  7 01:41:45 2019
+# Created: Sat Sep  7 05:25:00 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtWidgets
 
 class Ui_CadastroMercadoria(object):
     def setupUi(self, CadastroMercadoria):

@@ -8,7 +8,7 @@ from Controller.About import About
 from Controller.CadastroMercadoria import CadastroMercadoria
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
-from Controller.Componentes.SairDialog import SairDialog
+from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.StatusDialog import StatusDialog
 from Controller.EstornoPedido import EstornoPedido
 from View.Ui_MainWindow import Ui_MainWindow
@@ -138,7 +138,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Override QWidget closeEvent
     def closeEvent(self, event):
         if len(self.window_list) > 0:
-            sair = SairDialog()
+            sair = ConfirmDialog()
             if sair.exec():
                 for window in self.window_list:
                     window.close() # Fecha todas as janelas

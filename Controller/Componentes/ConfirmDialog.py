@@ -3,10 +3,10 @@ from PySide2.QtWidgets import QDialog, QDialogButtonBox
 from View.Componentes.Ui_SairDialog import Ui_SairDialog
 
 
-class SairDialog(QDialog, Ui_SairDialog):
+class ConfirmDialog(QDialog, Ui_SairDialog):
 
     def __init__(self, parent=None):
-        super(SairDialog, self).__init__(parent)
+        super(ConfirmDialog, self).__init__(parent)
         self.setupUi(self)
         self.buttonBox.button(QDialogButtonBox.Yes).clicked.connect(self.sim_clicked)
         self.buttonBox.button(QDialogButtonBox.No).clicked.connect(self.nao_clicked)

@@ -5,6 +5,7 @@ from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator
 from PySide2.QtWidgets import QWidget, QDialogButtonBox, QTableWidgetItem
 
 from Controller.CadastroPadrao import CadastroPadrao
+from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.StatusDialog import StatusDialog
 from Model.ItemPedido import ItemPedido
@@ -43,12 +44,14 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         # Compra ou venda
         if self.tipo_pedido == 'VENDA':
             self.tipo_pessoa = 'Cliente'
+            self.view_busca = 'vw_pedido_venda'
             self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
             self.horizontalFrame_tipo_item.setVisible(True)
             self.label_data.setText('Data entrega')
 
         elif self.tipo_pedido == 'COMPRA':
             self.tipo_pessoa = 'Fornecedor'
+            self.view_busca = 'vw_pedido_compra'
             self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
             self.radioButton_mercadoria.setChecked(True)
             self.horizontalFrame_tipo_item.setVisible(False)
@@ -64,6 +67,10 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.buttonBox_item.button(QDialogButtonBox.Reset).clicked.connect(self.limpar_item)
 
         self.tableWidget_items.itemDoubleClicked.connect(self.posicionar_item)
+
+        self.pushButton_movimentar.clicked.connect(
+            lambda: self.movimentar(self.lineEdit_id.text())
+        )
 
         self.pushButton_remover_item.setDisabled(True)
 
@@ -96,6 +103,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.pushButton_excluir.setText('Cancelar Pedido')
 
+        self.pushButton_movimentar.setDisabled(True)
+
         # Validadores de tipos de dados
         validador_double = QDoubleValidator(bottom=0.000001, top=1000000.00, decimals=6)
         validador_integer = QIntValidator(bottom=1, top=1000000)
@@ -125,11 +134,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.lineEdit_casco_id.editingFinished.connect(lambda: self.busca_mercadoria(tipo='CASCO'))
         self.lineEdit_insumo_id.editingFinished.connect(lambda: self.busca_mercadoria(tipo='INSUMO'))
         self.lineEdit_mercadoria_id.editingFinished.connect(lambda: self.busca_mercadoria(tipo='MERCADORIA'))
-
-        #self.lineEdit_documento.inputRejected.connect(self.busca_pessoa)
-        #self.lineEdit_casco_id.inputRejected.connect(lambda: self.busca_mercadoria(tipo='CASCO'))
-        #self.lineEdit_insumo_id.inputRejected.connect(lambda: self.busca_mercadoria(tipo='INSUMO'))
-        #self.lineEdit_mercadoria_id.inputRejected.connect(lambda: self.busca_mercadoria(tipo='MERCADORIA'))
 
         # Variaveis para gravar o pedido
         self.pedido = Pedido(tipo_pedido=self.tipo_pedido)
@@ -185,18 +189,52 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         else:
             return
 
+        pedido_id = self.lineEdit_id.text()
+
         self.dados = {
             "metodo": prc,
             "schema": "soad",
             "params": {
-                "pedido_id": self.lineEdit_id.text()
+                "pedido_id": pedido_id
             }
         }
 
         if super(CadastroPedido, self).excluir():
             dialog = StatusDialog(status='OK', mensagem='Pedido ' + acao + ' com sucesso.', parent=self.parent_window)
             dialog.exec()
-            self.limpar_dados()
+            self.atualizar_interface(pedido_id)
+
+    def movimentar(self, pedido_id):
+        dialog = ConfirmDialog(self)
+        dialog.definir_mensagem(
+            'Deseja realizar a movimentação dessa ' + self.tipo_pedido.capitalize()
+            + '\n(Pedido: ' + str(pedido_id) + ')?\nO pedido não poderá mais ser editado.')
+
+        if dialog.exec():
+            dados = {
+                "metodo": "prc_encerrar_pedido",
+                "schema": "soad",
+                "params": {"pedido_id": str(pedido_id)}
+            }
+
+            retorno = self.db.call_procedure(self.db.schema, dados)
+            self.atualizar_interface(pedido_id)
+
+            if retorno[0]:
+                retorno = retorno[1][0]['p_retorno']
+
+                if int(retorno) == int(100):
+                    return True
+                else:
+                    return False
+            else:
+                dialog = StatusDialog(
+                    mensagem='Não foi possível realizar a movimentação do pedido.',
+                    exception=retorno[1],
+                    status='ERRO'
+                )
+                dialog.exec()
+                return False
 
     def define_tipo(self):
 
@@ -226,10 +264,16 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def limpar_dados(self):
         super(CadastroPedido, self).limpar_dados()
+        #self.pedido = Pedido
+        self.pedido.itens = []
+        self.label_tipo_pedido.setText('')
         self.limpar_item()
         self.lineEdit_documento.clear()
         self.lineEdit_nome_pessoa.clear()
+        self.label_situacao.setText('')
         self.dateEdit_entrega.setDate(QDate().currentDate())
+        self.preencher_tabela()
+        self.pushButton_movimentar.setDisabled(True)
 
     def localizar(self, parent=None):
 
@@ -251,8 +295,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             "data_entrega": self.label_data.text()
         }
 
-        self.view_busca = 'vw_pedido'
-
         result = super(CadastroPedido, self).localizar(parent=self)
 
         if result != 0:
@@ -264,9 +306,32 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             dados = dados[1][0]['json_pedido']
             self.popular_interface(dados)
 
+    def atualizar_interface(self, id_pedido):
+
+        self.limpar_dados()
+        self.pedido.pedido_id = id_pedido
+
+        dados = self.db.get_registro(
+            "fnc_get_pedido"
+            , "pedido_id"
+            , self.pedido.pedido_id
+        )
+
+        if dados[0]:
+            dados = dados[1][0]['json_pedido']
+            self.popular_interface(dados)
+        else:
+            dialog = StatusDialog(
+                status='ERRO',
+                exception=dados[1],
+                mensagem='Erro ao buscar dados.',
+                parent=self
+            )
+            dialog.exec()
+
     def popular_interface(self, dados):
         # Preenche identificação
-
+        print(dados)
         pedido = dados[0]
 
         self.lineEdit_documento.setText(pedido['documento'])
@@ -284,6 +349,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.lineEdit_id.setText(str(pedido.pedido_id))
         self.label_situacao.setText(pedido.situacao if pedido.situacao is not None else '')
+        self.label_tipo_pedido.setText(pedido.tipo_pedido)
 
         self.dateEdit_cadastro.setDate(
             QDate.fromString(
@@ -310,12 +376,15 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.dateEdit_entrega.clear()
 
         # Montar ItemPedido
+        print(dados)
+        print(dados[1])
         for item in dados[1]:
-            if item['id_item_pedido'] is not None:
+            print(item)
+            if item['tipo'] == 'MERCADORIA':
 
                 item_pedido = ItemPedido(
                     item_pedido_id=item['id_item_pedido']
-                    , tipo='MERCADORIA'
+                    , tipo=item['tipo']
                     , quantidade=item['quantidade']
                     , valor_unitario=item['valor_unitario']
                     , mercadoria_id=item['id_mercadoria']
@@ -325,16 +394,16 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                     , descricao=item['descricao']
                 )
 
-            elif item['id_remanufatura'] is not None:
+            elif item['tipo'] == 'REMANUFATURA':
 
                 item_pedido = ItemPedido(
-                    item_pedido_id=item['id_item_pedido']
-                    , tipo='REMANUFATURA'
-                    , quantidade=item['quantidade']
+                    item_pedido_id=item['id_remanufatura']
+                    , tipo=item['tipo']
+                    , quantidade=str(1) #item['quantidade']
                     , valor_unitario=item['valor_unitario']
                     , casco_id=item['id_casco']
                     , insumo_id=item['id_insumo']
-                    , nova_remanufatura=item['nova_remanufatura']
+                    , nova_remanufatura=True #item['nova_remanufatura']
                     , descricao='Casco: ' + item['casco']
                                 + ' Insumo: ' + item['insumo']
                 )
@@ -351,9 +420,16 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.preencher_tabela()
         self.calcula_totais_pedido()
 
-        # Posiciona o primeiro item da tabela no stack
+        self.pushButton_movimentar.setDisabled(
+            self.label_situacao.text() != 'CADASTRADO'
+            and self.label_situacao.text() != 'ESTORNADO'
+        )
 
-        pass
+        # Posiciona o primeiro item da tabela no stack
+        self.tableWidget_items.selectRow(0)
+        self.posicionar_item(None)
+
+        logging.info('COLOCAR MODO DE VISUALIZAÇÃO')
 
     def valida_obrigatorios(self):
         if self.tableWidget_items.rowCount() == 0:
@@ -393,15 +469,10 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         }
 
         #todo: tratar existencia de ID para verificar se cadastra ou edita
-        if super(CadastroPedido, self).confirma():
-            print('Sucesso')
-            self.limpar_dados()
-
-            dados = self.db.get_registro("fnc_get_pedido", "pedido_id", self.pedido.pedido_id)
-
-            if dados[0]:
-                dados = dados[1][0]['json_pessoa']
-                self.popular_interface(dados)
+        retorno = super(CadastroPedido, self).confirma()
+        if retorno[0]:
+            pedido_id = retorno[1]['p_retorno']
+            self.movimentar(pedido_id)
 
         else:
             print('Erro ao salvar')
@@ -508,8 +579,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                     break
 
         self.pedido.itens.append(item)
-
-        logging.info('COLOCAR MODO DE VISUALIZAÇÃO')
 
         self.preencher_tabela()
         self.calcula_totais_pedido()

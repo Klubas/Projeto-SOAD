@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\Componentes\SairDialog.ui',
-# licensing of 'Resources\UI\Componentes\SairDialog.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\Componentes\ConfirmDialog.ui',
+# licensing of 'Resources\UI\Componentes\ConfirmDialog.ui' applies.
 #
 # Created: Sat Sep  7 01:41:48 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
@@ -12,7 +12,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_SairDialog(object):
     def setupUi(self, SairDialog):
-        SairDialog.setObjectName("SairDialog")
+        SairDialog.setObjectName("ConfirmDialog")
         SairDialog.resize(430, 120)
         SairDialog.setMinimumSize(QtCore.QSize(430, 120))
         SairDialog.setMaximumSize(QtCore.QSize(430, 150))
@@ -50,6 +50,6 @@ class Ui_SairDialog(object):
         QtCore.QMetaObject.connectSlotsByName(SairDialog)
 
     def retranslateUi(self, SairDialog):
-        SairDialog.setWindowTitle(QtWidgets.QApplication.translate("SairDialog", "Dialog", None, -1))
-        self.label.setText(QtWidgets.QApplication.translate("SairDialog", "Existem janelas abertas, tem certeza que deseja sair?", None, -1))
+        SairDialog.setWindowTitle(QtWidgets.QApplication.translate("ConfirmDialog", "Dialog", None, -1))
+        self.label.setText(QtWidgets.QApplication.translate("ConfirmDialog", "Existem janelas abertas, tem certeza que deseja sair?", None, -1))
 

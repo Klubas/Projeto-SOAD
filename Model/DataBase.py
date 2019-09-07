@@ -73,9 +73,13 @@ class DataBase:
 
         except Exception as e:
             self.db.rollback()
+            logging.debug('sql=' + str(sql))
+            logging.debug('exception=' + str(e))
             prc = False, e, str(sql)
 
         except:
+            logging.debug('sql=' + str(sql))
+            logging.debug('exception2=' + str('Exceção não tratada'))
             prc = False, 'Exceção não tratada', str(sql)
 
         return prc

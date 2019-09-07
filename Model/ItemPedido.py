@@ -35,8 +35,8 @@ class ItemPedido:
 
         elif self.tipo == 'REMANUFATURA':
             return {
-                #"item_pedido_id": self.item_pedido_id
-                "tipo_item": self.tipo
+                "item_pedido_id": self.item_pedido_id
+                , "tipo_item": self.tipo
                 , "casco_id": self.casco_id
                 , 'insumo_id': self.insumo_id
                 , "quantidade": self.quantidade
