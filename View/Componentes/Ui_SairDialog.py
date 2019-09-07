@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\SairDialog.ui',
 # licensing of 'Resources\UI\Componentes\SairDialog.ui' applies.
 #
-# Created: Fri Sep  6 00:35:28 2019
+# Created: Sat Sep  7 01:41:48 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

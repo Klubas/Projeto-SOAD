@@ -65,6 +65,16 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.tableWidget_items.itemDoubleClicked.connect(self.posicionar_item)
 
+        self.pushButton_remover_item.setDisabled(True)
+
+        self.tableWidget_items.itemClicked.connect(
+            lambda: self.pushButton_remover_item.setDisabled(
+                len(self.tableWidget_items.selectedIndexes()) <= 0
+            )
+        )
+
+        self.pushButton_remover_item.clicked.connect(self.apagar_item)
+
         # campos obrigatorios:
         self.campos_obrigatorios = dict([
             ('Documento', self.lineEdit_documento)
@@ -127,7 +137,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         ## Monta QTableWidget
         self.colunas_item = {
             "item_pedido_id": 'ID'
-            , "tipo": 'Tipo'
+            , "tipo_item": 'Tipo'
             , "descricao": 'Descrição'
             , "quantidade": "Documento"
             , "valor_unitario": "Valor Unitário"
@@ -364,17 +374,22 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         if self.valida_obrigatorios() != 'OK':
             return False
 
-        self.pedido.data_entrega = self.dateEdit_entrega.date()
-
         if self.novo_cadastro:
             self.pedido.pedido_id = ''
+
         else:
             self.pedido.pedido_id = self.lineEdit_id.text()
 
+        self.pedido.data_entrega = self.dateEdit_entrega.date().toString("dd.MM.yyyy").replace('.', '/')
+
+        pedido_dict = self.pedido.to_dict()
+        pedido_dict.pop('data_cadastro')
+        pedido_dict.pop('situacao')
+
         self.dados = {
-            "metodo": "prc_cadastro_pedido",
+            "metodo": "fnc_cadastro_pedido",
             "schema": "soad",
-            "params": self.pedido.to_dict()
+            "params": pedido_dict
         }
 
         #todo: tratar existencia de ID para verificar se cadastra ou edita
@@ -388,11 +403,9 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                 dados = dados[1][0]['json_pessoa']
                 self.popular_interface(dados)
 
-
         else:
             print('Erro ao salvar')
             return
-
 
         self.define_tipo()
 
@@ -518,11 +531,26 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.limpar_item()
 
-    def apagar_item(self):
-        # Remove da tabela
+    def apagar_item(self, item):
         # Remove do objeto pedido
-        # Limpa campos
-        pass
+        item_pedido = ItemPedido
+
+        selecionado = self.tableWidget_items.selectedItems()
+
+        if len(selecionado) > 0:
+            selecionado = selecionado[0]
+
+        item_pedido.item_pedido_id = int(self.tableWidget_items.item(selecionado.row(), 0).text())
+
+        for it in self.pedido.itens:
+            if int(it.item_pedido_id) == int(item_pedido.item_pedido_id):
+                self.pedido.itens.remove(it)
+                break
+
+        # atualiza a tabela
+        self.preencher_tabela()
+
+        self.pushButton_remover_item.setDisabled(True)
 
     def limpar_item(self):
 

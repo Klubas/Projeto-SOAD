@@ -52,7 +52,7 @@ class Pedido:
             "pedido_id": self.pedido_id
             , "pessoa_id": self.pessoa_id
             , "tipo_pedido": self.tipo_pedido
-            #, "situacao": self.situacao
+            , "situacao": self.situacao
             , "data_entrega": self.data_entrega
             , "observacao": self.observacao
             , "data_cadastro": self.data_cadastro

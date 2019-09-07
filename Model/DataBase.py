@@ -46,10 +46,6 @@ class DataBase:
 
         return self.execute_sql(sql)
 
-    def del_registro(self, fnc, campo, id):
-
-        return self.call_procedure(self.schema, )
-
     def call_procedure(self, schema, params):
 
         # Remove parametros vazios

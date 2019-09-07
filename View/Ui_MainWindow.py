@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
 # licensing of 'Resources\UI\MainWindow.ui' applies.
 #
-# Created: Fri Sep  6 00:35:26 2019
+# Created: Sat Sep  7 01:41:47 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -15,13 +15,13 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.WindowModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(1418, 768)
+        MainWindow.resize(1420, 768)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(1024, 768))
+        MainWindow.setMinimumSize(QtCore.QSize(1420, 768))
         MainWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
         MainWindow.setBaseSize(QtCore.QSize(0, 0))
         MainWindow.setFocusPolicy(QtCore.Qt.TabFocus)
@@ -147,7 +147,7 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addLayout(self.verticalLayout_2, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1418, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1420, 21))
         self.menubar.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.menubar.setInputMethodHints(QtCore.Qt.ImhPreferLatin|QtCore.Qt.ImhPreferUppercase)
         self.menubar.setDefaultUp(False)

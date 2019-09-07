@@ -3,12 +3,12 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\MenuCadastro.ui',
 # licensing of 'Resources\UI\Componentes\MenuCadastro.ui' applies.
 #
-# Created: Fri Sep  6 00:35:27 2019
+# Created: Sat Sep  7 01:41:48 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_MenuCadastro(object):
     def setupUi(self, MenuCadastro):

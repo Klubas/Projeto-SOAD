@@ -25,7 +25,7 @@ class ItemPedido:
         if self.tipo == 'MERCADORIA':
             return {
                 "item_pedido_id": self.item_pedido_id
-                , "tipo": self.tipo
+                , "tipo_item": self.tipo
                 , "mercadoria_id": self.mercadoria_id
                 , "quantidade": self.quantidade
                 , "unidade_medida_id": self.unidade_medida_id
@@ -49,7 +49,7 @@ class ItemPedido:
         try:
             return {
                 "item_pedido_id": self.item_pedido_id
-                , "tipo": self.tipo
+                , "tipo_item": self.tipo
                 , "descricao": self.descricao
                 , "quantidade": self.quantidade
                 , "valor_unitario": self.valor_unitario

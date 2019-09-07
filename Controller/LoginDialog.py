@@ -30,8 +30,6 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.lineEdit_usuario.setText('soadmin')
         self.lineEdit_senha.setText('soad2019')
 
-
-
     def __setup_db_connection__(self):
         try:
             servidor = self.comboBox_servidor.currentText().split(':')
@@ -72,7 +70,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             try:
                 if db:
                     db.definir_schema('soad')
-                    w = MainWindow(db, self)
+                    w = MainWindow(db)
                     w.showNormal()
                     self.hide()
 

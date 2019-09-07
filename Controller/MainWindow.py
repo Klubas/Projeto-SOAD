@@ -16,7 +16,7 @@ from View.Ui_MainWindow import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
-    def __init__(self, db, parent):
+    def __init__(self, db, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.parent = parent
