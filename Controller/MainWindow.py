@@ -121,8 +121,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         except Exception as e:
             logging.exception(e)
-            dialog = StatusDialog(status='ERRO')
-            dialog.definir_mensagem('Não foi possível abrir a interface', e)
+            dialog = StatusDialog(
+                status='ERRO'
+                , mensagem='Não foi possível abrir a interface'
+                , exception=e
+                , parent=self
+            )
             dialog.exec()
 
     def abrir_sobre(self):

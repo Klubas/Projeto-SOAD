@@ -64,6 +64,7 @@ class DataBase:
         return self.execute_sql(sql)
 
     def execute_sql(self, sql):
+        retorno = list()
         try:
             retorno = self.db.executesql(query=sql, as_dict=True)
             self.db.commit()
@@ -75,12 +76,15 @@ class DataBase:
             self.db.rollback()
             logging.debug('sql=' + str(sql))
             logging.debug('exception=' + str(e))
-            prc = False, e, str(sql)
+            retorno.append(e)
+            prc = False, retorno, str(sql)
 
         except:
             logging.debug('sql=' + str(sql))
             logging.debug('exception2=' + str('Exceção não tratada'))
-            prc = False, 'Exceção não tratada', str(sql)
+            e = 'Exceção não tratada'
+            retorno.append(e)
+            prc = False, e, str(sql)
 
         return prc
 

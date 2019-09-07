@@ -146,8 +146,10 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
             self.retorno_dados.emit(item)
             self.done(int(self.tableWidget_linhas.item(row, 0).text())) # retorna o ID
         else:
-            dialog = StatusDialog(status='AVISO', exception=item[1])
-            dialog.definir_mensagem("Não foi possível buscar os dados desse registro.")
+            dialog = StatusDialog(status='AVISO'
+                                  , exception=item[1]
+                                  , mensagem="Não foi possível buscar os dados desse registro."
+                                  , parent=self)
             dialog.exec()
 
 

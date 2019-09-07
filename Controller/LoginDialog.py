@@ -46,9 +46,12 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             return db
 
         except Exception as e:
-            dialog = StatusDialog(status='ALERTA')
+            dialog = StatusDialog(
+                status='ALERTA'
+                , mensagem="Usuário ou senha inválidos."
+                , exception=e
+                , parent=self)
             print(e.__cause__)
-            dialog.definir_mensagem("Usuário ou senha inválidos.", e)
             dialog.exec()
             return False
 
@@ -57,8 +60,8 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         if len(self.lineEdit_usuario.text()) == 0 \
                 or len(self.lineEdit_senha.text()) == 0:
 
-            dialog = StatusDialog()
-            dialog.definir_mensagem("Por favor informe seu usuário e senha.")
+            dialog = StatusDialog(mensagem="Por favor informe seu usuário e senha."
+                                  , parent=self)
             dialog.exec()
 
         else:
@@ -75,8 +78,10 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                     self.hide()
 
             except Exception as e:
-                dialog = StatusDialog()
-                dialog.definir_mensagem("Erro ao abrir o sistema.", e)
+                dialog = StatusDialog(status='ALERTA'
+                                      , mensagem="Erro ao abrir o sistema."
+                                      , exception=e
+                                      , parent=self)
                 dialog.exec()
 
         return "Ok"

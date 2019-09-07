@@ -9,7 +9,6 @@ class ItemPedido:
         self.valor_unitario = float(valor_unitario)
         self.valor_total = float(quantidade) * float(valor_unitario)
 
-
         if tipo == 'MERCADORIA':
             self.mercadoria_id = int(kwargs.get('mercadoria_id'))
             self.unidade_medida = str(kwargs.get('unidade_medida'))

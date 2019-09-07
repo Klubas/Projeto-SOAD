@@ -36,9 +36,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
 
         # Marca como isento o lineEdit
-        self.checkBox_isento.setChecked(False)
-        self.label_IE.setDisabled(False)
         self.checkBox_isento.toggled.connect(self.altera_ie)
+        self.checkBox_isento.setChecked(False)
 
         # campos obrigatorios
         self.campos_obrigatorios = dict([
@@ -100,6 +99,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         # limpa todos os campos
         super(CadastroPessoa, self).limpar_dados()
 
+        self.popular_dados_padrao()
+
         # identificacao
         self.lineEdit_nome.clear()
         self.lineEdit_email.clear()
@@ -117,6 +118,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.lineEdit_complemento.clear()
         self.comboBox_uf.setCurrentIndex(-1)
         self.comboBox_municipio.setCurrentIndex(-1)
+
 
     def localizar(self, parent=None):
         self.localizar_campos = {
@@ -204,21 +206,37 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         }
 
         #todo: tratar existencia de ID para verificar se cadastra ou edita
-        prc = super(CadastroPessoa, self).confirma()
-        if prc[0]:
-            print('Sucesso')
-            self.limpar_dados()
-            self.popular_dados_padrao()
-
-            dados = self.db.get_registro("fnc_get_pessoa", "pessoa_id", pessoa.id_pessoa)
-
-            if dados[0]:
-                dados = dados[1][0]['json_pessoa']
-                self.popular_interface(dados)
+        retorno = super(CadastroPessoa, self).confirma()
+        if retorno[0]:
+            pessoa_id = retorno[1]['p_retorno']
+            self.atualizar_interface(pessoa_id)
 
         else:
             print('Erro ao salvar')
             return
+
+    def atualizar_interface(self, pessoa_id):
+
+        self.limpar_dados()
+
+        dados = self.db.get_registro(
+            "fnc_get_pessoa"
+            , "pessoa_id"
+            , pessoa_id
+        )
+
+        if dados[0]:
+            dados = dados[1][0]['json_pessoa']
+            self.popular_interface(dados)
+
+        else:
+            dialog = StatusDialog(
+                status='ERRO',
+                exception=dados[1],
+                mensagem='Erro ao buscar dados.',
+                parent=self
+            )
+            dialog.exec()
 
     def popular_interface(self, dados):
 
@@ -324,8 +342,10 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
                 mod['item'] = QListWidgetItem(mod["descricao"], self.listWidget_modalidade)
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
-            dialog.definir_mensagem("Não foi possível localizar as Modalidades")
+            dialog = StatusDialog(status='ALERTA'
+                                  , mensagem="Não foi possível localizar as Modalidades"
+                                  , exception=items[1]
+                                  , parent=self.parent_window)
             dialog.exec()
 
         # preenche estados
@@ -341,8 +361,10 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.comboBox_uf.setCurrentIndex(0)
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
-            dialog.definir_mensagem("Não foi possível localizar as UFs")
+            dialog = StatusDialog(status='ALERTA'
+                                  , exception=items[1]
+                                  , mensagem="Não foi possível localizar as UFs"
+                                  , parent=self.parent_window)
             dialog.exec()
 
         # preenche municipios
@@ -374,8 +396,10 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
                     self.comboBox_municipio.addItem(mun["municipio"])
 
         else:
-            dialog = StatusDialog(status='ALERTA', exception=items[1], parent=self.parent_window)
-            dialog.definir_mensagem("Não foi possível localizar os municipios.")
+            dialog = StatusDialog(status='ALERTA'
+                                  , mensagem="Não foi possível localizar os municipios."
+                                  , exception=items[1]
+                                  , parent=self.parent_window)
             dialog.exec()
 
     def altera_ie(self):

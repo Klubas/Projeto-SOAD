@@ -70,7 +70,7 @@ class CadastroPadrao:
     # Reimplementar chamando super
     def excluir(self):
         if self.nao_esta_em_modo_edicao():
-            return self.db.call_procedure(self.db.schema, self.dados)[0]
+            return self.db.call_procedure(self.db.schema, self.dados)
         else:
             return False
 
@@ -175,14 +175,15 @@ class CadastroPadrao:
                 dialog = StatusDialog(
                     status='ERRO'
                     , mensagem='Não foi possível salvar os dados.'
-                    , exception=str(prc[1]) + ' ' + str(prc[2])
+                    , exception=prc
                     , parent=self.parent_window
                 )
                 self.modo_edicao = True
 
             # Finaliza e retorna
             dialog.exec()
-            logging.debug('prc=' + str(prc[1][0]))
+            for i in prc:
+                logging.debug('prc=' + str(i))
             return prc[0], prc[1][0]
 
     # Não precisa ser reimplementado na tela
@@ -229,7 +230,6 @@ class CadastroPadrao:
             self.frame_contents.setDisabled(False)
             logging.info('Entrando em modo edição')
 
-
     def sair_modo_edicao(self):
         if self.esta_em_modo_edicao():
             self.modo_edicao = False
@@ -237,6 +237,13 @@ class CadastroPadrao:
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
             logging.info('Saindo do modo edição')
+
+    def entrar_modo_visualizacao(self):
+        if self.nao_esta_em_modo_edicao():
+            self.modo_edicao = False
+            self.frame_menu.setDisabled(False)
+            self.frame_buttons.setDisabled(True)
+            self.frame_contents.setDisabled(False)
 
     def define_permite_editar(self):
         logging.info('Editar: ' + str(self.lineEdit_id.text() == ''))

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>865</width>
-    <height>600</height>
+    <height>673</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,14 +21,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>830</width>
-    <height>600</height>
+    <width>865</width>
+    <height>673</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>865</width>
-    <height>620</height>
+    <height>900</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -133,10 +133,10 @@
            </font>
           </property>
           <property name="text">
-           <string>Movimentar</string>
+           <string>Encerrar Pedido</string>
           </property>
           <property name="shortcut">
-           <string>Alt+D</string>
+           <string>Ctrl+Shift+S</string>
           </property>
           <property name="checkable">
            <bool>false</bool>
@@ -179,6 +179,18 @@
      </item>
      <item>
       <widget class="QFrame" name="frame_contents">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
@@ -428,6 +440,23 @@
                 </item>
                </layout>
               </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Observações</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QTextEdit" name="textEdit_observacao">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
@@ -441,6 +470,12 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
           <property name="font">
            <font>
@@ -477,6 +512,15 @@
              </property>
              <property name="currentIndex">
               <number>0</number>
+             </property>
+             <property name="elideMode">
+              <enum>Qt::ElideNone</enum>
+             </property>
+             <property name="usesScrollButtons">
+              <bool>false</bool>
+             </property>
+             <property name="documentMode">
+              <bool>false</bool>
              </property>
              <property name="tabsClosable">
               <bool>false</bool>
@@ -533,6 +577,12 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -540,6 +590,9 @@
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <property name="topMargin">
+                   <number>9</number>
+                  </property>
                   <item>
                    <widget class="QFrame" name="frame_items">
                     <property name="maximumSize">
@@ -1229,7 +1282,7 @@
                   <item>
                    <widget class="QFrame" name="frame_item_buttons">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -1428,7 +1481,7 @@
                    </widget>
                   </item>
                   <item row="0" column="0">
-                   <widget class="QWidget" name="horizontalWidget" native="true">
+                   <widget class="QWidget" name="horizontalWidget_botoes_tabela" native="true">
                     <property name="layoutDirection">
                      <enum>Qt::LeftToRight</enum>
                     </property>
@@ -1929,7 +1982,7 @@
              </widget>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="6" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_15">
              <property name="spacing">
               <number>9</number>

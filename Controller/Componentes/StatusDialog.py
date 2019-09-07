@@ -8,7 +8,7 @@ from View.Componentes.Ui_StatusDialog import Ui_StatusDialog
 
 class StatusDialog(QDialog, Ui_StatusDialog):
 
-    def __init__(self, status='ERRO', mensagem='', exception='', parent=None):
+    def __init__(self, status='ERRO', mensagem='', exception=None, parent=None):
         super(StatusDialog, self).__init__(parent)
         self.setupUi(self)
 
@@ -32,30 +32,56 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             self.groupBox_mensagem.setVisible(False)
 
         else:
-            self.definir_mensagem("O valor " + status + " não é um status válido para StatusDialog\n")
+            self.__definir_mensagem__("O valor " + status + " não é um status válido para StatusDialog\n")
             logging.debug("O valor " + status + " não é um status válido para StatusDialog\n")
             self.exec()
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 
-        self.definir_mensagem(mensagem, exception)
+        self.__definir_mensagem__(mensagem, exception)
 
-    def definir_mensagem(self, mensagem='', json_exception=''):
-        # todo: configurar mensagem para aparecer no dialogo
-        # Tratar esse formato de json '{"erro": "Não foi possível executar a operacao.","metodo": "%","retorno": "%","parametros": "%","requisicao_id": "%"}'
+    def __definir_mensagem__(self, mensagem='', exception=None):
 
-        #json_mensagem = '{"erro": "Não foi possível executar a operacao.","metodo": "%","retorno": "%","parametros": "%","requisicao_id": "%"}'
+        logging.info('status_msg=' + str(mensagem))
+        logging.debug('status_exception=' + str(exception))
 
-        logging.info(mensagem)
-        logging.debug(json_exception)
+        string_exception = ''
+        string_mensagem = mensagem + '\n\n'
 
-        self.label_mensagem.setText(mensagem)
+        print('exception=' + str(type(exception)))
+        if type(exception) == tuple:
+            print('exception[0]=' + str(type(exception[0])))
+            print('exception[1]=' + str(type(exception[1])))
+            print('exception[2]=' + str(type(exception[2])))
 
-        self.textBrowser_exception.setText(
-            str(mensagem) + '\n\n' + str(json_exception)
-        )
+            if type(exception[1]) == list:
+                if len(exception[1]) == 1:
+                    print('exception[1][0]=' + str(type(exception[1][0])))
 
-        #self.textEdit_exception.setText('\n' + exception["erro"] + '\n' + exception["metodo"] + '\n' + exception["parametros"] + '\n' + exception["retorno"] + '\n' + str(exception))
+                    aux = str(exception[1][0]).split('CONTEXT:')
+
+                    string_mensagem = string_mensagem + str(aux[0])
+
+                    string_exception = string_exception + str(aux[0]) \
+                                       + '\nCONTEXT:\n' + str(aux[1])
+
+                else:
+                    string_exception = string_exception + str(exception[1])
+
+                string_exception = string_exception + '\n\n'
+
+            if len(exception) == 3:
+                string_exception = string_exception + 'SQL:\n' + str(exception[2])
+
+        elif exception is None:
+            pass
+
+        else:
+            string_exception = str(exception)
+            logging.debug('Tipo de mensagem não tratado.')
+
+        self.label_mensagem.setText(string_mensagem)
+        self.textBrowser_exception.setText(string_exception)
 
     def close_clicked(self):
         self.close()
