@@ -52,6 +52,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         ])
 
         # Ativar e desativar campos de acordo com o tipo
+        self.widget_tipo_pessoa.setVisible(False)
         self.radioButton_pf.toggled.connect(self.define_tipo)
         self.define_tipo()
 
@@ -74,12 +75,15 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         super(CadastroPessoa, self).cadastrar()
         self.limpar_dados()
         self.widget_tipo_pessoa.setDisabled(False)
+        self.widget_tipo_pessoa.setVisible(True)
 
     def editar(self):
         super(CadastroPessoa, self).editar()
         self.widget_tipo_pessoa.setDisabled(True)
+        self.widget_tipo_pessoa.setVisible(False)
 
     def excluir(self):
+
         self.dados = {
             "metodo": "prc_delete_pessoa",
             "schema": "soad",
@@ -88,12 +92,23 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             }
         }
 
-        if super(CadastroPessoa, self).excluir():
-            dialog = StatusDialog(status='OK', mensagem='Registro excluido com sucesso.', parent=self.parent_window)
-            dialog.exec()
+        retorno = super(CadastroPessoa, self).excluir()
+
+        if retorno[0]:
+            dialog = StatusDialog(status='OK'
+                                  , mensagem='Pessoa excluída com sucesso.'
+                                  , parent=self.parent_window)
             self.limpar_dados()
+        else:
+            dialog = StatusDialog(status='ALERTA'
+                                  , mensagem='Não foi possível excluir a pessoa.'
+                                  , exception=retorno
+                                  , parent=self.parent_window)
+        dialog.exec()
 
-
+    def cancela(self):
+        if super(CadastroPessoa, self).cancela():
+            self.limpar_dados()
 
     def limpar_dados(self):
         # limpa todos os campos
@@ -203,8 +218,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             "params": pessoa.to_dict()
         }
 
-        #todo: tratar existencia de ID para verificar se cadastra ou edita
         retorno = super(CadastroPessoa, self).confirma()
+
         if retorno[0]:
             pessoa_id = retorno[1]['p_retorno']
             self.atualizar_interface(pessoa_id)
@@ -269,6 +284,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
             self.radioButton_pf.setChecked(True)
         elif len(pessoa.documento) == 14:
             self.radioButton_pj.setChecked(True)
+        self.widget_tipo_pessoa.setVisible(False)
 
         try:
             endereco = dados[1][0] # pode retornar vários endereços, pego apenas o primeiro

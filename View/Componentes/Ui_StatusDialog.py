@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\StatusDialog.ui',
 # licensing of 'Resources\UI\Componentes\StatusDialog.ui' applies.
 #
-# Created: Sun Sep  8 02:12:58 2019
+# Created: Sun Sep  8 20:36:16 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -15,14 +15,14 @@ class Ui_StatusDialog(object):
         StatusDialog.setObjectName("StatusDialog")
         StatusDialog.setWindowModality(QtCore.Qt.WindowModal)
         StatusDialog.setEnabled(True)
-        StatusDialog.resize(750, 300)
+        StatusDialog.resize(604, 300)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(StatusDialog.sizePolicy().hasHeightForWidth())
         StatusDialog.setSizePolicy(sizePolicy)
-        StatusDialog.setMinimumSize(QtCore.QSize(750, 300))
-        StatusDialog.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        StatusDialog.setMinimumSize(QtCore.QSize(400, 300))
+        StatusDialog.setMaximumSize(QtCore.QSize(800, 16777215))
         StatusDialog.setSizeGripEnabled(True)
         StatusDialog.setModal(True)
         self.gridLayout = QtWidgets.QGridLayout(StatusDialog)
@@ -62,7 +62,7 @@ class Ui_StatusDialog(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 700, 69))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 554, 69))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_3.setSpacing(0)
@@ -108,7 +108,7 @@ class Ui_StatusDialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 720, 106))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 574, 106))
         self.scrollAreaWidgetContents_2.setMinimumSize(QtCore.QSize(0, 0))
         self.scrollAreaWidgetContents_2.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")

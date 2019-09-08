@@ -1,6 +1,6 @@
 import logging
 
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, QSize
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
 from View.Componentes.Ui_StatusDialog import Ui_StatusDialog
@@ -12,29 +12,36 @@ class StatusDialog(QDialog, Ui_StatusDialog):
         super(StatusDialog, self).__init__(parent)
         self.setupUi(self)
 
+        min_size = QSize(400, 150) # h, w
+
         # todo: definir características de cada tipo de alerta
         if status == 'ERRO':
             self.setWindowTitle("Mensagem de Erro")
             self.groupBox_mensagem.setVisible(True)
+            min_size = QSize(250, 500)
 
         elif status == 'ALERTA':
             self.setWindowTitle("Mensagem de Alerta")
             self.label_mensagem.setAlignment(Qt.AlignCenter)
-            self.setMinimumHeight(200)
-            self.setMaximumHeight(200)
             self.groupBox_mensagem.setVisible(False)
+            min_size = QSize(400, 150)
 
         elif status == 'OK':
             self.setWindowTitle("Mensagem de Confirmação")
             self.label_mensagem.setAlignment(Qt.AlignCenter)
-            self.setMinimumHeight(200)
-            self.setMaximumHeight(200)
             self.groupBox_mensagem.setVisible(False)
+            min_size = QSize(150, 300)
 
         else:
             self.__definir_mensagem__("O valor " + status + " não é um status válido para StatusDialog\n")
             logging.debug("[StatusDialog] O valor " + status + " não é um status válido para StatusDialog\n")
             self.exec()
+
+        max_size = QSize(min_size.height()*2, min_size.width()*2)
+
+        self.setMinimumSize(min_size)
+        self.setMaximumSize(max_size)
+        self.setSizePolicy
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 

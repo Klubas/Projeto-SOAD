@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroPessoa.ui',
 # licensing of 'Resources\UI\CadastroPessoa.ui' applies.
 #
-# Created: Sun Sep  8 02:12:55 2019
+# Created: Sun Sep  8 20:36:13 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -21,11 +21,17 @@ class Ui_CadastroPessoa(object):
         sizePolicy.setHeightForWidth(CadastroPessoa.sizePolicy().hasHeightForWidth())
         CadastroPessoa.setSizePolicy(sizePolicy)
         CadastroPessoa.setMinimumSize(QtCore.QSize(830, 520))
+        CadastroPessoa.setMaximumSize(QtCore.QSize(900, 528))
         self.gridLayout_2 = QtWidgets.QGridLayout(CadastroPessoa)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_menu = QtWidgets.QWidget(CadastroPessoa)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_menu.sizePolicy().hasHeightForWidth())
+        self.frame_menu.setSizePolicy(sizePolicy)
         self.frame_menu.setMaximumSize(QtCore.QSize(16777215, 60))
         self.frame_menu.setObjectName("frame_menu")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_menu)
@@ -112,6 +118,7 @@ class Ui_CadastroPessoa(object):
         self.label_uf.setObjectName("label_uf")
         self.formLayout_enderco.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_uf)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_9.setSpacing(10)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.comboBox_uf = QtWidgets.QComboBox(self.groupBox_endereco)
         self.comboBox_uf.setMaximumSize(QtCore.QSize(50, 16777215))
@@ -129,7 +136,7 @@ class Ui_CadastroPessoa(object):
         self.label_municipio.setObjectName("label_municipio")
         self.horizontalLayout_9.addWidget(self.label_municipio)
         self.comboBox_municipio = QtWidgets.QComboBox(self.groupBox_endereco)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.comboBox_municipio.sizePolicy().hasHeightForWidth())
@@ -138,11 +145,14 @@ class Ui_CadastroPessoa(object):
         self.comboBox_municipio.setFrame(True)
         self.comboBox_municipio.setObjectName("comboBox_municipio")
         self.horizontalLayout_9.addWidget(self.comboBox_municipio)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem)
         self.formLayout_enderco.setLayout(1, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_9)
         self.label_logradouro = QtWidgets.QLabel(self.groupBox_endereco)
         self.label_logradouro.setObjectName("label_logradouro")
         self.formLayout_enderco.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_logradouro)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setSpacing(10)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.lineEdit_logradouro = QtWidgets.QLineEdit(self.groupBox_endereco)
         self.lineEdit_logradouro.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -249,6 +259,7 @@ class Ui_CadastroPessoa(object):
         self.label_IE.setObjectName("label_IE")
         self.formLayout_identificacao.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_IE)
         self.horizontalLayout_IE = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_IE.setSpacing(10)
         self.horizontalLayout_IE.setObjectName("horizontalLayout_IE")
         self.lineEdit_IE = QtWidgets.QLineEdit(self.widget_identificacao)
         self.lineEdit_IE.setEnabled(False)

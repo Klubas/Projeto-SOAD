@@ -553,6 +553,13 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QLabel" name="label_background">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>

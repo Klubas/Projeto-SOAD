@@ -1,7 +1,7 @@
 import logging
 import sys
 
-from PySide2.QtGui import QCloseEvent
+from PySide2.QtGui import QCloseEvent, QImage, QPixmap
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -26,6 +26,11 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
         if self.comboBox_servidor.count() == 1:
             self.verticalWidget_servidor.setVisible(False)
+
+        # carrega e redimensiona a imagem
+        logo = QImage("Resources/Imagens/logo.png").smoothScaled(165, 165)
+
+        self.label_logo.setPixmap(QPixmap.fromImage(logo))
 
         #dsv
         self.load_configs()

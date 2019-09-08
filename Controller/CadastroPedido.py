@@ -41,9 +41,9 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         # Compra ou venda
         self.tipo_pedido = kwargs.get('tipo')
-        self.setWindowTitle('SOAD - Registrar ' + self.tipo_pedido.capitalize())
 
         if self.tipo_pedido == 'VENDA':
+
             self.tipo_pessoa = 'Cliente'
             self.view_busca = 'vw_pedido_venda'
             self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
@@ -51,6 +51,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.label_data.setText('Data entrega')
 
         elif self.tipo_pedido == 'COMPRA':
+
             self.tipo_pessoa = 'Fornecedor'
             self.view_busca = 'vw_pedido_compra'
             self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
@@ -61,6 +62,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         else:
             dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO INVÁLIDO', parent=self.parent_window)
             dialog.exec()
+
+        self.setWindowTitle('SOAD - Registrar ' + self.tipo_pedido.capitalize())
 
         # buttonBox items
         self.buttonBox_item.button(QDialogButtonBox.Save).clicked.connect(self.salva_item)
@@ -167,17 +170,16 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def cadastrar(self):
         super(CadastroPedido, self).cadastrar()
+        self.limpar_dados()
         self.visualizar(False)
         self.pushButton_excluir.setText('Cancelar Pedido')
         self.label_situacao.setText('')
         self.lineEdit_documento.setDisabled(False)
-        self.limpar_dados()
 
     def editar(self):
         super(CadastroPedido, self).editar()
         self.visualizar(False)
         self.lineEdit_documento.setDisabled(True)
-
 
     def excluir(self):
 
@@ -309,7 +311,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.dateEdit_entrega.setDate(QDate().currentDate())
         self.preencher_tabela()
         self.pushButton_movimentar.setDisabled(True)
-
 
     def localizar(self, parent=None):
 
@@ -505,8 +506,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             "params": pedido_dict
         }
 
-        #todo: tratar existencia de ID para verificar se cadastra ou edita
         retorno = super(CadastroPedido, self).confirma()
+
         if retorno[0]:
             pedido_id = retorno[1]['p_retorno']
             self.movimentar(pedido_id)
@@ -834,6 +835,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         else:
             lineEdit_id.clear()
             lineEdit_descricao.clear()
+            lineEdit_marca.clear()
             return False
 
     def define_permite_editar(self):

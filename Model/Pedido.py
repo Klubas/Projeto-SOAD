@@ -6,7 +6,7 @@ from Model.Remanufatura import Remanufatura
 
 class Pedido:
 
-    def __init__(self, tipo_pedido, pessoa_id=None, data_entrega=None, situacao='CADASTRADO', data_cadastro=None, observacao=None, pedido_id=None):
+    def __init__(self, tipo_pedido, pessoa_id=None, data_entrega=None, situacao='CADASTRADO', data_cadastro=None, observacao='', pedido_id=None):
 
         self.pedido_id = None if pedido_id is None else int(pedido_id)
         self.pessoa_id = None if pessoa_id is None else int(pessoa_id)

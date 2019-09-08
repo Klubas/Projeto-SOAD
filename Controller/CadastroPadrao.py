@@ -92,9 +92,6 @@ class CadastroPadrao:
     # Reimplementar chamando super
     def limpar_dados(self):
         # limpa todos os campos
-        #self.frame_menu.setDisabled(True)
-        #self.frame_contents.setDisabled(False)
-        #self.frame_buttons.setDisabled(False)
         self.lineEdit_id.setText('')
 
     def receber_dados(self, dados):
@@ -184,9 +181,10 @@ class CadastroPadrao:
             dialog.exec()
             for i in prc:
                 logging.debug('[CadastroPadrao] prc=' + str(i))
+
             return prc[0], prc[1][0]
 
-    # Não precisa ser reimplementado na tela
+    # Não deve ser reimplementado na tela
     #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
     def fechar(self):
         if self.modo_edicao:

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroPedido.ui',
 # licensing of 'Resources\UI\CadastroPedido.ui' applies.
 #
-# Created: Sun Sep  8 02:12:55 2019
+# Created: Sun Sep  8 20:36:13 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,6 +27,11 @@ class Ui_CadastroPedido(object):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_menu = QtWidgets.QWidget(CadastroPedido)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_menu.sizePolicy().hasHeightForWidth())
+        self.frame_menu.setSizePolicy(sizePolicy)
         self.frame_menu.setMaximumSize(QtCore.QSize(16777215, 60))
         self.frame_menu.setObjectName("frame_menu")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_menu)

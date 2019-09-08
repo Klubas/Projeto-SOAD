@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
 # licensing of 'Resources\UI\MainWindow.ui' applies.
 #
-# Created: Sun Sep  8 02:12:56 2019
+# Created: Sun Sep  8 20:36:14 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -262,6 +262,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addWidget(self.pushButton_4)
         self.gridLayout.addWidget(self.frame_mercadoria, 1, 1, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout)
+        self.label_background = QtWidgets.QLabel(self.centralwidget)
+        self.label_background.setObjectName("label_background")
+        self.verticalLayout_2.addWidget(self.label_background)
         self.gridLayout_3.addLayout(self.verticalLayout_2, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -369,6 +372,7 @@ class Ui_MainWindow(object):
         self.pushButton_mercadoria.setText(QtWidgets.QApplication.translate("MainWindow", "Mercadorias", None, -1))
         self.pushButton_6.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Mercadorias", None, -1))
         self.pushButton_4.setText(QtWidgets.QApplication.translate("MainWindow", "Estoque", None, -1))
+        self.label_background.setText(QtWidgets.QApplication.translate("MainWindow", "TextLabel", None, -1))
         self.menuArquivo.setTitle(QtWidgets.QApplication.translate("MainWindow", "Arquivo", None, -1))
         self.menuCadastros.setTitle(QtWidgets.QApplication.translate("MainWindow", "Cadastros", None, -1))
         self.menuVendas.setTitle(QtWidgets.QApplication.translate("MainWindow", "Vendas", None, -1))
