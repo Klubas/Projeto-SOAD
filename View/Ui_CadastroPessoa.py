@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroPessoa.ui',
 # licensing of 'Resources\UI\CadastroPessoa.ui' applies.
 #
-# Created: Sat Sep  7 19:24:53 2019
+# Created: Sun Sep  8 02:12:55 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -89,6 +89,8 @@ class Ui_CadastroPessoa(object):
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.formLayout_enderco = QtWidgets.QFormLayout()
         self.formLayout_enderco.setContentsMargins(0, -1, -1, -1)
+        self.formLayout_enderco.setHorizontalSpacing(9)
+        self.formLayout_enderco.setVerticalSpacing(10)
         self.formLayout_enderco.setObjectName("formLayout_enderco")
         self.label_cep = QtWidgets.QLabel(self.groupBox_endereco)
         self.label_cep.setObjectName("label_cep")
@@ -178,6 +180,9 @@ class Ui_CadastroPessoa(object):
         self.gridLayout_7.addWidget(self.groupBox_endereco, 2, 0, 1, 1)
         self.groupBox_identificacao_modalidade = QtWidgets.QGroupBox(self.frame_contents)
         self.groupBox_identificacao_modalidade.setMaximumSize(QtCore.QSize(16777215, 250))
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.groupBox_identificacao_modalidade.setFont(font)
         self.groupBox_identificacao_modalidade.setObjectName("groupBox_identificacao_modalidade")
         self.horizontalLayout_identificacao = QtWidgets.QHBoxLayout(self.groupBox_identificacao_modalidade)
         self.horizontalLayout_identificacao.setObjectName("horizontalLayout_identificacao")
@@ -192,6 +197,8 @@ class Ui_CadastroPessoa(object):
         self.formLayout_identificacao = QtWidgets.QFormLayout(self.widget_identificacao)
         self.formLayout_identificacao.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.formLayout_identificacao.setContentsMargins(0, 0, 0, 0)
+        self.formLayout_identificacao.setHorizontalSpacing(9)
+        self.formLayout_identificacao.setVerticalSpacing(10)
         self.formLayout_identificacao.setObjectName("formLayout_identificacao")
         self.label_nome = QtWidgets.QLabel(self.widget_identificacao)
         self.label_nome.setObjectName("label_nome")
@@ -215,8 +222,10 @@ class Ui_CadastroPessoa(object):
         self.label.setObjectName("label")
         self.formLayout_identificacao.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setSpacing(6)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_5.setSpacing(10)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.lineEdit_email = QtWidgets.QLineEdit(self.widget_identificacao)
         self.lineEdit_email.setInputMask("")

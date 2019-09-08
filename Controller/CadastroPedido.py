@@ -18,17 +18,13 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
     def __init__(self, db=None, window_list=None, **kwargs):
         super(CadastroPadrao, self).__init__()
         super(CadastroPedido, self).__init__()
-
-        self.parent_window=self
+        ### Padrão
+        self.parent_window = self
         self.setupUi(self)
 
         self.db = db
         self.window_list = window_list
         self.modo_edicao = False
-        self.parent = self
-
-        self.tipo_pedido = kwargs.get('tipo')
-        self.setWindowTitle('SOAD - Registrar ' + self.tipo_pedido.capitalize())
 
         self.frame_menu.setDisabled(False)
         self.frame_contents.setDisabled(True)
@@ -41,8 +37,12 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
+        ### Fim padrão
 
         # Compra ou venda
+        self.tipo_pedido = kwargs.get('tipo')
+        self.setWindowTitle('SOAD - Registrar ' + self.tipo_pedido.capitalize())
+
         if self.tipo_pedido == 'VENDA':
             self.tipo_pessoa = 'Cliente'
             self.view_busca = 'vw_pedido_venda'

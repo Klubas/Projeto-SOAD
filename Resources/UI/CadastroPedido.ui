@@ -229,6 +229,12 @@
               <string>Pessoa</string>
              </property>
              <layout class="QFormLayout" name="formLayout">
+              <property name="horizontalSpacing">
+               <number>9</number>
+              </property>
+              <property name="verticalSpacing">
+               <number>10</number>
+              </property>
               <item row="0" column="0">
                <widget class="QLabel" name="label">
                 <property name="text">
@@ -414,6 +420,12 @@
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_documento">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
                 <property name="text">
                  <string>CPF/CNPJ</string>
                 </property>
@@ -421,6 +433,9 @@
               </item>
               <item row="1" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <property name="spacing">
+                 <number>10</number>
+                </property>
                 <item>
                  <widget class="QLineEdit" name="lineEdit_documento">
                   <property name="maximumSize">
@@ -428,6 +443,9 @@
                     <width>120</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="maxLength">
+                   <number>20</number>
                   </property>
                  </widget>
                 </item>
@@ -442,6 +460,12 @@
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_2">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
                 <property name="text">
                  <string>Observações</string>
                 </property>
@@ -454,6 +478,24 @@
                   <width>16777215</width>
                   <height>50</height>
                  </size>
+                </property>
+                <property name="midLineWidth">
+                 <number>0</number>
+                </property>
+                <property name="autoFormatting">
+                 <set>QTextEdit::AutoBulletList</set>
+                </property>
+                <property name="lineWrapColumnOrWidth">
+                 <number>0</number>
+                </property>
+                <property name="readOnly">
+                 <bool>false</bool>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextEditorInteraction</set>
+                </property>
+                <property name="placeholderText">
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -503,6 +545,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
              </property>
              <property name="tabPosition">
               <enum>QTabWidget::East</enum>
@@ -590,8 +638,14 @@
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
                   <property name="topMargin">
-                   <number>9</number>
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
                   </property>
                   <item>
                    <widget class="QFrame" name="frame_items">
@@ -888,6 +942,12 @@
                             <property name="formAlignment">
                              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                             </property>
+                            <property name="horizontalSpacing">
+                             <number>9</number>
+                            </property>
+                            <property name="verticalSpacing">
+                             <number>10</number>
+                            </property>
                             <item row="0" column="0">
                              <widget class="QLabel" name="label_casco">
                               <property name="text">
@@ -1062,6 +1122,9 @@
                        </property>
                        <property name="formAlignment">
                         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                       </property>
+                       <property name="verticalSpacing">
+                        <number>10</number>
                        </property>
                        <property name="leftMargin">
                         <number>9</number>
@@ -1271,9 +1334,6 @@
                          </item>
                         </layout>
                        </item>
-                       <item row="1" column="1">
-                        <layout class="QVBoxLayout" name="verticalLayout_4"/>
-                       </item>
                       </layout>
                      </item>
                     </layout>
@@ -1411,6 +1471,9 @@
                    <number>0</number>
                   </property>
                   <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="verticalSpacing">
                    <number>0</number>
                   </property>
                   <item row="1" column="0">
@@ -2095,8 +2158,31 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>16</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
+          </property>
+          <property name="text">
+           <string/>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -2105,6 +2191,9 @@
            <bool>false</bool>
           </property>
           <property name="readOnly">
+           <bool>false</bool>
+          </property>
+          <property name="clearButtonEnabled">
            <bool>false</bool>
           </property>
          </widget>
