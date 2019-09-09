@@ -14,7 +14,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
     def __init__(self, db, window_list, **kwargs):
         super(CadastroPessoa, self).__init__()
         super(CadastroPadrao, self).__init__()
-        self.parent_window=self
+        self.parent_window = self
         self.setupUi(self)
 
         self.setWindowTitle('SOAD - Cadastro de Pessoa')
