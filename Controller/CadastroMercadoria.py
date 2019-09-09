@@ -88,6 +88,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
                 , parent=self.parent_window)
             dialog.exec()
 
+        self.label_tipo.setText(self.tipo)
         self.setWindowTitle('SOAD - Cadastrar ' + self.tipo.capitalize())
 
         # Define se ativa o botão editar e excluir
@@ -220,16 +221,10 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         retorno = super(CadastroMercadoria, self).localizar(parent=self)
 
-        if retorno != 0:
-            dados = self.db.get_registro("fnc_get_mercadoria", "mercadoria_id", retorno)
-        else:
-            return
-
-        if dados[0]:
-            dados = dados[1][0]['json_mercadoria']
-            self.popular_interface(dados)
+        self.atualizar_interface(retorno)
 
     def confirma(self):
+
         if self.valida_obrigatorios() != 'OK':
             return
 
@@ -242,7 +237,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
             , codigo=self.lineEdit_codigo.text()
             , descricao=self.lineEdit_descricao.text()
             , fabricante=self.comboBox_fabricante.currentText()
-            , valor_unitario=self.lineEdit_valor_venda.text().replace(',', '.')
+            , valor_venda=self.lineEdit_valor_venda.text().replace(',', '.')
             , ativo=self.checkBox_ativo.isChecked()
             , permite_venda=self.checkBox_permite_venda.isChecked()
             , tipo_mercadoria=self.tipo
@@ -276,10 +271,120 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
             self.limpar_dados()
 
     def atualizar_interface(self, mercadoria_id):
-        pass
+
+        self.limpar_dados()
+
+        dados = self.db.get_registro(
+            "fnc_get_mercadoria"
+            , "mercadoria_id"
+            , mercadoria_id
+        )
+
+        if dados[0]:
+            dados = dados[1][0]['json_mercadoria']
+            self.popular_interface(dados)
+
+        else:
+            dialog = StatusDialog(
+                status='ERRO'
+                , exception=dados
+                , mensagem='Erro ao buscar dados.'
+                , parent=self
+            )
+            dialog.exec()
 
     def popular_interface(self, dados):
-        pass
+
+        mercadoria = dados
+
+        tipo = str(mercadoria['tipo']).upper()
+
+        if tipo == 'MERCADORIA':
+            mercadoria = Mercadoria(
+                mercadoria_id=mercadoria['id_mercadoria']
+                , codigo=mercadoria['codigo']
+                , descricao=mercadoria['descricao']
+                , fabricante=mercadoria['marca']
+                , valor_venda=mercadoria['valor_venda']
+                , ativo=mercadoria['ativo']
+                , permite_venda=mercadoria['permite_venda']
+                , tipo_mercadoria=tipo
+            )
+
+        elif tipo == 'INSUMO':
+            mercadoria = Mercadoria(
+                mercadoria_id=mercadoria['id_mercadoria']
+                , codigo=mercadoria['codigo']
+                , descricao=mercadoria['descricao']
+                , fabricante=mercadoria['marca']
+                , valor_venda=mercadoria['valor_venda']
+                , ativo=mercadoria['ativo']
+                , permite_venda=mercadoria['permite_venda']
+                , tipo_mercadoria=tipo
+                , unidade_medida_id=mercadoria['unidade_medida_id']
+                , quantidade_embalagem=mercadoria['quantidade_embalagem']
+            )
+
+            self.lineEdit_quantidade_insumo.setText(
+                str(mercadoria.quantidade_embalagem).replace('', '')
+            )
+
+            for key in self.unidades_medida:
+                if self.unidades_medida[key] == mercadoria.unidade_medida_id:
+                    self.comboBox_unidade_medida_embalagem.setCurrentText(key)
+                    break
+
+
+
+        elif tipo == 'CASCO':
+            mercadoria = Mercadoria(
+                mercadoria_id=mercadoria['id_mercadoria']
+                , codigo=mercadoria['codigo']
+                , descricao=mercadoria['descricao']
+                , fabricante=mercadoria['marca']
+                , valor_venda=mercadoria['valor_venda']
+                , ativo=mercadoria['ativo']
+                , permite_venda=mercadoria['permite_venda']
+                , tipo_mercadoria=tipo
+                , unidade_medida_id=mercadoria['unidade_medida_id']
+                , quantidade_insumo=mercadoria['quantidade_insumo']
+                , insumo_id=mercadoria['insumo_id']
+            )
+
+            self.lineEdit_quantidade_embalagem.setText(
+                str(mercadoria.quantidade_insumo).replace('', '')
+            )
+
+            for key in self.unidades_medida:
+                if self.unidades_medida[key] == mercadoria.unidade_medida_id:
+                    self.comboBox_unidade_medida_insumo.setCurrentText(key)
+                    break
+
+            self.lineEdit_insumo_id.setText(
+                str(mercadoria.insumo_id)
+            )
+
+            self.busca_insumo()
+
+        else:
+            logging.debug('[CadastroMercadoria] Tipo desconhecido: ' + self.tipo)
+            return
+
+        print(mercadoria.to_dict())
+
+        self.lineEdit_id.setText(
+            str(mercadoria.mercadoria_id)
+        )
+
+        self.label_tipo.setText(mercadoria.tipo)
+        self.lineEdit_codigo.setText(mercadoria.codigo)
+        self.checkBox_permite_venda.setChecked(mercadoria.permite_venda)
+        self.lineEdit_descricao.setText(mercadoria.descricao)
+        self.comboBox_fabricante.setCurrentText(mercadoria.fabricante)
+
+        self.lineEdit_valor_venda.setText(
+            str(mercadoria.valor_venda).replace('.', ',')
+        )
 
     def popular_dados_padrao(self):
         self.permite_venda_toggled()

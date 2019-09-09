@@ -1,4 +1,5 @@
 import logging
+import os
 import sys
 
 from PySide2.QtGui import QCloseEvent, QImage, QPixmap
@@ -28,7 +29,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             self.verticalWidget_servidor.setVisible(False)
 
         # carrega e redimensiona a imagem
-        logo = QImage("Resources/Imagens/logo.png").smoothScaled(165, 165)
+        logo = QImage(os.path.join("Resources", "Imagens", "logo.png")).smoothScaled(165, 165)
 
         self.label_logo.setPixmap(QPixmap.fromImage(logo))
 

@@ -234,7 +234,7 @@ BEGIN
 			v_tipo_item			:= v_json_temp::json->'tipo_item';
 			v_tipo_item			:= trim('"' FROM v_tipo_item::text);
 			v_quantidade		:= v_json_temp::json->'quantidade';
-			v_valor_unitario	:= v_json_temp::json->'valor_unitario';
+			v_valor_unitario	:= v_json_temp::json->'valor_venda';
 
 			IF v_tipo_item = 'REMANUFATURA' THEN
 				v_casco_id 			:= v_json_temp::json->'casco_id';

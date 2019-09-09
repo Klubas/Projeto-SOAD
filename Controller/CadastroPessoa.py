@@ -23,6 +23,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.window_list = window_list
         self.modo_edicao = False
 
+        self.filtro_adicional = None
+
         self.frame_menu.setDisabled(False)
         self.frame_contents.setDisabled(True)
         self.frame_buttons.setDisabled(True)
@@ -134,7 +136,6 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.comboBox_uf.setCurrentIndex(-1)
         self.comboBox_municipio.setCurrentIndex(-1)
 
-
     def localizar(self, parent=None):
         self.localizar_campos = {
             "id_pessoa": 'ID',
@@ -150,14 +151,11 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         self.view_busca = 'vw_pessoa'
 
-        dados = super(CadastroPessoa, self).localizar(parent=self)
-        dados = self.db.get_registro("fnc_get_pessoa", "pessoa_id", dados)
+        retorno = super(CadastroPessoa, self).localizar(parent=self)
 
-        if dados[0]:
-            dados = dados[1][0]['json_pessoa']
-            self.popular_interface(dados)
+        self.atualizar_interface(retorno)
 
-        self.get_modalidades_selecionadas()
+        return
 
     def confirma(self):
 
@@ -243,10 +241,10 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         else:
             dialog = StatusDialog(
-                status='ERRO',
-                exception=dados[1],
-                mensagem='Erro ao buscar dados.',
-                parent=self
+                status='ERRO'
+                , exception=dados
+                , mensagem='Erro ao buscar dados.'
+                , parent=self
             )
             dialog.exec()
 

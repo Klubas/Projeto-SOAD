@@ -28,7 +28,7 @@ class ItemPedido:
                 , "mercadoria_id": self.mercadoria_id
                 , "quantidade": self.quantidade
                 , "unidade_medida_id": self.unidade_medida_id
-                , "valor_unitario": self.valor_unitario
+                , "valor_venda": self.valor_unitario
                 #, "valor_total": self.valor_total
             }
 
@@ -39,7 +39,7 @@ class ItemPedido:
                 , "casco_id": self.casco_id
                 , 'insumo_id': self.insumo_id
                 , "quantidade": self.quantidade
-                , "valor_unitario": self.valor_unitario
+                , "valor_venda": self.valor_unitario
                 , "nova_remanufatura": self.nova_remanufatura
                 #, "valor_total": self.valor_total
             }
@@ -51,7 +51,7 @@ class ItemPedido:
                 , "tipo_item": self.tipo
                 , "descricao": self.descricao
                 , "quantidade": self.quantidade
-                , "valor_unitario": self.valor_unitario
+                , "valor_venda": self.valor_unitario
                 , "valor_total": self.valor_total
             }
         except Exception as e:

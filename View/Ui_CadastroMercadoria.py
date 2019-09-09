@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroMercadoria.ui',
 # licensing of 'Resources\UI\CadastroMercadoria.ui' applies.
 #
-# Created: Sun Sep  8 23:05:13 2019
+# Created: Mon Sep  9 07:45:11 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -268,6 +268,7 @@ class Ui_CadastroMercadoria(object):
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_codigo)
         self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_11.setSpacing(10)
+        self.horizontalLayout_11.setContentsMargins(-1, -1, 9, -1)
         self.horizontalLayout_11.setObjectName("horizontalLayout_11")
         self.lineEdit_codigo = QtWidgets.QLineEdit(self.formFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -286,6 +287,15 @@ class Ui_CadastroMercadoria(object):
         self.horizontalLayout_11.addWidget(self.checkBox_permite_venda)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_11.addItem(spacerItem1)
+        self.label_tipo = QtWidgets.QLabel(self.formFrame)
+        font = QtGui.QFont()
+        font.setFamily("Consolas")
+        font.setPointSize(12)
+        font.setWeight(75)
+        font.setBold(True)
+        self.label_tipo.setFont(font)
+        self.label_tipo.setObjectName("label_tipo")
+        self.horizontalLayout_11.addWidget(self.label_tipo)
         self.formLayout.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_11)
         self.label_descricao = QtWidgets.QLabel(self.formFrame)
         self.label_descricao.setObjectName("label_descricao")
@@ -417,6 +427,7 @@ class Ui_CadastroMercadoria(object):
         self.label_un_medida.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Un. Medida", None, -1))
         self.label_codigo.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Código", None, -1))
         self.checkBox_permite_venda.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Permite Venda", None, -1))
+        self.label_tipo.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "TIPO", None, -1))
         self.label_descricao.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Descrição", None, -1))
         self.checkBox_ativo.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Ativo", None, -1))
         self.label_fabricante.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Fabricante", None, -1))

@@ -63,6 +63,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO INVÁLIDO', parent=self.parent_window)
             dialog.exec()
 
+        self.filtro_adicional = None
         self.setWindowTitle('SOAD - Registrar ' + self.tipo_pedido.capitalize())
 
         # buttonBox items
@@ -148,7 +149,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             , "tipo_item": 'Tipo'
             , "descricao": 'Descrição'
             , "quantidade": "Documento"
-            , "valor_unitario": "Valor Unitário"
+            , "valor_venda": "Valor Unitário"
             , "valor_total": "Valor total"
         }
 
@@ -221,6 +222,94 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                                   , parent=self.parent_window)
 
         dialog.exec()
+
+    def valida_obrigatorios(self):
+        if self.tableWidget_items.rowCount() == 0:
+            dialog = StatusDialog(
+                status='ALERTA'
+                , mensagem='Não é possível realizar uma '
+                           + self.tipo_pedido +  ' sem itens.'
+                , parent=self.parent_window)
+            return dialog.exec()
+        return super(CadastroPedido, self).valida_obrigatorios()
+
+    def confirma(self):
+        # Remove obrigatoriedade dos itens
+        self.campos_obrigatorios = dict([
+            ('Documento', self.lineEdit_documento)
+        ])
+
+        if self.valida_obrigatorios() != 'OK':
+            return False
+
+        if self.novo_cadastro:
+            self.pedido.pedido_id = ''
+
+        else:
+            self.pedido.pedido_id = self.lineEdit_id.text()
+
+        self.pedido.data_entrega = self.dateEdit_entrega.date().toString("dd.MM.yyyy").replace('.', '/')
+        self.pedido.observacao = self.textEdit_observacao.toPlainText()
+
+        pedido_dict = self.pedido.to_dict()
+        pedido_dict.pop('data_cadastro')
+        pedido_dict.pop('situacao')
+
+        self.dados = {
+            "metodo": "fnc_cadastro_pedido",
+            "schema": "soad",
+            "params": pedido_dict
+        }
+
+        retorno = super(CadastroPedido, self).confirma()
+
+        if retorno[0]:
+            pedido_id = retorno[1]['p_retorno']
+            self.movimentar(pedido_id)
+
+        else:
+            return
+
+    def cancela(self):
+        if super(CadastroPedido, self).cancela():
+            self.limpar_dados()
+
+    def limpar_dados(self):
+        super(CadastroPedido, self).limpar_dados()
+        #self.pedido = Pedido
+        self.pedido.itens = []
+        self.label_tipo_pedido.setText('')
+        self.limpar_item()
+        self.lineEdit_documento.clear()
+        self.lineEdit_nome_pessoa.clear()
+        self.label_situacao.setText('')
+        self.dateEdit_entrega.setDate(QDate().currentDate())
+        self.preencher_tabela()
+        self.pushButton_movimentar.setDisabled(True)
+
+    def localizar(self, parent=None):
+
+        self.localizar_campos = {
+            "id_pedido": 'ID',
+            "pessoa": self.tipo_pessoa,
+            "documento": 'Documento',
+            "data_cadastro": 'Data cadastro',
+            "situacao": 'Situação',
+            "data_entrega": self.label_data.text()
+        }
+
+        self.colunas_busca = {
+            "id_pedido": 'ID',
+            "pessoa": self.tipo_pessoa,
+            "documento": 'Documento',
+            "data_cadastro": 'Data cadastro',
+            "situacao": 'Situação',
+            "data_entrega": self.label_data.text()
+        }
+
+        retorno = super(CadastroPedido, self).localizar(parent=self)
+
+        self.atualizar_interface(retorno)
 
     def visualizar(self, entrar_modo_visualziacao=True):
 
@@ -299,50 +388,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.limpar_item()
 
-    def limpar_dados(self):
-        super(CadastroPedido, self).limpar_dados()
-        #self.pedido = Pedido
-        self.pedido.itens = []
-        self.label_tipo_pedido.setText('')
-        self.limpar_item()
-        self.lineEdit_documento.clear()
-        self.lineEdit_nome_pessoa.clear()
-        self.label_situacao.setText('')
-        self.dateEdit_entrega.setDate(QDate().currentDate())
-        self.preencher_tabela()
-        self.pushButton_movimentar.setDisabled(True)
-
-    def localizar(self, parent=None):
-
-        self.localizar_campos = {
-            "id_pedido": 'ID',
-            "pessoa": self.tipo_pessoa,
-            "documento": 'Documento',
-            "data_cadastro": 'Data cadastro',
-            "situacao": 'Situação',
-            "data_entrega": self.label_data.text()
-        }
-
-        self.colunas_busca = {
-            "id_pedido": 'ID',
-            "pessoa": self.tipo_pessoa,
-            "documento": 'Documento',
-            "data_cadastro": 'Data cadastro',
-            "situacao": 'Situação',
-            "data_entrega": self.label_data.text()
-        }
-
-        retorno = super(CadastroPedido, self).localizar(parent=self)
-
-        if retorno != 0:
-            dados = self.db.get_registro("fnc_get_pedido", "pedido_id", retorno)
-        else:
-            return
-
-        if dados[0]:
-            dados = dados[1][0]['json_pedido']
-            self.popular_interface(dados)
-
     def atualizar_interface(self, id_pedido):
 
         self.limpar_dados()
@@ -360,10 +405,10 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         else:
             dialog = StatusDialog(
-                status='ERRO',
-                exception=dados[1],
-                mensagem='Erro ao buscar dados.',
-                parent=self
+                status='ERRO'
+                , exception=dados
+                , mensagem='Erro ao buscar dados.'
+                , parent=self
             )
             dialog.exec()
 
@@ -385,11 +430,14 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             , observacao=pedido['observacao']
         )
 
-        self.label_situacao.setText(pedido.situacao if pedido.situacao is not None else '')
-        self.label_tipo_pedido.setText(pedido.tipo_pedido)
-        self.textEdit_observacao.setText(pedido.observacao)
         self.lineEdit_id.setText(str(pedido.pedido_id))
 
+        self.label_situacao.setText(
+            pedido.situacao if pedido.situacao is not None else ''
+        )
+
+        self.label_tipo_pedido.setText(pedido.tipo_pedido)
+        self.textEdit_observacao.setText(pedido.observacao)
 
         self.dateEdit_cadastro.setDate(
             QDate.fromString(
@@ -437,7 +485,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                     item_pedido_id=item['id_remanufatura']
                     , tipo=item['tipo']
                     , quantidade=str(1) #item['quantidade']
-                    , valor_unitario=item['valor_unitario']
+                    , valor_unitario=item['valor_venda']
                     , casco_id=item['id_casco']
                     , insumo_id=item['id_insumo']
                     , nova_remanufatura=True #item['nova_remanufatura']
@@ -468,56 +516,133 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.visualizar(True)
 
-    def valida_obrigatorios(self):
-        if self.tableWidget_items.rowCount() == 0:
-            dialog = StatusDialog(
-                status='ALERTA'
-                , mensagem='Não é possível realizar uma '
-                           + self.tipo_pedido +  ' sem itens.'
-                , parent=self.parent_window)
-            return dialog.exec()
-        return super(CadastroPedido, self).valida_obrigatorios()
+    def busca_pessoa(self):
 
-    def confirma(self):
-        # Remove obrigatoriedade dos itens
-        self.campos_obrigatorios = dict([
-            ('Documento', self.lineEdit_documento)
-        ])
+        tabela = 'vw_pessoa'
+        documento = self.lineEdit_documento.text().replace(' ', '')
+        pessoa = None
 
-        if self.valida_obrigatorios() != 'OK':
+        if documento != '':
+
+            documento = documento.replace('-', '').replace('/', '')
+            pessoa = self.db.busca_registro(tabela, 'documento', documento, '=')[1][0]['fnc_buscar_registro']
+
+            if pessoa is not None:
+                pessoa = pessoa[0]
+
+        if pessoa is None:
+
+            localizar_campos = {
+                "id_pessoa": 'ID',
+                "nome": 'Nome',
+                'documento': "Documento"
+            }
+
+            colunas_busca = {
+                "id_pessoa": 'ID',
+                "nome": 'Nome',
+                'documento': "Documento"
+            }
+
+            self.dialog_localizar.define_tabela(tabela)
+            self.dialog_localizar.define_campos(localizar_campos)
+            self.dialog_localizar.define_colunas(colunas_busca)
+
+            self.dialog_localizar.define_valor_padrao(localizar_campos['documento'], self.lineEdit_documento.text())
+
+            pessoa_id = self.dialog_localizar.exec()
+            pessoa = self.db.busca_registro(tabela, 'id_pessoa', str(pessoa_id), '=')[1][0]['fnc_buscar_registro']
+
+            if pessoa is not None:
+                pessoa = pessoa[0]
+
+        if pessoa:
+            self.lineEdit_documento.setText(pessoa['documento'])
+            self.lineEdit_nome_pessoa.setText(pessoa['nome'])
+            self.pedido.pessoa_id = pessoa['id_pessoa']
+            return True
+
+        else:
+            self.lineEdit_documento.clear()
+            self.lineEdit_nome_pessoa.clear()
             return False
 
-        if self.novo_cadastro:
-            self.pedido.pedido_id = ''
+    def busca_mercadoria(self, tipo):
+
+        mercadoria = None
+
+        if tipo == 'MERCADORIA':
+            tabela = 'vw_mercadoria'
+            campo = 'id_mercadoria'
+            lineEdit_id = self.lineEdit_mercadoria_id
+            lineEdit_descricao = self.lineEdit_mercadoria
+            lineEdit_marca = self.lineEdit_marca_mercadoria
+
+        elif tipo == 'CASCO':
+            tabela = 'vw_casco'
+            campo = 'id_casco'
+            lineEdit_id = self.lineEdit_casco_id
+            lineEdit_descricao = self.lineEdit_casco
+            lineEdit_marca = self.lineEdit_marca_casco
+
+        elif tipo == 'INSUMO':
+            tabela = 'vw_insumo'
+            campo = 'id_insumo'
+            lineEdit_id = self.lineEdit_insumo_id
+            lineEdit_descricao = self.lineEdit_insumo
+            lineEdit_marca = self.lineEdit_marca_insumo
 
         else:
-            self.pedido.pedido_id = self.lineEdit_id.text()
+            logging.debug("[CadastroPedido] Tipo inválido: " + tipo)
+            return False
 
-        self.pedido.data_entrega = self.dateEdit_entrega.date().toString("dd.MM.yyyy").replace('.', '/')
-        self.pedido.observacao = self.textEdit_observacao.toPlainText()
+        valor = lineEdit_id.text().replace(' ', '')
 
-        pedido_dict = self.pedido.to_dict()
-        pedido_dict.pop('data_cadastro')
-        pedido_dict.pop('situacao')
+        if valor != '':
 
-        self.dados = {
-            "metodo": "fnc_cadastro_pedido",
-            "schema": "soad",
-            "params": pedido_dict
-        }
+            mercadoria = self.db.busca_registro(tabela, campo, valor, '=')[1][0]['fnc_buscar_registro']
 
-        retorno = super(CadastroPedido, self).confirma()
+            logging.debug('[CadastroPedido] ' + str(mercadoria))
+            if mercadoria is not None:
+                mercadoria = mercadoria[0]
 
-        if retorno[0]:
-            pedido_id = retorno[1]['p_retorno']
-            self.movimentar(pedido_id)
+        if mercadoria is None:
+
+            localizar_campos = {
+                campo: 'ID',
+                "descricao": tipo.capitalize(),
+                'marca': "Marca"
+            }
+
+            colunas_busca = {
+                campo: 'ID',
+                "descricao": tipo.capitalize(),
+                'marca': "Marca"
+            }
+
+            self.dialog_localizar.define_tabela(tabela)
+            self.dialog_localizar.define_campos(localizar_campos)
+            self.dialog_localizar.define_colunas(colunas_busca)
+
+            self.dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
+
+            mercadoria_id = self.dialog_localizar.exec()
+            mercadoria = self.db.busca_registro(tabela, campo, str(mercadoria_id), '=')[1][0]['fnc_buscar_registro']
+
+            if mercadoria is not None:
+                mercadoria = mercadoria[0]
+
+        if mercadoria:
+            lineEdit_id.setText(str(mercadoria[campo]))
+            lineEdit_descricao.setText(mercadoria['descricao'])
+            lineEdit_marca.setText(mercadoria['marca'])
+            return True
 
         else:
-            return
-
-    def cancela(self):
-        if super(CadastroPedido, self).cancela():
-            self.limpar_dados()
+            lineEdit_id.clear()
+            lineEdit_descricao.clear()
+            lineEdit_marca.clear()
+            return False
 
     def posicionar_item(self, item):
 
@@ -709,134 +834,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             valor = valor + float(v)
         #valor = valor + float() self.lineEdit_valor_total_item.text().replace(',', '.')
         self.lineEdit_valor_total_pedido.setText(str(valor).replace('.', ','))
-
-    def busca_pessoa(self):
-
-        tabela = 'vw_pessoa'
-        documento = self.lineEdit_documento.text().replace(' ', '')
-        pessoa = None
-
-        if documento != '':
-
-            documento = documento.replace('-', '').replace('/', '')
-            pessoa = self.db.busca_registro(tabela, 'documento', documento, '=')[1][0]['fnc_buscar_registro']
-
-            if pessoa is not None:
-                pessoa = pessoa[0]
-
-        if pessoa is None:
-
-            localizar_campos = {
-                "id_pessoa": 'ID',
-                "nome": 'Nome',
-                'documento': "Documento"
-            }
-
-            colunas_busca = {
-                "id_pessoa": 'ID',
-                "nome": 'Nome',
-                'documento': "Documento"
-            }
-
-            self.dialog_localizar.define_tabela(tabela)
-            self.dialog_localizar.define_campos(localizar_campos)
-            self.dialog_localizar.define_colunas(colunas_busca)
-
-            self.dialog_localizar.define_valor_padrao(localizar_campos['documento'], self.lineEdit_documento.text())
-
-            pessoa_id = self.dialog_localizar.exec()
-            pessoa = self.db.busca_registro(tabela, 'id_pessoa', str(pessoa_id), '=')[1][0]['fnc_buscar_registro']
-
-            if pessoa is not None:
-                pessoa = pessoa[0]
-
-        if pessoa:
-            self.lineEdit_documento.setText(pessoa['documento'])
-            self.lineEdit_nome_pessoa.setText(pessoa['nome'])
-            self.pedido.pessoa_id = pessoa['id_pessoa']
-            return True
-
-        else:
-            self.lineEdit_documento.clear()
-            self.lineEdit_nome_pessoa.clear()
-            return False
-
-    def busca_mercadoria(self, tipo):
-
-        mercadoria = None
-
-        if tipo == 'MERCADORIA':
-            tabela = 'vw_mercadoria'
-            campo = 'id_mercadoria'
-            lineEdit_id = self.lineEdit_mercadoria_id
-            lineEdit_descricao = self.lineEdit_mercadoria
-            lineEdit_marca = self.lineEdit_marca_mercadoria
-
-        elif tipo == 'CASCO':
-            tabela = 'vw_casco'
-            campo = 'id_casco'
-            lineEdit_id = self.lineEdit_casco_id
-            lineEdit_descricao = self.lineEdit_casco
-            lineEdit_marca = self.lineEdit_marca_casco
-
-        elif tipo == 'INSUMO':
-            tabela = 'vw_insumo'
-            campo = 'id_insumo'
-            lineEdit_id = self.lineEdit_insumo_id
-            lineEdit_descricao = self.lineEdit_insumo
-            lineEdit_marca = self.lineEdit_marca_insumo
-
-        else:
-            logging.debug("[CadastroPedido] Tipo inválido: " + tipo)
-            return False
-
-        valor = lineEdit_id.text().replace(' ', '')
-
-        if valor != '':
-
-            mercadoria = self.db.busca_registro(tabela, campo, valor, '=')[1][0]['fnc_buscar_registro']
-
-            logging.debug('[CadastroPedido] ' + str(mercadoria))
-            if mercadoria is not None:
-                mercadoria = mercadoria[0]
-
-        if mercadoria is None:
-
-            localizar_campos = {
-                campo: 'ID',
-                "descricao": tipo.capitalize(),
-                'marca': "Marca"
-            }
-
-            colunas_busca = {
-                campo: 'ID',
-                "descricao": tipo.capitalize(),
-                'marca': "Marca"
-            }
-
-            self.dialog_localizar.define_tabela(tabela)
-            self.dialog_localizar.define_campos(localizar_campos)
-            self.dialog_localizar.define_colunas(colunas_busca)
-
-            self.dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
-
-            mercadoria_id = self.dialog_localizar.exec()
-            mercadoria = self.db.busca_registro(tabela, campo, str(mercadoria_id), '=')[1][0]['fnc_buscar_registro']
-
-            if mercadoria is not None:
-                mercadoria = mercadoria[0]
-
-        if mercadoria:
-            lineEdit_id.setText(str(mercadoria[campo]))
-            lineEdit_descricao.setText(mercadoria['descricao'])
-            lineEdit_marca.setText(mercadoria['marca'])
-            return True
-
-        else:
-            lineEdit_id.clear()
-            lineEdit_descricao.clear()
-            lineEdit_marca.clear()
-            return False
 
     def define_permite_editar(self):
         super(CadastroPedido, self).define_permite_editar()

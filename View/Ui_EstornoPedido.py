@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\EstornoPedido.ui',
 # licensing of 'Resources\UI\EstornoPedido.ui' applies.
 #
-# Created: Sun Sep  8 23:05:14 2019
+# Created: Mon Sep  9 07:45:11 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

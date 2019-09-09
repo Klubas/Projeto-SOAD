@@ -2,14 +2,14 @@ import logging
 
 class Mercadoria:
 
-    def __init__(self, codigo, descricao=None, fabricante=None, valor_unitario=None, ativo=True, permite_venda=True, mercadoria_id=None, **kwargs):
+    def __init__(self, codigo, descricao=None, fabricante=None, valor_venda=None, ativo=True, permite_venda=True, mercadoria_id=None, **kwargs):
         self.mercadoria_id = '' if mercadoria_id is '' or mercadoria_id is None else int(mercadoria_id)
         self.codigo = str(codigo).upper()
         self.descricao = str(descricao)
         self.fabricante = str(fabricante).upper()
         self.ativo = bool(ativo)
         self.permite_venda = bool(permite_venda)
-        self.valor_unitario = float(valor_unitario)
+        self.valor_venda = float(valor_venda)
         self.tipo = str(kwargs.get('tipo_mercadoria'))
 
         if self.tipo == 'MERCADORIA':
@@ -21,7 +21,7 @@ class Mercadoria:
 
         elif self.tipo == 'CASCO':
             self.insumo_id = int(kwargs.get('insumo_id'))
-            self.quantidade_insumo_casco = float(kwargs.get('quantidade_insumo'))
+            self.quantidade_insumo = float(kwargs.get('quantidade_insumo'))
             self.unidade_medida_id = int(kwargs.get('unidade_medida_id'))
 
         else:
@@ -37,7 +37,7 @@ class Mercadoria:
         mercadoria['marca'] = self.fabricante
         mercadoria['ativo'] = self.ativo
         mercadoria['permite_venda'] = self.permite_venda
-        mercadoria['valor_venda'] = self.valor_unitario
+        mercadoria['valor_venda'] = self.valor_venda
         mercadoria['tipo'] = self.tipo
 
         if self.tipo == 'INSUMO':
@@ -46,7 +46,7 @@ class Mercadoria:
 
         elif self.tipo == 'CASCO':
             mercadoria['insumo_id'] = self.insumo_id
-            mercadoria['quantidade'] = self.quantidade_insumo_casco
+            mercadoria['quantidade'] = self.quantidade_insumo
             mercadoria['unidade_medida_id'] = self.unidade_medida_id
 
         return mercadoria

@@ -560,6 +560,9 @@
                 <property name="spacing">
                  <number>10</number>
                 </property>
+                <property name="rightMargin">
+                 <number>9</number>
+                </property>
                 <item>
                  <widget class="QLineEdit" name="lineEdit_codigo">
                   <property name="sizePolicy">
@@ -607,6 +610,21 @@
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_tipo">
+                  <property name="font">
+                   <font>
+                    <family>Consolas</family>
+                    <pointsize>12</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>TIPO</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
