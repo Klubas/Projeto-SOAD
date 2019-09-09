@@ -332,10 +332,10 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             "data_entrega": self.label_data.text()
         }
 
-        result = super(CadastroPedido, self).localizar(parent=self)
+        retorno = super(CadastroPedido, self).localizar(parent=self)
 
-        if result != 0:
-            dados = self.db.get_registro("fnc_get_pedido", "pedido_id", result)
+        if retorno != 0:
+            dados = self.db.get_registro("fnc_get_pedido", "pedido_id", retorno)
         else:
             return
 

@@ -23,7 +23,7 @@ class StatusDialog(QDialog, Ui_StatusDialog):
         elif status == 'ALERTA':
             self.setWindowTitle("Mensagem de Alerta")
             self.label_mensagem.setAlignment(Qt.AlignCenter)
-            self.groupBox_mensagem.setVisible(False)
+            self.groupBox_mensagem.setVisible(True)
             min_size = QSize(400, 150)
 
         elif status == 'OK':
@@ -41,7 +41,6 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         self.setMinimumSize(min_size)
         self.setMaximumSize(max_size)
-        self.setSizePolicy
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 
@@ -69,9 +68,13 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
                     string_mensagem = string_mensagem + str(aux[0])
 
-                    string_exception = string_exception + str(aux[0]) \
+                    if len(aux) == 2:
+                        string_exception = string_exception + str(aux[0]) \
                                        + '\nCONTEXT:\n' + str(aux[1])
-
+                    elif len(aux) == 1:
+                        string_exception = string_exception + str(aux[0])
+                    else:
+                        string_exception = string_exception + str(aux)
                 else:
                     string_exception = string_exception + str(exception[1])
 

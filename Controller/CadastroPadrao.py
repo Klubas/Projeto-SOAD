@@ -42,6 +42,7 @@ class CadastroPadrao:
         self.novo_cadastro = True
         self.view_busca = None
         self.colunas_busca = None
+        self.filtro_adicional = None
         self.campos_obrigatorios = dict()
 
         # QFrame
@@ -81,6 +82,7 @@ class CadastroPadrao:
             , campos=self.localizar_campos
             , tabela=self.view_busca
             , colunas=self.colunas_busca
+            , filtro=self.filtro_adicional
             , parent=parent
         )
 

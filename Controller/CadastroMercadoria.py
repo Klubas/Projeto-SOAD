@@ -44,6 +44,9 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
             , ('Valor de Venda', self.lineEdit_valor_venda)
         ])
 
+        self.filtro_adicional = None
+        self.view_busca = 'vw_mercadoria'
+
         self.checkBox_ativo.setChecked(True)
 
         self.tipo = 'MERCADORIA' if kwargs.get('tipo') \
@@ -52,7 +55,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
         if self.tipo == 'MERCADORIA':
 
             self.tipo = 'MERCADORIA'
-            self.view_busca = 'vw_mercadoria'
             self.stackedWidget.setVisible(False)
             self.checkBox_permite_venda.setChecked(True)
             self.setMinimumHeight(300)
@@ -60,7 +62,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         elif self.tipo == 'CASCO':
 
-            self.view_busca = 'vw_casco'
             self.campos_obrigatorios['Insumo'] = self.lineEdit_insumo_id
             self.campos_obrigatorios['Quantidade'] = self.lineEdit_quantidade_insumo
             self.campos_obrigatorios['Un. Medida (Insumo)'] = self.comboBox_unidade_medida_insumo
@@ -72,7 +73,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         elif self.tipo == 'INSUMO':
 
-            self.view_busca = 'vw_insumo'
             self.campos_obrigatorios['Quantidade Embalagem'] = self.lineEdit_quantidade_embalagem
             self.campos_obrigatorios['Un. Medida (Embalagem)'] = self.comboBox_unidade_medida_embalagem
             self.stackedWidget.setVisible(True)
@@ -125,7 +125,8 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         # Busca registros
         self.lineEdit_insumo_id.editingFinished.connect(
-            self.busca_insumo)
+            self.busca_insumo
+        )
 
         self.unidades_medida = dict()
 
@@ -153,9 +154,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
         self.checkBox_permite_venda.setChecked(self.tipo == 'MERCADORIA')
         self.checkBox_ativo.setChecked(True)
 
-    def editar(self):
-        super(CadastroMercadoria, self).editar()
-
     def excluir(self):
 
         self.dados = {
@@ -180,7 +178,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
                                   , parent=self.parent_window)
         dialog.exec()
 
-
     def limpar_dados(self):
         super(CadastroMercadoria, self).limpar_dados()
         # mercadoria
@@ -203,9 +200,34 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
         self.lineEdit_quantidade_insumo.clear()
         self.comboBox_unidade_medida_insumo.setCurrentIndex(0)
 
-
     def localizar(self, parent=None):
-        super(CadastroMercadoria, self).localizar(parent=self)
+
+        self.localizar_campos = {
+            'id_mercadoria': 'ID'
+            , "codigo": 'Código'
+            , "descricao": self.tipo.capitalize()
+            , "marca": "Fabricante"
+        }
+
+        self.colunas_busca = {
+            'id_mercadoria': 'ID'
+            , "codigo": 'Código'
+            , "descricao": self.tipo.capitalize()
+            , "marca": "Fabricante"
+        }
+
+        self.filtro_adicional = "tipo_mercadoria=$$" + self.tipo.capitalize() + "$$"
+
+        retorno = super(CadastroMercadoria, self).localizar(parent=self)
+
+        if retorno != 0:
+            dados = self.db.get_registro("fnc_get_mercadoria", "mercadoria_id", retorno)
+        else:
+            return
+
+        if dados[0]:
+            dados = dados[1][0]['json_mercadoria']
+            self.popular_interface(dados)
 
     def confirma(self):
         if self.valida_obrigatorios() != 'OK':
@@ -256,7 +278,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
     def atualizar_interface(self, mercadoria_id):
         pass
 
-    def popular_interface(self):
+    def popular_interface(self, dados):
         pass
 
     def popular_dados_padrao(self):
@@ -272,7 +294,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
             for item in items:
                 self.fabricantes.add(item['fabricante'])
 
-            print(self.fabricantes)
             self.comboBox_fabricante.addItems(list(self.fabricantes))
 
         else:
@@ -293,8 +314,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
             for item in items:
                 self.unidades_medida[item['abreviacao']] = item['id_unidade_medida']
-
-            print(self.unidades_medida)
 
             self.comboBox_unidade_medida_embalagem.addItems(
                 list(self.unidades_medida.keys())

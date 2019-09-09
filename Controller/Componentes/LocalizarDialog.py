@@ -20,7 +20,7 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
     retorno_dados = Signal(list)
 
-    def __init__(self, db, campos=None, tabela=None, colunas=None, parent=None):
+    def __init__(self, db, campos=None, tabela=None, colunas=None, filtro=None ,parent=None):
         super(LocalizarDialog, self).__init__(parent)
 
         self.db = db
@@ -30,6 +30,8 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         self.linhas = None
         self.campos = campos
         self.tabela = tabela
+
+        self.filtro = filtro
 
         self.define_tabela(tabela)
 
@@ -104,10 +106,25 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
             valor.replace('%', '')
 
         # retorna uma lista de dicionários
-        retorno = self.db.busca_registro(self.tabela, campo, valor, operador)
+        retorno = self.db.busca_registro(
+            self.tabela
+            , campo
+            , valor
+            , operador
+            , self.filtro
+        )
 
         if not retorno[0]:
+
+            dialog = StatusDialog(status='ALERTA'
+                                  , exception=retorno
+                                  , mensagem="Não foi possível buscar os dados desse registro."
+                                  , parent=self)
+
             retorno = retorno[0]
+
+            dialog.exec()
+
         else:
             retorno = retorno[1][0]['fnc_buscar_registro']
 
@@ -138,7 +155,11 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
     def retornar_selecionado(self):
         row = self.tableWidget_linhas.currentRow()
-        item = self.db.busca_registro(self.tabela, self.colunas_chave[0], self.tableWidget_linhas.item(row, 0).text(), '=')
+        item = self.db.busca_registro(
+            self.tabela
+            , self.colunas_chave[0]
+            , self.tableWidget_linhas.item(row, 0).text()
+            , '=')
 
         # print(str(int(self.tableWidget_linhas.item(row, 0).text())))
 
@@ -146,7 +167,7 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
             self.retorno_dados.emit(item)
             self.done(int(self.tableWidget_linhas.item(row, 0).text())) # retorna o ID
         else:
-            dialog = StatusDialog(status='AVISO'
+            dialog = StatusDialog(status='ALERTA'
                                   , exception=item[1]
                                   , mensagem="Não foi possível buscar os dados desse registro."
                                   , parent=self)

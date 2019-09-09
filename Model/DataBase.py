@@ -27,13 +27,17 @@ class DataBase:
         self.threadpool = QThreadPool()
 
 
-    def busca_registro(self, nome_tabela, coluna, valor='', operador='='):
+    def busca_registro(self, nome_tabela, coluna, valor='', operador='=', filtro=None):
+
+        if filtro == '' or filtro is None:
+            filtro = '1=1'
 
         sql = "select * from " + self.schema + ".fnc_buscar_registro(" \
               + "p_tabela=>" + "'" + nome_tabela + "'" \
               + ", p_coluna=>" + "'" + coluna + "'" \
               + ", p_valor=>" + "'" + valor + "'" \
               + ", p_operador=>" + "'" + operador + "'" \
+              + ", p_filtro=>" + "'" + filtro + "'" \
               + ");"
 
         return self.execute_sql(sql)
