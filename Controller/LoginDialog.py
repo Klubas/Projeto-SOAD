@@ -26,7 +26,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.lineEdit_senha.textChanged[str].connect(self.status_botao)
 
         if self.comboBox_servidor.count() == 1:
-            self.verticalWidget_servidor.setVisible(False)
+            self.verticalGroupBox_servidor.setVisible(False)
 
         # carrega e redimensiona a imagem
         logo = QImage(os.path.join("Resources", "Imagens", "logo.png")).smoothScaled(165, 165)

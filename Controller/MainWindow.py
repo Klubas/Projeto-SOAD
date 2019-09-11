@@ -11,6 +11,7 @@ from Controller.CadastroPessoa import CadastroPessoa
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.StatusDialog import StatusDialog
 from Controller.EstornoPedido import EstornoPedido
+from Controller.RegistroRemanufatura import RegistroRemanufatura
 from View.Ui_MainWindow import Ui_MainWindow
 
 
@@ -76,9 +77,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 window_cls=CadastroPedido, tipo="COMPRA")
         )
 
-        #self.actionNova_Remanufatura.triggered.connect(
-        #    lambda: self.abrir_cadastro(CadastrarRemanufatura)
-        #)
+        self.actionRegistrar_Remanufaturas.triggered.connect(
+            lambda: self.abrir_interface(window_cls=RegistroRemanufatura, tipo='NORMAL')
+        )
 
         #self.actionDescarte_de_Material.triggered.connect(
         #    lambda: self.abrir_cadastro(DescarteMercadoria)

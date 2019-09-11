@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroPessoa.ui',
 # licensing of 'Resources\UI\CadastroPessoa.ui' applies.
 #
-# Created: Mon Sep  9 07:45:11 2019
+# Created: Wed Sep 11 00:00:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,21 +26,26 @@ class Ui_CadastroPessoa(object):
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.frame_menu = QtWidgets.QWidget(CadastroPessoa)
+        self.frame_menu = QtWidgets.QFrame(CadastroPessoa)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_menu.sizePolicy().hasHeightForWidth())
         self.frame_menu.setSizePolicy(sizePolicy)
         self.frame_menu.setMaximumSize(QtCore.QSize(16777215, 60))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setWeight(75)
+        font.setBold(True)
+        self.frame_menu.setFont(font)
         self.frame_menu.setObjectName("frame_menu")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_menu)
-        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.pushButton_cadastrar = QtWidgets.QPushButton(self.frame_menu)
         font = QtGui.QFont()
+        font.setPointSize(10)
         font.setWeight(75)
         font.setBold(True)
         self.pushButton_cadastrar.setFont(font)
@@ -52,6 +57,7 @@ class Ui_CadastroPessoa(object):
         self.pushButton_editar = QtWidgets.QPushButton(self.frame_menu)
         self.pushButton_editar.setEnabled(False)
         font = QtGui.QFont()
+        font.setPointSize(10)
         font.setWeight(75)
         font.setBold(True)
         self.pushButton_editar.setFont(font)
@@ -62,6 +68,7 @@ class Ui_CadastroPessoa(object):
         self.horizontalLayout_3.addWidget(self.pushButton_editar)
         self.pushButton_excluir = QtWidgets.QPushButton(self.frame_menu)
         font = QtGui.QFont()
+        font.setPointSize(10)
         font.setWeight(75)
         font.setBold(True)
         self.pushButton_excluir.setFont(font)
@@ -72,6 +79,7 @@ class Ui_CadastroPessoa(object):
         self.horizontalLayout_3.addWidget(self.pushButton_excluir)
         self.pushButton_localizar = QtWidgets.QPushButton(self.frame_menu)
         font = QtGui.QFont()
+        font.setPointSize(10)
         font.setWeight(75)
         font.setBold(True)
         self.pushButton_localizar.setFont(font)

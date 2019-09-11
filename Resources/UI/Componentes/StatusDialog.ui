@@ -35,7 +35,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Mensagem</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>

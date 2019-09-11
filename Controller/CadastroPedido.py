@@ -68,7 +68,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         # buttonBox items
         self.buttonBox_item.button(QDialogButtonBox.Save).clicked.connect(self.salva_item)
-        #self.buttonBox_item.button(QDialogButtonBox.Discard).clicked.connect(self.apagar_item)
         self.buttonBox_item.button(QDialogButtonBox.Reset).clicked.connect(self.limpar_item)
 
         self.tableWidget_items.itemDoubleClicked.connect(self.posicionar_item)
@@ -146,10 +145,11 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         ## Monta QTableWidget
         self.colunas_item = {
             "item_pedido_id": 'ID'
+            , "codigo": 'Código'
             , "tipo_item": 'Tipo'
             , "descricao": 'Descrição'
             , "quantidade": "Documento"
-            , "valor_venda": "Valor Unitário"
+            , "valor_unitario": "Valor Unitário"
             , "valor_total": "Valor total"
         }
 
@@ -272,7 +272,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def cancela(self):
         if super(CadastroPedido, self).cancela():
-            self.limpar_dados()
+            if self.lineEdit_id.text == '':
+                self.limpar_dados()
 
     def limpar_dados(self):
         super(CadastroPedido, self).limpar_dados()
@@ -430,8 +431,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             , observacao=pedido['observacao']
         )
 
-        self.lineEdit_id.setText(str(pedido.pedido_id))
-
         self.label_situacao.setText(
             pedido.situacao if pedido.situacao is not None else ''
         )
@@ -463,6 +462,9 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         else:
             self.dateEdit_entrega.clear()
 
+        # ID é o ultimo a alterar para evitar race condition com self.define_permite_editar
+        self.lineEdit_id.setText(str(pedido.pedido_id))
+
         # Montar ItemPedido
         for item in dados[1]:
             if item['tipo'] == 'MERCADORIA':
@@ -485,7 +487,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                     item_pedido_id=item['id_remanufatura']
                     , tipo=item['tipo']
                     , quantidade=str(1) #item['quantidade']
-                    , valor_unitario=item['valor_venda']
+                    , valor_unitario=item['valor_unitario']
                     , casco_id=item['id_casco']
                     , insumo_id=item['id_insumo']
                     , nova_remanufatura=True #item['nova_remanufatura']
@@ -509,6 +511,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.label_situacao.text() != 'CADASTRADO'
             and self.label_situacao.text() != 'ESTORNADO'
         )
+
+
 
         # Posiciona o primeiro item da tabela no stack
         self.tableWidget_items.selectRow(0)
@@ -610,12 +614,14 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
             localizar_campos = {
                 campo: 'ID',
+                "codigo": 'Código',
                 "descricao": tipo.capitalize(),
                 'marca': "Marca"
             }
 
             colunas_busca = {
                 campo: 'ID',
+                "codigo": 'Código',
                 "descricao": tipo.capitalize(),
                 'marca': "Marca"
             }

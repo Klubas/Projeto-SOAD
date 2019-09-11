@@ -18,7 +18,6 @@ def update_ui():    # Atualiza os arquivos da pasta View
 
     b.build_files_from_folder(os.path.join(".", "Resources", "UI"))
 
-
 def main():
 
     update_ui()
@@ -34,7 +33,6 @@ def main():
     login = w.exec()
 
     app.exec_()
-
 
 if __name__ == '__main__':
 
