@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroMercadoria.ui',
 # licensing of 'Resources\UI\CadastroMercadoria.ui' applies.
 #
-# Created: Wed Sep 11 00:00:29 2019
+# Created: Fri Sep 13 02:22:38 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -92,13 +92,6 @@ class Ui_CadastroMercadoria(object):
         self.pushButton_localizar.setFlat(True)
         self.pushButton_localizar.setObjectName("pushButton_localizar")
         self.horizontalLayout_3.addWidget(self.pushButton_localizar)
-        self.toolButton_mudar_cadastro = QtWidgets.QToolButton(self.frame)
-        self.toolButton_mudar_cadastro.setIconSize(QtCore.QSize(26, 16))
-        self.toolButton_mudar_cadastro.setPopupMode(QtWidgets.QToolButton.InstantPopup)
-        self.toolButton_mudar_cadastro.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
-        self.toolButton_mudar_cadastro.setAutoRaise(False)
-        self.toolButton_mudar_cadastro.setObjectName("toolButton_mudar_cadastro")
-        self.horizontalLayout_3.addWidget(self.toolButton_mudar_cadastro)
         self.horizontalLayout_4.addWidget(self.frame)
         self.verticalLayout.addWidget(self.frame_menu)
         self.frame_contents = QtWidgets.QFrame(CadastroMercadoria)
@@ -440,7 +433,6 @@ class Ui_CadastroMercadoria(object):
         self.pushButton_editar.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Editar", None, -1))
         self.pushButton_excluir.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Excluir", None, -1))
         self.pushButton_localizar.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Localizar", None, -1))
-        self.toolButton_mudar_cadastro.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Muda para...", None, -1))
         self.groupBox_mercadoria.setTitle(QtWidgets.QApplication.translate("CadastroMercadoria", "Mercadoria", None, -1))
         self.label_insumo.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Insumo", None, -1))
         self.label_quantidade.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Quantidade", None, -1))

@@ -179,11 +179,6 @@ class CadastroPadrao:
                 )
                 self.modo_edicao = True
 
-            # Finaliza e retorna
-            dialog.exec()
-            for i in prc:
-                logging.debug('[CadastroPadrao] prc=' + str(i))
-
             return prc[0], prc[1][0]
 
     # Não deve ser reimplementado na tela

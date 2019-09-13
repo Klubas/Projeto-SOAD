@@ -4,7 +4,7 @@ from PySide2.QtCore import QRegExp, QDate
 from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator
 from PySide2.QtWidgets import QWidget, QDialogButtonBox, QTableWidgetItem
 
-from Controller.CadastroPadrao import CadastroPadrao
+from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -165,7 +165,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.radioButton_mercadoria.setChecked(True)
         self.define_tipo()
 
-        self.dialog_localizar = LocalizarDialog(db=self.db)
+        self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
 
         self.show()
 

@@ -4,7 +4,7 @@ from PySide2.QtCore import QRegExp
 from PySide2.QtGui import QDoubleValidator, QRegExpValidator
 from PySide2.QtWidgets import QWidget, QDialogButtonBox
 
-from Controller.CadastroPadrao import CadastroPadrao
+from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.StatusDialog import StatusDialog
 from Model.Mercadoria import Mercadoria

@@ -114,6 +114,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         )
 
+        self.pushButton_remanufatura.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=RegistroRemanufatura
+            )
+        )
+
     def abrir_interface(self, window_cls, **kwargs):
         try:
 

@@ -2,7 +2,7 @@ import logging
 
 from PySide2.QtWidgets import QWidget, QListWidgetItem, QDialogButtonBox
 
-from Controller.CadastroPadrao import CadastroPadrao
+from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
 from Model.Endereco import Endereco
 from Model.Pessoa import Pessoa
