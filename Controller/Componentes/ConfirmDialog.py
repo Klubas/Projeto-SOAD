@@ -1,9 +1,12 @@
+import os
+
+from PySide2.QtGui import QImage, QPixmap, QIcon
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
-from View.Componentes.Ui_SairDialog import Ui_SairDialog
+from View.Componentes.Ui_ConfirmDialog import Ui_ConfirmDialog
 
 
-class ConfirmDialog(QDialog, Ui_SairDialog):
+class ConfirmDialog(QDialog, Ui_ConfirmDialog):
 
     def __init__(self, parent=None):
         super(ConfirmDialog, self).__init__(parent)
@@ -13,6 +16,10 @@ class ConfirmDialog(QDialog, Ui_SairDialog):
         self.buttonBox.button(QDialogButtonBox.No).clicked.connect(self.nao_clicked)
         self.buttonBox.button(QDialogButtonBox.No).setDefault(True)
 
+        icon_path = os.path.join("Resources", "icons", "question.png")
+        icone = QImage(icon_path).smoothScaled(60, 60)
+        self.setWindowIcon(QIcon(icon_path))
+        self.label_imagem.setPixmap(QPixmap.fromImage(icone))
 
     def definir_mensagem(self, mensagem):
         self.label.setText(mensagem)

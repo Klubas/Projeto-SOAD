@@ -1,6 +1,8 @@
 import logging
+import os
 
-from PySide2.QtCore import Qt, QSize
+from PySide2.QtCore import QSize
+from PySide2.QtGui import QImage, QPixmap, QIcon
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
 from View.Componentes.Ui_StatusDialog import Ui_StatusDialog
@@ -14,41 +16,47 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         status = status.upper()
 
+        icon_path = os.path.join("Resources", "icons", status.lower() + ".png")
+        self.setWindowIcon(QIcon(icon_path))
+
+        icone = QImage(icon_path).smoothScaled(60, 60)
+        self.label_imagem.setPixmap(QPixmap.fromImage(icone))
+
         self.toolButton_detalhes.clicked.connect(
             lambda: self.groupBox_mensagem.setVisible(
                 self.toolButton_detalhes.isChecked())
         )
 
-        self.label_mensagem.setAlignment(Qt.AlignCenter)
         self.groupBox_mensagem.setVisible(False)
 
-        min_size = QSize(400, 150) # h, w
+        min_size = QSize(300, 150) # h, w
 
         # todo: definir características de cada tipo de alerta
         if status == 'ERRO':
             self.setWindowTitle("Mensagem de Erro")
             self.toolButton_detalhes.setVisible(True)
-            min_size = QSize(250, 500)
+            min_size = QSize(200, 200)
 
         elif status == 'ALERTA':
             self.setWindowTitle("Mensagem de Alerta")
             self.toolButton_detalhes.setVisible(True)
-            min_size = QSize(250, 300)
+            min_size = QSize(150, 200)
 
         elif status == 'OK':
             self.setWindowTitle("Mensagem de Confirmação")
             self.toolButton_detalhes.setVisible(False)
-            min_size = QSize(250, 300)
+            min_size = QSize(90, 200)
 
         else:
             self.__definir_mensagem__("O valor " + status + " não é um status válido para StatusDialog\n")
             logging.debug("[StatusDialog] O valor " + status + " não é um status válido para StatusDialog\n")
             self.exec()
 
-        max_size = QSize(min_size.height()*2, min_size.width()*2)
+        max_size = QSize(
+            int(min_size.height()*2), min_size.width()*2)
 
         self.setMinimumSize(min_size)
-        self.setMaximumSize(max_size)
+        #self.setMaximumSize(max_size)
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\DescarteMercadoria.ui',
 # licensing of 'Resources\UI\DescarteMercadoria.ui' applies.
 #
-# Created: Sun Sep 15 02:04:18 2019
+# Created: Sun Sep 15 19:04:15 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

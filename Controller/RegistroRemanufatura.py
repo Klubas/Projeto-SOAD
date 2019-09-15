@@ -73,7 +73,11 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
         self.closed_box = QImage(os.path.join("Resources", "icons", "closed_box.png")).smoothScaled(120, 120)
         self.vazio = QImage(os.path.join("Resources", "icons", "vazio.png")).smoothScaled(120, 120)
         self.icone_esvaziar = QIcon(os.path.join("Resources", "icons", "delete.png"))
+        self.icone_realizar = QIcon(os.path.join("Resources", "icons", "ok.png"))
+        self.icone_limpar = QIcon(os.path.join("Resources", "icons", "clean.png"))
         self.pushButton_esvaziar.setIcon(self.icone_esvaziar)
+        self.pushButton_realizar.setIcon(self.icone_realizar)
+        self.pushButton_limpar.setIcon(self.icone_limpar)
 
         self.label_icone_item_lote.setPixmap(
             QPixmap.fromImage(self.closed_box)

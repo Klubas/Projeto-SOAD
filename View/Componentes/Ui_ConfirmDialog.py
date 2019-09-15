@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\ConfirmDialog.ui',
 # licensing of 'Resources\UI\Componentes\ConfirmDialog.ui' applies.
 #
-# Created: Sun Sep 15 02:04:20 2019
+# Created: Sun Sep 15 19:04:16 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -39,17 +39,22 @@ class Ui_ConfirmDialog(object):
         self.verticalFrame.setObjectName("verticalFrame")
         self.gridLayout = QtWidgets.QGridLayout(self.verticalFrame)
         self.gridLayout.setObjectName("gridLayout")
-        self.label = QtWidgets.QLabel(self.verticalFrame)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setWordWrap(True)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.verticalFrame)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.No|QtWidgets.QDialogButtonBox.Yes)
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
-        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.buttonBox, 1, 1, 1, 1)
+        self.label = QtWidgets.QLabel(self.verticalFrame)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setWordWrap(True)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 1, 1, 1)
+        self.label_imagem = QtWidgets.QLabel(self.verticalFrame)
+        self.label_imagem.setMinimumSize(QtCore.QSize(60, 60))
+        self.label_imagem.setMaximumSize(QtCore.QSize(60, 60))
+        self.label_imagem.setObjectName("label_imagem")
+        self.gridLayout.addWidget(self.label_imagem, 0, 0, 1, 1)
         self.gridLayout_2.addWidget(self.verticalFrame, 0, 0, 1, 1)
 
         self.retranslateUi(ConfirmDialog)
@@ -58,4 +63,5 @@ class Ui_ConfirmDialog(object):
     def retranslateUi(self, ConfirmDialog):
         ConfirmDialog.setWindowTitle(QtWidgets.QApplication.translate("ConfirmDialog", "Diálogo de confirmação", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("ConfirmDialog", "Existem janelas abertas, tem certeza que deseja sair?", None, -1))
+        self.label_imagem.setText(QtWidgets.QApplication.translate("ConfirmDialog", "label_imagem", None, -1))
 

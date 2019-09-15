@@ -1,5 +1,6 @@
 import logging
 import sys
+from _datetime import datetime
 
 from PySide2.QtGui import QCloseEvent
 from PySide2.QtWidgets import QMainWindow
@@ -9,6 +10,7 @@ from Controller.CadastroMercadoria import CadastroMercadoria
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
+from Controller.Componentes.RelatorioPadrao import RelatorioPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
 from Controller.EstornoPedido import EstornoPedido
 from Controller.RegistroRemanufatura import RegistroRemanufatura
@@ -17,16 +19,14 @@ from View.Ui_MainWindow import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
-    def __init__(self, db, parent=None):
+    def __init__(self, db, login_dialog, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.parent = parent
+        self.parent = login_dialog
         self.db = db
         self.window_list = list()
         # todo: self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
-
-        #self.window_list.append(self)
 
         # Menus
         # todo: Arquivo
@@ -34,9 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             lambda: self.closeEvent(event=QCloseEvent())
         )
 
-        self.actionReconectar.triggered.connect(
-            lambda: self.reconectar()
-        )
+        self.actionReconectar.triggered.connect(self.login)
 
         # todo: Cadastros
         self.actionPessoa.triggered.connect(
@@ -87,8 +85,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Relatórios
 
-        # todo: Ajuda
         self.actionSobre.triggered.connect(self.abrir_sobre)
+
+        # Botões
 
         self.pushButton_venda.clicked.connect(
             lambda: self.abrir_interface(
@@ -120,17 +119,85 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         )
 
+        # Relatórios
+
+        self.pushButton_lista_vendas.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=RelatorioPadrao
+                , tabela='vw_pedido_venda'
+                , colunas={
+                    "id_pedido":
+                        ("Número", int),
+                    "situacao":
+                        ("Situação", str),
+                    "data_cadastro":
+                        ("Data do Pedido", datetime),
+                    "data_entrega":
+                        ("Data para Entrega", datetime),
+                    "valor_total":
+                        ("Valor Total", float),
+                    "pessoa":
+                        ("Cliente", str),
+                    "documento":
+                        ("Documento", str),
+                    "inscricao_estadual":
+                        ("Inscrição Estadual", str),
+                    "fantasia":
+                        ("Nome Fantasia", str),
+                    "email":
+                        ("Email", str),
+                    "telefone":
+                        ("Telefone", str),
+                    "observacao":
+                        ("Observações", str),
+                }
+            )
+        )
+
+        self.pushButton_lista_compras.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=RelatorioPadrao
+                , tabela='vw_pedido_compra'
+                , colunas={
+                    "id_pedido":
+                        ("Número", int),
+                    "situacao":
+                        ("Situação", str),
+                    "data_cadastro":
+                        ("Data do Pedido", datetime),
+                    "data_entrega":
+                        ("Data para Entrega", datetime),
+                    "valor_total":
+                        ("Valor Total", float),
+                    "pessoa":
+                        ("Cliente", str),
+                    "documento":
+                        ("Documento", str),
+                    "inscricao_estadual":
+                        ("Inscrição Estadual", str),
+                    "fantasia":
+                        ("Nome Fantasia", str),
+                    "email":
+                        ("Email", str),
+                    "telefone":
+                        ("Telefone", str),
+                    "observacao":
+                        ("Observações", str),
+                }
+            )
+        )
+
     def abrir_interface(self, window_cls, **kwargs):
         try:
 
-            cad = window_cls(
+            tela = window_cls(
                 self.db
                 , self.window_list
                 , parent=self
                 , **kwargs
             )
-
-            self.window_list.append(cad)
+            tela.setWindowIcon(self.windowIcon())
+            self.window_list.append(tela)
 
         except Exception as e:
             logging.exception('[MainWindow] ' + str(e))
@@ -145,9 +212,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def abrir_sobre(self):
         s = About()
         s.exec()
-
-    def reconectar(self):
-        self.parent.exec()
 
     def fechar(self):
         self.closeEvent(event=QCloseEvent())
@@ -170,5 +234,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         event.ignore()
 
     # metodo para reconectar ao banco
-    def login(self, parent):
-        parent.show()
+    def login(self):
+        self.hide()
+        self.parent.exec()

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\RegistroRemanufatura.ui',
 # licensing of 'Resources\UI\RegistroRemanufatura.ui' applies.
 #
-# Created: Sun Sep 15 02:04:19 2019
+# Created: Sun Sep 15 19:04:15 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -262,6 +262,7 @@ class Ui_RegistroRemanufatura(object):
         self.dateEdit_entrada.setWrapping(False)
         self.dateEdit_entrada.setFrame(False)
         self.dateEdit_entrada.setReadOnly(True)
+        self.dateEdit_entrada.setSpecialValueText("")
         self.dateEdit_entrada.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
         self.dateEdit_entrada.setKeyboardTracking(False)
         self.dateEdit_entrada.setProperty("showGroupSeparator", True)
@@ -272,6 +273,7 @@ class Ui_RegistroRemanufatura(object):
         self.dateEdit_abertura.setEnabled(True)
         self.dateEdit_abertura.setFrame(False)
         self.dateEdit_abertura.setReadOnly(True)
+        self.dateEdit_abertura.setSpecialValueText("")
         self.dateEdit_abertura.setCalendarPopup(True)
         self.dateEdit_abertura.setObjectName("dateEdit_abertura")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.dateEdit_abertura)
@@ -279,6 +281,7 @@ class Ui_RegistroRemanufatura(object):
         self.dateEdit_validade.setEnabled(True)
         self.dateEdit_validade.setFrame(False)
         self.dateEdit_validade.setReadOnly(True)
+        self.dateEdit_validade.setSpecialValueText("")
         self.dateEdit_validade.setKeyboardTracking(True)
         self.dateEdit_validade.setCalendarPopup(True)
         self.dateEdit_validade.setCurrentSectionIndex(0)
@@ -761,12 +764,9 @@ class Ui_RegistroRemanufatura(object):
         self.label_7.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Lote", None, -1))
         self.label_3.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Qtd. Remanufaturas", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Item", None, -1))
-        self.dateEdit_entrada.setSpecialValueText(QtWidgets.QApplication.translate("RegistroRemanufatura", "  ", None, -1))
-        self.dateEdit_abertura.setSpecialValueText(QtWidgets.QApplication.translate("RegistroRemanufatura", "  ", None, -1))
-        self.dateEdit_validade.setSpecialValueText(QtWidgets.QApplication.translate("RegistroRemanufatura", "  ", None, -1))
         self.pushButton_esvaziar.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Esvaziar Embalagem", None, -1))
-        self.pushButton_limpar.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Remover Selecionadas", None, -1))
-        self.pushButton_realizar.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Realizar Selecionadas", None, -1))
+        self.pushButton_limpar.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Remover remanufaturas", None, -1))
+        self.pushButton_realizar.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Realizar remanufaturas", None, -1))
         self.horizontalGroupBox.setTitle(QtWidgets.QApplication.translate("RegistroRemanufatura", "Remanufatura", None, -1))
         self.label_codigo.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Código", None, -1))
         self.lineEdit.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "AUTO GERADO", None, -1))
