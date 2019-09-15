@@ -93,8 +93,7 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
         self.pushButton_limpar.setDisabled(True)
         self.pushButton_realizar.setDisabled(True)
 
-        self.tableWidget_remanufaturas.itemClicked.connect(self.ativar_botoes)
-        self.tableWidget_remanufaturas.itemClicked.connect(self.ativar_botoes)
+        self.tableWidget_remanufaturas.itemPressed.connect(self.ativar_botoes)
 
         self.buttonBox_remanufatura.button(
             QDialogButtonBox.Ok).clicked.connect(self.gerar_remanufaturas)
@@ -112,7 +111,7 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
 
         self.pushButton_esvaziar.clicked.connect(
             lambda: self.esvaziar_embalagem(
-                int(self.label_item_lote_id.text())
+                int(self.label_item_lote_id.text() if self.label_item_lote_id.text() != '' else None)
             )
         )
 
@@ -386,7 +385,7 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
 
             mercadoria = self.db.busca_registro(tabela, campo, valor, '=')[1][0]['fnc_buscar_registro']
 
-            logging.debug('[CadastroPedido] ' + str(mercadoria))
+            logging.debug('[RegistroRemanufatura] ' + str(mercadoria))
             if mercadoria is not None:
                 mercadoria = mercadoria[0]
 
@@ -478,11 +477,13 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
             dialog = StatusDialog(
                 status='ALERTA'
                 , exception=retorno
-                , mensagem=' Não é possível inserir uma remanufatura.'
+                , mensagem=' Não foi possível inserir remanufatura.'
                 , parent=self
             )
             dialog.exec()
             logging.info('[RegistroRemanufatura] Não foi possível identificar insumo em estoque.')
+            self.lineEdit_insumo_id.setDisabled(False)
+            self.lineEdit_casco_id.setDisabled(False)
             return False
 
     def posiciona_item_lote(self, dados):
@@ -562,32 +563,40 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
 
     def esvaziar_embalagem(self, item_lote_id):
         # Marca lote sendo utilizado para recargas como vazio
+        if item_lote_id is None:
+            return
 
-        dados = {
-            "metodo": "prc_esvaziar_item_lote"
-            , "schema": "soad"
-            , "params": {
-                "item_lote_id": str(item_lote_id)
+        dialog = ConfirmDialog(parent=self)
+        dialog.definir_mensagem(
+            "Tem certeza que deseja marcar essa embalagem como 'Vazia'?\nEssa ação não pode ser desfeita.")
+
+        if dialog.exec():
+
+            dados = {
+                "metodo": "prc_esvaziar_item_lote"
+                , "schema": "soad"
+                , "params": {
+                    "item_lote_id": str(item_lote_id)
+                }
             }
-        }
 
-        retorno = self.db.call_procedure(self.db.schema, dados)
-        logging.info('[RegistroRemanufatura] Executado procedimento para esvaziar lote.')
+            retorno = self.db.call_procedure(self.db.schema, dados)
+            logging.info('[RegistroRemanufatura] Executado procedimento para esvaziar lote.')
 
-        if retorno[0]:
-            if retorno[1][0]['p_retorno'] == 100:
-                self.label_icone_item_lote.setPixmap(QPixmap.fromImage(self.vazio))
-                self.pushButton_esvaziar.setDisabled(True)
-                self.label_item_lote_vazio.setText('Sim')
-            self.ativar_botoes()
-        else:
-            dialog = StatusDialog(
-                status='ALERTA'
-                , exception=retorno
-                , mensagem='Não foi possível esvaziar o insumo.'
-                , parent=self
-            )
-            dialog.exec()
+            if retorno[0]:
+                if retorno[1][0]['p_retorno'] == 100:
+                    self.label_icone_item_lote.setPixmap(QPixmap.fromImage(self.vazio))
+                    self.pushButton_esvaziar.setDisabled(True)
+                    self.label_item_lote_vazio.setText('Sim')
+                self.ativar_botoes()
+            else:
+                dialog = StatusDialog(
+                    status='ALERTA'
+                    , exception=retorno
+                    , mensagem='Não foi possível esvaziar o insumo.'
+                    , parent=self
+                )
+                dialog.exec()
 
     def ativar_botoes(self):
         disabled = True

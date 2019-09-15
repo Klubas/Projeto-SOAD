@@ -29,7 +29,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             self.verticalGroupBox_servidor.setVisible(False)
 
         # carrega e redimensiona a imagem
-        logo = QImage(os.path.join("Resources", "Imagens", "logo.png")).smoothScaled(165, 165)
+        logo = QImage(os.path.join("Resources", "Imagens", "logo.png")).smoothScaled(165, 120)
 
         self.label_logo.setPixmap(QPixmap.fromImage(logo))
 

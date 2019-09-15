@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\RegistroRemanufatura.ui',
 # licensing of 'Resources\UI\RegistroRemanufatura.ui' applies.
 #
-# Created: Sun Sep 15 00:36:52 2019
+# Created: Sun Sep 15 02:04:19 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -64,12 +64,13 @@ class Ui_RegistroRemanufatura(object):
         self.verticalLayout_2.addWidget(self.checkBox_selecionar_tudo)
         self.horizontalLayout_info.addWidget(self.frame_itens)
         self.frame_3 = QtWidgets.QFrame(self.frame_2)
-        self.frame_3.setMaximumSize(QtCore.QSize(275, 16777215))
+        self.frame_3.setMinimumSize(QtCore.QSize(310, 0))
+        self.frame_3.setMaximumSize(QtCore.QSize(310, 16777215))
         self.frame_3.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_3.setObjectName("frame_3")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_3)
         self.verticalLayout.setSpacing(10)
-        self.verticalLayout.setContentsMargins(9, 9, 9, 50)
+        self.verticalLayout.setContentsMargins(9, 9, 9, 35)
         self.verticalLayout.setObjectName("verticalLayout")
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)

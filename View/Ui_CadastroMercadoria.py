@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroMercadoria.ui',
 # licensing of 'Resources\UI\CadastroMercadoria.ui' applies.
 #
-# Created: Sun Sep 15 00:36:50 2019
+# Created: Sun Sep 15 02:04:17 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -152,6 +152,10 @@ class Ui_CadastroMercadoria(object):
         sizePolicy.setHeightForWidth(self.frame_casco.sizePolicy().hasHeightForWidth())
         self.frame_casco.setSizePolicy(sizePolicy)
         self.frame_casco.setMaximumSize(QtCore.QSize(16777215, 80))
+        font = QtGui.QFont()
+        font.setWeight(50)
+        font.setBold(False)
+        self.frame_casco.setFont(font)
         self.frame_casco.setObjectName("frame_casco")
         self.formLayout_3 = QtWidgets.QFormLayout(self.frame_casco)
         self.formLayout_3.setFieldGrowthPolicy(QtWidgets.QFormLayout.ExpandingFieldsGrow)
@@ -187,6 +191,7 @@ class Ui_CadastroMercadoria(object):
         self.lineEdit_quantidade_insumo = QtWidgets.QLineEdit(self.frame_casco)
         self.lineEdit_quantidade_insumo.setMinimumSize(QtCore.QSize(50, 0))
         self.lineEdit_quantidade_insumo.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.lineEdit_quantidade_insumo.setText("")
         self.lineEdit_quantidade_insumo.setObjectName("lineEdit_quantidade_insumo")
         self.horizontalLayout_10.addWidget(self.lineEdit_quantidade_insumo)
         self.label = QtWidgets.QLabel(self.frame_casco)
@@ -442,7 +447,7 @@ class Ui_CadastroMercadoria(object):
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
         self.retranslateUi(CadastroMercadoria)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(CadastroMercadoria)
 
     def retranslateUi(self, CadastroMercadoria):
@@ -454,11 +459,13 @@ class Ui_CadastroMercadoria(object):
         self.groupBox_mercadoria.setTitle(QtWidgets.QApplication.translate("CadastroMercadoria", "Mercadoria", None, -1))
         self.label_insumo.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Insumo", None, -1))
         self.label_quantidade.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Quantidade", None, -1))
+        self.lineEdit_quantidade_insumo.setPlaceholderText(QtWidgets.QApplication.translate("CadastroMercadoria", "0,00", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Un. Medida", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Modo de Cor", None, -1))
         self.radioButton_pb.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Preto e Branco", None, -1))
         self.radioButton_cor.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Colorido", None, -1))
         self.label_quantidade_embalagem.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Quantidade (embalagem)", None, -1))
+        self.lineEdit_quantidade_embalagem.setPlaceholderText(QtWidgets.QApplication.translate("CadastroMercadoria", "0,00", None, -1))
         self.label_un_medida.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Un. Medida", None, -1))
         self.label_codigo.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Código", None, -1))
         self.checkBox_permite_venda.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Permite Venda", None, -1))
@@ -468,4 +475,5 @@ class Ui_CadastroMercadoria(object):
         self.label_fabricante.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Fabricante", None, -1))
         self.toolButton_addFabricante.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "+", None, -1))
         self.label_4.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Valor de venda (R$)", None, -1))
+        self.lineEdit_valor_venda.setPlaceholderText(QtWidgets.QApplication.translate("CadastroMercadoria", "0,00", None, -1))
 

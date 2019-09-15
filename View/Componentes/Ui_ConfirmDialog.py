@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\ConfirmDialog.ui',
 # licensing of 'Resources\UI\Componentes\ConfirmDialog.ui' applies.
 #
-# Created: Sun Sep 15 00:36:53 2019
+# Created: Sun Sep 15 02:04:20 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -14,9 +14,14 @@ class Ui_ConfirmDialog(object):
     def setupUi(self, ConfirmDialog):
         ConfirmDialog.setObjectName("ConfirmDialog")
         ConfirmDialog.setWindowModality(QtCore.Qt.WindowModal)
-        ConfirmDialog.resize(430, 120)
+        ConfirmDialog.resize(430, 163)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(ConfirmDialog.sizePolicy().hasHeightForWidth())
+        ConfirmDialog.setSizePolicy(sizePolicy)
         ConfirmDialog.setMinimumSize(QtCore.QSize(430, 120))
-        ConfirmDialog.setMaximumSize(QtCore.QSize(430, 150))
+        ConfirmDialog.setMaximumSize(QtCore.QSize(430, 300))
         font = QtGui.QFont()
         ConfirmDialog.setFont(font)
         ConfirmDialog.setModal(True)

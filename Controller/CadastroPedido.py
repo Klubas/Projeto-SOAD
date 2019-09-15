@@ -2,7 +2,7 @@ import logging
 import os
 
 from PySide2.QtCore import QRegExp, QDate
-from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator, QIcon
+from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator, QIcon, QPixmap, QImage
 from PySide2.QtWidgets import QWidget, QDialogButtonBox, QTableWidgetItem
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
@@ -39,6 +39,11 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
         ### Fim padrão
+
+        self.label_tinta.setText('')
+        self.color_ink = QImage(os.path.join("Resources", "icons", "color_ink.png")).smoothScaled(45, 45)
+        self.bw_ink = QImage(os.path.join("Resources", "icons", "bw_ink.png")).smoothScaled(45, 45)
+        self.label_tinta.setPixmap(QPixmap.fromImage(self.bw_ink))
 
         self.icone_cancelar = QIcon(os.path.join('Resources', 'icons', 'cancel.png'))
         self.icone_estornar = QIcon(os.path.join('Resources', 'icons', 'undo.png'))
@@ -654,6 +659,13 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             lineEdit_id.setText(str(mercadoria[campo]))
             lineEdit_descricao.setText(mercadoria['descricao'])
             lineEdit_marca.setText(mercadoria['marca'])
+
+            if tipo == 'INSUMO':
+                if bool(mercadoria['colorido']):
+                    self.label_tinta.setPixmap(QPixmap.fromImage(self.color_ink))
+                else:
+                    self.label_tinta.setPixmap(QPixmap.fromImage(self.bw_ink))
+
             return True
 
         else:
@@ -857,7 +869,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         super(CadastroPedido, self).define_icones()
         self.pushButton_movimentar.setIcon(QIcon(os.path.join('Resources', 'icons', 'confirm.png')))
         self.pushButton_excluir.setIcon(self.icone_cancelar)
-
 
     def define_permite_editar(self):
         super(CadastroPedido, self).define_permite_editar()

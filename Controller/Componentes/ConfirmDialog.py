@@ -8,8 +8,11 @@ class ConfirmDialog(QDialog, Ui_SairDialog):
     def __init__(self, parent=None):
         super(ConfirmDialog, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle("Diálogo de confirmação")
         self.buttonBox.button(QDialogButtonBox.Yes).clicked.connect(self.sim_clicked)
         self.buttonBox.button(QDialogButtonBox.No).clicked.connect(self.nao_clicked)
+        self.buttonBox.button(QDialogButtonBox.No).setDefault(True)
+
 
     def definir_mensagem(self, mensagem):
         self.label.setText(mensagem)

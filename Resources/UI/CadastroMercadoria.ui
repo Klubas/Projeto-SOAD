@@ -251,7 +251,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_casco">
               <property name="sizePolicy">
@@ -289,6 +289,12 @@
                    <width>16777215</width>
                    <height>80</height>
                   </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <weight>50</weight>
+                   <bold>false</bold>
+                  </font>
                  </property>
                  <layout class="QFormLayout" name="formLayout_3">
                   <property name="fieldGrowthPolicy">
@@ -369,6 +375,12 @@
                         <width>90</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="placeholderText">
+                       <string>0,00</string>
                       </property>
                      </widget>
                     </item>
@@ -525,6 +537,9 @@
                         <width>100</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="placeholderText">
+                       <string>0,00</string>
                       </property>
                      </widget>
                     </item>
@@ -876,6 +891,9 @@
                   <width>100</width>
                   <height>16777215</height>
                  </size>
+                </property>
+                <property name="placeholderText">
+                 <string>0,00</string>
                 </property>
                </widget>
               </item>

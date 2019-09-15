@@ -26,7 +26,6 @@ class DataBase:
         self.connection = None
         self.threadpool = QThreadPool()
 
-
     def busca_registro(self, nome_tabela, coluna, valor='', operador='=', filtro=None):
 
         if filtro == '' or filtro is None:

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroPedido.ui',
 # licensing of 'Resources\UI\CadastroPedido.ui' applies.
 #
-# Created: Sun Sep 15 00:36:51 2019
+# Created: Sun Sep 15 02:04:17 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -437,6 +437,9 @@ class Ui_CadastroPedido(object):
         self.gridLayout_9.setSpacing(0)
         self.gridLayout_9.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_9.setObjectName("gridLayout_9")
+        self.label_tinta = QtWidgets.QLabel(self.page_remanufatura)
+        self.label_tinta.setObjectName("label_tinta")
+        self.gridLayout_9.addWidget(self.label_tinta, 0, 1, 1, 1)
         self.frameFormLayout_remanufatura = QtWidgets.QFrame(self.page_remanufatura)
         self.frameFormLayout_remanufatura.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.frameFormLayout_remanufatura.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -522,6 +525,8 @@ class Ui_CadastroPedido(object):
         self.label_reutilizar_casco.setObjectName("label_reutilizar_casco")
         self.formLayout_5.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.label_reutilizar_casco)
         self.gridLayout_9.addWidget(self.frameFormLayout_remanufatura, 0, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_9.addItem(spacerItem1, 1, 1, 1, 1)
         self.stackedWidget_item.addWidget(self.page_remanufatura)
         self.verticalLayout_3.addWidget(self.stackedWidget_item)
         self.formLayout_quantidades = QtWidgets.QFormLayout()
@@ -589,8 +594,8 @@ class Ui_CadastroPedido(object):
         self.lineEdit_valor_unitario.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lineEdit_valor_unitario.setObjectName("lineEdit_valor_unitario")
         self.horizontalLayout_12.addWidget(self.lineEdit_valor_unitario)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem2)
         self.label_3 = QtWidgets.QLabel(self.frame_items)
         font = QtGui.QFont()
         font.setPointSize(9)
@@ -867,8 +872,8 @@ class Ui_CadastroPedido(object):
         self.pushButton_remover_item.setFlat(True)
         self.pushButton_remover_item.setObjectName("pushButton_remover_item")
         self.horizontalLayout_6.addWidget(self.pushButton_remover_item)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem3)
         self.gridLayout_5.addWidget(self.horizontalWidget_botoes_tabela, 0, 0, 1, 1)
         self.horizontalLayout_5.addWidget(self.widget_tabela)
         self.tabWidget.addTab(self.tab_tabela, "")
@@ -877,8 +882,8 @@ class Ui_CadastroPedido(object):
         self.horizontalLayout_15.setSpacing(9)
         self.horizontalLayout_15.setContentsMargins(9, 9, 40, 9)
         self.horizontalLayout_15.setObjectName("horizontalLayout_15")
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_15.addItem(spacerItem3)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_15.addItem(spacerItem4)
         self.label_valor_total_pedido = QtWidgets.QLabel(self.groupBox_items)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -984,6 +989,7 @@ class Ui_CadastroPedido(object):
         self.radioButton_mercadoria.setText(QtWidgets.QApplication.translate("CadastroPedido", "Mercadoria", None, -1))
         self.radioButton_remanufatura.setText(QtWidgets.QApplication.translate("CadastroPedido", "Remanufatura", None, -1))
         self.label_mercadoria.setText(QtWidgets.QApplication.translate("CadastroPedido", "Mercadoria", None, -1))
+        self.label_tinta.setText(QtWidgets.QApplication.translate("CadastroPedido", "[IMAGEM]", None, -1))
         self.label_casco.setText(QtWidgets.QApplication.translate("CadastroPedido", "Casco", None, -1))
         self.label_insumo.setText(QtWidgets.QApplication.translate("CadastroPedido", "Insumo", None, -1))
         self.checkBox_reutilizar_casco.setToolTip(QtWidgets.QApplication.translate("CadastroPedido", "Define se irá utilizar remanufaturas que já foram realizadas ou será registrada uma nova remanufatura", None, -1))
