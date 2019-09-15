@@ -146,6 +146,8 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         self.dialog_localizar = LocalizarDialog(db=self.db)
 
+        self.define_icones()
+
         self.popular_dados_padrao()
         self.show()
 
@@ -221,7 +223,8 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         retorno = super(CadastroMercadoria, self).localizar(parent=self)
 
-        self.atualizar_interface(retorno)
+        if retorno is not None:
+            self.atualizar_interface(retorno)
 
     def confirma(self):
 
@@ -245,7 +248,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
             # Insumo
             , quantidade_embalagem=self.lineEdit_quantidade_embalagem.text().replace(',', '.')
-
+            , colorido=self.radioButton_cor.isChecked()
             # Casco
             , insumo_id=self.lineEdit_insumo_id.text()
             , quantidade_insumo=self.lineEdit_quantidade_insumo.text().replace(',', '.')
@@ -260,7 +263,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
         retorno = super(CadastroMercadoria, self).confirma()
 
         if retorno[0]:
-            mercadoria_id = retorno[1]['p_retorno']
+            mercadoria_id = retorno[1]['p_retorno_json']['mercadoria_id']
             self.atualizar_interface(mercadoria_id)
 
         else:
@@ -323,9 +326,15 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
                 , tipo_mercadoria=tipo
                 , unidade_medida_id=mercadoria['unidade_medida_id']
                 , quantidade_embalagem=mercadoria['quantidade_embalagem']
+                , colorido=mercadoria['colorido']
             )
 
-            self.lineEdit_quantidade_insumo.setText(
+            if mercadoria.colorido:
+                self.radioButton_cor.setChecked(True)
+            else:
+                self.radioButton_pb.setChecked(True)
+
+            self.lineEdit_quantidade_embalagem.setText(
                 str(mercadoria.quantidade_embalagem).replace('', '')
             )
 
@@ -333,8 +342,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
                 if self.unidades_medida[key] == mercadoria.unidade_medida_id:
                     self.comboBox_unidade_medida_embalagem.setCurrentText(key)
                     break
-
-
 
         elif tipo == 'CASCO':
             mercadoria = Mercadoria(
@@ -351,7 +358,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
                 , insumo_id=mercadoria['insumo_id']
             )
 
-            self.lineEdit_quantidade_embalagem.setText(
+            self.lineEdit_quantidade_insumo.setText(
                 str(mercadoria.quantidade_insumo).replace('', '')
             )
 
@@ -369,8 +376,6 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
         else:
             logging.debug('[CadastroMercadoria] Tipo desconhecido: ' + self.tipo)
             return
-
-        print(mercadoria.to_dict())
 
         self.lineEdit_id.setText(
             str(mercadoria.mercadoria_id)

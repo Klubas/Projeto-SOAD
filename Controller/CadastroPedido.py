@@ -1,7 +1,8 @@
 import logging
+import os
 
 from PySide2.QtCore import QRegExp, QDate
-from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator
+from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator, QIcon
 from PySide2.QtWidgets import QWidget, QDialogButtonBox, QTableWidgetItem
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
@@ -38,6 +39,9 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
         ### Fim padrão
+
+        self.icone_cancelar = QIcon(os.path.join('Resources', 'icons', 'cancel.png'))
+        self.icone_estornar = QIcon(os.path.join('Resources', 'icons', 'undo.png'))
 
         # Compra ou venda
         self.tipo_pedido = kwargs.get('tipo')
@@ -106,6 +110,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.lineEdit_id.textChanged[str].connect(self.define_permite_editar)
 
         self.pushButton_excluir.setText('Cancelar Pedido')
+        self.pushButton_excluir.setIcon(self.icone_cancelar)
 
         self.pushButton_movimentar.setDisabled(True)
 
@@ -167,6 +172,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
 
+        self.define_icones()
+
         self.show()
 
     def cadastrar(self):
@@ -174,6 +181,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         self.limpar_dados()
         self.visualizar(False)
         self.pushButton_excluir.setText('Cancelar Pedido')
+        self.pushButton_excluir.setIcon(self.icone_cancelar)
         self.label_situacao.setText('')
         self.lineEdit_documento.setDisabled(False)
 
@@ -264,16 +272,18 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         retorno = super(CadastroPedido, self).confirma()
 
         if retorno[0]:
-            pedido_id = retorno[1]['p_retorno']
+            pedido_id = retorno[1]['p_retorno_json']['pedido_id']
             self.movimentar(pedido_id)
 
         else:
-            return
+            logging.debug('[CadastroPedido] Não foi possível confirmar o cadastro.')
 
     def cancela(self):
         if super(CadastroPedido, self).cancela():
             if self.lineEdit_id.text == '':
                 self.limpar_dados()
+            else:
+                self.atualizar_interface(int(self.lineEdit_id.text()))
 
     def limpar_dados(self):
         super(CadastroPedido, self).limpar_dados()
@@ -310,7 +320,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         retorno = super(CadastroPedido, self).localizar(parent=self)
 
-        self.atualizar_interface(retorno)
+        if retorno is not None:
+            self.atualizar_interface(retorno)
 
     def visualizar(self, entrar_modo_visualziacao=True):
 
@@ -447,9 +458,12 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         if pedido.situacao == 'CADASTRADO'\
                 or pedido.situacao == 'ESTORNADO':
             self.pushButton_excluir.setText('Cancelar Pedido')
+            self.pushButton_excluir.setIcon(self.icone_cancelar)
 
         elif pedido.situacao == 'ENCERRADO':
             self.pushButton_excluir.setText('Estornar Pedido')
+            self.pushButton_excluir.setIcon(self.icone_estornar)
+
 
         if pedido.data_entrega is not None:
 
@@ -511,8 +525,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.label_situacao.text() != 'CADASTRADO'
             and self.label_situacao.text() != 'ESTORNADO'
         )
-
-
 
         # Posiciona o primeiro item da tabela no stack
         self.tableWidget_items.selectRow(0)
@@ -840,6 +852,12 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             valor = valor + float(v)
         #valor = valor + float() self.lineEdit_valor_total_item.text().replace(',', '.')
         self.lineEdit_valor_total_pedido.setText(str(valor).replace('.', ','))
+
+    def define_icones(self):
+        super(CadastroPedido, self).define_icones()
+        self.pushButton_movimentar.setIcon(QIcon(os.path.join('Resources', 'icons', 'confirm.png')))
+        self.pushButton_excluir.setIcon(self.icone_cancelar)
+
 
     def define_permite_editar(self):
         super(CadastroPedido, self).define_permite_editar()

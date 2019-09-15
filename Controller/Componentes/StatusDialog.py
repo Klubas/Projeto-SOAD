@@ -12,25 +12,33 @@ class StatusDialog(QDialog, Ui_StatusDialog):
         super(StatusDialog, self).__init__(parent)
         self.setupUi(self)
 
+        status = status.upper()
+
+        self.toolButton_detalhes.clicked.connect(
+            lambda: self.groupBox_mensagem.setVisible(
+                self.toolButton_detalhes.isChecked())
+        )
+
+        self.label_mensagem.setAlignment(Qt.AlignCenter)
+        self.groupBox_mensagem.setVisible(False)
+
         min_size = QSize(400, 150) # h, w
 
         # todo: definir características de cada tipo de alerta
         if status == 'ERRO':
             self.setWindowTitle("Mensagem de Erro")
-            self.groupBox_mensagem.setVisible(True)
+            self.toolButton_detalhes.setVisible(True)
             min_size = QSize(250, 500)
 
         elif status == 'ALERTA':
             self.setWindowTitle("Mensagem de Alerta")
-            self.label_mensagem.setAlignment(Qt.AlignCenter)
-            self.groupBox_mensagem.setVisible(True)
-            min_size = QSize(400, 150)
+            self.toolButton_detalhes.setVisible(True)
+            min_size = QSize(250, 300)
 
         elif status == 'OK':
             self.setWindowTitle("Mensagem de Confirmação")
-            self.label_mensagem.setAlignment(Qt.AlignCenter)
-            self.groupBox_mensagem.setVisible(False)
-            min_size = QSize(150, 300)
+            self.toolButton_detalhes.setVisible(False)
+            min_size = QSize(250, 300)
 
         else:
             self.__definir_mensagem__("O valor " + status + " não é um status válido para StatusDialog\n")
@@ -56,9 +64,8 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         print('exception=' + str(type(exception)))
         if type(exception) == tuple:
-            print('exception[0]=' + str(type(exception[0])))
-            print('exception[1]=' + str(type(exception[1])))
-            print('exception[2]=' + str(type(exception[2])))
+            for i in range(0, len(exception)):
+                print('exception[' + str(i) + ']=' + str(type(exception[i])))
 
             if type(exception[1]) == list:
                 if len(exception[1]) == 1:
@@ -80,14 +87,19 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
                 string_exception = string_exception + '\n\n'
 
+            else:
+                print(exception[0])
+                print('AQUI')
+
             if len(exception) == 3:
                 string_exception = string_exception + 'SQL:\n' + str(exception[2])
 
         elif exception is None:
-            pass
+            string_exception = string_mensagem + string_exception
+            self.groupBox_mensagem.setVisible(False)
 
         else:
-            string_exception = str(exception)
+            string_exception = string_exception + str(exception)
             logging.debug('[StatusDialog] Tipo de mensagem não tratado.')
 
         self.label_mensagem.setText(string_mensagem)

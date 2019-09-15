@@ -71,6 +71,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         self.pushButton_editar.setDisabled(True)
         self.lineEdit_id.textChanged[str].connect(self.define_permite_editar)
 
+        self.define_icones()
+
         self.show()
 
     def cadastrar(self):
@@ -153,7 +155,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         retorno = super(CadastroPessoa, self).localizar(parent=self)
 
-        self.atualizar_interface(retorno)
+        if retorno is not None:
+            self.atualizar_interface(retorno)
 
         return
 
@@ -219,7 +222,7 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
         retorno = super(CadastroPessoa, self).confirma()
 
         if retorno[0]:
-            pessoa_id = retorno[1]['p_retorno']
+            pessoa_id = retorno[1]['p_retorno_json']['pessoa_id']
             self.atualizar_interface(pessoa_id)
 
         else:

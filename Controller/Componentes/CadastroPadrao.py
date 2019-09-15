@@ -1,4 +1,7 @@
 import logging
+import os
+
+from PySide2.QtGui import QIcon
 
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
@@ -19,7 +22,7 @@ class CadastroPadrao:
     void limpar_dados()
     void receber_dados(dict())
     void cancela()
-    str/int valida_obrigatorios()
+    str', 'int valida_obrigatorios()
     bool confirma()
     bool fechar
     bool nao_esta_em_modo_edicao()
@@ -50,12 +53,22 @@ class CadastroPadrao:
         self.frame_buttons = None
 
         self.lineEdit_id = None
+        self.pushButton_cadastrar = None
         self.pushButton_editar = None
         self.pushButton_excluir = None
+        self.pushButton_localizar = None
 
         # QWidget
         self.frame_contents = None
         self.parent_window = None
+
+        self.define_icones()
+
+    def define_icones(self):
+        self.pushButton_cadastrar.setIcon(QIcon(os.path.join('Resources', 'icons', 'insert.png')))
+        self.pushButton_editar.setIcon(QIcon(os.path.join('Resources', 'icons', 'update.png')))
+        self.pushButton_excluir.setIcon(QIcon(os.path.join('Resources', 'icons', 'delete.png')))
+        self.pushButton_localizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'find.png')))
 
     # Reimplementar chamando super
     def cadastrar(self):
@@ -89,7 +102,7 @@ class CadastroPadrao:
         localizar.retorno_dados.connect(self.receber_dados)
         modal = localizar.exec()
 
-        return modal
+        return modal if modal > 0 else None
 
     # Reimplementar chamando super
     def limpar_dados(self):
@@ -167,18 +180,18 @@ class CadastroPadrao:
                     , mensagem='Cadastro ' + acao + ' com sucesso!'
                     , parent=self.parent_window
                 )
-
                 self.sair_modo_edicao()
 
             else:
                 dialog = StatusDialog(
-                    status='ERRO'
+                    status='ALERTA'
                     , mensagem='Não foi possível salvar os dados.'
                     , exception=prc
                     , parent=self.parent_window
                 )
                 self.modo_edicao = True
 
+            dialog.exec()
             return prc[0], prc[1][0]
 
     # Não deve ser reimplementado na tela
