@@ -5,23 +5,25 @@ from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QWidget, QTableWidgetItem
 
+from Controller.Componentes.ConfigRelatorio import ConfigRelatorio
 from Controller.Componentes.StatusDialog import StatusDialog
 from View.Componentes.Ui_RelatorioPadrao import Ui_RelatorioPadrao
 
 
-class RelatorioPadrao(QWidget, Ui_RelatorioPadrao):
+class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
     """
 
     Classe para criar dinamicamente um relatório com base em uma tabela/view e as colunas desejadas
 
     Parametros:
-    tabela::str - Tabela onde serão pegos os dados
-    colunas::list(dict()) - Lista com dicionários contendo {"nome_coluna": ("descricao", tipo)}
-    data::list(dict()) - Lista de dicionários, onde cada item da lista é uma linha da tabelas
-        e cada atributo do dicionário é referente a uma coluna (referenciado com a chave de colunas::list(dict()))
+    tipo = Localiza um tipo em ConfigRelatorio
+    titulo = titulo da janela precedido por "SOAD - "
+    data = dados a serem carregados na tabela
 
     """
-    def __init__(self, db, window_list, parent, **kwargs):
+
+    def __init__(self, db, window_list, tipo , **kwargs):
+        super(ConfigRelatorio, self).__init__()
         super(RelatorioPadrao, self).__init__()
         self.parent_window = self
         self.setupUi(self)
@@ -29,22 +31,25 @@ class RelatorioPadrao(QWidget, Ui_RelatorioPadrao):
         self.db = db
         self.define_icones()
 
-        # kwargs
+        relatorio = super(RelatorioPadrao, self).get_tipo_relatorio(tipo)
+
         titulo = kwargs.get('titulo')
         if titulo:
             titulo = "SOAD - " + str(titulo)
         else:
             titulo = "SOAD - Relatório"
+
         self.setWindowTitle(titulo)
 
-        self.tabela = str(kwargs.get('tabela'))
+        self.tabela = relatorio["tabela"]
+        self.colunas = relatorio["colunas"]
+
         if not self.tabela:
             dialog = StatusDialog(status='ERRO'
                                   , mensagem="Não foi definida a tabela."
                                   , parent=self)
             dialog.exec()
 
-        self.colunas = kwargs.get('colunas')
         if not self.colunas:
             dialog = StatusDialog(status='ERRO'
                                   , mensagem="Não foram definidas as colunas."
@@ -61,7 +66,17 @@ class RelatorioPadrao(QWidget, Ui_RelatorioPadrao):
             if data != 0:
                 self.set_data(data)
 
+        self.pushButton_atualizar.clicked.connect(self.refresh)
+
         self.show()
+
+    def refresh(self):
+
+        self.tableWidget_tabela.setRowCount(0)
+
+        data = self.get_data()
+        if data != 0:
+            self.set_data(data)
 
     def get_column_by_key(self, key):
         return self.colunas_chave.index(key)
@@ -107,7 +122,13 @@ class RelatorioPadrao(QWidget, Ui_RelatorioPadrao):
         tipo = self.colunas[coluna][1]
         valor = linha[coluna]
 
+        alinhamento = Qt.AlignLeft
+
+        if valor == 'None':
+            valor = None
+
         if tipo == datetime:
+            alinhamento = Qt.AlignRight
             if valor:
                 valor = valor.split('T')[0]
                 data = datetime.strptime(valor, '%Y-%m-%d')
@@ -116,10 +137,24 @@ class RelatorioPadrao(QWidget, Ui_RelatorioPadrao):
                 valor = ''
 
         elif tipo == str:
-            if not valor or valor == 'None':
-                valor = ''
+            valor = str(valor) if valor else ''
 
-        return valor
+        elif tipo == float:
+            alinhamento = Qt.AlignRight
+            valor = "{0:.2f}".format(valor).replace('.', ',') if valor else '0,00'
+
+        elif tipo == int:
+            alinhamento = Qt.AlignHCenter
+            valor = str(valor) if valor else ''
+
+        elif tipo == bool:
+            alinhamento = Qt.AlignHCenter
+            valor = 'Sim' if valor else 'Não'
+
+        else:
+            valor = str(valor) if valor else ''
+
+        return valor, alinhamento
 
     def set_data(self, linhas):
 
@@ -133,15 +168,15 @@ class RelatorioPadrao(QWidget, Ui_RelatorioPadrao):
         for linha in linhas:
             col = 0
             for coluna in self.colunas:
-                valor = self.tratar_valor(linha, coluna)
+                valor, alinhamento = self.tratar_valor(linha, coluna)
                 item = QTableWidgetItem(str(valor))
                 item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+                item.setTextAlignment(alinhamento)
                 self.tableWidget_tabela.setItem(row, col, item)
                 col = col + 1
             row = row + 1
 
         self.tableWidget_tabela.resizeColumnsToContents()
-
 
     def filter(self):
         pass
@@ -149,3 +184,6 @@ class RelatorioPadrao(QWidget, Ui_RelatorioPadrao):
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))
         self.pushButton_filtro.setIcon(QIcon(os.path.join('Resources', 'icons', 'filter.png')))
+
+    def show(self):
+        self.showMaximized()

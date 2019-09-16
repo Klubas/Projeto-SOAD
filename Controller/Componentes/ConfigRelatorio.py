@@ -1,0 +1,117 @@
+from datetime import datetime
+
+from Controller.Componentes.StatusDialog import StatusDialog
+
+
+class ConfigRelatorio:
+    """
+
+    tabela::str - Tabela onde serão pegos os dados
+    colunas::list(dict()) - Lista com dicionários contendo {"nome_coluna": ("descricao", tipo)}
+    data::list(dict()) - Lista de dicionários, onde cada item da lista é uma linha da tabelas
+        e cada atributo do dicionário é referente a uma coluna (referenciado com a chave de colunas::list(dict()))
+
+
+    """
+    def __init__(self):
+        pass
+
+    def get_tipo_relatorio(self, tipo):
+        tipo = tipo.upper()
+
+        relatorio = None
+        if tipo == 'VENDA':
+            relatorio = {
+            "tabela": 'vw_pedido_venda',
+            "colunas": {
+                "id_pedido": ("Número", int),
+                "situacao": ("Situação", str),
+                "data_cadastro": ("Data do Pedido", datetime),
+                "data_entrega": ("Data para Entrega", datetime),
+                "valor_total_mercadorias": ("Total das mercadorias", float),
+                "valor_total_remanufaturas": ("Total das remanufaturas", float),
+                "pessoa": ("Cliente", str),
+                "documento": ("Documento", str),
+                "inscricao_estadual": ("Inscrição Estadual", str),
+                "fantasia": ("Nome Fantasia", str),
+                "email": ("Email", str),
+                "telefone": ("Telefone", str),
+                "observacao": ("Observações", str),
+            }
+        }
+
+        if tipo == 'COMPRA':
+            relatorio = {
+            "tabela": 'vw_pedido_compra'
+            , "colunas": {
+                    "id_pedido": ("Número", int),
+                    "situacao": ("Situação", str),
+                    "data_cadastro": ("Data do Pedido", datetime),
+                    "data_entrega": ("Data para Entrega", datetime),
+                    "valor_total_mercadorias": ("Valor Total", float),
+                    "pessoa": ("Cliente", str),
+                    "documento": ("Documento", str),
+                    "inscricao_estadual": ("Inscrição Estadual", str),
+                    "fantasia": ("Nome Fantasia", str),
+                    "email": ("Email", str),
+                    "telefone": ("Telefone", str),
+                    "observacao": ("Observações", str),
+                }
+
+        }
+
+        if tipo == 'ESTOQUE':
+            relatorio = {
+            "tabela": 'vw_item_lote'
+            , "colunas": {
+                "id_lote": ("Lote", int),
+                "id_item_lote": ("Item", int),
+                "valor_unitario": ("Valor unitário", float),
+                "quantidade_item": ("Quantidade", float),
+                "data_validade": ("Data validade", datetime),
+                "lote_fabricante": ("Lote do fabricante", str),
+                "codigo_mercadoria": ("Código mercadoria", str),
+                "descricao": ("Mercadoria", str),
+                "marca": ("Fabricante", str),
+                "tipo_mercadoria": ("Classificação", str),
+                "unidade_medida": ("Unidade Medida", str),
+                "data_cadastro": ("Data entrada", datetime),
+                "id_pedido_entrada": ("Número da Compra", int),
+                "nome_pessoa_entrada": ("Fornecedor", str),
+                "documento_pessoa_entrada": ("CNPJ Fornecedor", str),
+                "data_retirada": ("Data saída", datetime),
+                "id_pedido_saida": ("Número Venda", int),
+                "motivo_retirada": ("Motivo saída", str),
+                "aberto": ("Item aberto", bool),
+                "data_abertura": ("Data Abertura", datetime),
+                "motivo_abertura": ("Motivo Abertura", str),
+                "observacao": ("Observação", str)
+            }
+        }
+
+        if tipo == 'MERCADORIA':
+            relatorio = {
+            "tabela": 'vw_mercadorias'
+            , "colunas": {
+
+            }
+        }
+
+        if tipo == 'CLIENTE':
+            relatorio = {
+
+        }
+
+        if tipo == 'FORNECEDOR':
+            relatorio = {
+
+        }
+
+        if not relatorio:
+            dialog = StatusDialog(
+                status='ERRO'
+                , mensagem="O tipo de relatório " + tipo + " não é válido."
+                , parent=self)
+            dialog.exec()
+
+        return relatorio
