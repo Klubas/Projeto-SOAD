@@ -61,12 +61,19 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
             self.set_columns()
 
         data = kwargs.get('data')
+        if data:
+            self.set_data(data)
+        """
         if not data:
             data = self.get_data()
             if data != 0:
                 self.set_data(data)
-
+        """
         self.pushButton_atualizar.clicked.connect(self.refresh)
+        self.checkBox_data.toggled.connect(
+            lambda: self.horizontalWidget_data.setDisabled(not self.checkBox_data.isChecked())
+        )
+        self.pushButton_filtro.clicked.connect(self.filter)
 
         self.show()
 
@@ -95,6 +102,7 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
 
         self.tableWidget_tabela.setColumnCount(len(self.colunas_descricao))
         self.tableWidget_tabela.setHorizontalHeaderLabels(self.colunas_descricao)
+        self.tableWidget_tabela.resizeColumnsToContents()
 
     def get_data(self):
 
@@ -141,7 +149,10 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
 
         elif tipo == float:
             alinhamento = Qt.AlignRight
-            valor = "{0:.2f}".format(valor).replace('.', ',') if valor else '0,00'
+            if valor is None:
+                valor = ''
+            else:
+                valor = "{0:.2f}".format(valor).replace('.', ',') if valor else '0,00'
 
         elif tipo == int:
             alinhamento = Qt.AlignHCenter
@@ -149,7 +160,10 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
 
         elif tipo == bool:
             alinhamento = Qt.AlignHCenter
-            valor = 'Sim' if valor else 'Não'
+            if valor is None:
+                valor = ''
+            else:
+                valor = 'Sim' if valor else 'Não'
 
         else:
             valor = str(valor) if valor else ''
@@ -179,7 +193,9 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
         self.tableWidget_tabela.resizeColumnsToContents()
 
     def filter(self):
-        pass
+        # Montar string de filtro
+        # REFRESH
+        self.refresh()
 
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))

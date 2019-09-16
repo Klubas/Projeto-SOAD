@@ -22,41 +22,31 @@ class StatusDialog(QDialog, Ui_StatusDialog):
         icone = QImage(icon_path).smoothScaled(60, 60)
         self.label_imagem.setPixmap(QPixmap.fromImage(icone))
 
-        self.toolButton_detalhes.clicked.connect(
-            lambda: self.groupBox_mensagem.setVisible(
-                self.toolButton_detalhes.isChecked())
-        )
+        self.toolButton_detalhes.clicked.connect(self.mostrar_detalhes)
 
         self.groupBox_mensagem.setVisible(False)
 
-        min_size = QSize(300, 150) # h, w
+        self.min_size = QSize(500, 180)
+        self.setMinimumSize(self.min_size)
+        self.setFixedSize(self.min_size)
 
         # todo: definir características de cada tipo de alerta
         if status == 'ERRO':
             self.setWindowTitle("Mensagem de Erro")
             self.toolButton_detalhes.setVisible(True)
-            min_size = QSize(200, 200)
 
         elif status == 'ALERTA':
             self.setWindowTitle("Mensagem de Alerta")
             self.toolButton_detalhes.setVisible(True)
-            min_size = QSize(150, 200)
 
         elif status == 'OK':
             self.setWindowTitle("Mensagem de Confirmação")
             self.toolButton_detalhes.setVisible(False)
-            min_size = QSize(90, 200)
 
         else:
             self.__definir_mensagem__("O valor " + status + " não é um status válido para StatusDialog\n")
             logging.debug("[StatusDialog] O valor " + status + " não é um status válido para StatusDialog\n")
             self.exec()
-
-        max_size = QSize(
-            int(min_size.height()*2), min_size.width()*2)
-
-        self.setMinimumSize(min_size)
-        #self.setMaximumSize(max_size)
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
 
@@ -112,6 +102,19 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         self.label_mensagem.setText(string_mensagem)
         self.textBrowser_exception.setText(string_exception)
+
+    def mostrar_detalhes(self):
+
+        if self.toolButton_detalhes.isChecked():
+            self.groupBox_mensagem.setVisible(True)
+            min_size = QSize(750, 165*2)
+            self.setMinimumSize(min_size)
+            self.setFixedSize(min_size)
+
+        else:
+            self.groupBox_mensagem.setVisible(False)
+            self.setMinimumSize(self.min_size)
+            self.setFixedSize(self.min_size)
 
     def close_clicked(self):
         self.close()

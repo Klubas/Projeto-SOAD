@@ -158,7 +158,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             , "codigo": 'Código'
             , "tipo_item": 'Tipo'
             , "descricao": 'Descrição'
-            , "quantidade": "Documento"
+            , "quantidade": "Quantidade"
             , "valor_unitario": "Valor Unitário"
             , "valor_total": "Valor total"
         }
@@ -199,11 +199,11 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         if self.label_situacao.text() == 'CADASTRADO'\
                 or self.label_situacao.text() == 'ESTORNADO':
-            acao = 'cancelado'
+            acao = 'cancelamento'
             prc = 'prc_cancelar_pedido'
 
         elif self.label_situacao.text() == 'ENCERRADO':
-            acao = 'estornado'
+            acao = 'estorno'
             prc = 'prc_estornar_pedido'
 
         else:
@@ -212,29 +212,34 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         pedido_id = self.lineEdit_id.text()
 
-        self.dados = {
-            "metodo": prc,
-            "schema": "soad",
-            "params": {
-                "pedido_id": pedido_id
+        dialog = ConfirmDialog(self)
+        dialog.definir_mensagem('Tem certeza que deseja realizar o ' + acao + ' desse pedido?')
+
+        if dialog.exec():
+
+            self.dados = {
+                "metodo": prc,
+                "schema": "soad",
+                "params": {
+                    "pedido_id": pedido_id
+                }
             }
-        }
 
-        retorno = super(CadastroPedido, self).excluir()
+            retorno = super(CadastroPedido, self).excluir()
 
-        if retorno[0]:
-            dialog = StatusDialog(status='OK'
-                                  , mensagem='Pedido ' + acao + ' com sucesso.'
-                                  , parent=self.parent_window)
-            self.atualizar_interface(pedido_id)
+            if retorno[0]:
+                dialog = StatusDialog(status='OK'
+                                      , mensagem=acao.capitalize() + ' realizado com sucesso.'
+                                      , parent=self.parent_window)
+                self.atualizar_interface(pedido_id)
 
-        else:
-            dialog = StatusDialog(status='ALERTA'
-                                  , mensagem='Não foi possível ' + acao + ' o pedido.'
-                                  , exception=retorno
-                                  , parent=self.parent_window)
+            else:
+                dialog = StatusDialog(status='ALERTA'
+                                      , mensagem='Não foi possível realizar o ' + acao + ' do pedido.'
+                                      , exception=retorno
+                                      , parent=self.parent_window)
 
-        dialog.exec()
+            dialog.exec()
 
     def valida_obrigatorios(self):
         if self.tableWidget_items.rowCount() == 0:
@@ -292,7 +297,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def limpar_dados(self):
         super(CadastroPedido, self).limpar_dados()
-        #self.pedido = Pedido
+        self.pedido = Pedido(tipo_pedido=self.tipo_pedido)
         self.pedido.itens = []
         self.label_tipo_pedido.setText('')
         self.limpar_item()
@@ -371,8 +376,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             else:
                 dialog = StatusDialog(
                     mensagem='Não foi possível realizar a movimentação do pedido.',
-                    exception=retorno[1],
-                    status='ERRO'
+                    exception=retorno,
+                    status='ALERTA'
                 )
                 dialog.exec()
                 return False
@@ -505,11 +510,11 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                 item_pedido = ItemPedido(
                     item_pedido_id=item['id_remanufatura']
                     , tipo=item['tipo']
-                    , quantidade=str(1) #item['quantidade']
+                    , quantidade=item['quantidade']
                     , valor_unitario=item['valor_unitario']
-                    , casco_id=item['id_casco']
-                    , insumo_id=item['id_insumo']
-                    , nova_remanufatura=True #item['nova_remanufatura']
+                    , casco_id=item['casco_id']
+                    , insumo_id=item['insumo_id']
+                    , nova_remanufatura=None #item['nova_remanufatura']
                     , descricao='Casco: ' + item['casco']
                                 + ' Insumo: ' + item['insumo']
                 )
@@ -777,6 +782,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.tableWidget_items.setRowCount(len(self.pedido.itens))
 
+        print(self.pedido.to_dict())
+
         if len(self.pedido.itens) > 0:
             row = 0
             for item_pedido in self.pedido.itens:
@@ -869,6 +876,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         super(CadastroPedido, self).define_icones()
         self.pushButton_movimentar.setIcon(QIcon(os.path.join('Resources', 'icons', 'confirm.png')))
         self.pushButton_excluir.setIcon(self.icone_cancelar)
+        self.pushButton_remover_item.setIcon(self.icone_delete)
 
     def define_permite_editar(self):
         super(CadastroPedido, self).define_permite_editar()

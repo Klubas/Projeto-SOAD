@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>604</width>
-    <height>300</height>
+    <width>631</width>
+    <height>395</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,13 +24,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
-    <height>300</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
+    <width>16777215</width>
     <height>16777215</height>
    </size>
   </property>
@@ -74,7 +74,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
       <property name="spacing">
-       <number>0</number>
+       <number>10</number>
       </property>
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
@@ -107,19 +107,19 @@
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
          <property name="leftMargin">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
          </property>
          <property name="spacing">
-          <number>0</number>
+          <number>6</number>
          </property>
          <item row="0" column="0">
           <widget class="QScrollArea" name="scrollArea_2">
@@ -140,8 +140,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>557</width>
-              <height>78</height>
+              <width>564</width>
+              <height>88</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -149,14 +149,14 @@
               <widget class="QLabel" name="label_imagem">
                <property name="minimumSize">
                 <size>
-                 <width>60</width>
-                 <height>60</height>
+                 <width>70</width>
+                 <height>70</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>90</width>
-                 <height>90</height>
+                 <width>110</width>
+                 <height>110</height>
                 </size>
                </property>
                <property name="inputMethodHints">
@@ -173,6 +173,9 @@
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -334,8 +337,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>574</width>
-              <height>139</height>
+              <width>601</width>
+              <height>191</height>
              </rect>
             </property>
             <property name="minimumSize">

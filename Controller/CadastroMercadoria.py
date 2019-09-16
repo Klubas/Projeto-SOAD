@@ -383,6 +383,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         self.label_tipo.setText(mercadoria.tipo)
         self.lineEdit_codigo.setText(mercadoria.codigo)
+        self.checkBox_ativo.setChecked(mercadoria.ativo)
         self.checkBox_permite_venda.setChecked(mercadoria.permite_venda)
         self.lineEdit_descricao.setText(mercadoria.descricao)
         self.comboBox_fabricante.setCurrentText(mercadoria.fabricante)

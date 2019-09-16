@@ -27,6 +27,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle("SOAD - VIP Cartuchos")
 
         # Menus
+
         self.actionSair.triggered.connect(
             lambda: self.closeEvent(event=QCloseEvent())
         )
@@ -130,7 +131,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
 
         self.actionSobre.triggered.connect(self.abrir_sobre)
-
+        
         # Botões
 
         self.pushButton_venda.clicked.connect(

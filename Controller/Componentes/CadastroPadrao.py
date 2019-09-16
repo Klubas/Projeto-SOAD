@@ -62,13 +62,23 @@ class CadastroPadrao:
         self.frame_contents = None
         self.parent_window = None
 
+        self.icone_insert = None
+        self.icone_update = None
+        self.icone_delete = None
+        self.icone_find = None
+
         self.define_icones()
 
     def define_icones(self):
-        self.pushButton_cadastrar.setIcon(QIcon(os.path.join('Resources', 'icons', 'insert.png')))
-        self.pushButton_editar.setIcon(QIcon(os.path.join('Resources', 'icons', 'update.png')))
-        self.pushButton_excluir.setIcon(QIcon(os.path.join('Resources', 'icons', 'delete.png')))
-        self.pushButton_localizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'find.png')))
+        self.icone_insert = QIcon(os.path.join('Resources', 'icons', 'insert.png'))
+        self.icone_update = QIcon(os.path.join('Resources', 'icons', 'update.png'))
+        self.icone_delete = QIcon(os.path.join('Resources', 'icons', 'delete.png'))
+        self.icone_find = QIcon(os.path.join('Resources', 'icons', 'find.png'))
+
+        self.pushButton_cadastrar.setIcon(self.icone_insert)
+        self.pushButton_editar.setIcon(self.icone_update)
+        self.pushButton_excluir.setIcon(self.icone_delete)
+        self.pushButton_localizar.setIcon(self.icone_find)
 
     # Reimplementar chamando super
     def cadastrar(self):
