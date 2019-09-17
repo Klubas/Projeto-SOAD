@@ -18,6 +18,7 @@ class Mercadoria:
         elif self.tipo == 'INSUMO':
             self.quantidade_embalagem = float(kwargs.get('quantidade_embalagem'))
             self.unidade_medida_id = int(kwargs.get('unidade_medida_id'))
+            self.colorido = bool(kwargs.get('colorido'))
 
         elif self.tipo == 'CASCO':
             self.insumo_id = int(kwargs.get('insumo_id'))
@@ -43,6 +44,7 @@ class Mercadoria:
         if self.tipo == 'INSUMO':
             mercadoria['quantidade'] = self.quantidade_embalagem
             mercadoria['unidade_medida_id'] = self.unidade_medida_id
+            mercadoria['colorido'] = self.colorido
 
         elif self.tipo == 'CASCO':
             mercadoria['insumo_id'] = self.insumo_id

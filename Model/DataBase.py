@@ -26,7 +26,6 @@ class DataBase:
         self.connection = None
         self.threadpool = QThreadPool()
 
-
     def busca_registro(self, nome_tabela, coluna, valor='', operador='=', filtro=None):
 
         if filtro == '' or filtro is None:
@@ -75,12 +74,14 @@ class DataBase:
         try:
             retorno = self.db.executesql(query=sql, as_dict=as_dict)
             self.db.commit()
+            logging.debug('[DataBase] status=' + str(True))
             logging.debug('[DataBase] sql=' + str(sql))
             logging.debug('[DataBase] retorno=' + str(retorno))
             prc = True, retorno, str(self.db._lastsql)
 
         except Exception as e:
             self.db.rollback()
+            logging.debug('[DataBase] status=' + str(False))
             logging.debug('[DataBase] sql=' + str(sql))
             logging.debug('[DataBase] exception=' + str(e))
             retorno.append(e)
@@ -88,6 +89,7 @@ class DataBase:
 
         except:
             e = 'Exceção não tratada'
+            logging.debug('[DataBase] status=' + str(False))
             logging.debug('[DataBase] sql=' + str(sql))
             logging.debug('[DataBase] exception2=' + str(e))
             retorno.append(e)

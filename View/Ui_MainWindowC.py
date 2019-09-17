@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources/UI/MainWindowC.ui',
-# licensing of 'Resources/UI/MainWindowC.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
+# licensing of 'Resources\UI\MainWindow.ui' applies.
 #
-# Created: Thu Sep 12 19:29:59 2019
+# Created: Sun Sep 15 22:21:50 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -64,8 +64,8 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.gridLayout_2 = QtWidgets.QGridLayout()
-        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.frame_venda = QtWidgets.QFrame(self.centralwidget)
@@ -321,8 +321,8 @@ class Ui_MainWindow(object):
         self.pushButton_4.setObjectName("pushButton_4")
         self.verticalLayout_4.addWidget(self.pushButton_4)
         self.gridLayout.addWidget(self.frame_mercadoria, 1, 1, 1, 1)
-        self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
-        self.gridLayout_3.addLayout(self.gridLayout_2, 1, 0, 1, 1)
+        self.verticalLayout_2.addLayout(self.gridLayout)
+        self.gridLayout_3.addLayout(self.verticalLayout_2, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1420, 21))

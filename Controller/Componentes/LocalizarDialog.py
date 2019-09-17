@@ -161,8 +161,6 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
             , self.tableWidget_linhas.item(row, 0).text()
             , '=')
 
-        # print(str(int(self.tableWidget_linhas.item(row, 0).text())))
-
         if item[0]:
             self.retorno_dados.emit(item)
             self.done(int(self.tableWidget_linhas.item(row, 0).text())) # retorna o ID

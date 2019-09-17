@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\LocalizarDialog.ui',
 # licensing of 'Resources\UI\Componentes\LocalizarDialog.ui' applies.
 #
-# Created: Sun Sep  8 20:52:10 2019
+# Created: Mon Sep 16 21:24:31 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

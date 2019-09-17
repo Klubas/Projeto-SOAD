@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\LoginDialog.ui',
 # licensing of 'Resources\UI\LoginDialog.ui' applies.
 #
-# Created: Wed Sep 11 00:00:30 2019
+# Created: Mon Sep 16 21:24:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -169,7 +169,7 @@ class Ui_LoginDialog(object):
         self.scrollArea_logo.setObjectName("scrollArea_logo")
         self.scrollAreaWidgetContents_logo = QtWidgets.QWidget()
         self.scrollAreaWidgetContents_logo.setEnabled(True)
-        self.scrollAreaWidgetContents_logo.setGeometry(QtCore.QRect(0, 0, 162, 168))
+        self.scrollAreaWidgetContents_logo.setGeometry(QtCore.QRect(0, 0, 146, 163))
         self.scrollAreaWidgetContents_logo.setInputMethodHints(QtCore.Qt.ImhNone)
         self.scrollAreaWidgetContents_logo.setObjectName("scrollAreaWidgetContents_logo")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_logo)

@@ -1,8 +1,9 @@
+import json
 import logging
 import os
 import sys
 
-from PySide2.QtGui import QCloseEvent, QImage, QPixmap
+from PySide2.QtGui import QCloseEvent, QImage, QPixmap, QIcon
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -18,6 +19,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.setupUi(self)
         self.comboBox_servidor.addItem("localhost:5432")
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
+        self.main = None
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.login)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancelar)
@@ -28,15 +30,13 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         if self.comboBox_servidor.count() == 1:
             self.verticalGroupBox_servidor.setVisible(False)
 
-        # carrega e redimensiona a imagem
-        logo = QImage(os.path.join("Resources", "Imagens", "logo.png")).smoothScaled(165, 165)
+        self.icon = QIcon(os.path.join("Resources", "Imagens", "soad.png"))
+        self.setWindowIcon(self.icon)
 
+        logo = QImage(os.path.join("Resources", "Imagens", "soad.png")).smoothScaled(135, 135)
         self.label_logo.setPixmap(QPixmap.fromImage(logo))
 
-        #dsv
-        self.load_configs()
-        self.lineEdit_usuario.setText('soadmin')
-        self.lineEdit_senha.setText('soad2019')
+        self.saved_config(action='load')
 
     def __setup_db_connection__(self):
         try:
@@ -64,8 +64,32 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             dialog.exec()
             return False
 
-    def load_configs(self):
-        logging.info('[LoginDialog] Implementar forma de carregar usuário e ambiente de um arquivo de texto.')
+    def saved_config(self, action):
+        action = action.upper()
+        if action == 'SAVE':
+            data = {
+                "hostname": self.comboBox_servidor.currentText()
+                , "username": self.lineEdit_usuario.text()
+                , "password": self.lineEdit_senha.text()
+            }
+
+            try:
+                with open('.credencial.json', 'w', encoding='utf-8') as f:
+                    json.dump(data, f, ensure_ascii=False, indent=4)
+            except Exception as e:
+                logging.debug('[LoginDialog] Não foi possível salvar o arquivo de configuração.')
+                logging.debug('Exception> ' + str(e))
+
+        elif action == 'LOAD':
+            try:
+                with open('.credencial.json') as json_file:
+                    data = json.load(json_file)
+                    self.comboBox_servidor.setCurrentText(data['hostname'])
+                    self.lineEdit_usuario.setText(data['username'])
+                    self.lineEdit_senha.setText(data['password'])
+            except Exception as e:
+                logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração.')
+                logging.debug('Exception> ' + str(e))
 
     def login(self):
 
@@ -80,13 +104,14 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
             db = self.__setup_db_connection__()
 
-            #db = True
-
             try:
                 if db:
-                    db.definir_schema('soad')
-                    w = MainWindow(db)
-                    w.showNormal()
+                    if self.main is None:
+                        db.definir_schema('soad')
+                        self.main = MainWindow(db, self)
+                        self.main.setWindowIcon(self.icon)
+                    self.main.showNormal()
+                    self.saved_config(action='save')
                     self.hide()
 
             except Exception as e:

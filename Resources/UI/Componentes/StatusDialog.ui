@@ -12,25 +12,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>604</width>
-    <height>300</height>
+    <width>631</width>
+    <height>395</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
-    <height>300</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
+    <width>16777215</width>
     <height>16777215</height>
    </size>
   </property>
@@ -100,7 +100,10 @@
          </sizepolicy>
         </property>
         <property name="title">
-         <string>Status</string>
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
          <property name="leftMargin">
@@ -113,10 +116,10 @@
           <number>10</number>
          </property>
          <property name="bottomMargin">
-          <number>10</number>
+          <number>0</number>
          </property>
          <property name="spacing">
-          <number>0</number>
+          <number>6</number>
          </property>
          <item row="0" column="0">
           <widget class="QScrollArea" name="scrollArea_2">
@@ -137,27 +140,46 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>554</width>
-              <height>69</height>
+              <width>564</width>
+              <height>88</height>
              </rect>
             </property>
-            <layout class="QGridLayout" name="gridLayout_3">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="1" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_imagem">
+               <property name="minimumSize">
+                <size>
+                 <width>70</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>110</width>
+                 <height>110</height>
+                </size>
+               </property>
+               <property name="inputMethodHints">
+                <set>Qt::ImhNone</set>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="lineWidth">
+                <number>0</number>
+               </property>
+               <property name="text">
+                <string>label_imagem</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="label_mensagem">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -180,11 +202,17 @@
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
+               <property name="lineWidth">
+                <number>0</number>
+               </property>
                <property name="text">
                 <string>TextLabel</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::PlainText</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
@@ -193,6 +221,56 @@
              </item>
             </layout>
            </widget>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QWidget" name="horizontalWidget" native="true">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="inputMethodHints">
+            <set>Qt::ImhEmailCharactersOnly</set>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_detalhes">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Detalhes</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::DownArrow</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -207,7 +285,7 @@
          </sizepolicy>
         </property>
         <property name="title">
-         <string>Mensagem</string>
+         <string>Detalhes</string>
         </property>
         <property name="flat">
          <bool>false</bool>
@@ -259,8 +337,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>574</width>
-              <height>106</height>
+              <width>601</width>
+              <height>191</height>
              </rect>
             </property>
             <property name="minimumSize">

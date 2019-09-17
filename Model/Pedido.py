@@ -13,7 +13,7 @@ class Pedido:
         self.tipo_pedido = str(tipo_pedido)
         self.situacao = str(situacao)
         self.data_entrega = data_entrega
-        self.observacao = str(observacao)
+        self.observacao = str(observacao) if observacao else None
         self.data_cadastro = data_cadastro
 
         self.itens = [] #ItemPedido
