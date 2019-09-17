@@ -129,6 +129,6 @@ dmypy.json
 *.includes
 
 # script
-*.bat
+# *.bat
 
 .credencial.json
