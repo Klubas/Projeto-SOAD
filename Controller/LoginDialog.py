@@ -30,10 +30,10 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         if self.comboBox_servidor.count() == 1:
             self.verticalGroupBox_servidor.setVisible(False)
 
-        self.icon = QIcon(os.path.join("soad.png"))
+        self.icon = QIcon(os.path.join("Resources", "Imagens", "soad.png"))
         self.setWindowIcon(self.icon)
 
-        logo = QImage(os.path.join("soad.png")).smoothScaled(135, 135)
+        logo = QImage(os.path.join("Resources", "Imagens", "soad.png")).smoothScaled(135, 135)
         self.label_logo.setPixmap(QPixmap.fromImage(logo))
 
         self.saved_config(action='load')

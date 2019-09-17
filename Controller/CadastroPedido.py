@@ -293,7 +293,9 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             if self.lineEdit_id.text == '':
                 self.limpar_dados()
             else:
-                self.atualizar_interface(int(self.lineEdit_id.text()))
+                id = self.lineEdit_id.text()
+                if id != '':
+                    self.atualizar_interface(int(id))
 
     def limpar_dados(self):
         super(CadastroPedido, self).limpar_dados()
@@ -631,6 +633,10 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             logging.debug('[CadastroPedido] ' + str(mercadoria))
             if mercadoria is not None:
                 mercadoria = mercadoria[0]
+        else:
+            lineEdit_descricao.close()
+            lineEdit_marca.clear()
+            self.lineEdit_valor_unitario.clear()
 
         if mercadoria is None:
 
@@ -665,11 +671,23 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             lineEdit_descricao.setText(mercadoria['descricao'])
             lineEdit_marca.setText(mercadoria['marca'])
 
+            valor = str(mercadoria['valor_venda']) if tipo != 'INSUMO' else '0,00'
+            self.lineEdit_valor_unitario.setText(valor)
+            print(mercadoria['valor_venda'])
+
+            if tipo == 'CASCO':
+                self.lineEdit_insumo_id.setText(str(mercadoria['id_insumo']))
+                self.lineEdit_quantidade.setFocus()
+
             if tipo == 'INSUMO':
                 if bool(mercadoria['colorido']):
                     self.label_tinta.setPixmap(QPixmap.fromImage(self.color_ink))
                 else:
                     self.label_tinta.setPixmap(QPixmap.fromImage(self.bw_ink))
+
+
+
+
 
             return True
 
@@ -713,8 +731,10 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.lineEdit_item_pedido_id.setText(str(item_pedido.item_pedido_id))
 
-        self.lineEdit_quantidade.setText(str(item_pedido.quantidade).replace('.',','))
-        self.lineEdit_valor_unitario.setText(str(item_pedido.valor_unitario).replace('.',','))
+        self.lineEdit_quantidade.setText(
+            self.formatar_numero(item_pedido.quantidade))
+        self.lineEdit_valor_unitario.setText(
+            self.formatar_numero(item_pedido.valor_unitario))
 
         self.calcula_totais_item()
 
@@ -735,8 +755,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
             item = ItemPedido(
                 tipo=tipo_item
-                , quantidade=self.lineEdit_quantidade.text().replace(',', '.')
-                , valor_unitario=self.lineEdit_valor_unitario.text().replace(',', '.')
+                , quantidade=self.formatar_numero(self.lineEdit_quantidade.text())
+                , valor_unitario=self.formatar_numero(self.lineEdit_valor_unitario.text())
                 , casco_id=self.lineEdit_casco_id.text()
                 , insumo_id=self.lineEdit_insumo_id.text()
                 , nova_remanufatura=(not self.checkBox_reutilizar_casco.isChecked())
@@ -748,8 +768,8 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
             item = ItemPedido(
                 tipo=tipo_item
-                , quantidade=self.lineEdit_quantidade.text().replace(',', '.')
-                , valor_unitario=self.lineEdit_valor_unitario.text().replace(',', '.')
+                , quantidade=self.formatar_numero(self.lineEdit_quantidade.text())
+                , valor_unitario=self.formatar_numero(self.lineEdit_valor_unitario.text())
                 , mercadoria_id=self.lineEdit_mercadoria_id.text()
                 , unidade_medida_id=self.db.busca_registro( # todo: Fazer dinâmico
                     'unidade_medida'
@@ -790,7 +810,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
                 col = 0
                 for coluna in self.colunas_item:
                     valor = item_pedido.to_item_dict()[coluna]
-                    item = QTableWidgetItem(str(valor))
+                    item = QTableWidgetItem(self.formatar_numero(valor))
                     self.tableWidget_items.setItem(row, col, item)
                     col = col + 1
                 row = row + 1
@@ -846,31 +866,28 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
             self.lineEdit_valor_unitario.setText('0,00')
 
         else:
-            valor_unitario = float(self.lineEdit_valor_unitario.text().replace(',', '.').replace(' ', ''))
-            self.lineEdit_valor_unitario.setText(
-                str(valor_unitario).replace('.', ','))
+            valor_unitario = float(self.formatar_numero(self.lineEdit_valor_unitario.text()).replace(' ', ''))
+            self.lineEdit_valor_unitario.setText(self.formatar_numero(valor_unitario))
 
         if self.lineEdit_quantidade.text() == '':
             quantidade = 0
             self.lineEdit_quantidade.setText('0,00')
 
         else:
-            quantidade = float(self.lineEdit_quantidade.text().replace(',', '.').replace(' ', ''))
-            self.lineEdit_quantidade.setText(
-                str(quantidade).replace('.', ','))
+            quantidade = float(self.formatar_numero(self.lineEdit_quantidade.text()).replace(' ', ''))
+            self.lineEdit_quantidade.setText(self.formatar_numero(quantidade))
 
         total_item = quantidade * valor_unitario
-        self.lineEdit_valor_total_item.setText(str(total_item).replace('.', ','))
+        self.lineEdit_valor_total_item.setText(self.formatar_numero(total_item))
 
     def calcula_totais_pedido(self):
         valor = 0
         for row in range(0, self.tableWidget_items.rowCount()):
             self.tableWidget_items.item(row, 5)
             v = 0 if self.tableWidget_items.item(row, 5).text() is None \
-                else self.tableWidget_items.item(row, 5).text().replace(',', '.')
+                else self.formatar_numero(self.tableWidget_items.item(row, 5).text())
             valor = valor + float(v)
-        #valor = valor + float() self.lineEdit_valor_total_item.text().replace(',', '.')
-        self.lineEdit_valor_total_pedido.setText(str(valor).replace('.', ','))
+        self.lineEdit_valor_total_pedido.setText(self.formatar_numero(valor))
 
     def define_icones(self):
         super(CadastroPedido, self).define_icones()

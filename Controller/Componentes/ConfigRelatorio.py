@@ -89,6 +89,26 @@ class ConfigRelatorio:
                 }
             }
 
+        if tipo == 'REMANUFATURA':
+            relatorio = {
+                "tabela": "vw_remanufatura"
+                , "colunas": {
+                    "id_remanufatura": ("Remanufatura", int),
+                    "codigo": ("Código da remanufatura", str),
+                    "data_cadastro": ("data_cadastro", datetime),
+                    "situacao_remanufatura": ("Situação da remanufatura", str),
+                    "casco": ("Casco", str),
+                    "insumo": ("Insumo", str),
+                    "id_item_lote": ("Item lote do insumo", int),
+                    "colorido": ("Colorido", bool),
+                    "valor_unitario": ("Valor", float),
+                    "id_pedido": ("Pedido", int),
+                    "situacao_pedido": ("Situação do pedido", str),
+                    "pessoa": ("Cliente", str),
+                    "documento": ("CPF/CNPJ Cliente", str)
+                }
+            }
+
         if tipo == 'MERCADORIA':
             relatorio = {
                 "tabela": 'vw_mercadoria'

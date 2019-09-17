@@ -581,6 +581,7 @@
     <addaction name="actionVendas"/>
     <addaction name="actionRelacao_de_clientes"/>
     <addaction name="actionRelacao_de_fornecedores"/>
+    <addaction name="actionLista_de_remanufaturas"/>
    </widget>
    <addaction name="menuArquivo"/>
    <addaction name="menuCadastros"/>
@@ -749,6 +750,11 @@
   <action name="actionRelacao_de_fornecedores">
    <property name="text">
     <string>Relação de fornecedores</string>
+   </property>
+  </action>
+  <action name="actionLista_de_remanufaturas">
+   <property name="text">
+    <string>Lista de remanufaturas</string>
    </property>
   </action>
  </widget>

@@ -130,6 +130,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         )
 
+        self.actionLista_de_remanufaturas.triggered.connect(
+            lambda: self.abrir_interface(
+                window_cls=RelatorioPadrao
+                , titulo='Lista de remanufaturas'
+                , tipo='REMANUFATURA'
+            )
+        )
+
         self.actionSobre.triggered.connect(self.abrir_sobre)
         
         # Botões

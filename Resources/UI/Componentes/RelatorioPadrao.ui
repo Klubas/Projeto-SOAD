@@ -125,7 +125,7 @@
               <enum>Qt::LeftToRight</enum>
              </property>
              <property name="text">
-              <string>Filtro</string>
+              <string>Filtrar</string>
              </property>
              <property name="checkable">
               <bool>false</bool>
@@ -143,7 +143,7 @@
         </item>
         <item>
          <widget class="QStackedWidget" name="stackedWidget_filtros">
-          <widget class="QWidget" name="stackedWidget_filtrosPage1" native="true">
+          <widget class="QWidget" name="stackedWidget_filtrosPage1">
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <property name="spacing">
              <number>6</number>
@@ -152,7 +152,7 @@
              <number>5</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="checkBox_2">
+             <widget class="QCheckBox" name="checkBox_data">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -162,7 +162,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QWidget" name="horizontalWidget" native="true">
+             <widget class="QWidget" name="horizontalWidget_data" native="true">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -220,7 +220,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox">
+             <widget class="QCheckBox" name="checkBox_filtro">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -299,7 +299,7 @@
             <widget class="QTableWidget" name="tableWidget_tabela">
              <property name="font">
               <font>
-               <pointsize>8</pointsize>
+               <pointsize>10</pointsize>
                <weight>50</weight>
                <bold>false</bold>
               </font>

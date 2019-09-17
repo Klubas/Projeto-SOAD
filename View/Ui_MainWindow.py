@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
 # licensing of 'Resources\UI\MainWindow.ui' applies.
 #
-# Created: Mon Sep 16 03:46:27 2019
+# Created: Mon Sep 16 21:24:30 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -333,6 +333,8 @@ class Ui_MainWindow(object):
         self.actionRelacao_de_clientes.setObjectName("actionRelacao_de_clientes")
         self.actionRelacao_de_fornecedores = QtWidgets.QAction(MainWindow)
         self.actionRelacao_de_fornecedores.setObjectName("actionRelacao_de_fornecedores")
+        self.actionLista_de_remanufaturas = QtWidgets.QAction(MainWindow)
+        self.actionLista_de_remanufaturas.setObjectName("actionLista_de_remanufaturas")
         self.menuArquivo.addAction(self.actionSair)
         self.menuArquivo.addAction(self.actionReconectar)
         self.menuCadastros.addAction(self.actionPessoa)
@@ -353,6 +355,7 @@ class Ui_MainWindow(object):
         self.menuRelat_rios.addAction(self.actionVendas)
         self.menuRelat_rios.addAction(self.actionRelacao_de_clientes)
         self.menuRelat_rios.addAction(self.actionRelacao_de_fornecedores)
+        self.menuRelat_rios.addAction(self.actionLista_de_remanufaturas)
         self.menubar.addAction(self.menuArquivo.menuAction())
         self.menubar.addAction(self.menuCadastros.menuAction())
         self.menubar.addAction(self.menuVendas.menuAction())
@@ -414,4 +417,5 @@ class Ui_MainWindow(object):
         self.actionMercadorias.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de mercadorias", None, -1))
         self.actionRelacao_de_clientes.setText(QtWidgets.QApplication.translate("MainWindow", "Relação de clientes", None, -1))
         self.actionRelacao_de_fornecedores.setText(QtWidgets.QApplication.translate("MainWindow", "Relação de fornecedores", None, -1))
+        self.actionLista_de_remanufaturas.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de remanufaturas", None, -1))
 
