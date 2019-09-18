@@ -28,6 +28,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.window_list.append(self)
 
         # Menus
+
+
         # todo: Arquivo
         self.actionSair.triggered.connect(
             lambda: self.closeEvent(event=QCloseEvent())
