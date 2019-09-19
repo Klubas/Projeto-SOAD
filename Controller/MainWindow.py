@@ -1,7 +1,8 @@
 import logging
+import os
 import sys
 
-from PySide2.QtGui import QCloseEvent
+from PySide2.QtGui import QCloseEvent, QImage, QPixmap
 from PySide2.QtWidgets import QMainWindow
 
 from Controller.About import About
@@ -26,6 +27,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.window_list = list()
         # todo: self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
+
+        icone_venda=QImage(os.path.join('Resources', 'icons', 'vendas.png')).smoothScaled(100, 100)
+        icone_compra = QImage(os.path.join('Resources', 'icons', 'compras.png')).smoothScaled(100, 100)
+        icone_mercadoria = QImage(os.path.join('Resources', 'icons', 'mercadorias.png')).smoothScaled(100, 100)
+        icone_pessoa = QImage(os.path.join('Resources', 'icons', 'pessoa_fisica.png')).smoothScaled(100, 100)
+        icone_logo = QImage(os.path.join('Resources', 'Imagens', 'soad.png')).smoothScaled(150, 150)
+        icone_empresa = QImage(os.path.join('Resources', 'Imagens', 'logo.png')).smoothScaled(90, 70)
+
+        self.label_icone_venda.setPixmap(QPixmap.fromImage(icone_venda))
+        self.label_icone_compra.setPixmap(QPixmap.fromImage(icone_compra))
+        self.label_icone_mercadoria.setPixmap(QPixmap.fromImage(icone_mercadoria))
+        self.label_icone_pessoa.setPixmap(QPixmap.fromImage(icone_pessoa))
+        self.label_logo.setPixmap(QPixmap.fromImage(icone_logo))
+        self.label_logo_empresa.setPixmap(QPixmap.fromImage(icone_empresa))
+
+        self.label_logo.setWindowOpacity(0)
+
 
         # Menus
         self.actionSair.triggered.connect(
@@ -71,7 +89,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
 
         self.actionRegistrar_Remanufaturas.triggered.connect(
-            lambda: self.abrir_interface(window_cls=RegistroRemanufatura, tipo='NORMAL')
+            lambda: self.abrir_interface(
+                window_cls=RegistroRemanufatura, tipo='NORMAL')
         )
 
         # Relatórios
@@ -215,6 +234,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 window_cls=RelatorioPadrao
                 , titulo='Lista de mercadorias'
                 , tipo='MERCADORIA'
+            )
+        )
+
+        self.pushButton_lista_remanufatura.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=RelatorioPadrao
+                , titulo='Lista de remanufaturas'
+                , tipo='REMANUFATURA'
             )
         )
 

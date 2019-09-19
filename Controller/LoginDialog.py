@@ -21,6 +21,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.comboBox_servidor.addItem("localhost:5432")
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
         self.main = None
+        self.restored = False
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.login)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancelar)
@@ -66,14 +67,15 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             dialog.exec()
             return False
 
-    def saved_config(self, action, restore=None):
+    def saved_config(self, action):
         action = action.upper()
         if action == 'SAVE':
+
             data = {
                 "hostname": self.comboBox_servidor.currentText()
                 , "username": self.lineEdit_usuario.text()
                 , "password": self.lineEdit_senha.text()
-                , "restore": "1" if restore else "0"
+                , "restored": "1"
             }
 
             try:
@@ -81,6 +83,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                     json.dump(data, f, ensure_ascii=False, indent=4)
             except Exception as e:
                 logging.debug('[LoginDialog] Não foi possível salvar o arquivo de configuração.')
+
                 logging.debug('Exception> ' + str(e))
 
         elif action == 'LOAD':
@@ -90,14 +93,15 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                     self.comboBox_servidor.setCurrentText(data['hostname'])
                     self.lineEdit_usuario.setText(data['username'])
                     self.lineEdit_senha.setText(data['password'])
-
-                    if data['restore'] == "1":
-                        from Resources.Scripts.Installer import Installer
-                        installer = Installer("Resources\database\\bin\\runtime", "Resources\\Scripts\\SQL\\dump.backup","soad2019")
-                        #installer.create_database()
+                    self.restored = data['restored']
 
             except Exception as e:
                 logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração.')
+                from Resources.Scripts.Installer import Installer
+                installer = Installer("Resources\database\\bin\\runtime",
+                                      "Resources\\Scripts\\SQL\\dump.backup",
+                                      "soad2019")
+                installer.create_database()
                 logging.debug('Exception> ' + str(e))
 
     def login(self):
@@ -120,12 +124,12 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                         self.main = MainWindow(db, self)
                         self.main.setWindowIcon(self.icon)
                     self.main.showNormal()
-                    self.saved_config(action='save', restore=False)
+                    self.saved_config(action='save')
                     self.hide()
 
             except Exception as e:
                 logging.debug('[LoginDialog] ' + str(e))
-                self.saved_config(action='save', restore=True)
+                self.saved_config(action='save')
                 dialog = StatusDialog(status='ERRO'
                                       , mensagem="Erro ao abrir o sistema."
                                       , exception=e

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI-Teste\LoginDialog.ui',
-# licensing of 'Resources\UI-Teste\LoginDialog.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\LoginDialog.ui',
+# licensing of 'Resources\UI\LoginDialog.ui' applies.
 #
-# Created: Thu Sep 19 00:14:46 2019
+# Created: Thu Sep 19 04:17:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -21,6 +21,26 @@ class Ui_LoginDialog(object):
         LoginDialog.setSizePolicy(sizePolicy)
         LoginDialog.setMinimumSize(QtCore.QSize(440, 195))
         LoginDialog.setMaximumSize(QtCore.QSize(440, 500))
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        LoginDialog.setPalette(palette)
         self.gridLayout = QtWidgets.QGridLayout(LoginDialog)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalFrame = QtWidgets.QFrame(LoginDialog)

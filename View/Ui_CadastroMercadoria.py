@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI-Teste\CadastroMercadoria.ui',
-# licensing of 'Resources\UI-Teste\CadastroMercadoria.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\CadastroMercadoria.ui',
+# licensing of 'Resources\UI\CadastroMercadoria.ui' applies.
 #
-# Created: Thu Sep 19 00:14:45 2019
+# Created: Thu Sep 19 04:17:28 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -400,9 +400,9 @@ class Ui_CadastroMercadoria(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem2)
         self.formLayout.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_2)
-        self.label_4 = QtWidgets.QLabel(self.formFrame)
-        self.label_4.setObjectName("label_4")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_4)
+        self.label_valor_venda = QtWidgets.QLabel(self.formFrame)
+        self.label_valor_venda.setObjectName("label_valor_venda")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_valor_venda)
         self.lineEdit_valor_venda = QtWidgets.QLineEdit(self.formFrame)
         self.lineEdit_valor_venda.setMaximumSize(QtCore.QSize(100, 16777215))
         self.lineEdit_valor_venda.setObjectName("lineEdit_valor_venda")
@@ -474,6 +474,6 @@ class Ui_CadastroMercadoria(object):
         self.checkBox_ativo.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Ativo", None, -1))
         self.label_fabricante.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Fabricante", None, -1))
         self.toolButton_addFabricante.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "+", None, -1))
-        self.label_4.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Valor de venda (R$)", None, -1))
+        self.label_valor_venda.setText(QtWidgets.QApplication.translate("CadastroMercadoria", "Valor de venda (R$)", None, -1))
         self.lineEdit_valor_venda.setPlaceholderText(QtWidgets.QApplication.translate("CadastroMercadoria", "0,00", None, -1))
 

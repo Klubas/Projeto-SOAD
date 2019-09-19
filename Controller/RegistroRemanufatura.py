@@ -240,6 +240,9 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
         items = self.tableWidget_remanufaturas.selectedItems()
         remover = list()
 
+        if not len(items) > 0:
+            return
+
         for item in items:
             if item.column() == self.col_remanufatura_id:
                 for remanufatura in self.remanufaturas:
@@ -616,9 +619,12 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
 
     def fechar(self):
         if self.modo_edicao:
-            dialog = ConfirmDialog()
-            dialog.definir_mensagem("Tem certeza que deseja fechar? As remanufaturas CADASTRADAS serão perdidas.")
-            fechar = dialog.exec()
+            if self.tableWidget_remanufaturas.rowCount() > 0:
+                dialog = ConfirmDialog()
+                dialog.definir_mensagem("Tem certeza que deseja fechar? As remanufaturas CADASTRADAS serão perdidas.")
+                fechar = dialog.exec()
+            else:
+                fechar = True
         else:
             fechar = True
 
