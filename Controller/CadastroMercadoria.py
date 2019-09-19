@@ -62,6 +62,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         elif self.tipo == 'CASCO':
 
+            self.label_valor_venda.setText('Valor da remanufatura (R$)')
             self.campos_obrigatorios['Insumo'] = self.lineEdit_insumo_id
             self.campos_obrigatorios['Quantidade'] = self.lineEdit_quantidade_insumo
             self.campos_obrigatorios['Un. Medida (Insumo)'] = self.comboBox_unidade_medida_insumo
@@ -383,6 +384,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
 
         self.label_tipo.setText(mercadoria.tipo)
         self.lineEdit_codigo.setText(mercadoria.codigo)
+        self.checkBox_ativo.setChecked(mercadoria.ativo)
         self.checkBox_permite_venda.setChecked(mercadoria.permite_venda)
         self.lineEdit_descricao.setText(mercadoria.descricao)
         self.comboBox_fabricante.setCurrentText(mercadoria.fabricante)

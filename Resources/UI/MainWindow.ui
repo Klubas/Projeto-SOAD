@@ -351,13 +351,16 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_6">
+            <widget class="QPushButton" name="pushButton_lista_mercadoria">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
+             </property>
+             <property name="toolTipDuration">
+              <number>2</number>
              </property>
              <property name="text">
               <string>Lista de Mercadorias</string>
@@ -374,7 +377,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="pushButton_lista_estoque">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -441,7 +444,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_5">
+            <widget class="QPushButton" name="pushButton_lista_clientes">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -464,7 +467,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="pushButton_lista_fornecedores">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -571,10 +574,14 @@
     <property name="title">
      <string>Relatórios</string>
     </property>
-    <addaction name="actionProdutos_em_Estoque"/>
-    <addaction name="actionVendas"/>
-    <addaction name="actionCompras"/>
+    <addaction name="actionMercadorias"/>
     <addaction name="actionDescartes"/>
+    <addaction name="actionProdutos_em_Estoque"/>
+    <addaction name="actionCompras"/>
+    <addaction name="actionVendas"/>
+    <addaction name="actionRelacao_de_clientes"/>
+    <addaction name="actionRelacao_de_fornecedores"/>
+    <addaction name="actionLista_de_remanufaturas"/>
    </widget>
    <addaction name="menuArquivo"/>
    <addaction name="menuCadastros"/>
@@ -688,22 +695,22 @@
   </action>
   <action name="actionProdutos_em_Estoque">
    <property name="text">
-    <string>Produtos em Estoque</string>
+    <string>Produtos em estoque</string>
    </property>
   </action>
   <action name="actionVendas">
    <property name="text">
-    <string>Vendas</string>
+    <string>Relatório de vendas</string>
    </property>
   </action>
   <action name="actionCompras">
    <property name="text">
-    <string>Compras</string>
+    <string>Relatório de compras</string>
    </property>
   </action>
   <action name="actionDescartes">
    <property name="text">
-    <string>Descartes</string>
+    <string>Produtos descartados</string>
    </property>
   </action>
   <action name="actionReconectar">
@@ -728,6 +735,26 @@
   <action name="actionRegistrar_Remanufaturas">
    <property name="text">
     <string>Registrar Remanufaturas</string>
+   </property>
+  </action>
+  <action name="actionMercadorias">
+   <property name="text">
+    <string>Lista de mercadorias</string>
+   </property>
+  </action>
+  <action name="actionRelacao_de_clientes">
+   <property name="text">
+    <string>Relação de clientes</string>
+   </property>
+  </action>
+  <action name="actionRelacao_de_fornecedores">
+   <property name="text">
+    <string>Relação de fornecedores</string>
+   </property>
+  </action>
+  <action name="actionLista_de_remanufaturas">
+   <property name="text">
+    <string>Lista de remanufaturas</string>
    </property>
   </action>
  </widget>
