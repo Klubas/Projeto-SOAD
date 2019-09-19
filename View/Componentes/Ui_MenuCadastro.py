@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\Componentes\MenuCadastro.ui',
-# licensing of 'Resources\UI\Componentes\MenuCadastro.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI-Teste\Componentes\MenuCadastro.ui',
+# licensing of 'Resources\UI-Teste\Componentes\MenuCadastro.ui' applies.
 #
-# Created: Tue Sep 17 01:45:34 2019
+# Created: Thu Sep 19 00:14:48 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\RegistroRemanufatura.ui',
-# licensing of 'Resources\UI\RegistroRemanufatura.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI-Teste\RegistroRemanufatura.ui',
+# licensing of 'Resources\UI-Teste\RegistroRemanufatura.ui' applies.
 #
-# Created: Tue Sep 17 01:45:32 2019
+# Created: Thu Sep 19 00:14:47 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

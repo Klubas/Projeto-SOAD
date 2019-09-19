@@ -94,7 +94,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                     if data['restore'] == "1":
                         from Resources.Scripts.Installer import Installer
                         installer = Installer("Resources\database\\bin\\runtime", "Resources\\Scripts\\SQL\\dump.backup","soad2019")
-                        installer.create_database()
+                        #installer.create_database()
 
             except Exception as e:
                 logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração.')

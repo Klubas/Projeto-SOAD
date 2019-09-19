@@ -17,7 +17,7 @@ def update_ui():    # Atualiza os arquivos da pasta View
     import os
     from Resources.Scripts.Builder import Builder
 
-    UI = "UI"
+    UI = "UI-Teste"
     # Pasta raiz
     b = Builder(
         pyuic_path="pyside2-uic",
@@ -36,7 +36,7 @@ def update_ui():    # Atualiza os arquivos da pasta View
 
 def main():
 
-    #update_ui()
+    update_ui()
     #sys.exit()
 
     from PySide2.QtWidgets import QApplication

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\About.ui',
-# licensing of 'Resources\UI\About.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI-Teste\About.ui',
+# licensing of 'Resources\UI-Teste\About.ui' applies.
 #
-# Created: Tue Sep 17 01:45:31 2019
+# Created: Thu Sep 19 00:14:45 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
