@@ -247,6 +247,22 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
+            <widget class="QLabel" name="label_3">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>110</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IconCompra</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="pushButton_compra">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -257,7 +273,7 @@
              <property name="maximumSize">
               <size>
                <width>693</width>
-               <height>41</height>
+               <height>38</height>
               </size>
              </property>
              <property name="palette">
@@ -358,6 +374,22 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
+            <widget class="QLabel" name="label_4">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>110</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IconMercadoria</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="pushButton_mercadoria">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -368,7 +400,7 @@
              <property name="maximumSize">
               <size>
                <width>693</width>
-               <height>41</height>
+               <height>38</height>
               </size>
              </property>
              <property name="palette">
@@ -496,6 +528,22 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
+            <widget class="QLabel" name="label_2">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>110</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IconVenda</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="pushButton_venda">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -506,7 +554,7 @@
              <property name="maximumSize">
               <size>
                <width>693</width>
-               <height>41</height>
+               <height>38</height>
               </size>
              </property>
              <property name="palette">
@@ -607,6 +655,22 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
+            <widget class="QLabel" name="label">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>110</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IconRegistro</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="pushButton_pessoa">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -617,7 +681,7 @@
              <property name="maximumSize">
               <size>
                <width>693</width>
-               <height>41</height>
+               <height>38</height>
               </size>
              </property>
              <property name="palette">
