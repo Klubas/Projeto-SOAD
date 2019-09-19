@@ -132,3 +132,5 @@ dmypy.json
 # *.bat
 
 .credencial.json
+log.txt
+Resources/database/

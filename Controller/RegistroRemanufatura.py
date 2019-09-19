@@ -432,6 +432,10 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
             lineEdit_descricao.setText(mercadoria['descricao'])
             lineEdit_marca.setText(mercadoria['marca'])
 
+            if tipo == 'CASCO':
+                self.lineEdit_insumo_id.setText(str(mercadoria['id_insumo']))
+                self.buttonBox_remanufatura.setFocus()
+
             if tipo == 'INSUMO':
                 if bool(mercadoria['colorido']):
                     self.label_tinta.setPixmap(QPixmap.fromImage(self.color_ink))

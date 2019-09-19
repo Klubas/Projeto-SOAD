@@ -5,7 +5,7 @@
 -- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-09-17 00:36:20
+-- Started on 2019-09-18 21:35:09
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -3070,7 +3070,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 246 (class 1259 OID 58232)
+-- TOC entry 245 (class 1259 OID 58232)
 -- Name: auditoria; Type: TABLE; Schema: soad; Owner: postgres
 --
 
@@ -3089,7 +3089,7 @@ CREATE TABLE soad.auditoria (
 ALTER TABLE soad.auditoria OWNER TO postgres;
 
 --
--- TOC entry 245 (class 1259 OID 58230)
+-- TOC entry 244 (class 1259 OID 58230)
 -- Name: auditoria_id_auditoria_seq; Type: SEQUENCE; Schema: soad; Owner: postgres
 --
 
@@ -3106,7 +3106,7 @@ ALTER TABLE soad.auditoria_id_auditoria_seq OWNER TO postgres;
 
 --
 -- TOC entry 3272 (class 0 OID 0)
--- Dependencies: 245
+-- Dependencies: 244
 -- Name: auditoria_id_auditoria_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
 
@@ -3370,7 +3370,7 @@ ALTER SEQUENCE soad.item_lote_id_seq OWNED BY soad.item_lote.id_item_lote;
 
 
 --
--- TOC entry 243 (class 1259 OID 50279)
+-- TOC entry 242 (class 1259 OID 50279)
 -- Name: item_lote_remanufatura; Type: TABLE; Schema: soad; Owner: postgres
 --
 
@@ -3386,7 +3386,7 @@ ALTER TABLE soad.item_lote_remanufatura OWNER TO postgres;
 
 --
 -- TOC entry 3284 (class 0 OID 0)
--- Dependencies: 243
+-- Dependencies: 242
 -- Name: TABLE item_lote_remanufatura; Type: COMMENT; Schema: soad; Owner: postgres
 --
 
@@ -3394,7 +3394,7 @@ COMMENT ON TABLE soad.item_lote_remanufatura IS 'relacionamento entre item_lote 
 
 
 --
--- TOC entry 242 (class 1259 OID 50277)
+-- TOC entry 241 (class 1259 OID 50277)
 -- Name: item_lote_remanufatura_id_remanufatura_item_lote_seq; Type: SEQUENCE; Schema: soad; Owner: postgres
 --
 
@@ -3411,7 +3411,7 @@ ALTER TABLE soad.item_lote_remanufatura_id_remanufatura_item_lote_seq OWNER TO p
 
 --
 -- TOC entry 3285 (class 0 OID 0)
--- Dependencies: 242
+-- Dependencies: 241
 -- Name: item_lote_remanufatura_id_remanufatura_item_lote_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
 
@@ -3993,7 +3993,7 @@ ALTER SEQUENCE soad.remanufatura_id_seq OWNED BY soad.remanufatura.id_remanufatu
 
 
 --
--- TOC entry 237 (class 1259 OID 41779)
+-- TOC entry 236 (class 1259 OID 41779)
 -- Name: requisicao; Type: TABLE; Schema: soad; Owner: postgres
 --
 
@@ -4011,7 +4011,7 @@ CREATE TABLE soad.requisicao (
 ALTER TABLE soad.requisicao OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1259 OID 41785)
+-- TOC entry 237 (class 1259 OID 41785)
 -- Name: requisicoes_id_requisicao_seq; Type: SEQUENCE; Schema: soad; Owner: postgres
 --
 
@@ -4028,7 +4028,7 @@ ALTER TABLE soad.requisicoes_id_requisicao_seq OWNER TO postgres;
 
 --
 -- TOC entry 3306 (class 0 OID 0)
--- Dependencies: 238
+-- Dependencies: 237
 -- Name: requisicoes_id_requisicao_seq; Type: SEQUENCE OWNED BY; Schema: soad; Owner: postgres
 --
 
@@ -4140,7 +4140,7 @@ ALTER SEQUENCE soad.usuario_id_seq OWNED BY soad.usuario.id_usuario;
 
 
 --
--- TOC entry 254 (class 1259 OID 99232)
+-- TOC entry 253 (class 1259 OID 99232)
 -- Name: vw_insumo; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4166,7 +4166,7 @@ CREATE VIEW soad.vw_insumo AS
 ALTER TABLE soad.vw_insumo OWNER TO postgres;
 
 --
--- TOC entry 253 (class 1259 OID 99228)
+-- TOC entry 252 (class 1259 OID 99228)
 -- Name: vw_casco; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4195,23 +4195,36 @@ CREATE VIEW soad.vw_casco AS
 ALTER TABLE soad.vw_casco OWNER TO postgres;
 
 --
--- TOC entry 235 (class 1259 OID 17203)
+-- TOC entry 258 (class 1259 OID 115526)
 -- Name: vw_dicionario_dados; Type: VIEW; Schema: soad; Owner: postgres
 --
 
 CREATE VIEW soad.vw_dicionario_dados AS
- SELECT columns.table_name,
-    columns.column_name,
-    columns.is_nullable,
-    columns.data_type
-   FROM information_schema.columns
-  WHERE ((columns.table_schema)::text = 'soad'::text);
+ SELECT col.table_name AS tabela,
+    col.column_name AS coluna,
+        CASE
+            WHEN ((col.column_name)::text ~~ 'fk_%'::text) THEN 'Foreign Key'::text
+            WHEN ((col.column_default)::text ~~ 'nextval%'::text) THEN 'Primary Key'::text
+            ELSE NULL::text
+        END AS chave,
+        CASE
+            WHEN ((col.is_nullable)::text = 'YES'::text) THEN 'Sim'::text
+            ELSE 'Não'::text
+        END AS "obrigatório",
+    col.data_type AS tipo,
+    col.character_maximum_length AS tamanho,
+        CASE
+            WHEN ((col.column_default)::text ~~ 'nextval%'::text) THEN 'Auto incremento'::text
+            ELSE "substring"((col.column_default)::text, 1, "position"((col.column_default)::text, '''::'::text))
+        END AS "Valor padrão"
+   FROM information_schema.columns col
+  WHERE (((col.table_schema)::text = 'soad'::text) AND ((col.table_name)::text !~~ 'vw_%'::text));
 
 
 ALTER TABLE soad.vw_dicionario_dados OWNER TO postgres;
 
 --
--- TOC entry 247 (class 1259 OID 90931)
+-- TOC entry 246 (class 1259 OID 90931)
 -- Name: vw_municipio; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4231,7 +4244,7 @@ CREATE VIEW soad.vw_municipio AS
 ALTER TABLE soad.vw_municipio OWNER TO postgres;
 
 --
--- TOC entry 249 (class 1259 OID 90941)
+-- TOC entry 248 (class 1259 OID 90941)
 -- Name: vw_endereco; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4258,7 +4271,7 @@ CREATE VIEW soad.vw_endereco AS
 ALTER TABLE soad.vw_endereco OWNER TO postgres;
 
 --
--- TOC entry 248 (class 1259 OID 90935)
+-- TOC entry 247 (class 1259 OID 90935)
 -- Name: vw_estado; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4275,7 +4288,7 @@ CREATE VIEW soad.vw_estado AS
 ALTER TABLE soad.vw_estado OWNER TO postgres;
 
 --
--- TOC entry 252 (class 1259 OID 99189)
+-- TOC entry 251 (class 1259 OID 99189)
 -- Name: vw_fabricante; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4287,7 +4300,7 @@ CREATE VIEW soad.vw_fabricante AS
 ALTER TABLE soad.vw_fabricante OWNER TO postgres;
 
 --
--- TOC entry 239 (class 1259 OID 50108)
+-- TOC entry 238 (class 1259 OID 50108)
 -- Name: vw_mercadoria; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4323,7 +4336,7 @@ CREATE VIEW soad.vw_mercadoria AS
 ALTER TABLE soad.vw_mercadoria OWNER TO postgres;
 
 --
--- TOC entry 236 (class 1259 OID 25426)
+-- TOC entry 235 (class 1259 OID 25426)
 -- Name: vw_pessoa; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4361,7 +4374,7 @@ CREATE VIEW soad.vw_pessoa AS
 ALTER TABLE soad.vw_pessoa OWNER TO postgres;
 
 --
--- TOC entry 240 (class 1259 OID 50168)
+-- TOC entry 239 (class 1259 OID 50168)
 -- Name: vw_item_pedido; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4395,7 +4408,7 @@ CREATE VIEW soad.vw_item_pedido AS
 ALTER TABLE soad.vw_item_pedido OWNER TO postgres;
 
 --
--- TOC entry 241 (class 1259 OID 50243)
+-- TOC entry 240 (class 1259 OID 50243)
 -- Name: vw_pedido; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4435,7 +4448,7 @@ CREATE VIEW soad.vw_pedido AS
 ALTER TABLE soad.vw_pedido OWNER TO postgres;
 
 --
--- TOC entry 244 (class 1259 OID 58178)
+-- TOC entry 243 (class 1259 OID 58178)
 -- Name: vw_item_lote; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4490,7 +4503,7 @@ CREATE VIEW soad.vw_item_lote AS
 ALTER TABLE soad.vw_item_lote OWNER TO postgres;
 
 --
--- TOC entry 250 (class 1259 OID 99159)
+-- TOC entry 249 (class 1259 OID 99159)
 -- Name: vw_pedido_compra; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4518,7 +4531,7 @@ CREATE VIEW soad.vw_pedido_compra AS
 ALTER TABLE soad.vw_pedido_compra OWNER TO postgres;
 
 --
--- TOC entry 251 (class 1259 OID 99163)
+-- TOC entry 250 (class 1259 OID 99163)
 -- Name: vw_pedido_venda; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4548,7 +4561,7 @@ CREATE VIEW soad.vw_pedido_venda AS
 ALTER TABLE soad.vw_pedido_venda OWNER TO postgres;
 
 --
--- TOC entry 257 (class 1259 OID 99395)
+-- TOC entry 256 (class 1259 OID 99395)
 -- Name: vw_pessoa_cliente; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4580,7 +4593,7 @@ CREATE VIEW soad.vw_pessoa_cliente AS
 ALTER TABLE soad.vw_pessoa_cliente OWNER TO postgres;
 
 --
--- TOC entry 258 (class 1259 OID 99400)
+-- TOC entry 257 (class 1259 OID 99400)
 -- Name: vw_pessoa_fornecedor; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4612,7 +4625,7 @@ CREATE VIEW soad.vw_pessoa_fornecedor AS
 ALTER TABLE soad.vw_pessoa_fornecedor OWNER TO postgres;
 
 --
--- TOC entry 255 (class 1259 OID 99339)
+-- TOC entry 254 (class 1259 OID 99339)
 -- Name: vw_remanufatura; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4647,7 +4660,7 @@ CREATE VIEW soad.vw_remanufatura AS
 ALTER TABLE soad.vw_remanufatura OWNER TO postgres;
 
 --
--- TOC entry 256 (class 1259 OID 99370)
+-- TOC entry 255 (class 1259 OID 99370)
 -- Name: vw_remanufatura_pedido; Type: VIEW; Schema: soad; Owner: postgres
 --
 
@@ -4686,7 +4699,7 @@ CREATE VIEW soad.vw_remanufatura_pedido AS
 ALTER TABLE soad.vw_remanufatura_pedido OWNER TO postgres;
 
 --
--- TOC entry 2972 (class 2604 OID 107409)
+-- TOC entry 2972 (class 2604 OID 115577)
 -- Name: auditoria id_auditoria; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4694,7 +4707,7 @@ ALTER TABLE ONLY soad.auditoria ALTER COLUMN id_auditoria SET DEFAULT nextval('s
 
 
 --
--- TOC entry 2938 (class 2604 OID 107410)
+-- TOC entry 2938 (class 2604 OID 115578)
 -- Name: casco id_casco; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4702,7 +4715,7 @@ ALTER TABLE ONLY soad.casco ALTER COLUMN id_casco SET DEFAULT nextval('soad.tone
 
 
 --
--- TOC entry 2962 (class 2604 OID 107411)
+-- TOC entry 2962 (class 2604 OID 115579)
 -- Name: endereco id_endereco; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4710,7 +4723,7 @@ ALTER TABLE ONLY soad.endereco ALTER COLUMN id_endereco SET DEFAULT nextval('soa
 
 
 --
--- TOC entry 2965 (class 2604 OID 107412)
+-- TOC entry 2965 (class 2604 OID 115580)
 -- Name: estado id_estado; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4718,7 +4731,7 @@ ALTER TABLE ONLY soad.estado ALTER COLUMN id_estado SET DEFAULT nextval('soad.es
 
 
 --
--- TOC entry 2941 (class 2604 OID 107413)
+-- TOC entry 2942 (class 2604 OID 115581)
 -- Name: insumo id_insumo; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4726,7 +4739,7 @@ ALTER TABLE ONLY soad.insumo ALTER COLUMN id_insumo SET DEFAULT nextval('soad.in
 
 
 --
--- TOC entry 2955 (class 2604 OID 107414)
+-- TOC entry 2958 (class 2604 OID 115582)
 -- Name: item_lote id_item_lote; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4734,7 +4747,7 @@ ALTER TABLE ONLY soad.item_lote ALTER COLUMN id_item_lote SET DEFAULT nextval('s
 
 
 --
--- TOC entry 2970 (class 2604 OID 107415)
+-- TOC entry 2971 (class 2604 OID 115583)
 -- Name: item_lote_remanufatura id_item_lote_remanufatura; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4742,7 +4755,7 @@ ALTER TABLE ONLY soad.item_lote_remanufatura ALTER COLUMN id_item_lote_remanufat
 
 
 --
--- TOC entry 2954 (class 2604 OID 107416)
+-- TOC entry 2954 (class 2604 OID 115584)
 -- Name: item_pedido id_item_pedido; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4750,7 +4763,7 @@ ALTER TABLE ONLY soad.item_pedido ALTER COLUMN id_item_pedido SET DEFAULT nextva
 
 
 --
--- TOC entry 2959 (class 2604 OID 107417)
+-- TOC entry 2961 (class 2604 OID 115585)
 -- Name: lote id_lote; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4758,7 +4771,7 @@ ALTER TABLE ONLY soad.lote ALTER COLUMN id_lote SET DEFAULT nextval('soad.lote_i
 
 
 --
--- TOC entry 2933 (class 2604 OID 107418)
+-- TOC entry 2937 (class 2604 OID 115586)
 -- Name: mercadoria id_mercadoria; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4766,7 +4779,7 @@ ALTER TABLE ONLY soad.mercadoria ALTER COLUMN id_mercadoria SET DEFAULT nextval(
 
 
 --
--- TOC entry 2928 (class 2604 OID 107419)
+-- TOC entry 2928 (class 2604 OID 115587)
 -- Name: modalidade id_modalidade; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4774,7 +4787,7 @@ ALTER TABLE ONLY soad.modalidade ALTER COLUMN id_modalidade SET DEFAULT nextval(
 
 
 --
--- TOC entry 2944 (class 2604 OID 107420)
+-- TOC entry 2944 (class 2604 OID 115588)
 -- Name: modalidade_pessoa id_modalidade_pessoa; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4782,7 +4795,7 @@ ALTER TABLE ONLY soad.modalidade_pessoa ALTER COLUMN id_modalidade_pessoa SET DE
 
 
 --
--- TOC entry 2964 (class 2604 OID 107421)
+-- TOC entry 2964 (class 2604 OID 115589)
 -- Name: municipio id_municipio; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4790,7 +4803,7 @@ ALTER TABLE ONLY soad.municipio ALTER COLUMN id_municipio SET DEFAULT nextval('s
 
 
 --
--- TOC entry 2966 (class 2604 OID 107422)
+-- TOC entry 2966 (class 2604 OID 115590)
 -- Name: pais id_pais; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4798,7 +4811,7 @@ ALTER TABLE ONLY soad.pais ALTER COLUMN id_pais SET DEFAULT nextval('soad.pais_i
 
 
 --
--- TOC entry 2946 (class 2604 OID 107423)
+-- TOC entry 2947 (class 2604 OID 115591)
 -- Name: pedido id_pedido; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4806,7 +4819,7 @@ ALTER TABLE ONLY soad.pedido ALTER COLUMN id_pedido SET DEFAULT nextval('soad.pe
 
 
 --
--- TOC entry 2931 (class 2604 OID 107424)
+-- TOC entry 2932 (class 2604 OID 115592)
 -- Name: pessoa id_pessoa; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4814,7 +4827,7 @@ ALTER TABLE ONLY soad.pessoa ALTER COLUMN id_pessoa SET DEFAULT nextval('soad.pe
 
 
 --
--- TOC entry 2926 (class 2604 OID 107425)
+-- TOC entry 2927 (class 2604 OID 115593)
 -- Name: pessoa_fisica id_pessoa_fisica; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4822,7 +4835,7 @@ ALTER TABLE ONLY soad.pessoa_fisica ALTER COLUMN id_pessoa_fisica SET DEFAULT ne
 
 
 --
--- TOC entry 2929 (class 2604 OID 107426)
+-- TOC entry 2930 (class 2604 OID 115594)
 -- Name: pessoa_juridica id_pessoa_juridica; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4830,7 +4843,7 @@ ALTER TABLE ONLY soad.pessoa_juridica ALTER COLUMN id_pessoa_juridica SET DEFAUL
 
 
 --
--- TOC entry 2950 (class 2604 OID 107427)
+-- TOC entry 2952 (class 2604 OID 115595)
 -- Name: remanufatura id_remanufatura; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4838,7 +4851,7 @@ ALTER TABLE ONLY soad.remanufatura ALTER COLUMN id_remanufatura SET DEFAULT next
 
 
 --
--- TOC entry 2967 (class 2604 OID 107428)
+-- TOC entry 2969 (class 2604 OID 115596)
 -- Name: requisicao id_requisicao; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4846,7 +4859,7 @@ ALTER TABLE ONLY soad.requisicao ALTER COLUMN id_requisicao SET DEFAULT nextval(
 
 
 --
--- TOC entry 2945 (class 2604 OID 107429)
+-- TOC entry 2945 (class 2604 OID 115597)
 -- Name: unidade_medida id_unidade_medida; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -4854,7 +4867,7 @@ ALTER TABLE ONLY soad.unidade_medida ALTER COLUMN id_unidade_medida SET DEFAULT 
 
 
 --
--- TOC entry 2943 (class 2604 OID 107430)
+-- TOC entry 2943 (class 2604 OID 115598)
 -- Name: usuario id_usuario; Type: DEFAULT; Schema: soad; Owner: postgres
 --
 
@@ -5776,7 +5789,7 @@ ALTER TABLE ONLY soad.usuario
     ADD CONSTRAINT fkc_usuario_pessoa_id FOREIGN KEY (fk_pessoa_id) REFERENCES soad.pessoa(id_pessoa) ON DELETE CASCADE;
 
 
--- Completed on 2019-09-17 00:36:20
+-- Completed on 2019-09-18 21:35:10
 
 --
 -- PostgreSQL database dump complete

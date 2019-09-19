@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\relatoriopadrao.ui',
 # licensing of 'Resources\UI\Componentes\relatoriopadrao.ui' applies.
 #
-# Created: Mon Sep 16 21:24:31 2019
+# Created: Tue Sep 17 01:45:34 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -83,15 +83,14 @@ class Ui_RelatorioPadrao(object):
         self.stackedWidget_filtros.setObjectName("stackedWidget_filtros")
         self.stackedWidget_filtrosPage1 = QtWidgets.QWidget()
         self.stackedWidget_filtrosPage1.setObjectName("stackedWidget_filtrosPage1")
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.stackedWidget_filtrosPage1)
-        self.horizontalLayout_5.setSpacing(6)
-        self.horizontalLayout_5.setContentsMargins(5, -1, -1, -1)
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.stackedWidget_filtrosPage1)
+        self.gridLayout_2.setContentsMargins(5, -1, -1, -1)
+        self.gridLayout_2.setObjectName("gridLayout_2")
         self.checkBox_data = QtWidgets.QCheckBox(self.stackedWidget_filtrosPage1)
         self.checkBox_data.setEnabled(True)
         self.checkBox_data.setText("")
         self.checkBox_data.setObjectName("checkBox_data")
-        self.horizontalLayout_5.addWidget(self.checkBox_data)
+        self.gridLayout_2.addWidget(self.checkBox_data, 0, 1, 1, 1)
         self.horizontalWidget_data = QtWidgets.QWidget(self.stackedWidget_filtrosPage1)
         self.horizontalWidget_data.setEnabled(False)
         self.horizontalWidget_data.setObjectName("horizontalWidget_data")
@@ -131,7 +130,7 @@ class Ui_RelatorioPadrao(object):
         self.dateEdit_2.setSizePolicy(sizePolicy)
         self.dateEdit_2.setObjectName("dateEdit_2")
         self.horizontalLayout_data.addWidget(self.dateEdit_2)
-        self.horizontalLayout_5.addWidget(self.horizontalWidget_data)
+        self.gridLayout_2.addWidget(self.horizontalWidget_data, 0, 2, 1, 1)
         self.checkBox_filtro = QtWidgets.QCheckBox(self.stackedWidget_filtrosPage1)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -139,10 +138,17 @@ class Ui_RelatorioPadrao(object):
         sizePolicy.setHeightForWidth(self.checkBox_filtro.sizePolicy().hasHeightForWidth())
         self.checkBox_filtro.setSizePolicy(sizePolicy)
         self.checkBox_filtro.setObjectName("checkBox_filtro")
-        self.horizontalLayout_5.addWidget(self.checkBox_filtro)
+        self.gridLayout_2.addWidget(self.checkBox_filtro, 0, 3, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem)
+        self.gridLayout_2.addItem(spacerItem, 0, 4, 1, 1)
         self.stackedWidget_filtros.addWidget(self.stackedWidget_filtrosPage1)
+        self.page = QtWidgets.QWidget()
+        self.page.setObjectName("page")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.page)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        spacerItem1 = QtWidgets.QSpacerItem(723, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem1)
+        self.stackedWidget_filtros.addWidget(self.page)
         self.horizontalLayout_4.addWidget(self.stackedWidget_filtros)
         self.verticalLayout.addWidget(self.frame_menu)
         self.frame_contents = QtWidgets.QFrame(RelatorioPadrao)
@@ -203,6 +209,7 @@ class Ui_RelatorioPadrao(object):
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
         self.retranslateUi(RelatorioPadrao)
+        self.stackedWidget_filtros.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(RelatorioPadrao)
 
     def retranslateUi(self, RelatorioPadrao):
