@@ -29,6 +29,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle("SOAD - VIP Cartuchos")
 
         # Menus
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         # todo: Arquivo
         self.actionSair.triggered.connect(
             lambda: self.closeEvent(event=QCloseEvent())
