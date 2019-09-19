@@ -1,5 +1,6 @@
 import logging
 import sys
+from _datetime import datetime
 
 from PySide2.QtGui import QCloseEvent
 from PySide2.QtWidgets import QMainWindow
@@ -24,16 +25,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.parent = login_dialog
         self.db = db
         self.window_list = list()
+        # todo: self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
 
         # Menus
+<<<<<<< Updated upstream
+=======
 
+>>>>>>> Stashed changes
+        # todo: Arquivo
         self.actionSair.triggered.connect(
             lambda: self.closeEvent(event=QCloseEvent())
         )
 
         self.actionReconectar.triggered.connect(self.login)
 
+        # todo: Cadastros
         self.actionPessoa.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=CadastroPessoa)
@@ -54,6 +61,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 window_cls=CadastroMercadoria, tipo='CASCO')
         )
 
+        # todo: Vendas
         self.actionNova_Venda.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=CadastroPedido, tipo="VENDA")
@@ -65,6 +73,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         )
 
+        # todo: Estoque
         self.actionRegistrar_compra.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=CadastroPedido, tipo="COMPRA")
@@ -80,66 +89,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Relatórios
 
-        self.actionProdutos_em_Estoque.triggered.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Relatório de itens em estoque'
-                , tipo='ESTOQUE'
-            )
-        )
-
-        self.actionVendas.triggered.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Relatório de vendas'
-                , tipo='VENDA'
-            )
-        )
-
-        self.actionCompras.triggered.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Relatório de compras'
-                , tipo='COMPRA'
-            )
-        )
-
-        self.actionMercadorias.triggered.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Lista de mercadorias'
-                , tipo='MERCADORIA'
-            )
-        )
-
-        #self.actionDescartes.triggered.connect()
-
-        self.actionRelacao_de_clientes.triggered.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Lista de clientes'
-                , tipo='CLIENTE'
-            )
-        )
-
-        self.actionRelacao_de_fornecedores.triggered.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Lista de fornecedores'
-                , tipo='FORNECEDOR'
-            )
-        )
-
-        self.actionLista_de_remanufaturas.triggered.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Lista de remanufaturas'
-                , tipo='REMANUFATURA'
-            )
-        )
-
         self.actionSobre.triggered.connect(self.abrir_sobre)
-        
+
         # Botões
 
         self.pushButton_venda.clicked.connect(
@@ -177,48 +128,66 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_lista_vendas.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=RelatorioPadrao
-                , titulo='Relatório de vendas'
-                , tipo='VENDA'
+                , tabela='vw_pedido_venda'
+                , colunas={
+                    "id_pedido":
+                        ("Número", int),
+                    "situacao":
+                        ("Situação", str),
+                    "data_cadastro":
+                        ("Data do Pedido", datetime),
+                    "data_entrega":
+                        ("Data para Entrega", datetime),
+                    "valor_total":
+                        ("Valor Total", float),
+                    "pessoa":
+                        ("Cliente", str),
+                    "documento":
+                        ("Documento", str),
+                    "inscricao_estadual":
+                        ("Inscrição Estadual", str),
+                    "fantasia":
+                        ("Nome Fantasia", str),
+                    "email":
+                        ("Email", str),
+                    "telefone":
+                        ("Telefone", str),
+                    "observacao":
+                        ("Observações", str),
+                }
             )
         )
 
         self.pushButton_lista_compras.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=RelatorioPadrao
-                , titulo='Relatório de compras'
-                , tipo='COMPRA'
-            )
-        )
-
-        self.pushButton_lista_estoque.clicked.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Relatório de itens em estoque'
-                , tipo='ESTOQUE'
-            )
-        )
-
-        self.pushButton_lista_clientes.clicked.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Lista de clientes'
-                , tipo='CLIENTE'
-            )
-        )
-
-        self.pushButton_lista_fornecedores.clicked.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Lista de fornecedores'
-                , tipo='FORNECEDOR'
-            )
-        )
-
-        self.pushButton_lista_mercadoria.clicked.connect(
-            lambda: self.abrir_interface(
-                window_cls=RelatorioPadrao
-                , titulo='Lista de mercadorias'
-                , tipo='MERCADORIA'
+                , tabela='vw_pedido_compra'
+                , colunas={
+                    "id_pedido":
+                        ("Número", int),
+                    "situacao":
+                        ("Situação", str),
+                    "data_cadastro":
+                        ("Data do Pedido", datetime),
+                    "data_entrega":
+                        ("Data para Entrega", datetime),
+                    "valor_total":
+                        ("Valor Total", float),
+                    "pessoa":
+                        ("Cliente", str),
+                    "documento":
+                        ("Documento", str),
+                    "inscricao_estadual":
+                        ("Inscrição Estadual", str),
+                    "fantasia":
+                        ("Nome Fantasia", str),
+                    "email":
+                        ("Email", str),
+                    "telefone":
+                        ("Telefone", str),
+                    "observacao":
+                        ("Observações", str),
+                }
             )
         )
 
