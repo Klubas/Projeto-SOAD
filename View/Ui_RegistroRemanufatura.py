@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\RegistroRemanufatura.ui',
 # licensing of 'Resources\UI\RegistroRemanufatura.ui' applies.
 #
-# Created: Thu Sep 19 04:17:29 2019
+# Created: Sat Sep 28 13:03:20 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,8 +13,8 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_RegistroRemanufatura(object):
     def setupUi(self, RegistroRemanufatura):
         RegistroRemanufatura.setObjectName("RegistroRemanufatura")
-        RegistroRemanufatura.resize(1040, 750)
-        RegistroRemanufatura.setMinimumSize(QtCore.QSize(1040, 750))
+        RegistroRemanufatura.resize(900, 700)
+        RegistroRemanufatura.setMinimumSize(QtCore.QSize(900, 700))
         self.gridLayout = QtWidgets.QGridLayout(RegistroRemanufatura)
         self.gridLayout.setObjectName("gridLayout")
         self.frame = QtWidgets.QFrame(RegistroRemanufatura)

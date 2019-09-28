@@ -28,10 +28,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # todo: self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
 
-        icone_venda=QImage(os.path.join('Resources', 'icons', 'vendas.png')).smoothScaled(100, 100)
-        icone_compra = QImage(os.path.join('Resources', 'icons', 'compras.png')).smoothScaled(100, 100)
-        icone_mercadoria = QImage(os.path.join('Resources', 'icons', 'mercadorias.png')).smoothScaled(100, 100)
-        icone_pessoa = QImage(os.path.join('Resources', 'icons', 'pessoa_fisica.png')).smoothScaled(100, 100)
+        icone_venda=QImage(os.path.join('Resources', 'icons', 'vendas.png')).smoothScaled(85, 85)
+        icone_compra = QImage(os.path.join('Resources', 'icons', 'compras.png')).smoothScaled(85, 85)
+        icone_mercadoria = QImage(os.path.join('Resources', 'icons', 'mercadorias.png')).smoothScaled(85, 85)
+        icone_pessoa = QImage(os.path.join('Resources', 'icons', 'pessoa_fisica.png')).smoothScaled(85, 85)
         icone_logo = QImage(os.path.join('Resources', 'Imagens', 'soad.png')).smoothScaled(150, 150)
         icone_empresa = QImage(os.path.join('Resources', 'Imagens', 'logo.png')).smoothScaled(90, 70)
 

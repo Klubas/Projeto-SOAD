@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
 # licensing of 'Resources\UI\MainWindow.ui' applies.
 #
-# Created: Thu Sep 19 04:17:29 2019
+# Created: Sat Sep 28 13:03:20 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -15,13 +15,13 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.WindowModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(1420, 768)
+        MainWindow.resize(1300, 700)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(1420, 768))
+        MainWindow.setMinimumSize(QtCore.QSize(1300, 700))
         MainWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
         MainWindow.setBaseSize(QtCore.QSize(0, 0))
         palette = QtGui.QPalette()
@@ -59,7 +59,7 @@ class Ui_MainWindow(object):
         MainWindow.setDocumentMode(False)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setMinimumSize(QtCore.QSize(1418, 0))
+        self.centralwidget.setMinimumSize(QtCore.QSize(0, 0))
         self.centralwidget.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
@@ -384,7 +384,7 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addLayout(self.verticalLayout_2, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1420, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1300, 21))
         self.menubar.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.menubar.setInputMethodHints(QtCore.Qt.ImhPreferLatin|QtCore.Qt.ImhPreferUppercase)
         self.menubar.setDefaultUp(False)

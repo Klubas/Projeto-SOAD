@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1420</width>
-    <height>768</height>
+    <width>1300</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,8 +24,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1420</width>
-    <height>768</height>
+    <width>1300</width>
+    <height>700</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -152,7 +152,7 @@
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
     <size>
-     <width>1418</width>
+     <width>0</width>
      <height>0</height>
     </size>
    </property>
@@ -905,7 +905,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1420</width>
+     <width>1300</width>
      <height>21</height>
     </rect>
    </property>
