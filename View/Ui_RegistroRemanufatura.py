@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\RegistroRemanufatura.ui',
 # licensing of 'Resources\UI\RegistroRemanufatura.ui' applies.
 #
-# Created: Sat Sep 28 13:03:20 2019
+# Created: Sat Sep 28 13:13:09 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -738,7 +738,7 @@ class Ui_RegistroRemanufatura(object):
         self.buttonBox_remanufatura.setObjectName("buttonBox_remanufatura")
         self.horizontalLayout.addWidget(self.buttonBox_remanufatura)
         self.label_tinta = QtWidgets.QLabel(self.horizontalGroupBox)
-        self.label_tinta.setMinimumSize(QtCore.QSize(275, 0))
+        self.label_tinta.setMinimumSize(QtCore.QSize(190, 0))
         self.label_tinta.setSizeIncrement(QtCore.QSize(256, 0))
         self.label_tinta.setBaseSize(QtCore.QSize(0, 0))
         self.label_tinta.setAlignment(QtCore.Qt.AlignCenter)

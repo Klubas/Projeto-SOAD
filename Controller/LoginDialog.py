@@ -123,7 +123,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                         db.definir_schema('soad')
                         self.main = MainWindow(db, self)
                         self.main.setWindowIcon(self.icon)
-                    self.main.showNormal()
+                    self.main.showMaximized()
                     self.saved_config(action='save')
                     self.hide()
 
