@@ -95,7 +95,7 @@ class ConfigRelatorio:
                 , "colunas": {
                     "id_remanufatura": ("Remanufatura", int),
                     "codigo": ("Código da remanufatura", str),
-                    "data_cadastro": ("data_cadastro", datetime),
+                    "data_cadastro": ("Data cadastro", datetime),
                     "situacao_remanufatura": ("Situação da remanufatura", str),
                     "casco": ("Casco", str),
                     "insumo": ("Insumo", str),

@@ -404,8 +404,8 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         if items[0]:
             self.ufs_municipios = items[1][0]['fnc_buscar_registro']
+            self.comboBox_municipio.clear()
             if self.ufs_municipios is not None:
-                self.comboBox_municipio.clear()
                 for mun in self.ufs_municipios:
                     self.comboBox_municipio.addItem(mun["municipio"])
 

@@ -1,1 +1,0 @@
-@start "" ".\venv\Scripts\python.exe" ".\Resources\Scripts\Installer.py" "C:\Program Files (x86)\pgAdmin 4\v4\runtime" ".\Resources\Scripts\SQL\dump.backup"

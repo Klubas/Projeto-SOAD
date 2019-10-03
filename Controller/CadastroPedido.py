@@ -546,7 +546,7 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
     def busca_pessoa(self):
 
-        tabela = 'vw_pessoa'
+        tabela = 'vw_pessoa_' + self.tipo_pessoa.lower()
         documento = self.lineEdit_documento.text().replace(' ', '')
         pessoa = None
 
@@ -673,7 +673,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
             valor = str(mercadoria['valor_venda']) if tipo != 'INSUMO' else '0,00'
             self.lineEdit_valor_unitario.setText(valor)
-            print(mercadoria['valor_venda'])
 
             if tipo == 'CASCO':
                 self.lineEdit_insumo_id.setText(str(mercadoria['id_insumo']))
@@ -802,8 +801,6 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
 
         self.tableWidget_items.setRowCount(len(self.pedido.itens))
 
-        print(self.pedido.to_dict())
-
         if len(self.pedido.itens) > 0:
             row = 0
             for item_pedido in self.pedido.itens:
@@ -883,9 +880,9 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
     def calcula_totais_pedido(self):
         valor = 0
         for row in range(0, self.tableWidget_items.rowCount()):
-            self.tableWidget_items.item(row, 5)
-            v = 0 if self.tableWidget_items.item(row, 5).text() is None \
-                else self.formatar_numero(self.tableWidget_items.item(row, 5).text())
+            self.tableWidget_items.item(row, 6)
+            v = 0 if self.tableWidget_items.item(row, 6).text() is None \
+                else self.formatar_numero(self.tableWidget_items.item(row, 6).text())
             valor = valor + float(v)
         self.lineEdit_valor_total_pedido.setText(self.formatar_numero(valor))
 

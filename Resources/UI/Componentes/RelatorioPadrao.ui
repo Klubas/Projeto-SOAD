@@ -143,15 +143,15 @@
         </item>
         <item>
          <widget class="QStackedWidget" name="stackedWidget_filtros">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
           <widget class="QWidget" name="stackedWidget_filtrosPage1">
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <property name="spacing">
-             <number>6</number>
-            </property>
+           <layout class="QGridLayout" name="gridLayout_2">
             <property name="leftMargin">
              <number>5</number>
             </property>
-            <item>
+            <item row="0" column="1">
              <widget class="QCheckBox" name="checkBox_data">
               <property name="enabled">
                <bool>true</bool>
@@ -161,7 +161,7 @@
               </property>
              </widget>
             </item>
-            <item>
+            <item row="0" column="2">
              <widget class="QWidget" name="horizontalWidget_data" native="true">
               <property name="enabled">
                <bool>false</bool>
@@ -219,7 +219,7 @@
               </layout>
              </widget>
             </item>
-            <item>
+            <item row="0" column="3">
              <widget class="QCheckBox" name="checkBox_filtro">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -232,7 +232,7 @@
               </property>
              </widget>
             </item>
-            <item>
+            <item row="0" column="4">
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -240,6 +240,23 @@
               <property name="sizeHint" stdset="0">
                <size>
                 <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page">
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>723</width>
                 <height>20</height>
                </size>
               </property>

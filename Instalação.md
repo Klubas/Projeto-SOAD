@@ -19,6 +19,10 @@
         
         https://www.python.org/downloads/release/python-374/
 
+### VC Redist
+
+        https://www.microsoft.com/pt-BR/download/details.aspx?id=53840
+
 * Qt5
 
 ######

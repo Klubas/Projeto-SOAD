@@ -9,6 +9,7 @@ from PySide2.QtWidgets import QDialog, QDialogButtonBox
 from Controller.Componentes.StatusDialog import StatusDialog
 from Controller.MainWindow import MainWindow
 from Model.DataBase import DataBase
+from SOAD import resource_path
 from View.Ui_LoginDialog import Ui_LoginDialog
 
 
@@ -20,6 +21,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.comboBox_servidor.addItem("localhost:5432")
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
         self.main = None
+        self.restored = False
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.login)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancelar)
@@ -30,11 +32,12 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         if self.comboBox_servidor.count() == 1:
             self.verticalGroupBox_servidor.setVisible(False)
 
-        self.icon = QIcon(os.path.join("Resources", "Imagens", "soad.png"))
+        icon_path = os.path.join("Resources", "Imagens", "soad.png")
+        icon_image = QImage(resource_path(icon_path)).smoothScaled(135, 135)
+        self.icon = QIcon(resource_path(icon_path))
         self.setWindowIcon(self.icon)
 
-        logo = QImage(os.path.join("Resources", "Imagens", "soad.png")).smoothScaled(135, 135)
-        self.label_logo.setPixmap(QPixmap.fromImage(logo))
+        self.label_logo.setPixmap(QPixmap.fromImage(icon_image))
 
         self.saved_config(action='load')
 
@@ -67,10 +70,12 @@ class LoginDialog(QDialog, Ui_LoginDialog):
     def saved_config(self, action):
         action = action.upper()
         if action == 'SAVE':
+
             data = {
                 "hostname": self.comboBox_servidor.currentText()
                 , "username": self.lineEdit_usuario.text()
                 , "password": self.lineEdit_senha.text()
+                , "restored": "1"
             }
 
             try:
@@ -78,6 +83,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                     json.dump(data, f, ensure_ascii=False, indent=4)
             except Exception as e:
                 logging.debug('[LoginDialog] Não foi possível salvar o arquivo de configuração.')
+
                 logging.debug('Exception> ' + str(e))
 
         elif action == 'LOAD':
@@ -87,8 +93,15 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                     self.comboBox_servidor.setCurrentText(data['hostname'])
                     self.lineEdit_usuario.setText(data['username'])
                     self.lineEdit_senha.setText(data['password'])
+                    self.restored = data['restored']
+
             except Exception as e:
                 logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração.')
+                from Resources.Scripts.Installer import Installer
+                installer = Installer("Resources\database\\bin\\runtime",
+                                      "Resources\\Scripts\\SQL\\dump.backup",
+                                      "soad2019")
+                installer.create_database()
                 logging.debug('Exception> ' + str(e))
 
     def login(self):
@@ -110,12 +123,13 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                         db.definir_schema('soad')
                         self.main = MainWindow(db, self)
                         self.main.setWindowIcon(self.icon)
-                    self.main.showNormal()
+                    self.main.showMaximized()
                     self.saved_config(action='save')
                     self.hide()
 
             except Exception as e:
                 logging.debug('[LoginDialog] ' + str(e))
+                self.saved_config(action='save')
                 dialog = StatusDialog(status='ERRO'
                                       , mensagem="Erro ao abrir o sistema."
                                       , exception=e

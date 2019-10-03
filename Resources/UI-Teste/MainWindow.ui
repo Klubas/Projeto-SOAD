@@ -239,19 +239,29 @@
             </disabled>
            </palette>
           </property>
-          <property name="font">
-           <font>
-            <family>Roboto</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
           </property>
           <property name="frameShadow">
            <enum>QFrame::Plain</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="label_icone_compra">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>110</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IconCompra</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QPushButton" name="pushButton_compra">
              <property name="sizePolicy">
@@ -263,7 +273,7 @@
              <property name="maximumSize">
               <size>
                <width>693</width>
-               <height>41</height>
+               <height>38</height>
               </size>
              </property>
              <property name="palette">
@@ -305,7 +315,6 @@
              </property>
              <property name="font">
               <font>
-               <family>Roboto</family>
                <pointsize>20</pointsize>
                <weight>75</weight>
                <bold>true</bold>
@@ -326,14 +335,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="pushButton_lista_compras">
              <property name="font">
               <font>
-               <family>Roboto</family>
+               <family>MS Sans Serif</family>
                <pointsize>12</pointsize>
                <weight>50</weight>
                <bold>false</bold>
-               <stylestrategy>PreferAntialias</stylestrategy>
               </font>
              </property>
              <property name="autoFillBackground">
@@ -341,6 +349,33 @@
              </property>
              <property name="text">
               <string>Lista de Compras</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_remanufatura">
+             <property name="font">
+              <font>
+               <family>MS Sans Serif</family>
+               <pointsize>12</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="autoFillBackground">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string>Realizar Remanufatura</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -364,13 +399,23 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <family>Roboto</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLabel" name="label_icone_mercadoria">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>110</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IconMercadoria</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QPushButton" name="pushButton_mercadoria">
              <property name="sizePolicy">
@@ -382,7 +427,7 @@
              <property name="maximumSize">
               <size>
                <width>693</width>
-               <height>41</height>
+               <height>38</height>
               </size>
              </property>
              <property name="palette">
@@ -424,7 +469,6 @@
              </property>
              <property name="font">
               <font>
-               <family>Roboto</family>
                <pointsize>20</pointsize>
                <weight>75</weight>
                <bold>true</bold>
@@ -445,14 +489,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_6">
+            <widget class="QPushButton" name="pushButton_lista_mercadoria">
              <property name="font">
               <font>
-               <family>Roboto</family>
+               <family>MS Sans Serif</family>
                <pointsize>12</pointsize>
                <weight>50</weight>
                <bold>false</bold>
-               <stylestrategy>PreferAntialias</stylestrategy>
               </font>
              </property>
              <property name="autoFillBackground">
@@ -473,14 +516,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="pushButton_lista_estoque">
              <property name="font">
               <font>
-               <family>Roboto</family>
+               <family>MS Sans Serif</family>
                <pointsize>12</pointsize>
                <weight>50</weight>
                <bold>false</bold>
-               <stylestrategy>PreferAntialias</stylestrategy>
               </font>
              </property>
              <property name="autoFillBackground">
@@ -511,13 +553,23 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <family>Roboto</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_icone_venda">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>110</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IconVenda</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QPushButton" name="pushButton_venda">
              <property name="sizePolicy">
@@ -529,7 +581,7 @@
              <property name="maximumSize">
               <size>
                <width>693</width>
-               <height>41</height>
+               <height>38</height>
               </size>
              </property>
              <property name="palette">
@@ -571,7 +623,6 @@
              </property>
              <property name="font">
               <font>
-               <family>Roboto</family>
                <pointsize>20</pointsize>
                <weight>75</weight>
                <bold>true</bold>
@@ -592,14 +643,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="pushButton_lista_vendas">
              <property name="font">
               <font>
-               <family>Roboto</family>
+               <family>MS Reference Sans Serif</family>
                <pointsize>12</pointsize>
                <weight>50</weight>
                <bold>false</bold>
-               <stylestrategy>PreferAntialias</stylestrategy>
               </font>
              </property>
              <property name="autoFillBackground">
@@ -630,13 +680,23 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <family>Roboto</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QLabel" name="label_icone_pessoa">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>110</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IconRegistro</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QPushButton" name="pushButton_pessoa">
              <property name="sizePolicy">
@@ -648,7 +708,7 @@
              <property name="maximumSize">
               <size>
                <width>693</width>
-               <height>41</height>
+               <height>38</height>
               </size>
              </property>
              <property name="palette">
@@ -690,7 +750,6 @@
              </property>
              <property name="font">
               <font>
-               <family>Roboto</family>
                <pointsize>20</pointsize>
                <weight>75</weight>
                <bold>true</bold>
@@ -711,15 +770,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_5">
+            <widget class="QPushButton" name="pushButton_lista_clientes">
              <property name="font">
               <font>
-               <family>Roboto</family>
+               <family>MS Sans Serif</family>
                <pointsize>12</pointsize>
                <weight>50</weight>
                <bold>false</bold>
-               <stylestrategy>PreferAntialias</stylestrategy>
-               <kerning>true</kerning>
               </font>
              </property>
              <property name="autoFillBackground">
@@ -740,14 +797,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="pushButton_lista_fornecedores">
              <property name="font">
               <font>
-               <family>Roboto</family>
+               <family>MS Sans Serif</family>
                <pointsize>12</pointsize>
                <weight>50</weight>
                <bold>false</bold>
-               <stylestrategy>PreferAntialias</stylestrategy>
               </font>
              </property>
              <property name="autoFillBackground">
@@ -768,6 +824,22 @@
             </widget>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_logo">
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <property name="text">
+           <string>logo</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
         </item>
        </layout>
@@ -833,6 +905,7 @@
     <addaction name="actionRegistrar_compra"/>
     <addaction name="actionDescarte_de_Material"/>
     <addaction name="actionNova_Remanufatura"/>
+    <addaction name="actionRegistrar_Remanufaturas"/>
    </widget>
    <widget class="QMenu" name="menuAjuda">
     <property name="title">
@@ -844,10 +917,14 @@
     <property name="title">
      <string>Relatórios</string>
     </property>
-    <addaction name="actionProdutos_em_Estoque"/>
-    <addaction name="actionVendas"/>
-    <addaction name="actionCompras"/>
+    <addaction name="actionMercadorias"/>
     <addaction name="actionDescartes"/>
+    <addaction name="actionProdutos_em_Estoque"/>
+    <addaction name="actionCompras"/>
+    <addaction name="actionVendas"/>
+    <addaction name="actionRelacao_de_clientes"/>
+    <addaction name="actionRelacao_de_fornecedores"/>
+    <addaction name="actionLista_de_remanufaturas"/>
    </widget>
    <addaction name="menuArquivo"/>
    <addaction name="menuCadastros"/>
@@ -961,22 +1038,22 @@
   </action>
   <action name="actionProdutos_em_Estoque">
    <property name="text">
-    <string>Produtos em Estoque</string>
+    <string>Produtos em estoque</string>
    </property>
   </action>
   <action name="actionVendas">
    <property name="text">
-    <string>Vendas</string>
+    <string>Relatório de vendas</string>
    </property>
   </action>
   <action name="actionCompras">
    <property name="text">
-    <string>Compras</string>
+    <string>Relatório de compras</string>
    </property>
   </action>
   <action name="actionDescartes">
    <property name="text">
-    <string>Descartes</string>
+    <string>Produtos descartados</string>
    </property>
   </action>
   <action name="actionReconectar">
@@ -985,8 +1062,42 @@
    </property>
   </action>
   <action name="actionNova_Remanufatura">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Nova Remanufatura</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionRegistrar_Remanufaturas">
+   <property name="text">
+    <string>Registrar Remanufaturas</string>
+   </property>
+  </action>
+  <action name="actionMercadorias">
+   <property name="text">
+    <string>Lista de mercadorias</string>
+   </property>
+  </action>
+  <action name="actionRelacao_de_clientes">
+   <property name="text">
+    <string>Relação de clientes</string>
+   </property>
+  </action>
+  <action name="actionRelacao_de_fornecedores">
+   <property name="text">
+    <string>Relação de fornecedores</string>
+   </property>
+  </action>
+  <action name="actionLista_de_remanufaturas">
+   <property name="text">
+    <string>Lista de remanufaturas</string>
    </property>
   </action>
  </widget>

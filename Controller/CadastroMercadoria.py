@@ -157,6 +157,7 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
         self.limpar_dados()
         self.checkBox_permite_venda.setChecked(self.tipo == 'MERCADORIA')
         self.checkBox_ativo.setChecked(True)
+        self.lineEdit_valor_venda.setText('0,00')
 
     def excluir(self):
 
@@ -403,10 +404,11 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
         if items[0]:
             items = items[1][0]['fnc_buscar_registro']
 
-            for item in items:
-                self.fabricantes.add(item['fabricante'])
+            if items:
+                for item in items:
+                    self.fabricantes.add(item['fabricante'])
 
-            self.comboBox_fabricante.addItems(list(self.fabricantes))
+                self.comboBox_fabricante.addItems(list(self.fabricantes))
 
         else:
             dialog = StatusDialog(status='ALERTA'
