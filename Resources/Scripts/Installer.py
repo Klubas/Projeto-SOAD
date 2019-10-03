@@ -26,6 +26,8 @@ class Installer:
 
         os.environ["PGPASSWORD"] = self.password
         args = '--host ' + self.host + ' --port ' + self.port + ' --username "postgres" --role "postgres" --dbname "postgres" --verbose ' + self.dump_file
+        os.environ["PGPASSWORD"] = ''
+
 
         cmd = cmd + ' ' + args
         print(cmd)

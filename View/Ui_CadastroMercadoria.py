@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\CadastroMercadoria.ui',
 # licensing of 'Resources\UI\CadastroMercadoria.ui' applies.
 #
-# Created: Sat Sep 28 13:13:07 2019
+# Created: Sat Sep 28 13:28:23 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
