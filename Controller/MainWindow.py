@@ -12,7 +12,6 @@ from Controller.CadastroPessoa import CadastroPessoa
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.RelatorioPadrao import RelatorioPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
-from Controller.EstornoPedido import EstornoPedido
 from Controller.RegistroRemanufatura import RegistroRemanufatura
 from View.Ui_MainWindow import Ui_MainWindow
 

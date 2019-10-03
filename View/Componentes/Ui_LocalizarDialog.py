@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\Componentes\LocalizarDialog.ui',
-# licensing of 'Resources\UI\Componentes\LocalizarDialog.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/Componentes/LocalizarDialog.ui',
+# licensing of 'Resources/UI/Componentes/LocalizarDialog.ui' applies.
 #
-# Created: Sat Sep 28 13:13:10 2019
+# Created: Tue Oct  1 21:01:56 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_LocalizarDialog(object):
     def setupUi(self, LocalizarDialog):
