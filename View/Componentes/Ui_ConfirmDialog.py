@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/ConfirmDialog.ui',
 # licensing of 'Resources/UI/Componentes/ConfirmDialog.ui' applies.
 #
-# Created: Tue Oct  1 21:01:56 2019
+# Created: Tue Oct  8 20:26:06 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
