@@ -1,5 +1,4 @@
 import os
-import subprocess
 import sys
 
 
@@ -32,8 +31,8 @@ class Installer:
         cmd = cmd + ' ' + args
         print(cmd)
         f = open("log.txt", "w")
-        p = subprocess.Popen(cmd, stdout=f)
-        p.wait()
+        #p = subprocess.Popen(cmd, stdout=f)
+        #p.wait()
 
 if __name__ == '__main__':
     installer = Installer(sys.argv[1], sys.argv[2])
