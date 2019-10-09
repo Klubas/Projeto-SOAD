@@ -1,9 +1,12 @@
 from datetime import datetime
 
+from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QWidget
+
 from Controller.Componentes.StatusDialog import StatusDialog
 
 
-class ConfigRelatorio:
+class ConfigRelatorio(QWidget):
     """
 
     tabela::str - Tabela onde serão pegos os dados
@@ -13,8 +16,16 @@ class ConfigRelatorio:
 
 
     """
-    def __init__(self):
-        pass
+    def __init__(self, parent=None, **kwargs):
+        super(ConfigRelatorio, self).__init__(parent)
+
+        self.dialog = kwargs.get('dialog')
+
+        if self.dialog:
+            self.setWindowFlags(Qt.Dialog)
+        else:
+            self.setWindowFlags(Qt.Window)
+
 
     def get_tipo_relatorio(self, tipo):
         tipo = tipo.upper()
@@ -207,3 +218,8 @@ class ConfigRelatorio:
             dialog.exec()
 
         return relatorio
+
+    # Override PySide2.QtGui.QCloseEvent
+    def closeEvent(self, event):
+        self.window_list.remove(self)
+        event.accept()

@@ -1,17 +1,17 @@
-import os
 import logging
+import os
 from datetime import datetime
 
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QWidget, QTableWidgetItem
+from PySide2.QtWidgets import QTableWidgetItem
 
 from Controller.Componentes.ConfigRelatorio import ConfigRelatorio
 from Controller.Componentes.StatusDialog import StatusDialog
 from View.Componentes.Ui_RelatorioPadrao import Ui_RelatorioPadrao
 
 
-class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
+class RelatorioPadrao(ConfigRelatorio, Ui_RelatorioPadrao):
     """
 
     Classe para criar dinamicamente um relatório com base em uma tabela/view e as colunas desejadas
@@ -23,9 +23,8 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
 
     """
 
-    def __init__(self, db, window_list, tipo , **kwargs):
-        super(ConfigRelatorio, self).__init__()
-        super(RelatorioPadrao, self).__init__()
+    def __init__(self, db, window_list, tipo , parent, **kwargs):
+        super(RelatorioPadrao, self).__init__(parent, **kwargs)
         self.parent_window = self
         self.setupUi(self)
         self.window_list = window_list
@@ -81,6 +80,7 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
         self.refresh()
 
         self.show()
+
 
     def refresh(self):
 
@@ -212,8 +212,9 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
                 self.db
                 , self.window_list
                 , parent=self
+                , id_registro=id
+                , dialog=True
             )
-            tela.atualizar_interface(id)
         except Exception as e:
             logging.error("[RelatorioPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 

@@ -1,6 +1,6 @@
 import logging
 
-from PySide2.QtWidgets import QWidget, QListWidgetItem, QDialogButtonBox
+from PySide2.QtWidgets import QListWidgetItem, QDialogButtonBox
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -9,11 +9,10 @@ from Model.Pessoa import Pessoa
 from View.Ui_CadastroPessoa import Ui_CadastroPessoa
 
 
-class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
+class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
 
-    def __init__(self, db, window_list, **kwargs):
-        super(CadastroPessoa, self).__init__()
-        super(CadastroPadrao, self).__init__()
+    def __init__(self, db, window_list, parent=None, **kwargs):
+        super(CadastroPessoa, self).__init__(parent, **kwargs)
         self.parent_window = self
         self.setupUi(self)
 
@@ -73,6 +72,9 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
 
         self.define_icones()
 
+        self.id_registro = kwargs.get('id_registro')
+        if self.id_registro:
+            self.atualizar_interface(self.id_registro)
         self.show()
 
     def cadastrar(self):
@@ -437,10 +439,4 @@ class CadastroPessoa(QWidget, CadastroPadrao, Ui_CadastroPessoa):
                 modalidades.append(mod['id_modalidade'])
         return modalidades
 
-    # Override PySide2.QtGui.QCloseEvent
-    def closeEvent(self, event):
-        if self.fechar():
-            self.window_list.remove(self)
-            event.accept()
-        else:
-            event.ignore()
+

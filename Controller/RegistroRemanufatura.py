@@ -4,7 +4,7 @@ import os
 
 from PySide2.QtCore import Qt, QRegExp, QDate
 from PySide2.QtGui import QRegExpValidator, QImage, QPixmap, QIcon
-from PySide2.QtWidgets import QWidget, QDialogButtonBox, QTableWidgetItem
+from PySide2.QtWidgets import QDialogButtonBox, QTableWidgetItem
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
@@ -14,11 +14,10 @@ from Model.Remanufatura import Remanufatura
 from View.Ui_RegistroRemanufatura import Ui_RegistroRemanufatura
 
 
-class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
+class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
 
-    def __init__(self, db=None, window_list=None, **kwargs):
-        super(CadastroPadrao, self).__init__()
-        super(RegistroRemanufatura, self).__init__()
+    def __init__(self, db=None, window_list=None, parent=None, **kwargs):
+        super(RegistroRemanufatura, self).__init__(parent, **kwargs)
         ### Padrão
         self.parent_window = self
         self.setupUi(self)
@@ -628,12 +627,7 @@ class RegistroRemanufatura(QWidget, CadastroPadrao, Ui_RegistroRemanufatura):
         else:
             fechar = True
 
-        return fechar
-
-    def closeEvent(self, event):
-        if self.fechar():
+        if fechar:
             self.limpar_tabela(apenas_selecionados=False)
-            self.window_list.remove(self)
-            event.accept()
-        else:
-            event.ignore()
+
+        return fechar

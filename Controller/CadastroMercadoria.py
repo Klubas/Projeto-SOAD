@@ -2,7 +2,7 @@ import logging
 
 from PySide2.QtCore import QRegExp
 from PySide2.QtGui import QDoubleValidator, QRegExpValidator
-from PySide2.QtWidgets import QWidget, QDialogButtonBox
+from PySide2.QtWidgets import QDialogButtonBox
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
@@ -11,11 +11,10 @@ from Model.Mercadoria import Mercadoria
 from View.Ui_CadastroMercadoria import Ui_CadastroMercadoria
 
 
-class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
+class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
 
-    def __init__(self, db=None, window_list=None, **kwargs):
-        super(CadastroPadrao, self).__init__()
-        super(CadastroMercadoria, self).__init__()
+    def __init__(self, db=None, window_list=None, parent=None, **kwargs):
+        super(CadastroMercadoria, self).__init__(parent, **kwargs)
         ### Padrão
         self.parent_window = self
         self.setupUi(self)
@@ -527,12 +526,3 @@ class CadastroMercadoria(QWidget, CadastroPadrao, Ui_CadastroMercadoria):
         else:
             self.lineEdit_valor_venda.setDisabled(True)
             self.lineEdit_valor_venda.setText('0,00')
-
-    # Override PySide2.QtGui.QCloseEvent
-    def closeEvent(self, event):
-        if self.fechar():
-            self.window_list.remove(self)
-            event.accept()
-        else:
-            event.ignore()
-

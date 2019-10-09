@@ -3,7 +3,7 @@ import os
 
 from PySide2.QtCore import QRegExp, QDate
 from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator, QIcon, QPixmap, QImage
-from PySide2.QtWidgets import QWidget, QDialogButtonBox, QTableWidgetItem
+from PySide2.QtWidgets import QDialogButtonBox, QTableWidgetItem
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
@@ -14,11 +14,10 @@ from Model.Pedido import Pedido
 from View.Ui_CadastroPedido import Ui_CadastroPedido
 
 
-class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
+class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
-    def __init__(self, db=None, window_list=None, **kwargs):
-        super(CadastroPadrao, self).__init__()
-        super(CadastroPedido, self).__init__()
+    def __init__(self, db=None, window_list=None, parent=None, **kwargs):
+        super(CadastroPedido, self).__init__(parent, **kwargs)
         ### Padrão
         self.parent_window = self
         self.setupUi(self)
@@ -902,11 +901,3 @@ class CadastroPedido(QWidget, CadastroPadrao, Ui_CadastroPedido):
         )
 
         self.pushButton_excluir.setDisabled(situacao == 'CANCELADO')
-
-    # Override PySide2.QtGui.QCloseEvent
-    def closeEvent(self, event):
-        if self.fechar():
-            self.window_list.remove(self)
-            event.accept()
-        else:
-            event.ignore()
