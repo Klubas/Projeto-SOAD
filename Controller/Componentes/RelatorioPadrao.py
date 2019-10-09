@@ -1,4 +1,5 @@
 import os
+import logging
 from datetime import datetime
 
 from PySide2.QtCore import Qt
@@ -43,6 +44,7 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
 
         self.tabela = relatorio["tabela"]
         self.colunas = relatorio["colunas"]
+        self.interface = relatorio["interface"]
 
         if not self.tabela:
             dialog = StatusDialog(status='ERRO'
@@ -74,12 +76,17 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
             lambda: self.horizontalWidget_data.setDisabled(not self.checkBox_data.isChecked())
         )
         self.pushButton_filtro.clicked.connect(self.filter)
+        self.tableWidget_tabela.doubleClicked.connect(self.abrir_cadastro)
+
+        self.refresh()
 
         self.show()
 
     def refresh(self):
 
         self.tableWidget_tabela.setRowCount(0)
+        self.tableWidget_tabela.clear()
+        self.set_columns()
 
         data = self.get_data()
         if data != 0:
@@ -196,6 +203,19 @@ class RelatorioPadrao(QWidget, ConfigRelatorio, Ui_RelatorioPadrao):
         # Montar string de filtro
         # REFRESH
         self.refresh()
+
+    def abrir_cadastro(self):
+        try:
+            row = self.tableWidget_tabela.currentRow()
+            id = int(self.tableWidget_tabela.item(row, 0).text())
+            tela = self.interface(
+                self.db
+                , self.window_list
+                , parent=self
+            )
+            tela.atualizar_interface(id)
+        except Exception as e:
+            logging.error("[RelatorioPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))

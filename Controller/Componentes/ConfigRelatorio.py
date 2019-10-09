@@ -21,6 +21,9 @@ class ConfigRelatorio:
 
         relatorio = None
         if tipo == 'VENDA':
+
+            from Controller.CadastroPedido import CadastroPedido
+
             relatorio = {
             "tabela": 'vw_pedido_venda',
             "colunas": {
@@ -38,9 +41,13 @@ class ConfigRelatorio:
                 "telefone": ("Telefone", str),
                 "observacao": ("Observações", str),
             }
+            , "interface": CadastroPedido
         }
 
         if tipo == 'COMPRA':
+
+            from Controller.CadastroPedido import CadastroPedido
+
             relatorio = {
                 "tabela": 'vw_pedido_compra'
                 , "colunas": {
@@ -57,7 +64,7 @@ class ConfigRelatorio:
                         "telefone": ("Telefone", str),
                         "observacao": ("Observações", str),
                     }
-
+                , "interface": CadastroPedido
             }
 
         if tipo == 'ESTOQUE':
@@ -87,9 +94,11 @@ class ConfigRelatorio:
                     "motivo_abertura": ("Motivo Abertura", str),
                     "observacao": ("Observação", str)
                 }
+                , "interface": ''
             }
 
         if tipo == 'REMANUFATURA':
+            from Controller.RegistroRemanufatura import RegistroRemanufatura
             relatorio = {
                 "tabela": "vw_remanufatura"
                 , "colunas": {
@@ -107,9 +116,13 @@ class ConfigRelatorio:
                     "pessoa": ("Cliente", str),
                     "documento": ("CPF/CNPJ Cliente", str)
                 }
+                , "interface": RegistroRemanufatura
             }
 
         if tipo == 'MERCADORIA':
+
+            from Controller.CadastroMercadoria import CadastroMercadoria
+
             relatorio = {
                 "tabela": 'vw_mercadoria'
                 , "colunas": {
@@ -129,13 +142,18 @@ class ConfigRelatorio:
                     , "unidade_medida_insumo": ("Unidade de medida casco", str)
                     , "insumo_casco": ("Insumo casco", str)
                 }
+                , "interface": CadastroMercadoria
             }
 
         if tipo == 'CLIENTE':
+
+            from Controller.CadastroPessoa import CadastroPessoa
+
             relatorio = {
                 "tabela": "vw_pessoa_cliente"
                 , "colunas": {
-                    "nome": ("Nome", str)
+                    "id_pessoa": ("ID", int)
+                    , "nome": ("Nome", str)
                     , "documento": ("CPF/CNPJ", str)
                     , "fantasia": ("Nome Fantasia", str)
                     , "email": ("Email", str)
@@ -151,14 +169,18 @@ class ConfigRelatorio:
                     , "tipo_endereco": ("Tipo de endereço", str)
                     , "pais": ("País", str)
                 }
-
+                , "interface": CadastroPessoa
             }
 
         if tipo == 'FORNECEDOR':
+
+            from Controller.CadastroPessoa import CadastroPessoa
+
             relatorio = {
                 "tabela": "vw_pessoa_fornecedor"
                 , "colunas": {
-                    "nome": ("Nome", str)
+                    "id_pessoa": ("ID", int)
+                    , "nome": ("Nome", str)
                     , "documento": ("CPF/CNPJ", str)
                     , "fantasia": ("Nome Fantasia", str)
                     , "email": ("Email", str)
@@ -174,6 +196,7 @@ class ConfigRelatorio:
                     , "tipo_endereco": ("Tipo de endereço", str)
                     , "pais": ("País", str)
                 }
+                , "interface": CadastroPessoa
             }
 
         if not relatorio:
