@@ -1,9 +1,10 @@
+
 from datetime import datetime
 
 from Controller.Componentes.StatusDialog import StatusDialog
 
 
-class ConfigRelatorio:
+class ConfigLista:
     """
 
     tabela::str - Tabela onde serão pegos os dados
@@ -68,6 +69,9 @@ class ConfigRelatorio:
             }
 
         if tipo == 'ESTOQUE':
+
+            from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoque import FiltroEstoque
+
             relatorio = {
                 "tabela": 'vw_item_lote'
                 , "colunas": {
@@ -95,6 +99,7 @@ class ConfigRelatorio:
                     "observacao": ("Observação", str)
                 }
                 , "interface": ''
+                , "filtro": 'FiltroEstoque'
             }
 
         if tipo == 'REMANUFATURA':
