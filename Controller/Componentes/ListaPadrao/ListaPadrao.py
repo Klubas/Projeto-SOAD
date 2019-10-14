@@ -1,17 +1,17 @@
-import logging
 import os
+import logging
 from datetime import datetime
 
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QTableWidgetItem
+from PySide2.QtWidgets import QWidget, QTableWidgetItem
 
-from Controller.Componentes.ConfigRelatorio import ConfigRelatorio
+from Controller.Componentes.ListaPadrao.ConfigLista import ConfigLista
 from Controller.Componentes.StatusDialog import StatusDialog
 from View.Componentes.Ui_RelatorioPadrao import Ui_RelatorioPadrao
 
 
-class RelatorioPadrao(ConfigRelatorio, Ui_RelatorioPadrao):
+class ListaPadrao(QWidget, ConfigLista, Ui_RelatorioPadrao):
     """
 
     Classe para criar dinamicamente um relatório com base em uma tabela/view e as colunas desejadas
@@ -22,16 +22,16 @@ class RelatorioPadrao(ConfigRelatorio, Ui_RelatorioPadrao):
     data = dados a serem carregados na tabela
 
     """
-
-    def __init__(self, db, window_list, tipo , parent, **kwargs):
-        super(RelatorioPadrao, self).__init__(parent, **kwargs)
+    def __init__(self, db, window_list, tipo , **kwargs):
+        super(ConfigLista, self).__init__()
+        super(ListaPadrao, self).__init__()
         self.parent_window = self
         self.setupUi(self)
         self.window_list = window_list
         self.db = db
         self.define_icones()
 
-        relatorio = super(RelatorioPadrao, self).get_tipo_relatorio(tipo)
+        relatorio = super(ListaPadrao, self).get_tipo_relatorio(tipo)
 
         titulo = kwargs.get('titulo')
         if titulo:
@@ -44,6 +44,7 @@ class RelatorioPadrao(ConfigRelatorio, Ui_RelatorioPadrao):
         self.tabela = relatorio["tabela"]
         self.colunas = relatorio["colunas"]
         self.interface = relatorio["interface"]
+        self.filtro = relatorio["filtro"]
 
         if not self.tabela:
             dialog = StatusDialog(status='ERRO'
@@ -77,10 +78,9 @@ class RelatorioPadrao(ConfigRelatorio, Ui_RelatorioPadrao):
         self.pushButton_filtro.clicked.connect(self.filter)
         self.tableWidget_tabela.doubleClicked.connect(self.abrir_cadastro)
 
-        self.refresh()
+        #self.refresh()
 
         self.show()
-
 
     def refresh(self):
 
@@ -200,9 +200,9 @@ class RelatorioPadrao(ConfigRelatorio, Ui_RelatorioPadrao):
         self.tableWidget_tabela.resizeColumnsToContents()
 
     def filter(self):
-        # Montar string de filtro
-        # REFRESH
-        self.refresh()
+        #from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoque import FiltroEstoque
+        #filtro = FiltroEstoque(self)
+        pass
 
     def abrir_cadastro(self):
         try:
@@ -212,9 +212,8 @@ class RelatorioPadrao(ConfigRelatorio, Ui_RelatorioPadrao):
                 self.db
                 , self.window_list
                 , parent=self
-                , id_registro=id
-                , dialog=True
             )
+            tela.atualizar_interface(id)
         except Exception as e:
             logging.error("[RelatorioPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 

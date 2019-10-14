@@ -1,12 +1,10 @@
-from datetime import datetime
 
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QWidget
+from datetime import datetime
 
 from Controller.Componentes.StatusDialog import StatusDialog
 
 
-class ConfigRelatorio(QWidget):
+class ConfigLista:
     """
 
     tabela::str - Tabela onde serão pegos os dados
@@ -16,16 +14,8 @@ class ConfigRelatorio(QWidget):
 
 
     """
-    def __init__(self, parent=None, **kwargs):
-        super(ConfigRelatorio, self).__init__(parent)
-
-        self.dialog = kwargs.get('dialog')
-
-        if self.dialog:
-            self.setWindowFlags(Qt.Dialog)
-        else:
-            self.setWindowFlags(Qt.Window)
-
+    def __init__(self):
+        pass
 
     def get_tipo_relatorio(self, tipo):
         tipo = tipo.upper()
@@ -79,6 +69,9 @@ class ConfigRelatorio(QWidget):
             }
 
         if tipo == 'ESTOQUE':
+
+            from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoque import FiltroEstoque
+
             relatorio = {
                 "tabela": 'vw_item_lote'
                 , "colunas": {
@@ -106,6 +99,7 @@ class ConfigRelatorio(QWidget):
                     "observacao": ("Observação", str)
                 }
                 , "interface": ''
+                , "filtro": 'FiltroEstoque'
             }
 
         if tipo == 'REMANUFATURA':
@@ -218,8 +212,3 @@ class ConfigRelatorio(QWidget):
             dialog.exec()
 
         return relatorio
-
-    # Override PySide2.QtGui.QCloseEvent
-    def closeEvent(self, event):
-        self.window_list.remove(self)
-        event.accept()

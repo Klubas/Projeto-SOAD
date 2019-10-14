@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\DescarteMercadoria.ui',
-# licensing of 'Resources\UI\DescarteMercadoria.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/DescarteMercadoria.ui',
+# licensing of 'Resources/UI/DescarteMercadoria.ui' applies.
 #
-# Created: Wed Oct  9 01:04:18 2019
+# Created: Sun Oct 13 10:57:27 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_Descarte(object):
     def setupUi(self, Descarte):
