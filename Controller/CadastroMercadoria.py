@@ -149,6 +149,11 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
         self.define_icones()
 
         self.popular_dados_padrao()
+
+        self.id_registro = kwargs.get('id_registro')
+        if self.id_registro:
+            self.atualizar_interface(self.id_registro)
+
         self.show()
 
     def cadastrar(self):

@@ -99,7 +99,7 @@ class ConfigLista:
                     "observacao": ("Observação", str)
                 }
                 , "interface": ''
-                , "filtro": 'FiltroEstoque'
+                , "filtro": FiltroEstoque
             }
 
         if tipo == 'REMANUFATURA':
