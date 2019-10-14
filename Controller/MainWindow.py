@@ -250,7 +250,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tela = window_cls(
                 self.db
                 , self.window_list
-                , parent=self
+                , parent=None
                 , **kwargs
             )
             tela.setWindowIcon(self.windowIcon())
@@ -275,6 +275,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     #Override QWidget closeEvent
     def closeEvent(self, event):
+        print(self.window_list)
         if len(self.window_list) > 0:
             sair = ConfirmDialog()
             if sair.exec():

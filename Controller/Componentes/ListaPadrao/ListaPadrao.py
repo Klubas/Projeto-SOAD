@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 from datetime import datetime
 
 from PySide2.QtCore import Qt
@@ -7,11 +7,12 @@ from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QWidget, QTableWidgetItem
 
 from Controller.Componentes.ListaPadrao.ConfigLista import ConfigLista
+from Controller.Componentes.ListaPadrao.Filtro.FiltroPadrao import FiltroPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
-from View.Componentes.Ui_RelatorioPadrao import Ui_RelatorioPadrao
+from View.Componentes.Ui_ListaPadrao import Ui_ListaPadrao
 
 
-class ListaPadrao(QWidget, ConfigLista, Ui_RelatorioPadrao):
+class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
     """
 
     Classe para criar dinamicamente um relatório com base em uma tabela/view e as colunas desejadas
@@ -78,9 +79,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_RelatorioPadrao):
         self.pushButton_filtro.clicked.connect(self.filter)
         self.tableWidget_tabela.doubleClicked.connect(self.abrir_cadastro)
 
-        #self.refresh()
-
-        self.show()
+        self.filter()
 
     def refresh(self):
 
@@ -200,9 +199,10 @@ class ListaPadrao(QWidget, ConfigLista, Ui_RelatorioPadrao):
         self.tableWidget_tabela.resizeColumnsToContents()
 
     def filter(self):
-        #from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoque import FiltroEstoque
-        #filtro = FiltroEstoque(self)
-        pass
+        if not isinstance(self.filtro, FiltroPadrao):
+            self.filtro = FiltroPadrao(child=self.filtro, parent=self)
+        else:
+            self.filtro.show()
 
     def abrir_cadastro(self):
         try:

@@ -1,6 +1,6 @@
 import os
-import sys
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -19,6 +19,7 @@ class Builder:
         self.py_uic_path = pyuic_path
         self.view = py_folder
         self.resources = ui_folder
+        self.rm = 'del'
 
     def build_files(self, file_list):
         for file in file_list:
@@ -29,7 +30,7 @@ class Builder:
             self.build_py_file(file, self.view + os.sep + new_file_name)
 
     def build_files_from_folder(self, folder_path):
-        cmd = 'rm ' + self.view + os.sep + '*.py'
+        cmd = self.rm + ' ' + self.view + os.sep + '*.py'
         print("Removendo aquivos .py")
         print(cmd)
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

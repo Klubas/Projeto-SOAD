@@ -1,14 +1,16 @@
 import logging
 import os
 
+from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
+from PySide2.QtWidgets import QWidget
 
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.StatusDialog import StatusDialog
 
 
-class CadastroPadrao:
+class CadastroPadrao(QWidget):
     """
     Classe padrão para cadastros
     Alguns métodos devem ser reimplementados chamando super(ClasseFilha, self).metodo()
@@ -33,10 +35,19 @@ class CadastroPadrao:
 
     """
 
-    def __init__(self):
+    def __init__(self, parent=None, **kwargs):
+        super(CadastroPadrao, self).__init__(parent)
+
         self.dados_formatados = None
         self.db = None
         self.window_list = None
+
+        self.dialog = kwargs.get('dialog')
+
+        if self.dialog:
+            self.setWindowFlags(Qt.Dialog)
+        else:
+            self.setWindowFlags(Qt.Window)
 
         # Configuracoes
         self.localizar_campos = None
@@ -67,7 +78,7 @@ class CadastroPadrao:
         self.icone_delete = None
         self.icone_find = None
 
-        self.define_icones()
+        #self.define_icones()
 
     def define_icones(self):
         self.icone_insert = QIcon(os.path.join('Resources', 'icons', 'insert.png'))
@@ -275,3 +286,13 @@ class CadastroPadrao:
             return numero.replace(',', '.')
         elif len(numero.split('.')) > 0:
             return numero.replace('.', ',')
+
+    # Override PySide2.QtGui.QCloseEvent
+    def closeEvent(self, event):
+        if self.fechar():
+            if not self.dialog:
+                self.window_list.remove(self)
+            event.accept()
+        else:
+            event.ignore()
+
