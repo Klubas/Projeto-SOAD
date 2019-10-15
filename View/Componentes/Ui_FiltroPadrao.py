@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\FiltroPadrao.ui',
 # licensing of 'Resources\UI\Componentes\FiltroPadrao.ui' applies.
 #
-# Created: Mon Oct 14 01:04:39 2019
+# Created: Tue Oct 15 00:58:52 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,19 +23,36 @@ class Ui_FiltroPadrao(object):
         self.gridLayout.setObjectName("gridLayout")
         self.frame = QtWidgets.QFrame(FiltroPadrao)
         self.frame.setObjectName("frame")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
-        self.gridLayout_2.setSpacing(0)
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.widget = QtWidgets.QFrame(self.frame)
+        self.widget.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.widget.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.widget.setObjectName("widget")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.widget)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.buttonBox = QtWidgets.QDialogButtonBox(self.frame)
+        self.verticalLayout.addWidget(self.widget)
+        self.frame_2 = QtWidgets.QFrame(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
+        self.frame_2.setSizePolicy(sizePolicy)
+        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_2)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.buttonBox = QtWidgets.QDialogButtonBox(self.frame_2)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.gridLayout_2.addWidget(self.buttonBox, 1, 0, 1, 1)
-        self.widget = QtWidgets.QWidget(self.frame)
-        self.widget.setObjectName("widget")
-        self.gridLayout_2.addWidget(self.widget, 0, 0, 1, 1)
-        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        self.horizontalLayout.addWidget(self.buttonBox)
+        self.verticalLayout.addWidget(self.frame_2)
+        self.gridLayout.addWidget(self.frame, 1, 0, 1, 1)
 
         self.retranslateUi(FiltroPadrao)
         QtCore.QMetaObject.connectSlotsByName(FiltroPadrao)

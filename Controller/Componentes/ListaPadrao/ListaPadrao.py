@@ -34,13 +34,9 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         relatorio = super(ListaPadrao, self).get_tipo_relatorio(tipo)
 
-        titulo = kwargs.get('titulo')
-        if titulo:
-            titulo = "SOAD - " + str(titulo)
-        else:
-            titulo = "SOAD - Relatório"
+        self.titulo = relatorio["descricao"]
 
-        self.setWindowTitle(titulo)
+        self.setWindowTitle("SOAD - " + self.titulo)
 
         self.tabela = relatorio["tabela"]
         self.colunas = relatorio["colunas"]
@@ -81,9 +77,12 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         self.filter()
 
-    def refresh(self):
+    def refresh(self, string_filtro=''):
+
+        print(string_filtro)
 
         self.tableWidget_tabela.setRowCount(0)
+        self.tableWidget_tabela.setColumnCount(0)
         self.tableWidget_tabela.clear()
         self.set_columns()
 
@@ -103,6 +102,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             self.colunas[coluna] = self.colunas[coluna][0], self.colunas[coluna][1], i
             i = i + 1
 
+        self.colunas_descricao = list()
         for tupla in self.colunas.values():
             self.colunas_descricao.append(tupla[0])
 
@@ -201,8 +201,10 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
     def filter(self):
         if not isinstance(self.filtro, FiltroPadrao):
             self.filtro = FiltroPadrao(child=self.filtro, parent=self)
-        else:
-            self.filtro.show()
+            self.filtro.setWindowTitle("Filtro - " + self.titulo)
+            self.filtro.string_filtro.connect(self.refresh)
+
+        self.filtro.show()
 
     def abrir_cadastro(self):
         try:

@@ -97,7 +97,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionProdutos_em_Estoque.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Relatório de itens em estoque'
                 , tipo='ESTOQUE'
             )
         )
@@ -105,7 +104,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionVendas.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Relatório de vendas'
                 , tipo='VENDA'
             )
         )
@@ -113,7 +111,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionCompras.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Relatório de compras'
                 , tipo='COMPRA'
             )
         )
@@ -121,7 +118,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionMercadorias.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Lista de mercadorias'
                 , tipo='MERCADORIA'
             )
         )
@@ -131,7 +127,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionRelacao_de_clientes.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Lista de clientes'
                 , tipo='CLIENTE'
             )
         )
@@ -139,7 +134,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionRelacao_de_fornecedores.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Lista de fornecedores'
                 , tipo='FORNECEDOR'
             )
         )
@@ -147,7 +141,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionLista_de_remanufaturas.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Lista de remanufaturas'
                 , tipo='REMANUFATURA'
             )
         )
@@ -191,7 +184,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_lista_vendas.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Relatório de vendas'
                 , tipo='VENDA'
             )
         )
@@ -199,7 +191,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_lista_compras.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Relatório de compras'
                 , tipo='COMPRA'
             )
         )
@@ -207,7 +198,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_lista_estoque.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Relatório de itens em estoque'
                 , tipo='ESTOQUE'
             )
         )
@@ -215,7 +205,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_lista_clientes.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Lista de clientes'
                 , tipo='CLIENTE'
             )
         )
@@ -223,7 +212,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_lista_fornecedores.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Lista de fornecedores'
                 , tipo='FORNECEDOR'
             )
         )
@@ -231,7 +219,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_lista_mercadoria.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Lista de mercadorias'
                 , tipo='MERCADORIA'
             )
         )
@@ -239,7 +226,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_lista_remanufatura.clicked.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
-                , titulo='Lista de remanufaturas'
                 , tipo='REMANUFATURA'
             )
         )
