@@ -26,6 +26,7 @@ class ConfigLista:
             from Controller.CadastroPedido import CadastroPedido
 
             relatorio = {
+            "descricao": "Lista de pedidos de venda",
             "tabela": 'vw_pedido_venda',
             "colunas": {
                 "id_pedido": ("Número", int),
@@ -50,6 +51,7 @@ class ConfigLista:
             from Controller.CadastroPedido import CadastroPedido
 
             relatorio = {
+                "descricao": "Lista de pedidos de compra",
                 "tabela": 'vw_pedido_compra'
                 , "colunas": {
                         "id_pedido": ("Número", int),
@@ -73,6 +75,7 @@ class ConfigLista:
             from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoque import FiltroEstoque
 
             relatorio = {
+                "descricao": "Lista de itens em estoque",
                 "tabela": 'vw_item_lote'
                 , "colunas": {
                     "id_lote": ("Lote", int),
@@ -105,6 +108,7 @@ class ConfigLista:
         if tipo == 'REMANUFATURA':
             from Controller.RegistroRemanufatura import RegistroRemanufatura
             relatorio = {
+                "descricao": "Lista de remanufaturas",
                 "tabela": "vw_remanufatura"
                 , "colunas": {
                     "id_remanufatura": ("Remanufatura", int),
@@ -129,6 +133,7 @@ class ConfigLista:
             from Controller.CadastroMercadoria import CadastroMercadoria
 
             relatorio = {
+                "descricao": "Lista de mercadorias",
                 "tabela": 'vw_mercadoria'
                 , "colunas": {
                     "id_mercadoria": ("ID Mercadoria", int)
@@ -155,6 +160,7 @@ class ConfigLista:
             from Controller.CadastroPessoa import CadastroPessoa
 
             relatorio = {
+                "descricao": "Lista de clientes",
                 "tabela": "vw_pessoa_cliente"
                 , "colunas": {
                     "id_pessoa": ("ID", int)
@@ -182,6 +188,7 @@ class ConfigLista:
             from Controller.CadastroPessoa import CadastroPessoa
 
             relatorio = {
+                "descricao": "Lista de fornecedores",
                 "tabela": "vw_pessoa_fornecedor"
                 , "colunas": {
                     "id_pessoa": ("ID", int)

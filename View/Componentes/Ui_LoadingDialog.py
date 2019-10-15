@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\LoadingDialog.ui',
 # licensing of 'Resources\UI\Componentes\LoadingDialog.ui' applies.
 #
-# Created: Mon Oct 14 01:04:40 2019
+# Created: Tue Oct 15 00:58:52 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

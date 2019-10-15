@@ -57,6 +57,12 @@
        <stylestrategy>PreferDefault</stylestrategy>
       </font>
      </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="1" column="1">
        <widget class="QDialogButtonBox" name="buttonBox">

@@ -967,16 +967,16 @@
    </widget>
    <widget class="QMenu" name="menuRelat_rios">
     <property name="title">
-     <string>Relatórios</string>
+     <string>Listas</string>
     </property>
     <addaction name="actionMercadorias"/>
     <addaction name="actionDescartes"/>
     <addaction name="actionProdutos_em_Estoque"/>
     <addaction name="actionCompras"/>
     <addaction name="actionVendas"/>
-    <addaction name="actionRelacao_de_clientes"/>
-    <addaction name="actionRelacao_de_fornecedores"/>
     <addaction name="actionLista_de_remanufaturas"/>
+    <addaction name="actionRelacao_de_fornecedores"/>
+    <addaction name="actionRelacao_de_clientes"/>
    </widget>
    <addaction name="menuArquivo"/>
    <addaction name="menuCadastros"/>
@@ -1099,17 +1099,17 @@
   </action>
   <action name="actionProdutos_em_Estoque">
    <property name="text">
-    <string>Produtos em estoque</string>
+    <string>Lista de itens em estoque</string>
    </property>
   </action>
   <action name="actionVendas">
    <property name="text">
-    <string>Relatório de vendas</string>
+    <string>Lista de pedidos de venda</string>
    </property>
   </action>
   <action name="actionCompras">
    <property name="text">
-    <string>Relatório de compras</string>
+    <string>Lista de pedidos de compra</string>
    </property>
   </action>
   <action name="actionDescartes">
