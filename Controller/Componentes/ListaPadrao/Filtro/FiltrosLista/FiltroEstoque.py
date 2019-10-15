@@ -27,10 +27,11 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
     def montar_filtro(self) -> str:
         filtro = ''
         filtro = filtro + self.get_mercadoria()
-        self.get_entrada()
-        self.get_saida()
-        self.get_classificacao()
-        self.get_estoque()
+        filtro = filtro + self.get_entrada()
+        filtro = filtro + self.get_saida()
+        filtro = filtro + self.get_classificacao()
+        filtro = filtro + self.get_estoque()
+        print(filtro)
         return filtro
 
     def limpar_filtro(self):
@@ -101,17 +102,35 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
         else:
             return ''
 
-    def get_entrada(self):
-        pass
+    def get_periodo(self, groupBox, dateEdit_fim, dateEdit_inicio, campo) -> str:
+        if groupBox.isChecked():
+            data_inicio = dateEdit_inicio.getDate()
+            data_fim = dateEdit_fim.getDate()
+            return ''
+        else:
+            return ''
 
-    def get_saida(self):
-        pass
+    def get_entrada(self) -> str:
+        return self.get_periodo(
+                groupBox=self.groupBox_entrada
+                , dateEdit_inicio=self.dateEdit_data_entrada1
+                , dateEdit_fim=self.dateEdit_data_entrada2
+                , campo="data_cadastro"
+        )
 
-    def get_classificacao(self):
-        pass
+    def get_saida(self) -> str:
+        return self.get_periodo(
+                groupBox=self.groupBox_saida
+                , dateEdit_inicio=self.dateEdit_data_saida1
+                , dateEdit_fim=self.dateEdit_data_saida2
+                , campo="data_retirada"
+        )
 
-    def get_estoque(self):
-        pass
+    def get_classificacao(self) -> str:
+        return ''
+
+    def get_estoque(self) -> str:
+        return ''
 
 
 
