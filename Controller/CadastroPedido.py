@@ -637,7 +637,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             if mercadoria is not None:
                 mercadoria = mercadoria[0]
         else:
-            lineEdit_descricao.close()
+            lineEdit_descricao.clear()
             lineEdit_marca.clear()
             self.lineEdit_valor_unitario.clear()
 

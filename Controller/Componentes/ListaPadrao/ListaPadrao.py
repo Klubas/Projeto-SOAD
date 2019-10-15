@@ -200,7 +200,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
     def filter(self):
         if not isinstance(self.filtro, FiltroPadrao):
-            self.filtro = FiltroPadrao(child=self.filtro, parent=self)
+            self.filtro = FiltroPadrao(db=self.db, child=self.filtro, parent=self)
             self.filtro.setWindowTitle("Filtro - " + self.titulo)
             self.filtro.string_filtro.connect(self.refresh)
 

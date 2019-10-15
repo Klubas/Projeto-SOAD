@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
-# licensing of 'Resources\UI\MainWindow.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
+# licensing of 'Resources/UI/MainWindow.ui' applies.
 #
-# Created: Tue Oct 15 00:58:51 2019
+# Created: Tue Oct 15 19:39:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -485,9 +485,9 @@ class Ui_MainWindow(object):
         self.menuRelat_rios.addAction(self.actionProdutos_em_Estoque)
         self.menuRelat_rios.addAction(self.actionCompras)
         self.menuRelat_rios.addAction(self.actionVendas)
-        self.menuRelat_rios.addAction(self.actionRelacao_de_clientes)
-        self.menuRelat_rios.addAction(self.actionRelacao_de_fornecedores)
         self.menuRelat_rios.addAction(self.actionLista_de_remanufaturas)
+        self.menuRelat_rios.addAction(self.actionRelacao_de_fornecedores)
+        self.menuRelat_rios.addAction(self.actionRelacao_de_clientes)
         self.menubar.addAction(self.menuArquivo.menuAction())
         self.menubar.addAction(self.menuCadastros.menuAction())
         self.menubar.addAction(self.menuVendas.menuAction())
@@ -523,7 +523,7 @@ class Ui_MainWindow(object):
         self.menuVendas.setTitle(QtWidgets.QApplication.translate("MainWindow", "Vendas", None, -1))
         self.menuEstoque.setTitle(QtWidgets.QApplication.translate("MainWindow", "Estoque", None, -1))
         self.menuAjuda.setTitle(QtWidgets.QApplication.translate("MainWindow", "?", None, -1))
-        self.menuRelat_rios.setTitle(QtWidgets.QApplication.translate("MainWindow", "Relatórios", None, -1))
+        self.menuRelat_rios.setTitle(QtWidgets.QApplication.translate("MainWindow", "Listas", None, -1))
         self.actionSair.setText(QtWidgets.QApplication.translate("MainWindow", "Sair", None, -1))
         self.actionSair.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Sair do sistema", None, -1))
         self.actionSair.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
@@ -545,9 +545,9 @@ class Ui_MainWindow(object):
         self.actionDescarte_de_Material.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Descartar materiais", None, -1))
         self.actionDevolucao.setText(QtWidgets.QApplication.translate("MainWindow", "Devolução", None, -1))
         self.actionDevolucao.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Realizar uma devolução", None, -1))
-        self.actionProdutos_em_Estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Produtos em estoque", None, -1))
-        self.actionVendas.setText(QtWidgets.QApplication.translate("MainWindow", "Relatório de vendas", None, -1))
-        self.actionCompras.setText(QtWidgets.QApplication.translate("MainWindow", "Relatório de compras", None, -1))
+        self.actionProdutos_em_Estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de itens em estoque", None, -1))
+        self.actionVendas.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de pedidos de venda", None, -1))
+        self.actionCompras.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de pedidos de compra", None, -1))
         self.actionDescartes.setText(QtWidgets.QApplication.translate("MainWindow", "Produtos descartados", None, -1))
         self.actionReconectar.setText(QtWidgets.QApplication.translate("MainWindow", "Reconectar", None, -1))
         self.actionNova_Remanufatura.setText(QtWidgets.QApplication.translate("MainWindow", "Nova Remanufatura", None, -1))

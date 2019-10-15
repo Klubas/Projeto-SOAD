@@ -84,6 +84,7 @@ class ConfigLista:
                     "quantidade_item": ("Quantidade", float),
                     "data_validade": ("Data validade", datetime),
                     "lote_fabricante": ("Lote do fabricante", str),
+                    #"id_mercadoria": ("ID Mercadoria", int, False)
                     "codigo_mercadoria": ("Código mercadoria", str),
                     "descricao": ("Mercadoria", str),
                     "marca": ("Fabricante", str),
