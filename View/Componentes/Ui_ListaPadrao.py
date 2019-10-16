@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/ListaPadrao.ui',
 # licensing of 'Resources/UI/Componentes/ListaPadrao.ui' applies.
 #
-# Created: Tue Oct 15 19:59:50 2019
+# Created: Tue Oct 15 22:06:07 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -164,16 +164,16 @@ class Ui_ListaPadrao(object):
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.groupBox = QtWidgets.QGroupBox(self.frame_contents)
+        self.frame1 = QtWidgets.QFrame(self.frame_contents)
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setWeight(75)
         font.setBold(True)
-        self.groupBox.setFont(font)
-        self.groupBox.setObjectName("groupBox")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.groupBox)
+        self.frame1.setFont(font)
+        self.frame1.setObjectName("frame1")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame1)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.tableWidget_tabela = QtWidgets.QTableWidget(self.groupBox)
+        self.tableWidget_tabela = QtWidgets.QTableWidget(self.frame1)
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setWeight(50)
@@ -191,7 +191,7 @@ class Ui_ListaPadrao(object):
         self.tableWidget_tabela.verticalHeader().setVisible(False)
         self.tableWidget_tabela.verticalHeader().setHighlightSections(False)
         self.horizontalLayout_2.addWidget(self.tableWidget_tabela)
-        self.horizontalLayout.addWidget(self.groupBox)
+        self.horizontalLayout.addWidget(self.frame1)
         self.verticalLayout.addWidget(self.frame_contents)
         self.frame_buttons = QtWidgets.QFrame(ListaPadrao)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -220,6 +220,5 @@ class Ui_ListaPadrao(object):
         self.label.setText(QtWidgets.QApplication.translate("ListaPadrao", "Data", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("ListaPadrao", "até", None, -1))
         self.checkBox_filtro.setText(QtWidgets.QApplication.translate("ListaPadrao", "Apenas X", None, -1))
-        self.groupBox.setTitle(QtWidgets.QApplication.translate("ListaPadrao", "Lista", None, -1))
         self.tableWidget_tabela.setSortingEnabled(True)
 

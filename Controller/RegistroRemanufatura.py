@@ -127,7 +127,7 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         self.lineEdit_casco_id.editingFinished.connect(
             lambda: self.busca_mercadoria(tipo='CASCO')
         )
-
+        self.tableWidget_remanufaturas.setColumnHidden(0, True)
         self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
         self.show()
 
@@ -215,6 +215,8 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
 
                     col = col + 1
                 row = row + 1
+
+        self.tableWidget_remanufaturas.setColumnHidden(0, True)
 
         self.ativar_botoes()
 

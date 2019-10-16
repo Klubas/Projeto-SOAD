@@ -815,6 +815,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                     col = col + 1
                 row = row + 1
 
+        self.tableWidget_items.setColumnHidden(0, True)
+
         self.limpar_item()
 
     def apagar_item(self, item):

@@ -62,31 +62,31 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         data = kwargs.get('data')
         if data:
             self.set_data(data)
-        """
-        if not data:
-            data = self.get_data()
-            if data != 0:
-                self.set_data(data)
-        """
-        self.pushButton_atualizar.clicked.connect(self.refresh)
+
+        self.string_filtro = ''
+        self.pushButton_atualizar.clicked.connect(lambda: self.refresh(string_filtro=self.string_filtro))
         self.checkBox_data.toggled.connect(
             lambda: self.horizontalWidget_data.setDisabled(not self.checkBox_data.isChecked())
         )
         self.pushButton_filtro.clicked.connect(self.filter)
         self.tableWidget_tabela.doubleClicked.connect(self.abrir_cadastro)
 
-        self.filter()
+        if self.filtro is not None:
+            self.filter()
+        else:
+            self.show()
+            self.refresh()
 
     def refresh(self, string_filtro=''):
 
-        print(string_filtro)
+        self.string_filtro = string_filtro
 
         self.tableWidget_tabela.setRowCount(0)
         self.tableWidget_tabela.setColumnCount(0)
         self.tableWidget_tabela.clear()
         self.set_columns()
 
-        data = self.get_data()
+        data = self.get_data(filtro=string_filtro)
         if data != 0:
             self.set_data(data)
 
@@ -99,7 +99,14 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
     def set_columns(self):
         i = 0
         for coluna in self.colunas:
-            self.colunas[coluna] = self.colunas[coluna][0], self.colunas[coluna][1], i
+            show = True
+            try:
+                if self.colunas[coluna][2] is False:
+                    show = False
+            except:
+                pass
+
+            self.colunas[coluna] = self.colunas[coluna][0], self.colunas[coluna][1], show , i
             i = i + 1
 
         self.colunas_descricao = list()
@@ -110,13 +117,14 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         self.tableWidget_tabela.setHorizontalHeaderLabels(self.colunas_descricao)
         self.tableWidget_tabela.resizeColumnsToContents()
 
-    def get_data(self):
+    def get_data(self, filtro):
 
         retorno = self.db.busca_registro(
             self.tabela
             , ''
             , ''
             , '='
+            , filtro=filtro
         )
 
         if retorno[0]:
@@ -197,6 +205,11 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             row = row + 1
 
         self.tableWidget_tabela.resizeColumnsToContents()
+
+        for coluna in self.colunas.values():
+            print(coluna)
+            self.tableWidget_tabela.setColumnHidden(coluna[3], not coluna[2])
+
 
     def filter(self):
         if not isinstance(self.filtro, FiltroPadrao):

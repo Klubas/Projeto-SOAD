@@ -6,11 +6,13 @@ from Controller.Componentes.StatusDialog import StatusDialog
 
 class ConfigLista:
     """
-
+    descricao::str
     tabela::str - Tabela onde serão pegos os dados
     colunas::list(dict()) - Lista com dicionários contendo {"nome_coluna": ("descricao", tipo)}
     data::list(dict()) - Lista de dicionários, onde cada item da lista é uma linha da tabelas
         e cada atributo do dicionário é referente a uma coluna (referenciado com a chave de colunas::list(dict()))
+    interface::QWidget
+    filtro::QDialog
 
 
     """
@@ -44,6 +46,7 @@ class ConfigLista:
                 "observacao": ("Observações", str),
             }
             , "interface": CadastroPedido
+            , "filtro": None
         }
 
         if tipo == 'COMPRA':
@@ -68,6 +71,7 @@ class ConfigLista:
                         "observacao": ("Observações", str),
                     }
                 , "interface": CadastroPedido
+                , "filtro": None
             }
 
         if tipo == 'ESTOQUE':
@@ -102,7 +106,7 @@ class ConfigLista:
                     "motivo_abertura": ("Motivo Abertura", str),
                     "observacao": ("Observação", str)
                 }
-                , "interface": ''
+                , "interface": None
                 , "filtro": FiltroEstoque
             }
 
@@ -127,6 +131,7 @@ class ConfigLista:
                     "documento": ("CPF/CNPJ Cliente", str)
                 }
                 , "interface": RegistroRemanufatura
+                , "filtro": None
             }
 
         if tipo == 'MERCADORIA':
@@ -137,7 +142,7 @@ class ConfigLista:
                 "descricao": "Lista de mercadorias",
                 "tabela": 'vw_mercadoria'
                 , "colunas": {
-                    "id_mercadoria": ("ID Mercadoria", int)
+                    "id_mercadoria": ("ID Mercadoria", int, False)
                     , "codigo": ("Código mercadoria", str)
                     , "tipo_mercadoria": ("Classificação", str)
                     , "descricao": ("Descrição", str)
@@ -154,6 +159,7 @@ class ConfigLista:
                     , "insumo_casco": ("Insumo casco", str)
                 }
                 , "interface": CadastroMercadoria
+                , "filtro": None
             }
 
         if tipo == 'CLIENTE':
@@ -164,7 +170,7 @@ class ConfigLista:
                 "descricao": "Lista de clientes",
                 "tabela": "vw_pessoa_cliente"
                 , "colunas": {
-                    "id_pessoa": ("ID", int)
+                    "id_pessoa": ("ID", int, False)
                     , "nome": ("Nome", str)
                     , "documento": ("CPF/CNPJ", str)
                     , "fantasia": ("Nome Fantasia", str)
@@ -182,6 +188,7 @@ class ConfigLista:
                     , "pais": ("País", str)
                 }
                 , "interface": CadastroPessoa
+                , "filtro": None
             }
 
         if tipo == 'FORNECEDOR':
@@ -192,7 +199,7 @@ class ConfigLista:
                 "descricao": "Lista de fornecedores",
                 "tabela": "vw_pessoa_fornecedor"
                 , "colunas": {
-                    "id_pessoa": ("ID", int)
+                    "id_pessoa": ("ID", int, False)
                     , "nome": ("Nome", str)
                     , "documento": ("CPF/CNPJ", str)
                     , "fantasia": ("Nome Fantasia", str)
@@ -210,6 +217,7 @@ class ConfigLista:
                     , "pais": ("País", str)
                 }
                 , "interface": CadastroPessoa
+                , "filtro": None
             }
 
         if not relatorio:
