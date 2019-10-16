@@ -99,14 +99,19 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
     def set_columns(self):
         i = 0
         for coluna in self.colunas:
-            show = True
             try:
                 if self.colunas[coluna][2] is False:
-                    show = False
-            except:
-                pass
+                    visible = False
+                else:
+                    visible = True
+            except IndexError:
+                visible = True
 
-            self.colunas[coluna] = self.colunas[coluna][0], self.colunas[coluna][1], show , i
+            except Exception as e:
+                logging.debug("[ListaPadrao] Exception=" + str(e))
+                return -1
+
+            self.colunas[coluna] = self.colunas[coluna][0], self.colunas[coluna][1], visible, i
             i = i + 1
 
         self.colunas_descricao = list()
@@ -206,10 +211,9 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         self.tableWidget_tabela.resizeColumnsToContents()
 
+        # Oculta colunas marcadas como not visible
         for coluna in self.colunas.values():
-            print(coluna)
             self.tableWidget_tabela.setColumnHidden(coluna[3], not coluna[2])
-
 
     def filter(self):
         if not isinstance(self.filtro, FiltroPadrao):
@@ -230,7 +234,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             )
             tela.atualizar_interface(id)
         except Exception as e:
-            logging.error("[RelatorioPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
+            logging.error("[ListaPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))
@@ -238,3 +242,8 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
     def show(self):
         self.showMaximized()
+
+    # Override PySide2.QtGui.QCloseEvent
+    def closeEvent(self, event):
+        self.window_list.remove(self)
+        event.accept()

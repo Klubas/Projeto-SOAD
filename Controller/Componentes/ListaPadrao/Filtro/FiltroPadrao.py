@@ -20,7 +20,6 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         self.setWindowIcon(QIcon(os.path.join('Resources', 'icons', 'filter.png')))
 
         self.child = child(db=self.db, parent=self.widget)
-        #self.child.setupUi(self.child)
         self.child.setWindowFlags(Qt.Widget)
         self.child.move(0, 0)
 
@@ -36,19 +35,41 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         self.child.show()
         super(FiltroPadrao, self).show()
 
+    def montar_filtro(self) -> str:
+        i = 0
+        filtro = ''
+        for metodo in self.child.metodos:
+            valor = metodo()
+            if valor != '':
+                i = i + 1
+                if i > 1:
+                    filtro = filtro + " and "
+                filtro = filtro + valor
+
+        if i > 0:
+            filtro = filtro + ";"
+
+        print(filtro)
+        return filtro
+
     def confirma(self):
-        string_filtro = self.child.montar_filtro()
+        string_filtro = self.montar_filtro()
+        print(string_filtro)
         self.string_filtro.emit(string_filtro)
         self.parent.show()
         self.hide()
         self.done(0)
 
     def cancela(self):
-        self.parent.show()
-        self.hide()
+        if self.parent.isVisible():
+            self.hide()
+        else:
+            self.parent.close()
+            self.close()
 
     def limpar_filtro(self):
-        pass
+        self.child.limpar_filtro()
+
 
 
 

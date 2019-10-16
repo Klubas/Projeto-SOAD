@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
-# licensing of 'Resources/UI/MainWindow.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\MainWindow.ui',
+# licensing of 'Resources\UI\MainWindow.ui' applies.
 #
-# Created: Tue Oct 15 22:06:06 2019
+# Created: Wed Oct 16 01:24:55 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -503,7 +503,7 @@ class Ui_MainWindow(object):
         self.label_icone_compra.setText(QtWidgets.QApplication.translate("MainWindow", "IconCompra", None, -1))
         self.pushButton_compra.setText(QtWidgets.QApplication.translate("MainWindow", "Registrar Compra", None, -1))
         self.pushButton_lista_compras.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Compras", None, -1))
-        self.pushButton_lista_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Relatório de Estoque", None, -1))
+        self.pushButton_lista_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de itens em estoque", None, -1))
         self.label_logo.setText(QtWidgets.QApplication.translate("MainWindow", "logo", None, -1))
         self.label_icone_mercadoria.setText(QtWidgets.QApplication.translate("MainWindow", "IconMercadoria", None, -1))
         self.pushButton_mercadoria.setText(QtWidgets.QApplication.translate("MainWindow", "Mercadorias", None, -1))

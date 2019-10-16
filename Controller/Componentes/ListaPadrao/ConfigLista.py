@@ -88,7 +88,7 @@ class ConfigLista:
                     "quantidade_item": ("Quantidade", float),
                     "data_validade": ("Data validade", datetime),
                     "lote_fabricante": ("Lote do fabricante", str),
-                    #"id_mercadoria": ("ID Mercadoria", int, False)
+                    "id_mercadoria": ("ID Mercadoria", int, False),
                     "codigo_mercadoria": ("Código mercadoria", str),
                     "descricao": ("Mercadoria", str),
                     "marca": ("Fabricante", str),
@@ -223,8 +223,7 @@ class ConfigLista:
         if not relatorio:
             dialog = StatusDialog(
                 status='ERRO'
-                , mensagem="O tipo de relatório " + tipo + " não é válido."
-                , parent=self)
+                , mensagem="O tipo de relatório " + tipo + " não é válido.")
             dialog.exec()
 
         return relatorio

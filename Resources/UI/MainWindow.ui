@@ -390,7 +390,7 @@
               <bool>true</bool>
              </property>
              <property name="text">
-              <string>Relatório de Estoque</string>
+              <string>Lista de itens em estoque</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
