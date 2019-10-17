@@ -179,6 +179,11 @@ class CadastroPadrao(QWidget):
 
         return 'OK'
 
+    def marca_obrigatorios(self):
+        if len(self.campos_obrigatorios) > 0:
+            for campo, valor in self.campos_obrigatorios.items():
+                print("Implementar")
+
     # Reimplementar chamando super
     def confirma(self):
         if self.esta_em_modo_edicao():

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\About.ui',
 # licensing of 'Resources\UI\About.ui' applies.
 #
-# Created: Wed Oct 16 01:24:54 2019
+# Created: Thu Oct 17 01:09:27 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -88,6 +88,7 @@ class Ui_about(object):
         self.buttonBox = QtWidgets.QDialogButtonBox(self.groupBox)
         self.buttonBox.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.buttonBox.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.buttonBox.setInputMethodHints(QtCore.Qt.ImhPreferUppercase)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setCenterButtons(True)

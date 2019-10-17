@@ -24,7 +24,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.parent = login_dialog
         self.db = db
         self.window_list = list()
-        # todo: self.setWindowIcon()
         self.setWindowTitle("SOAD - VIP Cartuchos")
 
         icone_venda=QImage(os.path.join('Resources', 'icons', 'vendas.png')).smoothScaled(85, 85)
@@ -42,7 +41,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.label_logo_empresa.setPixmap(QPixmap.fromImage(icone_empresa))
 
         self.label_logo.setWindowOpacity(0)
-
 
         # Menus
         self.actionSair.triggered.connect(
@@ -74,12 +72,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionNova_Venda.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=CadastroPedido, tipo="VENDA")
-        )
-
-        self.actionDevolucao.triggered.connect(
-            lambda: self.abrir_interface(
-                window_cls=EstornoPedido
-            )
         )
 
         self.actionRegistrar_compra.triggered.connect(
@@ -261,7 +253,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     #Override QWidget closeEvent
     def closeEvent(self, event):
-        print(self.window_list)
+        logging.info("[MainWindow] Janelas abertas: " + str(self.window_list))
         if len(self.window_list) > 0:
             sair = ConfirmDialog()
             if sair.exec():

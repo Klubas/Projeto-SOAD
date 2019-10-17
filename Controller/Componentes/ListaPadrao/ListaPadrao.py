@@ -40,8 +40,18 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         self.tabela = relatorio["tabela"]
         self.colunas = relatorio["colunas"]
-        self.interface = relatorio["interface"]
+
+        if isinstance(relatorio["interface"], tuple):
+            self.interface = relatorio["interface"][0]
+            self.interface_args = relatorio["interface"][1]
+        else:
+            self.interface = relatorio["interface"]
+            self.interface_args = dict()
+
         self.filtro = relatorio["filtro"]
+
+        if not self.filtro:
+            self.pushButton_filtro.setVisible(False)
 
         if not self.tabela:
             dialog = StatusDialog(status='ERRO'
@@ -227,12 +237,25 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         try:
             row = self.tableWidget_tabela.currentRow()
             id = int(self.tableWidget_tabela.item(row, 0).text())
+            self.interface_args['id_registro'] = id
             tela = self.interface(
                 self.db
                 , self.window_list
                 , parent=self
+                , **self.interface_args
             )
-            tela.atualizar_interface(id)
+            """
+            self.tableWidget_tabela.setDisabled(True)
+            import time
+            try:
+                while True:
+                    if not tela.isVisible():
+                        time.sleep(1)
+            except:
+                self.tableWidget_tabela.setDisabled(False)
+
+            #tela.atualizar_interface(id)
+            """
         except Exception as e:
             logging.error("[ListaPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 

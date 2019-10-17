@@ -181,6 +181,9 @@
           <property name="focusPolicy">
            <enum>Qt::StrongFocus</enum>
           </property>
+          <property name="inputMethodHints">
+           <set>Qt::ImhPreferUppercase</set>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>

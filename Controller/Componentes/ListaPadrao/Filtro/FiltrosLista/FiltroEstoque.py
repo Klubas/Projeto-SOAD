@@ -1,5 +1,6 @@
 import logging
 
+from PySide2.QtCore import QDate
 from PySide2.QtWidgets import QDialog
 
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
@@ -64,8 +65,28 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
             )
         )
 
+        self.limpar_filtro()
+
     def limpar_filtro(self):
-        pass
+        self.lineEdit_fornecedor.clear()
+        self.lineEdit_fornecedor_documento.clear()
+        self.lineEdit_mercadoria_id.clear()
+        self.lineEdit_mercadoria.clear()
+
+        self.checkBox_mercadoria.setChecked(False)
+        self.checkBox_insumo.setChecked(False)
+        self.checkBox_casco.setChecked(False)
+
+        self.checkBox_abertos.setChecked(False)
+        self.checkBox_vazios.setChecked(False)
+
+        self.groupBox_entrada.setChecked(False)
+        self.groupBox_saida.setChecked(False)
+
+        self.dateEdit_data_entrada1.setDate(QDate().currentDate())
+        self.dateEdit_data_entrada2.setDate(QDate().currentDate())
+        self.dateEdit_data_saida1.setDate(QDate().currentDate())
+        self.dateEdit_data_saida2.setDate(QDate().currentDate())
 
     def busca_registro(self, tabela, campo, lineEdit_id, campo_descricao, lineEdit_descricao, colunas_dict):
 
@@ -154,10 +175,31 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
         )
 
     def get_classificacao(self) -> str:
-        return ''
+        filtro = ''
+        if self.checkBox_mercadoria.isChecked():
+            filtro = filtro + "UPPER(tipo_mercadoria) = $$MERCADORIA$$"
+
+        if self.checkBox_insumo.isChecked():
+            filtro = filtro + " or " if filtro != '' else filtro
+            filtro = filtro + "UPPER(tipo_mercadoria) = $$INSUMO$$"
+
+        if self.checkBox_casco.isChecked():
+            filtro = filtro + " or " if filtro != '' else filtro
+            filtro = filtro + "UPPER(tipo_mercadoria) = $$CASCO$$"
+
+        return "(" + filtro + ")" if filtro != '' else filtro
 
     def get_estoque(self) -> str:
-        return ''
+        filtro = ''
+
+        if self.checkBox_abertos.isChecked():
+            filtro = filtro + "aberto = true::boolean"
+
+        if not self.checkBox_vazios.isChecked():
+            filtro = filtro + " and " if filtro != '' else filtro
+            filtro = filtro + "quantidade_item > 0::integer"
+
+        return filtro
 
     def get_dados_localizar(self, dados):
         self.dados = dados

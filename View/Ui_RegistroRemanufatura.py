@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\RegistroRemanufatura.ui',
 # licensing of 'Resources\UI\RegistroRemanufatura.ui' applies.
 #
-# Created: Wed Oct 16 01:24:56 2019
+# Created: Thu Oct 17 01:09:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

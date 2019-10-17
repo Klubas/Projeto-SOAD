@@ -50,26 +50,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         # Compra ou venda
         self.tipo_pedido = kwargs.get('tipo')
 
-        if self.tipo_pedido == 'VENDA':
-
-            self.tipo_pessoa = 'Cliente'
-            self.view_busca = 'vw_pedido_venda'
-            self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
-            self.horizontalFrame_tipo_item.setVisible(True)
-            self.label_data.setText('Data entrega')
-
-        elif self.tipo_pedido == 'COMPRA':
-
-            self.tipo_pessoa = 'Fornecedor'
-            self.view_busca = 'vw_pedido_compra'
-            self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
-            self.radioButton_mercadoria.setChecked(True)
-            self.horizontalFrame_tipo_item.setVisible(False)
-            self.label_data.setText('Data compra')
-
-        else:
-            dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO INVÁLIDO', parent=self.parent_window)
-            dialog.exec()
+        self.configura_tipo()
 
         self.filtro_adicional = None
         self.setWindowTitle('SOAD - Registrar ' + self.tipo_pedido.capitalize())
@@ -181,7 +162,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
             self.atualizar_interface(self.id_registro)
-
         self.show()
 
     def cadastrar(self):
@@ -347,6 +327,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.tabWidget.setDisabled(False)
             self.tab_campos.setDisabled(True)
             self.horizontalWidget_botoes_tabela.setVisible(False)
+            self.buttonBox_item.setVisible(False)
 
         else:
             self.groupBox_identificacao.setDisabled(False)
@@ -354,6 +335,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.tabWidget.setDisabled(False)
             self.tab_campos.setDisabled(False)
             self.horizontalWidget_botoes_tabela.setVisible(True)
+            self.buttonBox_item.setVisible(True)
+
 
     def movimentar(self, pedido_id):
         dialog = ConfirmDialog(self)
@@ -462,6 +445,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         )
 
         self.label_tipo_pedido.setText(pedido.tipo_pedido)
+        self.tipo_pedido = pedido.tipo_pedido
+        self.configura_tipo()
+
         self.textEdit_observacao.setText(pedido.observacao)
 
         self.dateEdit_cadastro.setDate(
@@ -599,7 +585,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             return False
 
     def busca_mercadoria(self, tipo):
-
         mercadoria = None
 
         if tipo == 'MERCADORIA':
@@ -669,7 +654,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             if mercadoria is not None:
                 mercadoria = mercadoria[0]
 
-        if mercadoria:
+        if mercadoria is not None:
             lineEdit_id.setText(str(mercadoria[campo]))
             lineEdit_descricao.setText(mercadoria['descricao'])
             lineEdit_marca.setText(mercadoria['marca'])
@@ -686,10 +671,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                     self.label_tinta.setPixmap(QPixmap.fromImage(self.color_ink))
                 else:
                     self.label_tinta.setPixmap(QPixmap.fromImage(self.bw_ink))
-
-
-
-
 
             return True
 
@@ -713,6 +694,10 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             if int(it.item_pedido_id) == int(item_pedido.item_pedido_id):
                 item_pedido = it
                 break
+
+        if self.lineEdit_item_pedido_id.text() != '':
+            #self.buttonBox_item.button(QDialogButtonBox.Save).setEnabled(False)
+            self.buttonBox_item.button(QDialogButtonBox.Save).setText('Editar')
 
         if item_pedido.tipo == 'REMANUFATURA':
 
@@ -821,24 +806,22 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
     def apagar_item(self, item):
         # Remove do objeto pedido
-        item_pedido = ItemPedido
 
         selecionado = self.tableWidget_items.selectedItems()
 
         if len(selecionado) > 0:
             selecionado = selecionado[0]
 
-        item_pedido.item_pedido_id = int(self.tableWidget_items.item(selecionado.row(), 0).text())
+        item_pedido_id = int(self.tableWidget_items.item(selecionado.row(), 0).text())
 
         for it in self.pedido.itens:
-            if int(it.item_pedido_id) == int(item_pedido.item_pedido_id):
+            if int(it.item_pedido_id) == int(item_pedido_id):
                 self.pedido.itens.remove(it)
+                self.preencher_tabela()
+                self.pushButton_remover_item.setDisabled(True)
                 break
 
-        # atualiza a tabela
-        self.preencher_tabela()
-
-        self.pushButton_remover_item.setDisabled(True)
+        self.calcula_totais_pedido()
 
     def limpar_item(self):
 
@@ -860,6 +843,10 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.lineEdit_valor_unitario.clear()
         self.lineEdit_valor_total_item.clear()
         self.lineEdit_valor_total_pedido.clear()
+
+        self.calcula_totais_pedido()
+
+        #self.buttonBox_item.button(QDialogButtonBox.Save).setEnabled(True)
 
     def calcula_totais_item(self):
 
@@ -907,3 +894,25 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         )
 
         self.pushButton_excluir.setDisabled(situacao == 'CANCELADO')
+
+    def configura_tipo(self):
+        self.tipo_pedido = 'VENDA' if not self.tipo_pedido else self.tipo_pedido
+        if self.tipo_pedido == 'VENDA':
+            self.tipo_pessoa = 'Cliente'
+            self.view_busca = 'vw_pedido_venda'
+            self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
+            self.horizontalFrame_tipo_item.setVisible(True)
+            self.label_data.setText('Data entrega')
+
+        elif self.tipo_pedido == 'COMPRA':
+            self.tipo_pessoa = 'Fornecedor'
+            self.view_busca = 'vw_pedido_compra'
+            self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
+            self.radioButton_mercadoria.setChecked(True)
+            self.horizontalFrame_tipo_item.setVisible(False)
+            self.label_data.setText('Data compra')
+
+        else:
+            dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO ' + str(self.tipo_pedido) + ' INVÁLIDO',
+                                  parent=self.parent_window)
+            dialog.exec()

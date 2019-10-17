@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\Componentes\FiltroEstoque.ui',
 # licensing of 'Resources\UI\Componentes\FiltroEstoque.ui' applies.
 #
-# Created: Wed Oct 16 01:24:56 2019
+# Created: Thu Oct 17 01:09:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,14 +13,14 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_FiltroEstoque(object):
     def setupUi(self, FiltroEstoque):
         FiltroEstoque.setObjectName("FiltroEstoque")
-        FiltroEstoque.resize(600, 300)
+        FiltroEstoque.resize(600, 250)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FiltroEstoque.sizePolicy().hasHeightForWidth())
         FiltroEstoque.setSizePolicy(sizePolicy)
-        FiltroEstoque.setMinimumSize(QtCore.QSize(600, 300))
-        FiltroEstoque.setMaximumSize(QtCore.QSize(600, 400))
+        FiltroEstoque.setMinimumSize(QtCore.QSize(600, 250))
+        FiltroEstoque.setMaximumSize(QtCore.QSize(600, 250))
         FiltroEstoque.setSizeGripEnabled(False)
         self.gridLayout = QtWidgets.QGridLayout(FiltroEstoque)
         self.gridLayout.setSpacing(6)
@@ -74,9 +74,9 @@ class Ui_FiltroEstoque(object):
         self.groupBox_4.setObjectName("groupBox_4")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.groupBox_4)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.checkBox_4 = QtWidgets.QCheckBox(self.groupBox_4)
-        self.checkBox_4.setObjectName("checkBox_4")
-        self.verticalLayout_2.addWidget(self.checkBox_4)
+        self.checkBox_abertos = QtWidgets.QCheckBox(self.groupBox_4)
+        self.checkBox_abertos.setObjectName("checkBox_abertos")
+        self.verticalLayout_2.addWidget(self.checkBox_abertos)
         self.checkBox_vazios = QtWidgets.QCheckBox(self.groupBox_4)
         self.checkBox_vazios.setObjectName("checkBox_vazios")
         self.verticalLayout_2.addWidget(self.checkBox_vazios)
@@ -90,15 +90,15 @@ class Ui_FiltroEstoque(object):
         self.groupBox_3.setObjectName("groupBox_3")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.groupBox_3)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.checkBox = QtWidgets.QCheckBox(self.groupBox_3)
-        self.checkBox.setObjectName("checkBox")
-        self.verticalLayout.addWidget(self.checkBox)
-        self.checkBox_3 = QtWidgets.QCheckBox(self.groupBox_3)
-        self.checkBox_3.setObjectName("checkBox_3")
-        self.verticalLayout.addWidget(self.checkBox_3)
-        self.checkBox_2 = QtWidgets.QCheckBox(self.groupBox_3)
-        self.checkBox_2.setObjectName("checkBox_2")
-        self.verticalLayout.addWidget(self.checkBox_2)
+        self.checkBox_mercadoria = QtWidgets.QCheckBox(self.groupBox_3)
+        self.checkBox_mercadoria.setObjectName("checkBox_mercadoria")
+        self.verticalLayout.addWidget(self.checkBox_mercadoria)
+        self.checkBox_insumo = QtWidgets.QCheckBox(self.groupBox_3)
+        self.checkBox_insumo.setObjectName("checkBox_insumo")
+        self.verticalLayout.addWidget(self.checkBox_insumo)
+        self.checkBox_casco = QtWidgets.QCheckBox(self.groupBox_3)
+        self.checkBox_casco.setObjectName("checkBox_casco")
+        self.verticalLayout.addWidget(self.checkBox_casco)
         self.verticalLayout_4.addWidget(self.groupBox_3)
         self.gridLayout_3.addWidget(self.frame_2, 0, 1, 1, 1)
         self.frame_3 = QtWidgets.QFrame(self.formGroupBox)
@@ -271,12 +271,12 @@ class Ui_FiltroEstoque(object):
     def retranslateUi(self, FiltroEstoque):
         FiltroEstoque.setWindowTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Dialog", None, -1))
         self.groupBox_4.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Estoque", None, -1))
-        self.checkBox_4.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Abertos", None, -1))
+        self.checkBox_abertos.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Abertos", None, -1))
         self.checkBox_vazios.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Exibir vazios", None, -1))
         self.groupBox_3.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Classificação", None, -1))
-        self.checkBox.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Mercadoria", None, -1))
-        self.checkBox_3.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Insumo", None, -1))
-        self.checkBox_2.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Casco", None, -1))
+        self.checkBox_mercadoria.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Mercadoria", None, -1))
+        self.checkBox_insumo.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Insumo", None, -1))
+        self.checkBox_casco.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Casco", None, -1))
         self.horizontalGroupBox_2.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Fornecedor", None, -1))
         self.horizontalGroupBox_3.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Mercadoria", None, -1))
         self.groupBox_entrada.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Data de entrada", None, -1))

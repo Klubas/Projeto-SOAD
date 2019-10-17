@@ -49,44 +49,9 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
         self.checkBox_ativo.setChecked(True)
 
         self.tipo = 'MERCADORIA' if kwargs.get('tipo') \
-                                    is None else kwargs.get('tipo')
+            is None else kwargs.get('tipo')
 
-        if self.tipo == 'MERCADORIA':
-
-            self.tipo = 'MERCADORIA'
-            self.stackedWidget.setVisible(False)
-            self.checkBox_permite_venda.setChecked(True)
-            self.setMinimumHeight(300)
-            self.setMaximumHeight(300)
-
-        elif self.tipo == 'CASCO':
-
-            self.label_valor_venda.setText('Valor da remanufatura (R$)')
-            self.campos_obrigatorios['Insumo'] = self.lineEdit_insumo_id
-            self.campos_obrigatorios['Quantidade'] = self.lineEdit_quantidade_insumo
-            self.campos_obrigatorios['Un. Medida (Insumo)'] = self.comboBox_unidade_medida_insumo
-            self.stackedWidget.setVisible(True)
-            self.page_insumo.setVisible(False)
-            self.stackedWidget.setCurrentWidget(self.page_casco)
-            self.setMinimumHeight(360)
-            self.setMaximumHeight(360)
-
-        elif self.tipo == 'INSUMO':
-
-            self.campos_obrigatorios['Quantidade Embalagem'] = self.lineEdit_quantidade_embalagem
-            self.campos_obrigatorios['Un. Medida (Embalagem)'] = self.comboBox_unidade_medida_embalagem
-            self.stackedWidget.setVisible(True)
-            self.page_casco.setVisible(False)
-            self.stackedWidget.setCurrentWidget(self.page_insumo)
-            self.setMinimumHeight(360)
-            self.setMaximumHeight(360)
-
-        else:
-            dialog = StatusDialog(
-                status='ERRO'
-                , mensagem='TIPO DE MERCADORIA INVÁLIDO'
-                , parent=self.parent_window)
-            dialog.exec()
+        self.configura_tipo()
 
         self.label_tipo.setText(self.tipo)
         self.setWindowTitle('SOAD - Cadastrar ' + self.tipo.capitalize())
@@ -153,7 +118,6 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
             self.atualizar_interface(self.id_registro)
-
         self.show()
 
     def cadastrar(self):
@@ -307,6 +271,8 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
         mercadoria = dados
 
         tipo = str(mercadoria['tipo']).upper()
+        self.tipo = tipo
+        self.configura_tipo()
 
         if tipo == 'MERCADORIA':
             mercadoria = Mercadoria(
@@ -531,3 +497,41 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
         else:
             self.lineEdit_valor_venda.setDisabled(True)
             self.lineEdit_valor_venda.setText('0,00')
+
+    def configura_tipo(self):
+        self.tipo = 'MERCADORIA' if not self.tipo else self.tipo
+        if self.tipo == 'MERCADORIA':
+            self.tipo = 'MERCADORIA'
+            self.stackedWidget.setVisible(False)
+            self.checkBox_permite_venda.setChecked(True)
+            self.setMinimumHeight(300)
+            self.setMaximumHeight(300)
+
+        elif self.tipo == 'CASCO':
+
+            self.label_valor_venda.setText('Valor da remanufatura (R$)')
+            self.campos_obrigatorios['Insumo'] = self.lineEdit_insumo_id
+            self.campos_obrigatorios['Quantidade'] = self.lineEdit_quantidade_insumo
+            self.campos_obrigatorios['Un. Medida (Insumo)'] = self.comboBox_unidade_medida_insumo
+            self.stackedWidget.setVisible(True)
+            self.page_insumo.setVisible(False)
+            self.stackedWidget.setCurrentWidget(self.page_casco)
+            self.setMinimumHeight(360)
+            self.setMaximumHeight(360)
+
+        elif self.tipo == 'INSUMO':
+
+            self.campos_obrigatorios['Quantidade Embalagem'] = self.lineEdit_quantidade_embalagem
+            self.campos_obrigatorios['Un. Medida (Embalagem)'] = self.comboBox_unidade_medida_embalagem
+            self.stackedWidget.setVisible(True)
+            self.page_casco.setVisible(False)
+            self.stackedWidget.setCurrentWidget(self.page_insumo)
+            self.setMinimumHeight(360)
+            self.setMaximumHeight(360)
+
+        else:
+            dialog = StatusDialog(
+                status='ERRO'
+                , mensagem='TIPO DE MERCADORIA INVÁLIDO'
+                , parent=self.parent_window)
+            dialog.exec()

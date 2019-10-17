@@ -71,6 +71,7 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         self.lineEdit_id.textChanged[str].connect(self.define_permite_editar)
 
         self.define_icones()
+        self.marca_obrigatorios()
 
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:

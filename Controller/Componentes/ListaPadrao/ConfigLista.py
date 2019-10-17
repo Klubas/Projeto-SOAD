@@ -45,7 +45,7 @@ class ConfigLista:
                 "telefone": ("Telefone", str),
                 "observacao": ("Observações", str),
             }
-            , "interface": CadastroPedido
+            , "interface": (CadastroPedido, {'tipo': tipo})
             , "filtro": None
         }
 
@@ -70,7 +70,7 @@ class ConfigLista:
                         "telefone": ("Telefone", str),
                         "observacao": ("Observações", str),
                     }
-                , "interface": CadastroPedido
+                , "interface": (CadastroPedido, {'tipo': tipo})
                 , "filtro": None
             }
 

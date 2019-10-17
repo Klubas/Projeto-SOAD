@@ -22,6 +22,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         self.child = child(db=self.db, parent=self.widget)
         self.child.setWindowFlags(Qt.Widget)
         self.child.move(0, 0)
+        self.child.show()
 
         self.setMinimumHeight(self.child.height() + 60)
         self.setMinimumWidth(self.child.width() + 20)
@@ -30,10 +31,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
-
-    def show(self):
-        self.child.show()
-        super(FiltroPadrao, self).show()
+        self.show()
 
     def montar_filtro(self) -> str:
         i = 0
