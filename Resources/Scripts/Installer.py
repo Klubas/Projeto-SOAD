@@ -3,7 +3,7 @@ import sys
 
 
 class Installer:
-    def __init__(self, postgresfolder=None, dump_file=None, password=None, host="localhost", port=5432):
+    def __init__(self, postgresfolder=None, dump_file=None, password='', host="localhost", port=5432):
         self.folder_runtime = postgresfolder
         self.dump_file = dump_file
         self.host = host
@@ -14,14 +14,6 @@ class Installer:
         cmd = "pg_restore"
         if self.folder_runtime:
             cmd = '"' + str(os.path.join(self.folder_runtime, "pg_restore.exe")) + '" '
-
-        args = '--host "' + self.host \
-               + '" --port "' + self.port \
-               + '" --username "postgres" ' \
-                 '--role "postgres" ' \
-                 '--dbname "postgres" ' \
-                 '--password "5152" "' \
-                + self.dump_file + '"'
 
         os.environ["PGPASSWORD"] = self.password
         args = '--host ' + self.host + ' --port ' + self.port + ' --username "postgres" --role "postgres" --dbname "postgres" --verbose ' + self.dump_file
