@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>398</width>
+    <width>454</width>
     <height>304</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Sobre o SOAD</string>
+   <string>Sobre</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -39,11 +39,17 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="title">
-        <string>Sobre</string>
+        <string>SOAD</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        <set>Qt::AlignCenter</set>
        </property>
        <property name="flat">
         <bool>false</bool>

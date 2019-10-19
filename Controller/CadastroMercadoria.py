@@ -127,7 +127,7 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
         self.checkBox_ativo.setChecked(True)
         self.lineEdit_valor_venda.setText('0,00')
 
-    def excluir(self):
+    def excluir(self, validar=True):
 
         self.dados = {
             "metodo": "prc_delete_mercadoria",
@@ -504,20 +504,20 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.tipo = 'MERCADORIA'
             self.stackedWidget.setVisible(False)
             self.checkBox_permite_venda.setChecked(True)
-            self.setMinimumHeight(300)
-            self.setMaximumHeight(300)
+            #self.setMinimumHeight(300)
+            #self.setMaximumHeight(300)
 
         elif self.tipo == 'CASCO':
 
-            self.label_valor_venda.setText('Valor da remanufatura (R$)')
+            #self.label_valor_venda.setText('Valor da remanufatura (R$)')
             self.campos_obrigatorios['Insumo'] = self.lineEdit_insumo_id
             self.campos_obrigatorios['Quantidade'] = self.lineEdit_quantidade_insumo
             self.campos_obrigatorios['Un. Medida (Insumo)'] = self.comboBox_unidade_medida_insumo
             self.stackedWidget.setVisible(True)
             self.page_insumo.setVisible(False)
             self.stackedWidget.setCurrentWidget(self.page_casco)
-            self.setMinimumHeight(360)
-            self.setMaximumHeight(360)
+            #self.setMinimumHeight(360)
+            #self.setMaximumHeight(360)
 
         elif self.tipo == 'INSUMO':
 
@@ -526,8 +526,8 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.stackedWidget.setVisible(True)
             self.page_casco.setVisible(False)
             self.stackedWidget.setCurrentWidget(self.page_insumo)
-            self.setMinimumHeight(360)
-            self.setMaximumHeight(360)
+            #self.setMinimumHeight(360)
+            #self.setMaximumHeight(360)
 
         else:
             dialog = StatusDialog(

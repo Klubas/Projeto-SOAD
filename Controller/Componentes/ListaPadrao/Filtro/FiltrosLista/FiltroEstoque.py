@@ -197,6 +197,10 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
             filtro = filtro + " and " if filtro != '' else filtro
             filtro = filtro + "quantidade_item > 0::integer"
 
+        if not self.checkBox_inativos.isChecked():
+            filtro = filtro + " and " if filtro != '' else filtro
+            filtro = filtro + "ativo = true::boolean"
+
         return filtro
 
     def get_dados_localizar(self, dados):

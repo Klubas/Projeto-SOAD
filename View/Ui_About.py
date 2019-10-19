@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/About.ui',
 # licensing of 'Resources/UI/About.ui' applies.
 #
-# Created: Sat Oct 19 14:34:43 2019
+# Created: Sat Oct 19 19:08:59 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_about(object):
     def setupUi(self, about):
         about.setObjectName("about")
-        about.resize(398, 304)
+        about.resize(454, 304)
         about.setFocusPolicy(QtCore.Qt.StrongFocus)
         about.setSizeGripEnabled(True)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(about)
@@ -25,7 +25,11 @@ class Ui_about(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.groupBox = QtWidgets.QGroupBox(about)
         self.groupBox.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.groupBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        font = QtGui.QFont()
+        font.setWeight(75)
+        font.setBold(True)
+        self.groupBox.setFont(font)
+        self.groupBox.setAlignment(QtCore.Qt.AlignCenter)
         self.groupBox.setFlat(False)
         self.groupBox.setObjectName("groupBox")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.groupBox)
@@ -101,8 +105,8 @@ class Ui_about(object):
         QtCore.QMetaObject.connectSlotsByName(about)
 
     def retranslateUi(self, about):
-        about.setWindowTitle(QtWidgets.QApplication.translate("about", "Sobre o SOAD", None, -1))
-        self.groupBox.setTitle(QtWidgets.QApplication.translate("about", "Sobre", None, -1))
+        about.setWindowTitle(QtWidgets.QApplication.translate("about", "Sobre", None, -1))
+        self.groupBox.setTitle(QtWidgets.QApplication.translate("about", "SOAD", None, -1))
         self.label_logo.setText(QtWidgets.QApplication.translate("about", "TextLabel", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("about", "SOAD", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("about", "Sistema Organizacional de Armazenagem e Distribuição", None, -1))

@@ -70,8 +70,8 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         self.pushButton_editar.setDisabled(True)
         self.lineEdit_id.textChanged[str].connect(self.define_permite_editar)
 
+        self.define_permite_editar()
         self.define_icones()
-        self.marca_obrigatorios()
 
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
@@ -89,7 +89,7 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         self.widget_tipo_pessoa.setDisabled(True)
         self.widget_tipo_pessoa.setVisible(False)
 
-    def excluir(self):
+    def excluir(self, validar=True):
 
         self.dados = {
             "metodo": "prc_delete_pessoa",
@@ -371,7 +371,7 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
 
         if items[0]:
             self.ufs = items[1][0]['fnc_buscar_registro']
-
+            self.comboBox_uf.clear()
             for uf in self.ufs:
                 self.comboBox_uf.addItem(uf["sigla_uf"])
 

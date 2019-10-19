@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
 # licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Sat Oct 19 14:34:42 2019
+# Created: Sat Oct 19 19:08:59 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -105,8 +105,8 @@ class Ui_CadastroPedido(object):
         sizePolicy.setHeightForWidth(self.frame_contents.sizePolicy().hasHeightForWidth())
         self.frame_contents.setSizePolicy(sizePolicy)
         self.frame_contents.setMinimumSize(QtCore.QSize(0, 0))
-        self.frame_contents.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_contents.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_contents.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_contents.setFrameShadow(QtWidgets.QFrame.Plain)
         self.frame_contents.setObjectName("frame_contents")
         self.gridLayout_7 = QtWidgets.QGridLayout(self.frame_contents)
         self.gridLayout_7.setObjectName("gridLayout_7")
@@ -152,9 +152,10 @@ class Ui_CadastroPedido(object):
         self.dateEdit_cadastro.setWrapping(False)
         self.dateEdit_cadastro.setFrame(True)
         self.dateEdit_cadastro.setAlignment(QtCore.Qt.AlignCenter)
+        self.dateEdit_cadastro.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.dateEdit_cadastro.setAccelerated(False)
         self.dateEdit_cadastro.setProperty("showGroupSeparator", True)
-        self.dateEdit_cadastro.setCalendarPopup(True)
+        self.dateEdit_cadastro.setCalendarPopup(False)
         self.dateEdit_cadastro.setTimeSpec(QtCore.Qt.LocalTime)
         self.dateEdit_cadastro.setObjectName("dateEdit_cadastro")
         self.horizontalLayout_11.addWidget(self.dateEdit_cadastro)
@@ -929,8 +930,8 @@ class Ui_CadastroPedido(object):
         self.verticalLayout.addWidget(self.frame_contents)
         self.frame_buttons = QtWidgets.QFrame(CadastroPedido)
         self.frame_buttons.setMaximumSize(QtCore.QSize(16777215, 60))
-        self.frame_buttons.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_buttons.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_buttons.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_buttons.setFrameShadow(QtWidgets.QFrame.Plain)
         self.frame_buttons.setObjectName("frame_buttons")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_buttons)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -982,7 +983,7 @@ class Ui_CadastroPedido(object):
 
         self.retranslateUi(CadastroPedido)
         self.tabWidget.setCurrentIndex(0)
-        self.stackedWidget_item.setCurrentIndex(0)
+        self.stackedWidget_item.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(CadastroPedido)
 
     def retranslateUi(self, CadastroPedido):
@@ -1000,7 +1001,9 @@ class Ui_CadastroPedido(object):
         self.groupBox_identificacao.setTitle(QtWidgets.QApplication.translate("CadastroPedido", "Identificação", None, -1))
         self.formGroupBox_pessoa.setTitle(QtWidgets.QApplication.translate("CadastroPedido", "Pessoa", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("CadastroPedido", "Data Cadastro", None, -1))
-        self.label_data.setText(QtWidgets.QApplication.translate("CadastroPedido", "Data Entrega", None, -1))
+        self.dateEdit_cadastro.setDisplayFormat(QtWidgets.QApplication.translate("CadastroPedido", "dd/MM/yyyy", None, -1))
+        self.label_data.setText(QtWidgets.QApplication.translate("CadastroPedido", "             Data Entrega", None, -1))
+        self.dateEdit_entrega.setDisplayFormat(QtWidgets.QApplication.translate("CadastroPedido", "dd/MM/yyyy", None, -1))
         self.label_documento.setText(QtWidgets.QApplication.translate("CadastroPedido", "CPF/CNPJ", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("CadastroPedido", "Observações", None, -1))
         self.groupBox_items.setTitle(QtWidgets.QApplication.translate("CadastroPedido", "Itens", None, -1))

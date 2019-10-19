@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/ConfirmDialog.ui',
 # licensing of 'Resources/UI/Componentes/ConfirmDialog.ui' applies.
 #
-# Created: Sat Oct 19 14:34:43 2019
+# Created: Sat Oct 19 19:09:00 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -36,7 +36,7 @@ class Ui_ConfirmDialog(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.verticalFrame.setFont(font)
-        self.verticalFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.verticalFrame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.verticalFrame.setFrameShadow(QtWidgets.QFrame.Plain)
         self.verticalFrame.setObjectName("verticalFrame")
         self.gridLayout = QtWidgets.QGridLayout(self.verticalFrame)

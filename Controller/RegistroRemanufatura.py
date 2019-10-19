@@ -102,7 +102,7 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
             QDialogButtonBox.Ok).clicked.connect(self.gerar_remanufaturas)
 
         self.buttonBox_remanufatura.button(
-            QDialogButtonBox.Discard).clicked.connect(self.limpar_formulario)
+            QDialogButtonBox.Reset).clicked.connect(self.limpar_formulario)
 
         self.pushButton_realizar.clicked.connect(
             lambda: self.realizar_remanufaturas(apenas_selecionados=True)
@@ -127,6 +127,7 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         self.lineEdit_casco_id.editingFinished.connect(
             lambda: self.busca_mercadoria(tipo='CASCO')
         )
+
         self.tableWidget_remanufaturas.setColumnHidden(0, True)
         self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
         self.show()
@@ -438,6 +439,7 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
 
             if tipo == 'CASCO':
                 self.lineEdit_insumo_id.setText(str(mercadoria['id_insumo']))
+                self.lineEdit_insumo_id.editingFinished.emit()
                 self.buttonBox_remanufatura.setFocus()
 
             if tipo == 'INSUMO':

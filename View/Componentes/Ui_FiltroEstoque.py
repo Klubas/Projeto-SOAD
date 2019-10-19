@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroEstoque.ui',
 # licensing of 'Resources/UI/Componentes/FiltroEstoque.ui' applies.
 #
-# Created: Sat Oct 19 14:34:43 2019
+# Created: Sat Oct 19 19:08:59 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -82,6 +82,10 @@ class Ui_FiltroEstoque(object):
         self.checkBox_vazios = QtWidgets.QCheckBox(self.groupBox_4)
         self.checkBox_vazios.setObjectName("checkBox_vazios")
         self.verticalLayout_2.addWidget(self.checkBox_vazios)
+        self.checkBox_inativos = QtWidgets.QCheckBox(self.groupBox_4)
+        self.checkBox_inativos.setEnabled(True)
+        self.checkBox_inativos.setObjectName("checkBox_inativos")
+        self.verticalLayout_2.addWidget(self.checkBox_inativos)
         self.verticalLayout_4.addWidget(self.groupBox_4)
         self.groupBox_3 = QtWidgets.QGroupBox(self.frame_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -274,6 +278,7 @@ class Ui_FiltroEstoque(object):
         self.groupBox_4.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Estoque", None, -1))
         self.checkBox_abertos.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Abertos", None, -1))
         self.checkBox_vazios.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Exibir vazios", None, -1))
+        self.checkBox_inativos.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Exibir inativos", None, -1))
         self.groupBox_3.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Classificação", None, -1))
         self.checkBox_mercadoria.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Mercadoria", None, -1))
         self.checkBox_insumo.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Insumo", None, -1))

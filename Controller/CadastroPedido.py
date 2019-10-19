@@ -162,6 +162,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
             self.atualizar_interface(self.id_registro)
+
+        self.visualizar()
+
         self.show()
 
     def cadastrar(self):
@@ -178,7 +181,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.visualizar(False)
         self.lineEdit_documento.setDisabled(True)
 
-    def excluir(self):
+    def excluir(self, validar=True):
 
         if self.label_situacao.text() == 'CADASTRADO'\
                 or self.label_situacao.text() == 'ESTORNADO':
@@ -208,7 +211,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 }
             }
 
-            retorno = super(CadastroPedido, self).excluir()
+            retorno = super(CadastroPedido, self).excluir(validar=False)
 
             if retorno[0]:
                 dialog = StatusDialog(status='OK'
@@ -337,7 +340,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.horizontalWidget_botoes_tabela.setVisible(True)
             self.buttonBox_item.setVisible(True)
 
-
     def movimentar(self, pedido_id):
         dialog = ConfirmDialog(self)
         dialog.definir_mensagem(
@@ -395,6 +397,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.campos_obrigatorios.pop('Mercadoria')
             self.campos_obrigatorios['Casco'] = self.lineEdit_casco_id
             self.campos_obrigatorios['Insumo'] = self.lineEdit_insumo_id
+
+        self.limpa_obrigatorios()
 
         self.limpar_item()
 
@@ -664,6 +668,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
             if tipo == 'CASCO':
                 self.lineEdit_insumo_id.setText(str(mercadoria['id_insumo']))
+                self.lineEdit_insumo_id.editingFinished.emit()
                 self.lineEdit_quantidade.setFocus()
 
             if tipo == 'INSUMO':

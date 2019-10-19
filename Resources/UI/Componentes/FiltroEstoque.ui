@@ -145,6 +145,16 @@
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_inativos">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="text">
+                  <string>Exibir inativos</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>

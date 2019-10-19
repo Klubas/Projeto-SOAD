@@ -9,6 +9,7 @@ from Controller.About import About
 from Controller.CadastroMercadoria import CadastroMercadoria
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
+from Controller.Cadastrousuario import CadastroUsuario
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.ListaPadrao.ListaPadrao import ListaPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -48,6 +49,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
 
         self.actionReconectar.triggered.connect(self.login)
+
+        self.actionCadastroUsuario.triggered.connect(
+            lambda: self.abrir_interface(
+                window_cls=CadastroUsuario
+            )
+        )
 
         self.actionPessoa.triggered.connect(
             lambda: self.abrir_interface(

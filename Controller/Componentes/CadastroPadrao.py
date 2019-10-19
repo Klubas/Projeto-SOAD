@@ -103,9 +103,19 @@ class CadastroPadrao(QWidget):
         self.novo_cadastro = False
 
     # Reimplementar chamando super
-    def excluir(self):
+    def excluir(self, validar=True):
         if self.nao_esta_em_modo_edicao():
-            return self.db.call_procedure(self.db.schema, self.dados)
+
+
+
+            if validar:
+                dialog = ConfirmDialog()
+                dialog.definir_mensagem("Tem certeza que deseja realizar a exclusão desse registro?")
+                cancelar = dialog.exec()
+            else:
+                cancelar = True
+
+            return self.db.call_procedure(self.db.schema, self.dados) if cancelar else False
         else:
             return False
 
@@ -151,23 +161,33 @@ class CadastroPadrao(QWidget):
     # Reimplementar chamando super
     def valida_obrigatorios(self):
         if len(self.campos_obrigatorios) > 0:
+            vermelho = "247, 192, 188"
+            style = "background: rgb({});".format(vermelho)
+            print(style)
             for campo, valor in self.campos_obrigatorios.items():
+                valor.setStyleSheet(
+                    "QLineEdit { background: white; }"
+                )
                 try:
                     if valor.text() == '':
+                        valor.setStyleSheet(style)
                         dialog = StatusDialog(
                             status='ALERTA'
                             , mensagem='O campo ' + campo + ' é obrigatório.'
                             , parent=self.parent_window
                         )
-                        return dialog.exec()
+                        #return dialog.exec()
+                        return False
                 except AttributeError as attr:
                     if valor.currentText() == '':
+                        valor.setStyleSheet(style)
                         dialog = StatusDialog(
                             status='ALERTA'
                             , mensagem='O campo ' + campo + ' é obrigatório.'
                             , parent=self.parent_window
                         )
-                        return dialog.exec()
+                        #return dialog.exec()
+                        return False
                 except Exception as e:
                     dialog = StatusDialog(
                         status='ERRO'
@@ -182,7 +202,14 @@ class CadastroPadrao(QWidget):
     def marca_obrigatorios(self):
         if len(self.campos_obrigatorios) > 0:
             for campo, valor in self.campos_obrigatorios.items():
-                print("Implementar")
+                #if valor.isEnabled():
+                valor.setStyleSheet("border: 0.5px solid red")
+
+    def limpa_obrigatorios(self):
+        if len(self.campos_obrigatorios) > 0:
+            for campo, valor in self.campos_obrigatorios.items():
+                valor.setStyleSheet("border: 0px solid black")
+                valor.setStyleSheet("QLineEdit { background: white; }")
 
     # Reimplementar chamando super
     def confirma(self):
@@ -262,6 +289,7 @@ class CadastroPadrao(QWidget):
             self.frame_menu.setDisabled(True)
             self.frame_buttons.setDisabled(False)
             self.frame_contents.setDisabled(False)
+            self.marca_obrigatorios()
             logging.info('[CadastroPadrao] Entrando em modo edição')
 
     def sair_modo_edicao(self):
@@ -270,6 +298,7 @@ class CadastroPadrao(QWidget):
             self.frame_menu.setDisabled(False)
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
+            self.limpa_obrigatorios()
             logging.info('[CadastroPadrao] Saindo do modo edição')
 
     def entrar_modo_visualizacao(self):
