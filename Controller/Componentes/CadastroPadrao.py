@@ -286,7 +286,6 @@ class CadastroPadrao(QWidget):
 
     def formatar_numero(self, numero):
         numero = str(numero)
-        print(numero)
         if len(numero.split(',')) > 0:
             return numero.replace(',', '.')
         elif len(numero.split('.')) > 0:

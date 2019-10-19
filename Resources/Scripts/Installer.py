@@ -16,7 +16,7 @@ class Installer:
             cmd = '"' + str(os.path.join(self.folder_runtime, "pg_restore.exe")) + '" '
 
         os.environ["PGPASSWORD"] = self.password
-        args = '--host ' + self.host + ' --port ' + self.port + ' --username "postgres" --role "postgres" --dbname "postgres" --verbose ' + self.dump_file
+        args = '--host ' + self.host + ' --port ' + self.port + ' --username "soadmin" --role "postgres" --dbname "postgres" --verbose ' + self.dump_file
         os.environ["PGPASSWORD"] = ''
 
         cmd = cmd + ' ' + args

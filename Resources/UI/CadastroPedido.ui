@@ -645,7 +645,7 @@
                 <number>0</number>
                </property>
                <property name="bottomMargin">
-                <number>0</number>
+                <number>30</number>
                </property>
                <property name="spacing">
                 <number>0</number>
@@ -672,10 +672,10 @@
                   </font>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::NoFrame</enum>
                  </property>
                  <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
+                  <enum>QFrame::Plain</enum>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_7">
                   <property name="spacing">
@@ -696,7 +696,7 @@
                      </size>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
+                     <enum>QFrame::NoFrame</enum>
                     </property>
                     <property name="frameShadow">
                      <enum>QFrame::Raised</enum>
@@ -867,16 +867,16 @@
                         </size>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Raised</enum>
+                        <enum>QFrame::Plain</enum>
                        </property>
                        <property name="lineWidth">
                         <number>1</number>
                        </property>
                        <property name="currentIndex">
-                        <number>1</number>
+                        <number>0</number>
                        </property>
                        <widget class="QWidget" name="page_mercadoria">
                         <property name="sizePolicy">
@@ -910,10 +910,10 @@
                          <item row="0" column="0">
                           <widget class="QFrame" name="frameFormLayout_mercadoria">
                            <property name="frameShape">
-                            <enum>QFrame::StyledPanel</enum>
+                            <enum>QFrame::NoFrame</enum>
                            </property>
                            <property name="frameShadow">
-                            <enum>QFrame::Raised</enum>
+                            <enum>QFrame::Plain</enum>
                            </property>
                            <layout class="QFormLayout" name="formLayout_4">
                             <property name="labelAlignment">
@@ -1024,10 +1024,10 @@
                             </size>
                            </property>
                            <property name="frameShape">
-                            <enum>QFrame::StyledPanel</enum>
+                            <enum>QFrame::NoFrame</enum>
                            </property>
                            <property name="frameShadow">
-                            <enum>QFrame::Raised</enum>
+                            <enum>QFrame::Plain</enum>
                            </property>
                            <layout class="QFormLayout" name="formLayout_5">
                             <property name="labelAlignment">
@@ -1465,7 +1465,7 @@
                      </size>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
+                     <enum>QFrame::NoFrame</enum>
                     </property>
                     <property name="frameShadow">
                      <enum>QFrame::Raised</enum>

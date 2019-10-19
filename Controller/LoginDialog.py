@@ -98,8 +98,11 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             except Exception as e:
                 logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração.')
                 from Resources.Scripts.Installer import Installer
-                installer = Installer("Resources\database\\bin\\runtime",
-                                      "Resources\\Scripts\\SQL\\dump.backup",
+                #installer = Installer("Resources\database\\bin\\runtime",
+                #                      "Resources\\Scripts\\SQL\\dump.backup",
+                #                      "soad2019")
+                installer = Installer("/usr/bin",
+                                      "Resources/Scripts/SQL/dump.backup",
                                       "soad2019")
                 installer.create_database()
                 logging.debug('Exception> ' + str(e))

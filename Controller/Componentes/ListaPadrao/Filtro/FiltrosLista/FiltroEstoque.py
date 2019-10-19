@@ -120,7 +120,6 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
 
             dialog_localizar.retorno_dados.connect(self.get_dados_localizar)
             #registro = self.dados[1][0]['fnc_buscar_registro']
-            print(registro)
 
             if registro is not None:
                 registro = registro[0]
@@ -153,7 +152,6 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
         if groupBox.isChecked():
             data_inicio = dateEdit_inicio.date().toString("dd.MM.yyyy").replace('.', '/')
             data_fim = dateEdit_fim.date().toString("dd.MM.yyyy").replace('.', '/')
-            print(data_inicio)
             return str(campo + " >= $$" + str(data_inicio) + "$$" + " and " + campo + " <= $$" + str(data_fim) + "$$")
         else:
             return ''

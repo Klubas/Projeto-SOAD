@@ -13,7 +13,17 @@ class StatusDialog(QDialog, Ui_StatusDialog):
     def __init__(self, status='ERRO', mensagem='', exception=None, parent=None):
         super(StatusDialog, self).__init__(parent)
         self.setupUi(self)
+        self.status = status
 
+        self.__definir_mensagem__(mensagem, exception)
+        self.definir_tipo(self.status)
+
+        self.min_size = QSize(650, 230)
+        self.resize(self.min_size)
+
+        self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
+
+    def definir_tipo(self, status):
         status = status.upper()
 
         icon_path = os.path.join("Resources", "icons", status.lower() + ".png")
@@ -26,11 +36,6 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         self.groupBox_mensagem.setVisible(False)
 
-        self.min_size = QSize(500, 180)
-        self.setMinimumSize(self.min_size)
-        self.setFixedSize(self.min_size)
-
-        # todo: definir características de cada tipo de alerta
         if status == 'ERRO':
             self.setWindowTitle("Mensagem de Erro")
             self.toolButton_detalhes.setVisible(True)
@@ -47,10 +52,6 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             self.__definir_mensagem__("O valor " + status + " não é um status válido para StatusDialog\n")
             logging.debug("[StatusDialog] O valor " + status + " não é um status válido para StatusDialog\n")
             self.exec()
-
-        self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
-
-        self.__definir_mensagem__(mensagem, exception)
 
     def __definir_mensagem__(self, mensagem='', exception=None):
 
@@ -87,16 +88,18 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
             else:
                 print(exception[0])
-                print('AQUI')
 
             if len(exception) == 3:
                 string_exception = string_exception + 'SQL:\n' + str(exception[2])
+
+            self.status = 'ALERTA'
 
         elif exception is None:
             string_exception = string_mensagem + string_exception
             self.groupBox_mensagem.setVisible(False)
 
         else:
+            self.status = 'ERRO'
             string_exception = string_exception + str(exception)
             logging.debug('[StatusDialog] Tipo de mensagem não tratado.')
 
@@ -107,14 +110,11 @@ class StatusDialog(QDialog, Ui_StatusDialog):
 
         if self.toolButton_detalhes.isChecked():
             self.groupBox_mensagem.setVisible(True)
-            min_size = QSize(750, 165*2)
-            self.setMinimumSize(min_size)
-            self.setFixedSize(min_size)
 
         else:
+            self.resize(self.min_size)
             self.groupBox_mensagem.setVisible(False)
-            self.setMinimumSize(self.min_size)
-            self.setFixedSize(self.min_size)
+
 
     def close_clicked(self):
         self.close()

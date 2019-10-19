@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\CadastroPedido.ui',
-# licensing of 'Resources\UI\CadastroPedido.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
+# licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Thu Oct 17 01:09:28 2019
+# Created: Sat Oct 19 14:34:42 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -299,7 +299,7 @@ class Ui_CadastroPedido(object):
         self.tab_campos.setObjectName("tab_campos")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.tab_campos)
         self.gridLayout_4.setSpacing(0)
-        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_4.setContentsMargins(0, 0, 0, 30)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.frame = QtWidgets.QFrame(self.tab_campos)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -313,8 +313,8 @@ class Ui_CadastroPedido(object):
         font.setWeight(50)
         font.setBold(False)
         self.frame.setFont(font)
-        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Plain)
         self.frame.setObjectName("frame")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame)
         self.horizontalLayout_7.setSpacing(0)
@@ -322,7 +322,7 @@ class Ui_CadastroPedido(object):
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.frame_items = QtWidgets.QFrame(self.frame)
         self.frame_items.setMaximumSize(QtCore.QSize(16777215, 200))
-        self.frame_items.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_items.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_items.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_items.setObjectName("frame_items")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame_items)
@@ -394,8 +394,8 @@ class Ui_CadastroPedido(object):
         self.stackedWidget_item.setSizePolicy(sizePolicy)
         self.stackedWidget_item.setMaximumSize(QtCore.QSize(16777215, 150))
         self.stackedWidget_item.setSizeIncrement(QtCore.QSize(0, 0))
-        self.stackedWidget_item.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.stackedWidget_item.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.stackedWidget_item.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.stackedWidget_item.setFrameShadow(QtWidgets.QFrame.Plain)
         self.stackedWidget_item.setLineWidth(1)
         self.stackedWidget_item.setObjectName("stackedWidget_item")
         self.page_mercadoria = QtWidgets.QWidget()
@@ -411,8 +411,8 @@ class Ui_CadastroPedido(object):
         self.gridLayout_8.setHorizontalSpacing(6)
         self.gridLayout_8.setObjectName("gridLayout_8")
         self.frameFormLayout_mercadoria = QtWidgets.QFrame(self.page_mercadoria)
-        self.frameFormLayout_mercadoria.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frameFormLayout_mercadoria.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frameFormLayout_mercadoria.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frameFormLayout_mercadoria.setFrameShadow(QtWidgets.QFrame.Plain)
         self.frameFormLayout_mercadoria.setObjectName("frameFormLayout_mercadoria")
         self.formLayout_4 = QtWidgets.QFormLayout(self.frameFormLayout_mercadoria)
         self.formLayout_4.setLabelAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
@@ -460,8 +460,8 @@ class Ui_CadastroPedido(object):
         self.gridLayout_9.addWidget(self.label_tinta, 0, 1, 1, 1)
         self.frameFormLayout_remanufatura = QtWidgets.QFrame(self.page_remanufatura)
         self.frameFormLayout_remanufatura.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.frameFormLayout_remanufatura.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frameFormLayout_remanufatura.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frameFormLayout_remanufatura.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frameFormLayout_remanufatura.setFrameShadow(QtWidgets.QFrame.Plain)
         self.frameFormLayout_remanufatura.setObjectName("frameFormLayout_remanufatura")
         self.formLayout_5 = QtWidgets.QFormLayout(self.frameFormLayout_remanufatura)
         self.formLayout_5.setLabelAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
@@ -649,7 +649,7 @@ class Ui_CadastroPedido(object):
         self.frame_item_buttons.setSizePolicy(sizePolicy)
         self.frame_item_buttons.setMinimumSize(QtCore.QSize(110, 0))
         self.frame_item_buttons.setMaximumSize(QtCore.QSize(150, 16777215))
-        self.frame_item_buttons.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_item_buttons.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_item_buttons.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_item_buttons.setObjectName("frame_item_buttons")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.frame_item_buttons)
@@ -982,7 +982,7 @@ class Ui_CadastroPedido(object):
 
         self.retranslateUi(CadastroPedido)
         self.tabWidget.setCurrentIndex(0)
-        self.stackedWidget_item.setCurrentIndex(1)
+        self.stackedWidget_item.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(CadastroPedido)
 
     def retranslateUi(self, CadastroPedido):

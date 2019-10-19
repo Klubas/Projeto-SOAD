@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>631</width>
-    <height>395</height>
+    <width>738</width>
+    <height>461</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,7 +24,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>0</width>
+    <width>600</width>
     <height>0</height>
    </size>
   </property>
@@ -140,7 +140,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>564</width>
+              <width>684</width>
               <height>88</height>
              </rect>
             </property>
@@ -228,7 +228,7 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>20</height>
+             <height>50</height>
             </size>
            </property>
            <property name="inputMethodHints">
@@ -264,6 +264,9 @@
               </property>
               <property name="checkable">
                <bool>true</bool>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextBesideIcon</enum>
               </property>
               <property name="arrowType">
                <enum>Qt::DownArrow</enum>
@@ -314,10 +317,16 @@
          </property>
          <item row="0" column="0">
           <widget class="QScrollArea" name="scrollArea">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>0</height>
+             <height>150</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -337,8 +346,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>601</width>
-              <height>191</height>
+              <width>704</width>
+              <height>192</height>
              </rect>
             </property>
             <property name="minimumSize">
@@ -431,7 +440,7 @@
          <bool>true</bool>
         </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>

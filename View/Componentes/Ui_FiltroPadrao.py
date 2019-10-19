@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\Componentes\FiltroPadrao.ui',
-# licensing of 'Resources\UI\Componentes\FiltroPadrao.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroPadrao.ui',
+# licensing of 'Resources/UI/Componentes/FiltroPadrao.ui' applies.
 #
-# Created: Thu Oct 17 01:09:30 2019
+# Created: Sat Oct 19 14:34:44 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_FiltroPadrao(object):
     def setupUi(self, FiltroPadrao):
@@ -29,7 +29,7 @@ class Ui_FiltroPadrao(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.widget = QtWidgets.QFrame(self.frame)
         self.widget.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.widget.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.widget.setFrameShadow(QtWidgets.QFrame.Plain)
         self.widget.setObjectName("widget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.widget)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -41,8 +41,8 @@ class Ui_FiltroPadrao(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
         self.frame_2.setSizePolicy(sizePolicy)
-        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_2.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Plain)
         self.frame_2.setObjectName("frame_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_2)
         self.horizontalLayout.setObjectName("horizontalLayout")

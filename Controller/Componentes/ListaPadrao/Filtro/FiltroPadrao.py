@@ -47,12 +47,10 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         if i > 0:
             filtro = filtro + ";"
 
-        print(filtro)
         return filtro
 
     def confirma(self):
         string_filtro = self.montar_filtro()
-        print(string_filtro)
         self.string_filtro.emit(string_filtro)
         self.parent.show()
         self.hide()

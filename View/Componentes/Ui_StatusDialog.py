@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\Componentes\StatusDialog.ui',
-# licensing of 'Resources\UI\Componentes\StatusDialog.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/Componentes/StatusDialog.ui',
+# licensing of 'Resources/UI/Componentes/StatusDialog.ui' applies.
 #
-# Created: Thu Oct 17 01:09:31 2019
+# Created: Sat Oct 19 14:34:43 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -15,13 +15,13 @@ class Ui_StatusDialog(object):
         StatusDialog.setObjectName("StatusDialog")
         StatusDialog.setWindowModality(QtCore.Qt.WindowModal)
         StatusDialog.setEnabled(True)
-        StatusDialog.resize(631, 395)
+        StatusDialog.resize(738, 461)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(StatusDialog.sizePolicy().hasHeightForWidth())
         StatusDialog.setSizePolicy(sizePolicy)
-        StatusDialog.setMinimumSize(QtCore.QSize(0, 0))
+        StatusDialog.setMinimumSize(QtCore.QSize(600, 0))
         StatusDialog.setMaximumSize(QtCore.QSize(16777215, 16777215))
         StatusDialog.setSizeGripEnabled(True)
         StatusDialog.setModal(True)
@@ -64,7 +64,7 @@ class Ui_StatusDialog(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 564, 88))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 684, 88))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents_3)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -100,7 +100,7 @@ class Ui_StatusDialog(object):
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_3)
         self.gridLayout_4.addWidget(self.scrollArea_2, 0, 0, 1, 1)
         self.horizontalWidget = QtWidgets.QWidget(self.groupBox_status)
-        self.horizontalWidget.setMaximumSize(QtCore.QSize(16777215, 20))
+        self.horizontalWidget.setMaximumSize(QtCore.QSize(16777215, 50))
         self.horizontalWidget.setInputMethodHints(QtCore.Qt.ImhEmailCharactersOnly)
         self.horizontalWidget.setObjectName("horizontalWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalWidget)
@@ -112,6 +112,7 @@ class Ui_StatusDialog(object):
         self.toolButton_detalhes = QtWidgets.QToolButton(self.horizontalWidget)
         self.toolButton_detalhes.setMaximumSize(QtCore.QSize(16777215, 20))
         self.toolButton_detalhes.setCheckable(True)
+        self.toolButton_detalhes.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.toolButton_detalhes.setArrowType(QtCore.Qt.DownArrow)
         self.toolButton_detalhes.setObjectName("toolButton_detalhes")
         self.horizontalLayout.addWidget(self.toolButton_detalhes)
@@ -132,13 +133,18 @@ class Ui_StatusDialog(object):
         self.gridLayout_5.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_5.setObjectName("gridLayout_5")
         self.scrollArea = QtWidgets.QScrollArea(self.groupBox_mensagem)
-        self.scrollArea.setMinimumSize(QtCore.QSize(0, 0))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+        self.scrollArea.setSizePolicy(sizePolicy)
+        self.scrollArea.setMinimumSize(QtCore.QSize(0, 150))
         self.scrollArea.setMaximumSize(QtCore.QSize(16777212, 16777215))
         self.scrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 601, 191))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 704, 192))
         self.scrollAreaWidgetContents_2.setMinimumSize(QtCore.QSize(0, 0))
         self.scrollAreaWidgetContents_2.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
@@ -171,7 +177,7 @@ class Ui_StatusDialog(object):
         self.verticalLayout.addWidget(self.groupBox_mensagem)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.verticalWidget)
         self.buttonBox.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
