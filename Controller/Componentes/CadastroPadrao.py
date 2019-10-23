@@ -320,7 +320,17 @@ class CadastroPadrao(QWidget):
     def closeEvent(self, event):
         if self.fechar():
             if not self.dialog:
-                self.window_list.remove(self)
+                try:
+                    self.window_list.remove(self)
+                except ValueError as ve:
+                    logging.debug('[CadastroPadrao] Não foi possível remover a janela ' + str(self) + ' da lista de janelas abertas.')
+
+            else:
+                try:
+                    self.parent().refresh()
+                except Exception as e:
+                    logging.debug('[CadastroPadrao] Não foi possível recarregar a janela <parent>: ' + str(self.parent()))
+
             event.accept()
         else:
             event.ignore()

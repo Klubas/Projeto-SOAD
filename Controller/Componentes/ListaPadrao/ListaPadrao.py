@@ -238,6 +238,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             row = self.tableWidget_tabela.currentRow()
             id = int(self.tableWidget_tabela.item(row, 0).text())
             self.interface_args['id_registro'] = id
+            self.interface_args['dialog'] = True
             tela = self.interface(
                 self.db
                 , self.window_list

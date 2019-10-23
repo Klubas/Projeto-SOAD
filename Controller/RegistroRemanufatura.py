@@ -311,7 +311,6 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
                 , parent=self
             )
             dialog.exec()
-            self.parent().refresh()
             self.close()
 
     def realizar_remanufaturas(self, apenas_selecionados=True):
@@ -700,7 +699,7 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
     def visualizar_remanufatura(self, id_remanufatura):
         self.lineEdit_casco_id.setDisabled(True)
         self.lineEdit_insumo_id.setDisabled(True)
-        #self.groupBox_remanufaturas.setVisible(False)
+        self.groupBox_remanufaturas.setVisible(False)
         self.buttonBox_remanufatura.setVisible(False)
         self.spinBox_quantidade.setVisible(False)
         self.label_situacao.setVisible(True)
