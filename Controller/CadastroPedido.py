@@ -797,6 +797,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.preencher_tabela()
         self.calcula_totais_pedido()
+        self.marca_obrigatorios()
 
     def preencher_tabela(self):
 
@@ -858,8 +859,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.lineEdit_valor_total_pedido.clear()
 
         self.calcula_totais_pedido()
-
-        #self.buttonBox_item.button(QDialogButtonBox.Save).setEnabled(True)
 
     def calcula_totais_item(self):
 

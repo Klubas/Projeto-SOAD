@@ -106,8 +106,6 @@ class CadastroPadrao(QWidget):
     def excluir(self, validar=True):
         if self.nao_esta_em_modo_edicao():
 
-
-
             if validar:
                 dialog = ConfirmDialog()
                 dialog.definir_mensagem("Tem certeza que deseja realizar a exclusão desse registro?")

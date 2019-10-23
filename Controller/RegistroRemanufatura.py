@@ -57,6 +57,8 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         self.colunas_descricao = list(self.colunas_remanufaturas.values())
         self.colunas_chave = list(self.colunas_remanufaturas.keys())
 
+        self.label_situacao.setVisible(False)
+
         self.tableWidget_remanufaturas.setRowCount(len(self.remanufaturas))
         self.tableWidget_remanufaturas.setColumnCount(len(self.colunas_descricao))
         self.tableWidget_remanufaturas.setHorizontalHeaderLabels(self.colunas_descricao)
@@ -130,6 +132,10 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
 
         self.tableWidget_remanufaturas.setColumnHidden(0, True)
         self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
+
+        self.id_registro = kwargs.get('id_registro')
+        if self.id_registro:
+            self.visualizar_remanufatura(self.id_registro)
         self.show()
 
     def gerar_remanufaturas(self):
@@ -236,6 +242,12 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
     def limpar_tabela(self, apenas_selecionados=False):
         # remove todas as remanufaturas selecionadas da lista (excluir do banco)
 
+        if self.id_registro:
+            dialog = ConfirmDialog(parent=self)
+            dialog.definir_mensagem("Tem certeza que deseja excluir essa remanufatura? Essa ação não pode ser desfeita.")
+            if not dialog.exec():
+                return
+
         if not apenas_selecionados:
             self.selecionar_todas(nao_valida_checkbox=True)
 
@@ -245,12 +257,19 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         if not len(items) > 0:
             return
 
+        linhas = list()
         for item in items:
-            if item.column() == self.col_remanufatura_id:
-                for remanufatura in self.remanufaturas:
-                    if remanufatura.remanufatura_id == int(item.text()) \
-                            and remanufatura.situacao == 'CADASTRADA':
-                        remover.append(remanufatura)
+            linhas.append(item.row())
+        linhas = list(dict.fromkeys(linhas))
+
+        for linha in linhas:
+
+            id_remanufatura = self.get_id_by_row(linha)
+
+            for remanufatura in self.remanufaturas:
+                if remanufatura.remanufatura_id == int(id_remanufatura) \
+                        and remanufatura.situacao == 'CADASTRADA':
+                    remover.append(remanufatura)
 
         remover_ids = list()
 
@@ -285,9 +304,23 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
             dialog.exec()
         self.popular_tabela()
 
+        if self.id_registro:
+            dialog = StatusDialog(
+                status='OK'
+                , mensagem='Remanufatura removida com sucesso.'
+                , parent=self
+            )
+            dialog.exec()
+            self.parent().refresh()
+            self.close()
+
     def realizar_remanufaturas(self, apenas_selecionados=True):
         # chama o procedimento de realizar remanufatura para
         # todas as remanufaturas selecionadas na lista
+
+        if self.label_situacao.text() == 'CADASTRADA' and self.id_registro:
+            if not self.localiza_item_lote(remanufatura_id=self.id_registro, novo=True):
+                return
 
         if not apenas_selecionados:
             self.selecionar_todas(nao_valida_checkbox=True)
@@ -349,9 +382,6 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
 
                             self.tableWidget_remanufaturas.item(
                                 linha, self.col_log).setText('')
-
-                    #for col in range(0, self.tableWidget_remanufaturas.columnCount()):
-                    #    self.tableWidget_remanufaturas.item(linha, col).setFlags(Qt.NoItemFlags)
 
                 else:
                     self.tableWidget_remanufaturas.item(str(linha), self.col_log).setText(str(atualiza[1][0]))
@@ -470,18 +500,30 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
             lineEdit_marca.clear()
             return False
 
-    def localiza_item_lote(self, remanufatura_id):
+    def localiza_item_lote(self, remanufatura_id, novo=True):
 
-        dados = {
-            "metodo": "fnc_realizar_remanufatura"
-            , "schema": "soad"
-            , "params": {
-                "remanufatura_id": remanufatura_id
-                , "simular": True
+        if novo:
+            dados = {
+                "metodo": "fnc_realizar_remanufatura"
+                , "schema": "soad"
+                , "params": {
+                    "remanufatura_id": remanufatura_id
+                    , "simular": True
+                }
             }
-        }
 
-        retorno = self.db.call_procedure(self.db.schema, dados)
+            retorno = self.db.call_procedure(self.db.schema, dados)
+
+        else:
+            dados = {
+                "metodo": "fnc_get_item_lote_remanufatura"
+                , "schema": "soad"
+                , "params": {
+                    "remanufatura_id": remanufatura_id
+                }
+            }
+
+            retorno = self.db.call_procedure(self.db.schema, dados)
 
         if retorno[0]:
             id_item_lote = retorno[1][0]['p_retorno_json']['p_item_lote_id']
@@ -637,8 +679,12 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
 
     def fechar(self):
         if self.modo_edicao:
+
+            if self.id_registro:
+                return True
+
             if self.tableWidget_remanufaturas.rowCount() > 0:
-                dialog = ConfirmDialog()
+                dialog = ConfirmDialog(parent=self)
                 dialog.definir_mensagem("Tem certeza que deseja fechar? As remanufaturas CADASTRADAS serão perdidas.")
                 fechar = dialog.exec()
             else:
@@ -650,3 +696,73 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
             self.limpar_tabela(apenas_selecionados=False)
 
         return fechar
+
+    def visualizar_remanufatura(self, id_remanufatura):
+        self.lineEdit_casco_id.setDisabled(True)
+        self.lineEdit_insumo_id.setDisabled(True)
+        #self.groupBox_remanufaturas.setVisible(False)
+        self.buttonBox_remanufatura.setVisible(False)
+        self.spinBox_quantidade.setVisible(False)
+        self.label_situacao.setVisible(True)
+        self.buscar_remanufatura(remanufatura_id=id_remanufatura)
+        # Manipular botões
+
+        self.pushButton_limpar.setText('Remover remanufatura')
+        self.pushButton_realizar.setText('Realizar remanufatura')
+
+        situacao = self.label_situacao.text()
+
+        if situacao == 'CADASTRADA':
+            self.pushButton_realizar.setDisabled(False)
+            self.pushButton_limpar.setDisabled(False)
+
+        else:
+            self.pushButton_esvaziar.setVisible(False)
+            self.pushButton_realizar.setVisible(False)
+            self.pushButton_limpar.setVisible(False)
+
+    def buscar_remanufatura(self, remanufatura_id):
+
+        remanufatura = None
+
+        tabela = 'vw_remanufatura'
+        campo = 'id_remanufatura'
+
+        if remanufatura_id != '':
+
+            remanufatura = self.db.busca_registro(tabela, campo, str(remanufatura_id), '=')[1][0]['fnc_buscar_registro']
+
+            logging.debug('[RegistroRemanufatura] ' + str(remanufatura))
+            if remanufatura is not None:
+                remanufatura = remanufatura[0]
+
+                remanufaturas = list(dict())
+
+                remanufaturas.append(
+                    Remanufatura(
+                        remanufatura_id=remanufatura_id
+                        , casco_id=int(remanufatura['id_casco'])
+                        , insumo_id=int(remanufatura['id_insumo'])
+                        , situacao=remanufatura['situacao_remanufatura']
+                    )
+                )
+
+                self.popular_tabela(remanufaturas)
+                self.localiza_item_lote(remanufatura_id=remanufatura_id, novo=False)
+                self.selecionar_todas(nao_valida_checkbox=True)
+
+        if remanufatura:
+            self.lineEdit_codigo.setText(str(remanufatura['codigo']))
+            self.lineEdit_casco_id.setText(str(remanufatura['id_casco']))
+            self.lineEdit_casco_id.editingFinished.emit()
+
+            self.lineEdit_insumo_id.setText(str(remanufatura['id_insumo']))
+            self.lineEdit_insumo_id.editingFinished.emit()
+
+            self.label_situacao.setText(str(remanufatura['situacao_remanufatura']))
+            return True
+
+        else:
+            return False
+
+
