@@ -59,6 +59,13 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.buttonBox_item.button(QDialogButtonBox.Save).clicked.connect(self.salva_item)
         self.buttonBox_item.button(QDialogButtonBox.Reset).clicked.connect(self.limpar_item)
 
+        self.lineEdit_valor_total_item.textChanged[str].connect(self.valida_valores)
+        self.lineEdit_casco_id.textChanged[str].connect(self.valida_valores)
+        self.lineEdit_insumo_id.textChanged[str].connect(self.valida_valores)
+        self.lineEdit_mercadoria_id.textChanged[str].connect(self.valida_valores)
+        self.lineEdit_quantidade.textChanged[str].connect(self.valida_valores)
+        self.lineEdit_valor_unitario.textChanged[str].connect(self.valida_valores)
+
         self.tableWidget_items.itemDoubleClicked.connect(self.posicionar_item)
 
         self.pushButton_movimentar.clicked.connect(
@@ -175,6 +182,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.pushButton_excluir.setIcon(self.icone_cancelar)
         self.label_situacao.setText('')
         self.lineEdit_documento.setDisabled(False)
+        self.buttonBox_item.button(QDialogButtonBox.Save).setDisabled(True)
 
     def editar(self):
         super(CadastroPedido, self).editar()
@@ -276,12 +284,12 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
     def cancela(self):
         if super(CadastroPedido, self).cancela():
-            if self.lineEdit_id.text == '':
+            if self.lineEdit_id.text() == '':
                 self.limpar_dados()
             else:
                 id = self.lineEdit_id.text()
-                if id != '':
-                    self.atualizar_interface(int(id))
+                self.atualizar_interface(int(id))
+            self.define_permite_editar()
 
     def limpar_dados(self):
         super(CadastroPedido, self).limpar_dados()
@@ -399,7 +407,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.campos_obrigatorios['Insumo'] = self.lineEdit_insumo_id
 
         self.limpa_obrigatorios()
-
+        self.marca_obrigatorios()
         self.limpar_item()
 
     def atualizar_interface(self, id_pedido):
@@ -890,15 +898,16 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.pushButton_remover_item.setIcon(self.icone_delete)
 
     def define_permite_editar(self):
+
         super(CadastroPedido, self).define_permite_editar()
 
         situacao = self.label_situacao.text()
 
         self.pushButton_editar.setDisabled(
-            situacao == 'ENCERRADO' or situacao == 'CANCELADO'
+            situacao == 'ENCERRADO' or situacao == 'CANCELADO' or self.lineEdit_id.text() == ''
         )
 
-        self.pushButton_excluir.setDisabled(situacao == 'CANCELADO')
+        self.pushButton_excluir.setDisabled(situacao == 'CANCELADO' or self.lineEdit_id.text() == '')
 
     def configura_tipo(self):
         self.tipo_pedido = 'VENDA' if not self.tipo_pedido else self.tipo_pedido
@@ -921,3 +930,20 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO ' + str(self.tipo_pedido) + ' INVÁLIDO',
                                   parent=self.parent_window)
             dialog.exec()
+
+    def valida_valores(self):
+
+        ativo = self.lineEdit_quantidade.text() == '' \
+                or self.lineEdit_valor_unitario.text() == '' \
+                or self.lineEdit_valor_total_item.text() == ''
+
+        if self.radioButton_mercadoria.isChecked():
+            ativo = ativo \
+                    or self.lineEdit_mercadoria_id.text() == ''
+
+        if self.radioButton_remanufatura.isChecked():
+            ativo = ativo \
+                    or self.lineEdit_insumo_id.text() == '' \
+                    or self.lineEdit_casco_id.text() == ''
+
+        self.buttonBox_item.button(QDialogButtonBox.Save).setDisabled(ativo)

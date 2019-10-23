@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/LoginDialog.ui',
 # licensing of 'Resources/UI/LoginDialog.ui' applies.
 #
-# Created: Sat Oct 19 19:08:59 2019
+# Created: Tue Oct 22 23:39:52 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,14 +13,14 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_LoginDialog(object):
     def setupUi(self, LoginDialog):
         LoginDialog.setObjectName("LoginDialog")
-        LoginDialog.resize(440, 280)
+        LoginDialog.resize(440, 330)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(LoginDialog.sizePolicy().hasHeightForWidth())
         LoginDialog.setSizePolicy(sizePolicy)
         LoginDialog.setMinimumSize(QtCore.QSize(440, 195))
-        LoginDialog.setMaximumSize(QtCore.QSize(440, 500))
+        LoginDialog.setMaximumSize(QtCore.QSize(440, 330))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -71,7 +71,7 @@ class Ui_LoginDialog(object):
         self.verticalGroupBox_servidor.setFont(font)
         self.verticalGroupBox_servidor.setObjectName("verticalGroupBox_servidor")
         self.formLayout_2 = QtWidgets.QFormLayout(self.verticalGroupBox_servidor)
-        self.formLayout_2.setContentsMargins(-1, -1, -1, 0)
+        self.formLayout_2.setContentsMargins(-1, -1, -1, 9)
         self.formLayout_2.setObjectName("formLayout_2")
         self.label_servidor = QtWidgets.QLabel(self.verticalGroupBox_servidor)
         font = QtGui.QFont()
@@ -189,7 +189,7 @@ class Ui_LoginDialog(object):
         self.scrollArea_logo.setObjectName("scrollArea_logo")
         self.scrollAreaWidgetContents_logo = QtWidgets.QWidget()
         self.scrollAreaWidgetContents_logo.setEnabled(True)
-        self.scrollAreaWidgetContents_logo.setGeometry(QtCore.QRect(0, 0, 146, 163))
+        self.scrollAreaWidgetContents_logo.setGeometry(QtCore.QRect(0, 0, 142, 177))
         self.scrollAreaWidgetContents_logo.setInputMethodHints(QtCore.Qt.ImhNone)
         self.scrollAreaWidgetContents_logo.setObjectName("scrollAreaWidgetContents_logo")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_logo)

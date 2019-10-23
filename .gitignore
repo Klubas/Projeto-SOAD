@@ -129,6 +129,7 @@ dmypy.json
 *.files
 *.includes
 *.pyproject
+*.pyproject.user
 
 # script
 *.bat

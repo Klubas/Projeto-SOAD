@@ -291,79 +291,94 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
 
         if not apenas_selecionados:
             self.selecionar_todas(nao_valida_checkbox=True)
+            logging.debug('[RegistroRemanufatura] Realizando todas remanufaturas.')
+        else:
+            logging.debug('[RegistroRemanufatura] Realizando remanufaturas selecionadas.')
 
         items = self.tableWidget_remanufaturas.selectedItems()
+
+        linhas = list()
         for item in items:
-            if item.column() == self.col_remanufatura_id:
+            linhas.append(item.row())
+        linhas = list(dict.fromkeys(linhas))
 
-                dados = {
-                    "metodo": "fnc_realizar_remanufatura"
-                    , "schema": "soad"
-                    , "params": {
-                        "remanufatura_id": int(item.text())
-                    }
+        for linha in linhas:
+
+            id_remanufatura = self.get_id_by_row(linha)
+
+            logging.debug('[RegistroRemanufatura] Selecionados: ' + str(id_remanufatura))
+
+            dados = {
+                "metodo": "fnc_realizar_remanufatura"
+                , "schema": "soad"
+                , "params": {
+                    "remanufatura_id": int(id_remanufatura)
                 }
+            }
 
-                retorno = self.db.call_procedure(self.db.schema, dados)
-                logging.info('[RegistroRemanufatura] Executado procedimento para realizar remanufatura.')
+            retorno = self.db.call_procedure(self.db.schema, dados)
+            logging.info('[RegistroRemanufatura] Executado procedimento para realizar remanufatura.')
 
-                if retorno[0]:
+            if retorno[0]:
 
-                    atualiza = self.db.busca_registro(
-                        'vw_remanufatura'
-                        , 'id_remanufatura'
-                        , item.text()
-                        , '='
-                    )
+                atualiza = self.db.busca_registro(
+                    'vw_remanufatura'
+                    , 'id_remanufatura'
+                    , id_remanufatura
+                    , '='
+                )
 
-                    logging.info('[RegistroRemanufatura] Executado procedimento para buscar remanufatura.')
+                logging.info('[RegistroRemanufatura] Executado procedimento para buscar remanufatura.')
 
-                    if atualiza[0]:
+                if atualiza[0]:
 
-                        registro = atualiza[1][0]['fnc_buscar_registro'][0]
+                    registro = atualiza[1][0]['fnc_buscar_registro'][0]
 
-                        self.localiza_item_lote(remanufatura_id=item.text())
+                    self.localiza_item_lote(remanufatura_id=id_remanufatura)
 
-                        for remanufatura in self.remanufaturas:
-                            if remanufatura.remanufatura_id == int(item.text()):
-                                remanufatura.situacao = registro['situacao_remanufatura']
-                                remanufatura.codigo = registro['codigo']
+                    for remanufatura in self.remanufaturas:
+                        if remanufatura.remanufatura_id == int(id_remanufatura):
+                            remanufatura.situacao = registro['situacao_remanufatura']
+                            remanufatura.codigo = registro['codigo']
 
-                                self.tableWidget_remanufaturas.item(
-                                    item.row(), self.col_situacao).setText(remanufatura.situacao)
+                            self.tableWidget_remanufaturas.item(
+                                linha, self.col_situacao).setText(remanufatura.situacao)
 
-                                self.tableWidget_remanufaturas.item(
-                                    item.row(), self.col_codigo).setText(remanufatura.codigo)
+                            self.tableWidget_remanufaturas.item(
+                                linha, self.col_codigo).setText(remanufatura.codigo)
 
-                                self.tableWidget_remanufaturas.item(
-                                    item.row(), self.col_log).setText('')
+                            self.tableWidget_remanufaturas.item(
+                                linha, self.col_log).setText('')
 
-                        for col in range(0, self.tableWidget_remanufaturas.columnCount()):
-                            self.tableWidget_remanufaturas.item(item.row(), col).setFlags(Qt.NoItemFlags)
-
-                    else:
-                        self.tableWidget_remanufaturas.item(item.row(), self.col_log).setText(str(atualiza[1][0]))
-                        logging.debug('[RegistroRemanufatura] Não foi possível atualizar os dados da remanufatura:')
-                        logging.debug('exception> ' + str(atualiza[1]) + '\nsql> ' + str(atualiza[2]))
+                    #for col in range(0, self.tableWidget_remanufaturas.columnCount()):
+                    #    self.tableWidget_remanufaturas.item(linha, col).setFlags(Qt.NoItemFlags)
 
                 else:
-                    self.tableWidget_remanufaturas.item(item.row(), self.col_log).setText(str(retorno[1][0]))
-                    logging.debug('[RegistroRemanufatura] Não foi possível realizar a remanufatura:')
-                    logging.debug('exception> ' + str(retorno[1]) + '\nsql> ' + str(retorno[2]))
+                    self.tableWidget_remanufaturas.item(str(linha), self.col_log).setText(str(atualiza[1][0]))
+                    logging.debug('[RegistroRemanufatura] Não foi possível atualizar os dados da remanufatura:')
+                    logging.debug('exception> ' + str(atualiza[1]) + '\nsql> ' + str(atualiza[2]))
+
+            else:
+                self.tableWidget_remanufaturas.item(str(linha), self.col_log).setText(str(retorno[1][0]))
+                logging.debug('[RegistroRemanufatura] Não foi possível realizar a remanufatura:')
+                logging.debug('exception> ' + str(retorno[1]) + '\nsql> ' + str(retorno[2]))
 
         self.popular_tabela()
 
+    def get_id_by_row(self, row_id):
+        return self.tableWidget_remanufaturas.item(int(row_id), int(self.col_remanufatura_id)).text()
+
     def selecionar_todas(self, nao_valida_checkbox=False):
         # seleciona todas as remanufaturas com situacao == 'CADASTRADA'
-
         if self.checkBox_selecionar_tudo.isChecked() or nao_valida_checkbox:
             self.tableWidget_remanufaturas.selectAll()
-
             self.ativar_botoes()
+            logging.debug('[RegistroRemanufatura] Selecionado todas as remanufaturas.')
 
         else:
             for item in self.tableWidget_remanufaturas.selectedItems():
                 item.setSelected(False)
+            logging.debug('[RegistroRemanufatura] Deselecionado todas as remanufaturas.')
 
     def busca_mercadoria(self, tipo):
         # Busca insumo e casco e preenche os campos

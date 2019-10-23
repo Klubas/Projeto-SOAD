@@ -19,6 +19,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         super().__init__()
         self.setupUi(self)
         self.comboBox_servidor.addItem("localhost:5432")
+        self.comboBox_servidor.addItem("10.0.2.2:5432")
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
         self.main = None
         self.restored = False

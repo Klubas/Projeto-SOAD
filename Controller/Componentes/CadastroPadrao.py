@@ -150,13 +150,11 @@ class CadastroPadrao(QWidget):
             dialog.definir_mensagem("Tem certeza que deseja cancelar? Todas as alterações serão perdidas.")
             cancelar = dialog.exec()
 
-        else:
-            return False
+            if cancelar:
+                self.sair_modo_edicao()
+                return True
 
-        if cancelar:
-            self.sair_modo_edicao()
-
-        return cancelar
+        return False
 
     # Reimplementar chamando super
     def valida_obrigatorios(self):
@@ -202,7 +200,6 @@ class CadastroPadrao(QWidget):
     def marca_obrigatorios(self):
         if len(self.campos_obrigatorios) > 0:
             for campo, valor in self.campos_obrigatorios.items():
-                #if valor.isEnabled():
                 valor.setStyleSheet("border: 0.5px solid red")
 
     def limpa_obrigatorios(self):
@@ -299,6 +296,7 @@ class CadastroPadrao(QWidget):
             self.frame_buttons.setDisabled(True)
             self.frame_contents.setDisabled(True)
             self.limpa_obrigatorios()
+            self.define_permite_editar()
             logging.info('[CadastroPadrao] Saindo do modo edição')
 
     def entrar_modo_visualizacao(self):
@@ -309,7 +307,7 @@ class CadastroPadrao(QWidget):
             self.frame_contents.setDisabled(False)
 
     def define_permite_editar(self):
-        logging.info('[CadastroPadrao] Editar: ' + str(self.lineEdit_id.text() == ''))
+        logging.info('[CadastroPadrao] Editar: ' + str(self.lineEdit_id.text() != ''))
         self.pushButton_editar.setDisabled(self.lineEdit_id.text() == '')
         self.pushButton_excluir.setDisabled(self.lineEdit_id.text() == '')
 
