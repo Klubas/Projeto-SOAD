@@ -172,6 +172,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.visualizar()
 
+        self.limpa_obrigatorios()
         self.show()
 
     def cadastrar(self):
@@ -797,7 +798,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.preencher_tabela()
         self.calcula_totais_pedido()
-        self.marca_obrigatorios()
 
     def preencher_tabela(self):
 

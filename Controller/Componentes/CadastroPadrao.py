@@ -158,7 +158,7 @@ class CadastroPadrao(QWidget):
     def valida_obrigatorios(self):
         if len(self.campos_obrigatorios) > 0:
             vermelho = "247, 192, 188"
-            style = "background: rgb({});".format(vermelho)
+            style = "border: 0.5px solid red; background: rgb({});".format(vermelho)
             print(style)
             for campo, valor in self.campos_obrigatorios.items():
                 valor.setStyleSheet(
