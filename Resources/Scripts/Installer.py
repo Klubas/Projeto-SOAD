@@ -11,17 +11,19 @@ class Installer:
         self.password = password
 
     def create_database(self):
+        #/usr/bin/pg_dump --file "/home/lucas/backup.backup" --host "localhost" --port "5432" --username "soadmin" --no-password --format=t --blobs --create --clean --inserts --column-inserts --use-set-session-authorization --encoding "UTF8" --schema "soad" "postgres"
         cmd = "pg_restore"
         if self.folder_runtime:
             cmd = '"' + str(os.path.join(self.folder_runtime, "pg_restore.exe")) + '" '
 
         os.environ["PGPASSWORD"] = self.password
-        args = '--host ' + self.host + ' --port ' + self.port + ' --username "soadmin" --role "postgres" --dbname "postgres" --verbose ' + self.dump_file
+        args = '--host ' + self.host + ' --port ' + self.port + ' --username "postgres" --role "postgres" --dbname "postgres" --verbose ' + self.dump_file
         os.environ["PGPASSWORD"] = ''
 
         cmd = cmd + ' ' + args
         print(cmd)
-        f = open("log.txt", "w")
+        #with open("log.txt", "w") as f:
+        #    pass
         #p = subprocess.Popen(cmd, stdout=f)
         #p.wait()
 

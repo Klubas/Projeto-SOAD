@@ -20,6 +20,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.setupUi(self)
         self.comboBox_servidor.addItem("localhost:5432")
         self.comboBox_servidor.addItem("10.0.2.2:5432")
+        self.comboBox_servidor.setEditable(True)
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
         self.main = None
         self.restored = False
@@ -99,12 +100,14 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             except Exception as e:
                 logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração.')
                 from Resources.Scripts.Installer import Installer
-                #installer = Installer("Resources\database\\bin\\runtime",
-                #                      "Resources\\Scripts\\SQL\\dump.backup",
-                #                      "soad2019")
-                installer = Installer("/usr/bin",
-                                      "Resources/Scripts/SQL/dump.backup",
+                #usr = input("Usuario banco de dados (padrão: postgres):")
+                #psswd = input("Senha do banco de dados:")
+                installer = Installer("Resources\\database\\bin\\runtime",
+                                      "Resources\\Scripts\\SQL\\dump.backup",
                                       "soad2019")
+                #installer = Installer("/usr/bin",
+                #                      "Resources/Scripts/SQL/dump.backup",
+                #                      "soad2019")
                 installer.create_database()
                 logging.debug('Exception> ' + str(e))
 

@@ -2,36 +2,12 @@
 
 ## Manual para instação
 
-### Dependências
+Antes da primeira execução do sistema, deve ser instalado o banco de dados PostgreSQL 11 e realizado as seguintes configurações:
+- No momento da instalação definir como senha "soad2019"
 
-* Python3.7 
-* Qt5
-* PySide2
-* Pydal
-* psycopg2
-* shiboken2
+Utilizando o painel PgAdmin:
+   - Criar usuário administrador "soadmin"
+   - Fazer restore utilizando o arquivo:
+        <Local de instalação>\SOAD Sistema\Resources\Scripts\SQL\dump.backup
 
-### Downloads
-
-* Python
-
-####### No instalador marque a opção para adicionar o python ao 'Path' do Windows
-        
-        https://www.python.org/downloads/release/python-374/
-
-### VC Redist
-
-        https://www.microsoft.com/pt-BR/download/details.aspx?id=53840
-
-* Qt5
-
-######
-        https://www.qt.io/download-qt-installer
-
-#### Para instalar as outras dependências usaremos o pip (disponibilizado junto com o download do python)
-
-#### Abra o terminal e execute o comando:
-
-####### Use o atalho do teclado "WINDOWS + R" e escreva 'CMD' e navegue até a pasta do sistema usando o comando 'CD'
-
-        pip install requirements.txt
+Após isso, o sistema poderá ser utilizado normalmente. 
