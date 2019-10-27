@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
 # licensing of 'Resources/UI/MainWindow.ui' applies.
 #
-# Created: Thu Oct 24 23:25:38 2019
+# Created: Sun Oct 27 20:02:42 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -236,13 +236,6 @@ class Ui_MainWindow(object):
         self.pushButton_remanufatura.setFlat(True)
         self.pushButton_remanufatura.setObjectName("pushButton_remanufatura")
         self.verticalLayout_6.addWidget(self.pushButton_remanufatura)
-        self.toolButton = QtWidgets.QToolButton(self.frame_venda)
-        self.toolButton.setPopupMode(QtWidgets.QToolButton.MenuButtonPopup)
-        self.toolButton.setToolButtonStyle(QtCore.Qt.ToolButtonTextOnly)
-        self.toolButton.setAutoRaise(True)
-        self.toolButton.setArrowType(QtCore.Qt.NoArrow)
-        self.toolButton.setObjectName("toolButton")
-        self.verticalLayout_6.addWidget(self.toolButton)
         self.gridLayout.addWidget(self.frame_venda, 1, 0, 1, 1)
         self.widget_pessoa = QtWidgets.QWidget(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -529,7 +522,6 @@ class Ui_MainWindow(object):
         self.pushButton_venda.setText(QtWidgets.QApplication.translate("MainWindow", "Realizar Venda", None, -1))
         self.pushButton_lista_vendas.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Vendas", None, -1))
         self.pushButton_remanufatura.setText(QtWidgets.QApplication.translate("MainWindow", "Realizar Remanufatura", None, -1))
-        self.toolButton.setText(QtWidgets.QApplication.translate("MainWindow", "...", None, -1))
         self.label_icone_pessoa.setText(QtWidgets.QApplication.translate("MainWindow", "IconRegistro", None, -1))
         self.pushButton_pessoa.setText(QtWidgets.QApplication.translate("MainWindow", "Clientes / Fornecedores", None, -1))
         self.pushButton_lista_clientes.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Cliente", None, -1))

@@ -4,7 +4,7 @@ import os
 
 from PySide2.QtCore import Qt, QRegExp, QDate
 from PySide2.QtGui import QRegExpValidator, QImage, QPixmap, QIcon
-from PySide2.QtWidgets import QDialogButtonBox, QTableWidgetItem
+from PySide2.QtWidgets import QDialogButtonBox, QTableWidgetItem, QHBoxLayout
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
@@ -68,21 +68,23 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         ### Fim monta tableWidget
 
         # Imagens
+
         self.color_ink = QImage(os.path.join("Resources", "icons", "color_ink.png")).smoothScaled(90, 90)
         self.bw_ink = QImage(os.path.join("Resources", "icons", "bw_ink.png")).smoothScaled(90, 90)
-        self.open_box = QImage(os.path.join("Resources", "icons", "open_box.png")).smoothScaled(120, 120)
-        self.closed_box = QImage(os.path.join("Resources", "icons", "closed_box.png")).smoothScaled(120, 120)
-        self.vazio = QImage(os.path.join("Resources", "icons", "vazio.png")).smoothScaled(120, 120)
+        self.open_box = QImage(os.path.join("Resources", "icons", "open_box.png")).smoothScaled(80, 80)
+        self.closed_box = QImage(os.path.join("Resources", "icons", "closed_box.png")).smoothScaled(80, 80)
+        self.vazio = QImage(os.path.join("Resources", "icons", "vazio.png")).smoothScaled(80, 80)
         self.icone_esvaziar = QIcon(os.path.join("Resources", "icons", "delete.png"))
         self.icone_realizar = QIcon(os.path.join("Resources", "icons", "ok.png"))
         self.icone_limpar = QIcon(os.path.join("Resources", "icons", "clean.png"))
+
         self.pushButton_esvaziar.setIcon(self.icone_esvaziar)
         self.pushButton_realizar.setIcon(self.icone_realizar)
         self.pushButton_limpar.setIcon(self.icone_limpar)
 
-        self.label_icone_item_lote.setPixmap(
-            QPixmap.fromImage(self.closed_box)
-        )
+        # self.label_icone_item_lote.setPixmap(
+        #    QPixmap.fromImage(self.closed_box)
+        # )
 
         self.label_tinta.setText('')
 
@@ -132,6 +134,8 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
 
         self.tableWidget_remanufaturas.setColumnHidden(0, True)
         self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
+
+        self.pushButton_esvaziar.setVisible(False)
 
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
@@ -628,12 +632,14 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
                 QPixmap.fromImage(self.vazio))
             self.pushButton_esvaziar.setDisabled(True)
         else:
+            self.pushButton_esvaziar.setVisible(True)
             self.pushButton_esvaziar.setDisabled(False)
         self.ativar_botoes()
 
     def esvaziar_embalagem(self, item_lote_id):
         # Marca lote sendo utilizado para recargas como vazio
         if item_lote_id is None:
+            logging.info('[RegistroRemanufatura] Nenhum item lote selecionado para esvaziar.')
             return
 
         dialog = ConfirmDialog(parent=self)
@@ -697,6 +703,23 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         return fechar
 
     def visualizar_remanufatura(self, id_remanufatura):
+
+        self.vazio = self.vazio.smoothScaled(100, 100)
+        self.open_box = self.open_box.smoothScaled(100, 100)
+        self.closed_box = self.closed_box.smoothScaled(100, 100)
+
+        self.setMaximumWidth(self.minimumWidth())
+        self.setMaximumHeight(self.minimumHeight())
+
+        horizontalLayout_visualizacao = QHBoxLayout()
+        self.verticalLayout_insumo.removeWidget(self.frame_insumo)
+        self.verticalLayout_insumo.removeWidget(self.frame_insumo_item)
+        self.verticalLayout_groupBox_insumo.removeItem(self.verticalLayout_insumo)
+
+        self.verticalLayout_groupBox_insumo.addItem(horizontalLayout_visualizacao)
+        horizontalLayout_visualizacao.addWidget(self.frame_insumo)
+        horizontalLayout_visualizacao.addWidget(self.frame_insumo_item)
+
         self.lineEdit_casco_id.setDisabled(True)
         self.lineEdit_insumo_id.setDisabled(True)
         self.groupBox_remanufaturas.setVisible(False)

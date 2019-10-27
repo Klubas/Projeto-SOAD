@@ -19,14 +19,21 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         super().__init__()
         self.setupUi(self)
         self.comboBox_servidor.addItem("localhost:5432")
+        self.comboBox_servidor.addItem("localhost:5433")
         self.comboBox_servidor.addItem("10.0.2.2:5432")
         self.comboBox_servidor.setEditable(True)
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
+        self.buttonBox.button(QDialogButtonBox.Save).setDisabled(True)
+
         self.main = None
         self.restored = False
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.login)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancelar)
+        self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(lambda: self.saved_config('RESTORE'))
+
+        self.buttonBox.button(QDialogButtonBox.Save).setVisible(False)
+        self.buttonBox.button(QDialogButtonBox.Save).setText('Config DB')
 
         self.lineEdit_usuario.textChanged[str].connect(self.status_botao)
         self.lineEdit_senha.textChanged[str].connect(self.status_botao)
@@ -88,6 +95,27 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
                 logging.debug('Exception> ' + str(e))
 
+        elif action == 'RESTORE':
+
+            import platform
+            from Resources.Scripts.Installer import Installer
+
+            servidor = self.comboBox_servidor.currentText().split(':')
+
+            logging.info('[LoginDialog] Restaurando banco de dados...')
+
+            installer = Installer(
+                postgresfolder=os.path.join("Resources", "database", "bin", "runtime")
+                , dump_file=os.path.join("Resources", "Scripts", "SQL", "dump.backup")
+                , username=self.lineEdit_usuario.text()
+                , password=self.lineEdit_senha.text()
+                , host=servidor[0]
+                , port=int(servidor[1])
+                , _os=platform.system()
+                , override_pg_path=True
+            )
+            installer.create_database()
+
         elif action == 'LOAD':
             try:
                 with open('.credencial.json') as json_file:
@@ -97,19 +125,10 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                     self.lineEdit_senha.setText(data['password'])
                     self.restored = data['restored']
 
-            except Exception as e:
-                logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração.')
-                from Resources.Scripts.Installer import Installer
-                #usr = input("Usuario banco de dados (padrão: postgres):")
-                #psswd = input("Senha do banco de dados:")
-                installer = Installer("Resources\\database\\bin\\runtime",
-                                      "Resources\\Scripts\\SQL\\dump.backup",
-                                      "soad2019")
-                #installer = Installer("/usr/bin",
-                #                      "Resources/Scripts/SQL/dump.backup",
-                #                      "soad2019")
-                installer.create_database()
+            except FileNotFoundError as e:
+                logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração...')
                 logging.debug('Exception> ' + str(e))
+                self.buttonBox.button(QDialogButtonBox.Save).setVisible(True)
 
     def login(self):
 
@@ -146,10 +165,12 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         return "Ok"
 
     def status_botao(self):
-        self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(
-            (len(self.lineEdit_usuario.text()) == 0)
-            or (len(self.lineEdit_senha.text()) == 0)
-        )
+
+        ativar = (len(self.lineEdit_usuario.text()) == 0) \
+                 or (len(self.lineEdit_senha.text()) == 0)
+
+        self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(ativar)
+        self.buttonBox.button(QDialogButtonBox.Save).setDisabled(ativar)
 
     def cancelar(self):
         self.closeEvent(event=QCloseEvent())
