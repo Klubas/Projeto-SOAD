@@ -44,7 +44,7 @@ class RelatorioPadrao:
         from weasyprint import HTML
         from weasyprint.pdf import PDFFile, pdf_format
 
-        #html = HTML(html)
+        html = HTML(string=html)
         content = BytesIO(html.write_pdf())
         pdf_file = PDFFile(content)
         params = pdf_format('/OpenAction [0 /FitV null]')
