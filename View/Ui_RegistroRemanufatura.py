@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/RegistroRemanufatura.ui',
 # licensing of 'Resources/UI/RegistroRemanufatura.ui' applies.
 #
-# Created: Sun Oct 27 20:02:41 2019
+# Created: Sun Oct 27 20:35:44 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -604,7 +604,7 @@ class Ui_RegistroRemanufatura(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 432, 231))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 432, 233))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)

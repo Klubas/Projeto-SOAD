@@ -52,6 +52,7 @@ class Installer:
             cmd = str(os.path.join(self.folder_runtime, cmd))
 
             if self.os == 'Windows':
+                self.dump_file = '"' + self.dump_file + '"'
                 cmd = '"' + cmd + '" '
 
         elif self.os == 'Linux':
@@ -66,6 +67,7 @@ class Installer:
                ' --username ' + self.username + \
                ' --role "postgres" --dbname "postgres" --verbose ' + self.dump_file
 
+        # "Resources\database\bin\runtime\pg_restore.exe"  --host localhost --port 5433 --username soadmin --role "postgres" --dbname "postgres" --verbose Resources\Scripts\SQL\dump.backup
         cmd = cmd + args
         logging.info("[Installer] Restore: " + cmd)
 

@@ -11,5 +11,6 @@ PyInstaller.__main__.run([
     '--add-data=%s;Resources\\Imagens' % os.path.join('Resources', 'Imagens', '*.png'),
     '--add-binary=%s;Resources\\Scripts\\SQL' % os.path.join('Resources', 'Scripts', 'SQL', '*.backup'),
     '--icon=%s' % os.path.join('soad.ico'),
-    os.path.join('SOAD.py'),
+    '--console',
+    os.path.join('SOAD.py')
 ])

@@ -42,7 +42,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             self.verticalGroupBox_servidor.setVisible(False)
 
         icon_path = os.path.join("Resources", "Imagens", "soad.png")
-        icon_image = QImage(resource_path(icon_path)).smoothScaled(135, 135)
+        icon_image = QImage(resource_path(icon_path)).smoothScaled(115, 115)
         self.icon = QIcon(resource_path(icon_path))
         self.setWindowIcon(self.icon)
 
