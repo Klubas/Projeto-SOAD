@@ -76,11 +76,19 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             self.set_data(data)
 
         self.string_filtro = ''
+
         self.pushButton_atualizar.clicked.connect(lambda: self.refresh(string_filtro=self.string_filtro))
+
         self.checkBox_data.toggled.connect(
             lambda: self.horizontalWidget_data.setDisabled(not self.checkBox_data.isChecked())
         )
+
         self.pushButton_filtro.clicked.connect(self.filter)
+
+        self.pushButton_relatorio.clicked.connect(
+            lambda: self.gerar_relatorio(self.dados_lista_relatorio)
+        )
+
         self.tableWidget_tabela.doubleClicked.connect(self.abrir_cadastro)
 
         if self.filtro is not None:
@@ -265,11 +273,11 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             logging.error("[ListaPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 
     def gerar_relatorio(self, dados):
-
-        if dados is not None:
-
+        if dados:
             relatorio = RelatorioPadrao(dados_relatorio=dados)
             relatorio.gerar_relatorio()
+        else:
+            logging.info("[ListaPadrao] Nenhum dado informado para gerar o relatório.")
 
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/ListaPadrao.ui',
 # licensing of 'Resources/UI/Componentes/ListaPadrao.ui' applies.
 #
-# Created: Sun Oct 27 22:12:30 2019
+# Created: Mon Oct 28 13:37:14 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -146,6 +146,14 @@ class Ui_ListaPadrao(object):
         self.page.setObjectName("page")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.page)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.pushButton_relatorio = QtWidgets.QPushButton(self.page)
+        font = QtGui.QFont()
+        font.setWeight(75)
+        font.setBold(True)
+        self.pushButton_relatorio.setFont(font)
+        self.pushButton_relatorio.setFlat(True)
+        self.pushButton_relatorio.setObjectName("pushButton_relatorio")
+        self.horizontalLayout_5.addWidget(self.pushButton_relatorio)
         spacerItem1 = QtWidgets.QSpacerItem(723, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem1)
         self.stackedWidget_filtros.addWidget(self.page)
@@ -220,5 +228,6 @@ class Ui_ListaPadrao(object):
         self.label.setText(QtWidgets.QApplication.translate("ListaPadrao", "Data", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("ListaPadrao", "até", None, -1))
         self.checkBox_filtro.setText(QtWidgets.QApplication.translate("ListaPadrao", "Apenas X", None, -1))
+        self.pushButton_relatorio.setText(QtWidgets.QApplication.translate("ListaPadrao", "Gerar Relatório", None, -1))
         self.tableWidget_tabela.setSortingEnabled(True)
 

@@ -3,12 +3,12 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/LoadingDialog.ui',
 # licensing of 'Resources/UI/Componentes/LoadingDialog.ui' applies.
 #
-# Created: Sun Oct 27 22:12:30 2019
+# Created: Mon Oct 28 13:37:15 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_LoadingDialog(object):
     def setupUi(self, LoadingDialog):

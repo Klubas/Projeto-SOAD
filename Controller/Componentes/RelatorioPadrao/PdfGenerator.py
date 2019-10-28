@@ -1,3 +1,5 @@
+from weasyprint import HTML
+from weasyprint.pdf import PDFFile, pdf_format
 from weasyprint import CSS
 
 
@@ -150,18 +152,3 @@ class PdfGenerator:
             if box.element_tag == element:
                 return box
             return PdfGenerator.get_element(box.all_children(), element)
-
-
-if __name__ == '__main__':
-    from io import BytesIO
-    from weasyprint import HTML
-    from weasyprint.pdf import PDFFile, pdf_format
-
-    html = HTML('http://weasyprint.org/')
-    content = BytesIO(html.write_pdf())
-    pdf_file = PDFFile(content)
-    params = pdf_format('/OpenAction [0 /FitV null]')
-    pdf_file.extend_dict(pdf_file.catalog, params)
-    pdf_file.finish()
-    pdf = pdf_file.fileobj.getvalue()
-    open('/tmp/weasyprint.pdf', 'wb').write(pdf)
