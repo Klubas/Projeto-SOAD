@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/RegistroRemanufatura.ui',
 # licensing of 'Resources/UI/RegistroRemanufatura.ui' applies.
 #
-# Created: Sun Oct 27 20:35:44 2019
+# Created: Sun Oct 27 22:12:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -48,8 +48,8 @@ class Ui_RegistroRemanufatura(object):
         self.frameFormLayout_remanufatura.setFont(font)
         self.frameFormLayout_remanufatura.setObjectName("frameFormLayout_remanufatura")
         self.formLayout_5 = QtWidgets.QFormLayout(self.frameFormLayout_remanufatura)
-        self.formLayout_5.setLabelAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
-        self.formLayout_5.setFormAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.formLayout_5.setLabelAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.formLayout_5.setFormAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.formLayout_5.setContentsMargins(0, 0, 0, 0)
         self.formLayout_5.setHorizontalSpacing(9)
         self.formLayout_5.setVerticalSpacing(10)
@@ -154,7 +154,7 @@ class Ui_RegistroRemanufatura(object):
         self.buttonBox_remanufatura.setMouseTracking(False)
         self.buttonBox_remanufatura.setAutoFillBackground(False)
         self.buttonBox_remanufatura.setOrientation(QtCore.Qt.Vertical)
-        self.buttonBox_remanufatura.setStandardButtons(QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Reset)
+        self.buttonBox_remanufatura.setStandardButtons(QtWidgets.QDialogButtonBox.Ok|QtWidgets.QDialogButtonBox.Reset)
         self.buttonBox_remanufatura.setCenterButtons(True)
         self.buttonBox_remanufatura.setObjectName("buttonBox_remanufatura")
         self.horizontalLayout.addWidget(self.buttonBox_remanufatura)
@@ -558,7 +558,7 @@ class Ui_RegistroRemanufatura(object):
         font.setWeight(75)
         font.setBold(True)
         self.groupBox_insumo.setFont(font)
-        self.groupBox_insumo.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        self.groupBox_insumo.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.groupBox_insumo.setObjectName("groupBox_insumo")
         self.verticalLayout_groupBox_insumo = QtWidgets.QVBoxLayout(self.groupBox_insumo)
         self.verticalLayout_groupBox_insumo.setContentsMargins(0, 0, 0, 0)
@@ -875,10 +875,8 @@ class Ui_RegistroRemanufatura(object):
         self.label_insumo.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Insumo", None, -1))
         self.label_tinta.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "TextLabel", None, -1))
         self.label_situacao.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "SITUACAO", None, -1))
-        self.pushButton_limpar.setText(
-            QtWidgets.QApplication.translate("RegistroRemanufatura", "Remover remanufaturas", None, -1))
-        self.pushButton_realizar.setText(
-            QtWidgets.QApplication.translate("RegistroRemanufatura", "Realizar remanufaturas", None, -1))
+        self.pushButton_limpar.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Remover remanufaturas", None, -1))
+        self.pushButton_realizar.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Realizar remanufaturas", None, -1))
         self.groupBox_remanufaturas.setTitle(QtWidgets.QApplication.translate("RegistroRemanufatura", "Remanufaturas", None, -1))
         self.tableWidget_remanufaturas.setSortingEnabled(True)
         self.checkBox_selecionar_tudo.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Selecionar todos", None, -1))

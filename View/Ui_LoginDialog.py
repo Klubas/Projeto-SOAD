@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/LoginDialog.ui',
 # licensing of 'Resources/UI/LoginDialog.ui' applies.
 #
-# Created: Sun Oct 27 20:35:44 2019
+# Created: Sun Oct 27 22:12:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -199,8 +199,7 @@ class Ui_LoginDialog(object):
         self.buttonBox.setFont(font)
         self.buttonBox.setAutoFillBackground(False)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(
-            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Save)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok|QtWidgets.QDialogButtonBox.Save)
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_3.addWidget(self.buttonBox)

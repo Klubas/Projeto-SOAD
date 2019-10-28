@@ -1,4 +1,8 @@
+fpdf2==2.0.3
+numpy==1.17.3
+Pillow==6.2.1
 psycopg2==2.8.3
 pydal==19.5.11
-PySide2
+PySide2==5.13.0
 shiboken2==5.13.0
+six==1.12.0
