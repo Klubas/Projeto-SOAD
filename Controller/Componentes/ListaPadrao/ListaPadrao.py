@@ -8,6 +8,7 @@ from PySide2.QtWidgets import QWidget, QTableWidgetItem
 
 from Controller.Componentes.ListaPadrao.ConfigLista import ConfigLista
 from Controller.Componentes.ListaPadrao.Filtro.FiltroPadrao import FiltroPadrao
+from Controller.Componentes.RelatorioPadrao.RelatorioPadrao import RelatorioPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
 from View.Componentes.Ui_ListaPadrao import Ui_ListaPadrao
 
@@ -31,6 +32,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         self.window_list = window_list
         self.db = db
         self.define_icones()
+        self.dados_lista_relatorio = dict()
 
         relatorio = super(ListaPadrao, self).get_tipo_relatorio(tipo)
 
@@ -225,6 +227,8 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         for coluna in self.colunas.values():
             self.tableWidget_tabela.setColumnHidden(coluna[3], not coluna[2])
 
+        self.dados_lista_relatorio = linhas
+
     def filter(self):
         if not isinstance(self.filtro, FiltroPadrao):
             self.filtro = FiltroPadrao(db=self.db, child=self.filtro, parent=self)
@@ -259,6 +263,13 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             """
         except Exception as e:
             logging.error("[ListaPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
+
+    def gerar_relatorio(self, dados):
+
+        if dados is not None:
+
+            relatorio = RelatorioPadrao(dados_relatorio=dados)
+            relatorio.gerar_relatorio()
 
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))
