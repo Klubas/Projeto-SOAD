@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os
 import platform
@@ -30,7 +31,11 @@ class RelatorioPadrao:
 
     def salvar_relatorio(self, pdf, path=None):
         if path is None:
-            path = os.path.join(tempfile.gettempdir(), 'relatorio.pdf')
+
+            path = os.path.join(
+                tempfile.gettempdir(), 'relatorio-' + str(datetime.datetime.now().timestamp()).replace('.', '') + '.pdf'
+            )
+
         open(path, 'wb').write(pdf)
         logging.info('[RelatorioPadrao] Relatorio salvo em ' + path)
         return path
@@ -47,6 +52,7 @@ class RelatorioPadrao:
                 subprocess.run(['open', filepath], check=True)
         else:
             subprocess.call(('xdg-open', filepath))
+        #os.remove(filepath)
 
     def __dict2html__(self, dicts):
         """
