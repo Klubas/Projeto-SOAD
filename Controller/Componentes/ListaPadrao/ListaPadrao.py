@@ -171,15 +171,18 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         alinhamento = Qt.AlignLeft
 
-        if valor == 'None':
+        if valor == 'None' or valor == 'NaN':
             valor = None
 
         if tipo == datetime:
             alinhamento = Qt.AlignRight
             if valor:
-                valor = valor.split('T')[0]
-                data = datetime.strptime(valor, '%Y-%m-%d')
-                valor = data.strftime('%d/%m/%Y')
+                try:
+                    valor = valor.split('T')[0]
+                    data = datetime.strptime(valor, '%Y-%m-%d')
+                    valor = data.strftime('%d/%m/%Y')
+                except Exception as e:
+                    logging.debug('[ListaPadrao] Exception:\n> ' + str(e))
             else:
                 valor = ''
 
@@ -191,7 +194,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             if valor is None:
                 valor = ''
             else:
-                valor = "{0:.2f}".format(valor).replace('.', ',') if valor else '0,00'
+                valor = "{0:.2f}".format(float(valor)).replace('.', ',') if valor else '0,00'
 
         elif tipo == int:
             alinhamento = Qt.AlignHCenter
@@ -272,16 +275,40 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         except Exception as e:
             logging.error("[ListaPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 
-    def gerar_relatorio(self, dados):
+    def gerar_relatorio(self, dados_relatorio):
+
+        dados = dados_relatorio
+
         if dados:
-            relatorio = RelatorioPadrao(dados_relatorio=dados)
-            relatorio.gerar_relatorio()
+
+            row = 0
+            for linha in dados:
+                col = 0
+                for coluna in self.colunas:
+                    valor = self.tratar_valor(linha, coluna)[0]
+                    linha[coluna] = str(valor)
+
+            try:
+                relatorio = RelatorioPadrao(dados_relatorio=dados)
+                relatorio.gerar_relatorio()
+
+            except Exception as e:
+                dialog = StatusDialog(
+                    status='ERRO'
+                    , exception=e
+                    , mensagem="Não foi possível gerar o relatório."
+                    , parent=self
+                )
+
+                dialog.exec()
+
         else:
             logging.info("[ListaPadrao] Nenhum dado informado para gerar o relatório.")
 
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))
         self.pushButton_filtro.setIcon(QIcon(os.path.join('Resources', 'icons', 'filter.png')))
+        self.pushButton_relatorio.setIcon(QIcon(os.path.join('Resources', 'icons', 'printer.png')))
 
     def show(self):
         self.showMaximized()
