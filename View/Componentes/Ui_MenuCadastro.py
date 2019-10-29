@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/MenuCadastro.ui',
 # licensing of 'Resources/UI/Componentes/MenuCadastro.ui' applies.
 #
-# Created: Tue Oct 29 00:56:00 2019
+# Created: Tue Oct 29 01:07:35 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
