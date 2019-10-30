@@ -47,6 +47,7 @@ class ConfigLista:
             }
             , "interface": (CadastroPedido, {'tipo': tipo})
             , "filtro": None
+            , "relatorio": None
         }
 
         if tipo == 'COMPRA':
@@ -72,6 +73,7 @@ class ConfigLista:
                     }
                 , "interface": (CadastroPedido, {'tipo': tipo})
                 , "filtro": None
+                , "relatorio": None
             }
 
         if tipo == 'ESTOQUE':
@@ -108,6 +110,7 @@ class ConfigLista:
                 }
                 , "interface": None
                 , "filtro": FiltroEstoque
+                , "relatorio": None
             }
 
         if tipo == 'REMANUFATURA':
@@ -132,6 +135,15 @@ class ConfigLista:
                 }
                 , "interface": RegistroRemanufatura
                 , "filtro": None
+                , "relatorio": {
+                    "codigo": "Código"
+                    , "data_cadastro": "Data cadastro"
+                    , "situacao_remanufatura": "Situação"
+                    , "casco": "Casco"
+                    , "insumo": "Insumo"
+                    , "colorido": "Colorido"
+                    , "valor_unitario": "Valor (R$)"
+                }
             }
 
         if tipo == 'MERCADORIA':
@@ -160,6 +172,15 @@ class ConfigLista:
                 }
                 , "interface": CadastroMercadoria
                 , "filtro": None
+                , "relatorio": {
+                    "codigo": "Código"
+                    , "tipo_mercadoria": "Classificação"
+                    , "descricao": "Mercadoria"
+                    , "marca": "Fabricante"
+                    , "valor_venda": "Valor"
+                    , "quantidade_embalagem": "Embalagem"
+                    , "abreviacao": "Un. Medida"
+                }
             }
 
         if tipo == 'CLIENTE':
@@ -189,6 +210,7 @@ class ConfigLista:
                 }
                 , "interface": CadastroPessoa
                 , "filtro": None
+                , "relatorio": None
             }
 
         if tipo == 'FORNECEDOR':
@@ -218,6 +240,7 @@ class ConfigLista:
                 }
                 , "interface": CadastroPessoa
                 , "filtro": None
+                , "relatorio": None
             }
 
         if not relatorio:

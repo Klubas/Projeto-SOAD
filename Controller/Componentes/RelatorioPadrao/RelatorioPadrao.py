@@ -13,13 +13,28 @@ from weasyprint.pdf import PDFFile, pdf_format
 
 class RelatorioPadrao:
 
-    def __init__(self, dados_relatorio):
+    def __init__(self, dados_relatorio, header='', footer='', landscape=True, size='A4'):
 
         # Converter dicionário para HTML (pandas)
         # Transformar HTML em PDF (WeasyPrint)
         # Usar FileDialog para salvar o arquivo geradoz
 
         self.dados = dados_relatorio
+        self.header = header
+        self.footer = footer
+
+        if landscape:
+            orientation = 'landscape'
+        else:
+            orientation = 'portrait'
+
+        self.html_style = '<style>' + \
+                          '@page {' \
+                          'size: "' + size + orientation; + '"' \
+                          '     @top-left { content: "' + self.header + '";}' \
+                          '}' + \
+                          '</style>'
+
         self.stylesheet = os.path.join('Controller', 'Componentes', 'RelatorioPadrao', 'styles', 'style.css')
 
     def gerar_relatorio(self):
@@ -59,26 +74,17 @@ class RelatorioPadrao:
         :param dicts: lista de dicionários
         :return: html -> str
         """
-        """        
-        colunas = list()
-        dict_relatorio = dict()
-        index = str()
-
-        if isinstance(dicts, list):
-            colunas = dicts[0].keys()
-            for coluna in colunas:
-                dict_relatorio[coluna] = list()
-                for linha in dicts:
-                    for key, value in linha.items():
-                        if key == coluna:
-                            dict_relatorio[coluna].append(value)
-
-        elif isinstance(dicts, dict):
-            colunas = dicts.keys()
-            dict_relatorio = dicts"""
-
         df = pd.DataFrame(dicts)
-        html = df.to_html(index=False)
+        html = df.to_html(
+            index=False
+            , na_rep=" "
+            , show_dimensions=True
+            , bold_rows=False
+            , border=5
+        )
+
+        html = self.html_style + html
+
         return html
 
     def __html2pdf__(self, html):

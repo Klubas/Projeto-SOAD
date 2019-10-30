@@ -51,9 +51,15 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             self.interface_args = dict()
 
         self.filtro = relatorio["filtro"]
+        self.relatorio = relatorio["relatorio"]
 
         if not self.filtro:
             self.pushButton_filtro.setVisible(False)
+
+        if not self.relatorio:
+            self.pushButton_relatorio.setVisible(False)
+        else:
+            self.colunas_relatorio = self.relatorio
 
         if not self.tabela:
             dialog = StatusDialog(status='ERRO'
@@ -198,7 +204,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         elif tipo == int:
             alinhamento = Qt.AlignHCenter
-            valor = str(valor) if valor else ''
+            valor = str(int(valor)) if valor else ''
 
         elif tipo == bool:
             alinhamento = Qt.AlignHCenter
@@ -275,35 +281,39 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         except Exception as e:
             logging.error("[ListaPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 
-    def gerar_relatorio(self, dados_relatorio):
+    def gerar_relatorio(self, dados):
 
-        dados = dados_relatorio
-
-        if dados:
-
-            row = 0
-            for linha in dados:
-                col = 0
-                for coluna in self.colunas:
-                    valor = self.tratar_valor(linha, coluna)[0]
-                    linha[coluna] = str(valor)
-
-            try:
-                relatorio = RelatorioPadrao(dados_relatorio=dados)
-                relatorio.gerar_relatorio()
-
-            except Exception as e:
-                dialog = StatusDialog(
-                    status='ERRO'
-                    , exception=e
-                    , mensagem="Não foi possível gerar o relatório."
-                    , parent=self
-                )
-
-                dialog.exec()
-
-        else:
+        if not dados:
             logging.info("[ListaPadrao] Nenhum dado informado para gerar o relatório.")
+            return
+
+        dados_relatorio = list()
+
+        row = 0
+        for linha in dados:
+            col = 0
+            linha_relatorio = dict()
+            for coluna in self.colunas_relatorio:
+                coluna_relatorio = self.colunas_relatorio[coluna]
+                linha_relatorio[coluna] = linha[coluna]
+                valor = str(self.tratar_valor(linha_relatorio, coluna)[0])
+                linha_relatorio.pop(coluna)
+                linha_relatorio[coluna_relatorio] = valor
+            dados_relatorio.append(linha_relatorio)
+
+        try:
+            relatorio = RelatorioPadrao(dados_relatorio=dados_relatorio, header=self.titulo.replace('Lista', 'Relatório'))
+            relatorio.gerar_relatorio()
+
+        except Exception as e:
+            dialog = StatusDialog(
+                status='ERRO'
+                , exception=e
+                , mensagem="Não foi possível gerar o relatório."
+                , parent=self
+            )
+
+            dialog.exec()
 
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))
