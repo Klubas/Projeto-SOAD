@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroPadrao.ui',
-# licensing of 'Resources/UI/Componentes/FiltroPadrao.ui' applies.
+# Form implementation generated from reading ui file 'Resources\UI\Componentes\FiltroPadrao.ui',
+# licensing of 'Resources\UI\Componentes\FiltroPadrao.ui' applies.
 #
-# Created: Tue Oct 29 21:54:02 2019
+# Created: Wed Oct 30 00:10:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtWidgets
 
 class Ui_FiltroPadrao(object):
     def setupUi(self, FiltroPadrao):

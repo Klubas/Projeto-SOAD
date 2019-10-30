@@ -13,7 +13,7 @@ from weasyprint.pdf import PDFFile, pdf_format
 
 class RelatorioPadrao:
 
-    def __init__(self, dados_relatorio, header='', footer='', landscape=True, size='A4'):
+    def __init__(self, dados_relatorio, header='', footer='', landscape=True, page_size='A4'):
 
         # Converter dicionário para HTML (pandas)
         # Transformar HTML em PDF (WeasyPrint)
@@ -28,12 +28,15 @@ class RelatorioPadrao:
         else:
             orientation = 'portrait'
 
-        self.html_style = '<style>' + \
-                          '@page {' \
-                          'size: "' + size + orientation; + '"' \
-                          '     @top-left { content: "' + self.header + '";}' \
-                          '}' + \
-                          '</style>'
+        self.html_style = \
+            '<style>' + \
+            '   @page {' \
+            '       size: ' + page_size + ' ' + orientation + ';' \
+            '       @top-left { content: "' + self.header + '";}' \
+            '       @bottom-left { content: "' + str(datetime.datetime.now())[:-7] + '";}' \
+            '       @top-right { content: "VIP Cartuchos"; }' \
+            '   }' + \
+            '</style>'
 
         self.stylesheet = os.path.join('Controller', 'Componentes', 'RelatorioPadrao', 'styles', 'style.css')
 
@@ -78,7 +81,7 @@ class RelatorioPadrao:
         html = df.to_html(
             index=False
             , na_rep=" "
-            , show_dimensions=True
+            , show_dimensions=False
             , bold_rows=False
             , border=5
         )

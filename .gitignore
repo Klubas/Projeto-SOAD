@@ -137,3 +137,4 @@ dmypy.json
 .credencial.json
 log.txt
 Resources/database/
+Resources/gtk-3.8.1/

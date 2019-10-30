@@ -8,13 +8,11 @@
 	}
 	@top-right {
 		font-family: Helvetica;
-		content: 'VIP Cartuchos';
 		font-size: 8pt;
 	}
 	@bottom-left {
 		color: black;
 		font-family: Helvetica;
-		content: 'Sistema SOAD';
 		font-size: 8pt;
 	}
 	@bottom-right {
@@ -26,6 +24,7 @@
 }
 
 html table {
+    width: 100%;
 	font-family: "Courier New", Courier, monospace;
 	font-size: 7pt;
     border: 1px solid black;
@@ -56,6 +55,7 @@ html table td:last-of-type {
 html table th,
 html table td {
 	text-align: left;
+
 }
 
 html table th:first-of-type,

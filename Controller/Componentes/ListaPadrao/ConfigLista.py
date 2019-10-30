@@ -175,8 +175,8 @@ class ConfigLista:
                 , "relatorio": {
                     "codigo": "Código"
                     , "tipo_mercadoria": "Classificação"
-                    , "descricao": "Mercadoria"
                     , "marca": "Fabricante"
+                    , "descricao": "Mercadoria"
                     , "valor_venda": "Valor"
                     , "quantidade_embalagem": "Embalagem"
                     , "abreviacao": "Un. Medida"

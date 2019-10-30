@@ -302,7 +302,14 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             dados_relatorio.append(linha_relatorio)
 
         try:
-            relatorio = RelatorioPadrao(dados_relatorio=dados_relatorio, header=self.titulo.replace('Lista', 'Relatório'))
+
+            relatorio = RelatorioPadrao(
+                dados_relatorio=dados_relatorio
+                , header=self.titulo.replace('Lista', 'Relatório')
+                , page_size='A4'
+                , landscape=True
+            )
+
             relatorio.gerar_relatorio()
 
         except Exception as e:
