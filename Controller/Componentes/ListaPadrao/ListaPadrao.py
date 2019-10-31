@@ -305,7 +305,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
             relatorio = RelatorioPadrao(
                 dados_relatorio=dados_relatorio
-                , header=self.titulo.replace('Lista', 'Relatório')
+                , title=self.titulo.replace('Lista', 'Relatório')
                 , page_size='A4'
                 , landscape=True
             )

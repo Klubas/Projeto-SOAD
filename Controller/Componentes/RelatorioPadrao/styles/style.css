@@ -17,7 +17,7 @@
 	}
 	@bottom-right {
 		color: black;
-		content: counter(page);
+		content: counter(page) ' / ' counter(pages);
 		font-family: Helvetica;
 		font-size: 8pt;
 	}
@@ -40,9 +40,8 @@ html table th {
 }
 
 /*Lista zebrada*/
-th {background: #EEE}
-tr:nth-child(odd) {background: #FFF}
-tr:nth-child(even) {background: #EEE}
+th {background: #fcfcfc}
+tr:nth-child(even) {background: #fcfcfc}
 
 html table td {
 	padding-top: 1mm;
@@ -67,4 +66,5 @@ html table th:last-of-type,
 html table td:last-of-type {
 	text-align: left;
 }
+
 

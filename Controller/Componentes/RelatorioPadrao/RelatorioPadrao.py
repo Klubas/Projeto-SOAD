@@ -13,14 +13,29 @@ from weasyprint.pdf import PDFFile, pdf_format
 
 class RelatorioPadrao:
 
-    def __init__(self, dados_relatorio, header='', footer='', landscape=True, page_size='A4'):
+    def __init__(self, dados_relatorio, title='', footer='', landscape=True, page_size='A4', stylesheet=None):
 
         # Converter dicionário para HTML (pandas)
         # Transformar HTML em PDF (WeasyPrint)
         # Usar FileDialog para salvar o arquivo geradoz
+        """
+
+        Cabeçalho com filtros
+        Paginação com numero total de paginas
+        Mudar a cor para impressão
+        Ordernar campos de maior importancia
+
+
+        :param dados_relatorio:
+        :param header:
+        :param footer:
+        :param landscape:
+        :param page_size:
+        :param stylesheet:
+        """
 
         self.dados = dados_relatorio
-        self.header = header
+        self.title = title
         self.footer = footer
 
         if landscape:
@@ -28,17 +43,30 @@ class RelatorioPadrao:
         else:
             orientation = 'portrait'
 
-        self.html_style = \
+        html_style = \
             '<style>' + \
             '   @page {' \
             '       size: ' + page_size + ' ' + orientation + ';' \
-            '       @top-left { content: "' + self.header + '";}' \
+            '       @top-left { content: "' + self.title + '";}' \
             '       @bottom-left { content: "' + str(datetime.datetime.now())[:-7] + '";}' \
             '       @top-right { content: "VIP Cartuchos"; }' \
             '   }' + \
             '</style>'
 
-        self.stylesheet = os.path.join('Controller', 'Componentes', 'RelatorioPadrao', 'styles', 'style.css')
+        html = \
+            '<h1>' + self.title + '</h1>'
+
+        self.html = html_style + html
+
+        self.default_stylesheet = os.path.join('Controller', 'Componentes', 'RelatorioPadrao', 'styles', 'style.css')
+
+        self.stylesheets = list()
+
+        if stylesheet:
+            self.stylesheets.append(stylesheet)
+
+        self.stylesheets.append(self.default_stylesheet)
+
 
     def gerar_relatorio(self):
         logging.info('[RelatorioPadrao] Gerando relatorio...')
@@ -86,7 +114,7 @@ class RelatorioPadrao:
             , border=5
         )
 
-        html = self.html_style + html
+        html =  self.html + html
 
         return html
 
@@ -95,7 +123,7 @@ class RelatorioPadrao:
 
         content = BytesIO(
             html.write_pdf(
-                stylesheets=[self.stylesheet]
+                stylesheets=self.stylesheets
             )
         )
 
