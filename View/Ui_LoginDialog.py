@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources\UI\LoginDialog.ui',
 # licensing of 'Resources\UI\LoginDialog.ui' applies.
 #
-# Created: Wed Oct 30 00:10:21 2019
+# Created: Wed Oct 30 19:13:23 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

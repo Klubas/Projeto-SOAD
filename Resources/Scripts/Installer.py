@@ -22,6 +22,7 @@ class Installer:
         self.port = str(port)
         self.username = username
         self.password = password
+        os.environ["PGPASSWORD"] = self.password
 
         if not _os:
             import platform
@@ -33,6 +34,37 @@ class Installer:
             self.folder_runtime = '/usr/bin'
         else:
             self.folder_runtime = postgresfolder
+
+        self.create_user()
+
+    def create_user(self, user='soadmin'):
+
+        if self.os == 'Windows':
+            cmd = "psql.exe "
+        elif self.os == 'Linux':
+            cmd = "psql "
+        else:
+            logging.info("[Installer] Plataforma " + self.os + " sem suporte.")
+            return
+
+        if self.folder_runtime:
+            cmd = str(os.path.join(self.folder_runtime, cmd))
+
+        sql = 'CREATE ROLE ' + user + ' WITH CREATEDB CREATEROLE PASSWORD \'soad2019\''
+
+        args = ' --host ' + self.host + \
+               ' --port ' + self.port + \
+               ' --username ' + 'postgres' + ' -c "' + sql + '"'
+
+        cmd = cmd + args
+        logging.info("[Installer] Create Role: " + cmd)
+
+        cmd = shlex.split(cmd)
+        logging.debug("[Installer] Args: " + str(cmd))
+
+        with open("log.txt", "w") as f:
+            p = subprocess.Popen(cmd, stdout=f)
+            p.wait()
 
     def create_database(self):
         # Dump
@@ -59,8 +91,6 @@ class Installer:
             cmd = '/usr/bin/' + cmd
         else:
             logging.info("[Installer] Pasta com executável  pg_restore não informada")
-
-        os.environ["PGPASSWORD"] = self.password
 
         args = ' --host ' + self.host + \
                ' --port ' + self.port + \

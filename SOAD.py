@@ -38,7 +38,14 @@ def update_ui():    # Atualiza os arquivos da pasta View
 
 def main():
 
-    update_ui()
+    os.environ['PATH'] = \
+         os.path.join(os.getcwd(), 'Resources', 'mingw32', 'bin') \
+         + os.pathsep \
+         + os.environ['PATH']
+
+    print(os.environ['PATH'])
+
+    #update_ui()
     #sys.exit()
 
     from PySide2.QtWidgets import QApplication

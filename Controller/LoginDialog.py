@@ -9,7 +9,6 @@ from PySide2.QtWidgets import QDialog, QDialogButtonBox
 from Controller.Componentes.StatusDialog import StatusDialog
 from Controller.MainWindow import MainWindow
 from Model.DataBase import DataBase
-from SOAD import resource_path
 from View.Ui_LoginDialog import Ui_LoginDialog
 
 
@@ -42,8 +41,11 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             self.verticalGroupBox_servidor.setVisible(False)
 
         icon_path = os.path.join("Resources", "Imagens", "soad.png")
-        icon_image = QImage(resource_path(icon_path)).smoothScaled(115, 115)
-        self.icon = QIcon(resource_path(icon_path))
+        #icon_image = QImage(resource_path(icon_path)).smoothScaled(115, 115)
+        icon_image = QImage(icon_path).smoothScaled(115, 115)
+        #self.icon = QIcon(resource_path(icon_path))
+        self.icon = QIcon(icon_path)
+
         self.setWindowIcon(self.icon)
 
         self.label_logo.setPixmap(QPixmap.fromImage(icon_image))
@@ -100,6 +102,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             import platform
             from Resources.Scripts.Installer import Installer
 
+            self.lineEdit_usuario.setText('soadmin')
+            self.lineEdit_usuario.setDisabled(True)
+
             servidor = self.comboBox_servidor.currentText().split(':')
 
             logging.info('[LoginDialog] Restaurando banco de dados...')
@@ -114,7 +119,10 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                 , _os=platform.system()
                 , override_pg_path=True
             )
-            installer.create_database()
+            #installer.create_database()
+
+            self.lineEdit_usuario.setDisabled(False)
+            self.buttonBox.button(QDialogButtonBox.Save).setDisabled(True)
 
         elif action == 'LOAD':
             try:

@@ -36,8 +36,8 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "Y:\Projeto-SOAD\dist\SOAD Sistema\SOAD Sistema.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Y:\Projeto-SOAD\dist\SOAD Sistema\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Y:\Projeto-SOAD\dist\SOAD-Sistema\SOAD-Sistema.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Y:\Projeto-SOAD\dist\SOAD-Sistema\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
