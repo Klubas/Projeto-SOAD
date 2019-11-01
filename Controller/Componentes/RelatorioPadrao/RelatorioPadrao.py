@@ -38,7 +38,7 @@ class RelatorioPadrao:
             '   }' + \
             '</style>'
 
-        self.stylesheet = os.path.join('Controller', 'Componentes', 'RelatorioPadrao', 'styles', 'style.css')
+        self.stylesheet = os.path.join('Resources', 'styles', 'relatorio_padrao.css')
 
     def gerar_relatorio(self):
         logging.info('[RelatorioPadrao] Gerando relatorio...')
