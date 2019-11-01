@@ -28,15 +28,18 @@ class ConfigLista:
             from Controller.CadastroPedido import CadastroPedido
 
             relatorio = {
-            "descricao": "Lista de pedidos de venda",
-            "tabela": 'vw_pedido_venda',
-            "colunas": {
-                "id_pedido": ("Número", int),
+            "descricao": "Lista de pedidos de venda"
+            , "tabela": 'vw_pedido_venda'
+            , "colunas": {
+                "id_pedido": ("Número", 'ID'),
                 "situacao": ("Situação", str),
                 "data_cadastro": ("Data do Pedido", datetime),
                 "data_entrega": ("Data para Entrega", datetime),
+                "quantidade_mercadorias": ("Quantidade de mercadorias", int),
                 "valor_total_mercadorias": ("Total das mercadorias", float),
+                "quantidade_remanufaturas": ("Quantidade de remanufaturas", int),
                 "valor_total_remanufaturas": ("Total das remanufaturas", float),
+                "valor_total_pedido": ("Total do pedido", float),
                 "pessoa": ("Cliente", str),
                 "documento": ("Documento", str),
                 "inscricao_estadual": ("Inscrição Estadual", str),
@@ -52,7 +55,9 @@ class ConfigLista:
                     "situacao": "Situação",
                     "documento": "Doc. Cliente",
                     "pessoa": "Cliente",
+                    "quantidade_mercadorias": "Mercadorias",
                     "valor_total_mercadorias": "Total das mercadorias",
+                    "quantidade_remanufaturas": "Remanufaturas",
                     "valor_total_remanufaturas": "Total das remanufaturas",
                     "valor_total_pedido": "Total do pedido",
                     "data_cadastro": "Data do Pedido",
@@ -68,11 +73,13 @@ class ConfigLista:
                 "descricao": "Lista de pedidos de compra",
                 "tabela": 'vw_pedido_compra'
                 , "colunas": {
-                        "id_pedido": ("Número", int),
+                        "id_pedido": ("Número", 'ID'),
                         "situacao": ("Situação", str),
                         "data_cadastro": ("Data do Pedido", datetime),
                         "data_entrega": ("Data para Entrega", datetime),
+                        "quantidade_mercadorias": ("Quantidade de mercadorias", int),
                         "valor_total_mercadorias": ("Valor Total", float),
+                        "valor_total_pedido": ("Total do pedido", float),
                         "pessoa": ("Cliente", str),
                         "documento": ("Documento", str),
                         "inscricao_estadual": ("Inscrição Estadual", str),
@@ -88,8 +95,8 @@ class ConfigLista:
                     "situacao": "Situação",
                     "documento": "Doc. Fornecedor",
                     "pessoa": "Fornecedor",
+                    "quantidade_mercadorias": "Quantidade de mercadorias",
                     "valor_total_mercadorias": "Total das mercadorias",
-                    "valor_total_remanufaturas": "Total das remanufaturas",
                     "valor_total_pedido": "Total do pedido",
                     "data_cadastro": "Data do Pedido",
                     "data_entrega": "Data para Entrega"
@@ -104,24 +111,24 @@ class ConfigLista:
                 "descricao": "Lista de itens em estoque",
                 "tabela": 'vw_item_lote'
                 , "colunas": {
-                    "id_lote": ("Lote", int),
-                    "id_item_lote": ("Item", int),
+                    "id_lote": ("Lote", 'ID'),
+                    "id_item_lote": ("Item", 'ID'),
                     "valor_unitario": ("Valor unitário", float),
                     "quantidade_item": ("Quantidade", float),
                     "data_validade": ("Data validade", datetime),
                     "lote_fabricante": ("Lote do fabricante", str),
-                    "id_mercadoria": ("ID Mercadoria", int, False),
+                    "id_mercadoria": ("ID Mercadoria", 'ID', False),
                     "codigo_mercadoria": ("Código mercadoria", str),
                     "descricao": ("Mercadoria", str),
                     "marca": ("Fabricante", str),
                     "tipo_mercadoria": ("Classificação", str),
                     "unidade_medida": ("Unidade Medida", str),
                     "data_cadastro": ("Data entrada", datetime),
-                    "id_pedido_entrada": ("Número da Compra", int),
+                    "id_pedido_entrada": ("Número da Compra", 'ID'),
                     "nome_pessoa_entrada": ("Fornecedor", str),
                     "documento_pessoa_entrada": ("CNPJ Fornecedor", str),
                     "data_retirada": ("Data saída", datetime),
-                    "id_pedido_saida": ("Número Venda", int),
+                    "id_pedido_saida": ("Número Venda", 'ID'),
                     "motivo_retirada": ("Motivo saída", str),
                     "aberto": ("Item aberto", bool),
                     "data_abertura": ("Data Abertura", datetime),
@@ -150,22 +157,22 @@ class ConfigLista:
             from Controller.RegistroRemanufatura import RegistroRemanufatura
 
             relatorio = {
-                "descricao": "Lista de remanufaturas",
-                "tabela": "vw_remanufatura"
+                "descricao": "Lista de remanufaturas"
+                , "tabela": "vw_remanufatura"
                 , "colunas": {
-                    "id_remanufatura": ("Remanufatura", int),
-                    "codigo": ("Código da remanufatura", str),
-                    "data_cadastro": ("Data cadastro", datetime),
-                    "situacao_remanufatura": ("Situação da remanufatura", str),
-                    "casco": ("Casco", str),
-                    "insumo": ("Insumo", str),
-                    "id_item_lote": ("Item lote do insumo", int),
-                    "colorido": ("Colorido", bool),
-                    "valor_unitario": ("Valor", float),
-                    "id_pedido": ("Pedido", int),
-                    "situacao_pedido": ("Situação do pedido", str),
-                    "pessoa": ("Cliente", str),
-                    "documento": ("CPF/CNPJ Cliente", str)
+                    "id_remanufatura": ("Remanufatura", 'ID')
+                    , "codigo": ("Código da remanufatura", str)
+                    , "data_cadastro": ("Data cadastro", datetime)
+                    , "situacao_remanufatura": ("Situação da remanufatura", str)
+                    , "casco": ("Casco", str)
+                    , "insumo": ("Insumo", str)
+                    , "id_item_lote": ("Item lote do insumo", 'ID')
+                    , "colorido": ("Colorido", bool)
+                    , "valor_unitario": ("Valor", float)
+                    , "id_pedido": ("Pedido", 'ID')
+                    , "situacao_pedido": ("Situação do pedido", str)
+                    , "pessoa": ("Cliente", str)
+                    , "documento": ("CPF/CNPJ Cliente", str)
                 }
                 , "interface": RegistroRemanufatura
                 , "filtro": None
@@ -185,10 +192,10 @@ class ConfigLista:
             from Controller.CadastroMercadoria import CadastroMercadoria
 
             relatorio = {
-                "descricao": "Lista de mercadorias",
-                "tabela": 'vw_mercadoria'
+                "descricao": "Lista de mercadorias"
+                , "tabela": 'vw_mercadoria'
                 , "colunas": {
-                    "id_mercadoria": ("ID Mercadoria", int, False)
+                    "id_mercadoria": ("ID Mercadoria", 'ID', False)
                     , "codigo": ("Código mercadoria", str)
                     , "tipo_mercadoria": ("Classificação", str)
                     , "descricao": ("Descrição", str)
@@ -222,10 +229,10 @@ class ConfigLista:
             from Controller.CadastroPessoa import CadastroPessoa
 
             relatorio = {
-                "descricao": "Lista de clientes",
-                "tabela": "vw_pessoa_cliente"
+                "descricao": "Lista de clientes"
+                , "tabela": "vw_pessoa_cliente"
                 , "colunas": {
-                    "id_pessoa": ("ID", int, False)
+                    "id_pessoa": ("ID", 'ID', False)
                     , "nome": ("Nome", str)
                     , "documento": ("CPF/CNPJ", str)
                     , "fantasia": ("Nome Fantasia", str)
@@ -245,13 +252,13 @@ class ConfigLista:
                 , "interface": CadastroPessoa
                 , "filtro": None
                 , "relatorio": {
-                    "documento": "Documento",
-                    "nome": "Nome/Razão Social",
-                    "fantasia": "Nome Fantasia",
-                    "telefone": "Telefone",
-                    "email": "E-Mail",
-                    "municipio": "Município",
-                    "sigla_uf": "UF"
+                    "documento": "Documento"
+                    , "nome": "Nome/Razão Social"
+                    , "fantasia": "Nome Fantasia"
+                    , "telefone": "Telefone"
+                    , "email": "E-Mail"
+                    , "municipio": "Município"
+                    , "sigla_uf": "UF"
                 }
             }
 
@@ -260,10 +267,10 @@ class ConfigLista:
             from Controller.CadastroPessoa import CadastroPessoa
 
             relatorio = {
-                "descricao": "Lista de fornecedores",
-                "tabela": "vw_pessoa_fornecedor"
+                "descricao": "Lista de fornecedores"
+                , "tabela": "vw_pessoa_fornecedor"
                 , "colunas": {
-                    "id_pessoa": ("ID", int, False)
+                    "id_pessoa": ("ID", 'ID', False)
                     , "nome": ("Nome", str)
                     , "documento": ("CPF/CNPJ", str)
                     , "fantasia": ("Nome Fantasia", str)
@@ -283,13 +290,13 @@ class ConfigLista:
                 , "interface": CadastroPessoa
                 , "filtro": None
                 , "relatorio": {
-                    "documento": "Documento",
-                    "nome": "Nome/Razão Social",
-                    "fantasia": "Nome Fantasia",
-                    "telefone": "Telefone",
-                    "email": "E-Mail",
-                    "municipio": "Município",
-                    "sigla_uf": "UF"
+                    "documento": "Documento"
+                    , "nome": "Nome/Razão Social"
+                    , "fantasia": "Nome Fantasia"
+                    , "telefone": "Telefone"
+                    , "email": "E-Mail"
+                    , "municipio": "Município"
+                    , "sigla_uf": "UF"
                 }
             }
 

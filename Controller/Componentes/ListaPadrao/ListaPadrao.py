@@ -203,6 +203,10 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
                 valor = "{0:.2f}".format(float(valor)).replace('.', ',') if valor else '0,00'
 
         elif tipo == int:
+            alinhamento = Qt.AlignRight
+            valor = str(int(valor)) if valor else '0'
+
+        elif tipo == 'ID':
             alinhamento = Qt.AlignHCenter
             valor = str(int(valor)) if valor else ''
 

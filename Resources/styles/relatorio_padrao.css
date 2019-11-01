@@ -23,6 +23,11 @@
 	}
 }
 
+html h1 {
+    font-size: 12pt;
+    text-align: center;
+}
+
 html table {
     width: 100%;
 	font-family: "Courier New", Courier, monospace;
