@@ -45,7 +45,7 @@ def main():
 
     print(os.environ['PATH'])
 
-    #update_ui()
+    update_ui()
     #sys.exit()
 
     from PySide2.QtWidgets import QApplication

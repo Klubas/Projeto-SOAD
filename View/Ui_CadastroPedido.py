@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\CadastroPedido.ui',
-# licensing of 'Resources\UI\CadastroPedido.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
+# licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Wed Oct 30 19:13:21 2019
+# Created: Fri Nov  1 13:32:43 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -982,7 +982,7 @@ class Ui_CadastroPedido(object):
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
         self.retranslateUi(CadastroPedido)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.stackedWidget_item.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(CadastroPedido)
 

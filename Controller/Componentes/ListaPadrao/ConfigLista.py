@@ -26,6 +26,7 @@ class ConfigLista:
         if tipo == 'VENDA':
 
             from Controller.CadastroPedido import CadastroPedido
+            from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroPedido import FiltroPedido
 
             relatorio = {
             "descricao": "Lista de pedidos de venda"
@@ -49,7 +50,7 @@ class ConfigLista:
                 "observacao": ("Observações", str),
             }
             , "interface": (CadastroPedido, {'tipo': tipo})
-            , "filtro": None
+            , "filtro": FiltroPedido
             , "relatorio": {
                     "id_pedido": "Pedido",
                     "situacao": "Situação",
@@ -68,6 +69,7 @@ class ConfigLista:
         if tipo == 'COMPRA':
 
             from Controller.CadastroPedido import CadastroPedido
+            from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroPedido import FiltroPedido
 
             relatorio = {
                 "descricao": "Lista de pedidos de compra",
@@ -89,7 +91,7 @@ class ConfigLista:
                         "observacao": ("Observações", str),
                     }
                 , "interface": (CadastroPedido, {'tipo': tipo})
-                , "filtro": None
+                , "filtro": FiltroPedido
                 , "relatorio": {
                     "id_pedido": "Pedido",
                     "situacao": "Situação",
@@ -155,6 +157,7 @@ class ConfigLista:
         if tipo == 'REMANUFATURA':
 
             from Controller.RegistroRemanufatura import RegistroRemanufatura
+            from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroRemanufatura import FiltroRemanufatura
 
             relatorio = {
                 "descricao": "Lista de remanufaturas"
@@ -175,7 +178,7 @@ class ConfigLista:
                     , "documento": ("CPF/CNPJ Cliente", str)
                 }
                 , "interface": RegistroRemanufatura
-                , "filtro": None
+                , "filtro": FiltroRemanufatura
                 , "relatorio": {
                     "codigo": "Código"
                     , "data_cadastro": "Data cadastro"

@@ -30,9 +30,9 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
 
         self.dados = None
 
-        self.campos_filtro = {
-            "codigo_mercadoria": (self.lineEdit_mercadoria_id,  '=')
-        }
+        """        self.campos_filtro = {
+                    "codigo_mercadoria": (self.lineEdit_mercadoria_id,  '=')
+        }"""
 
         self.lineEdit_fornecedor_documento.editingFinished.connect(
             lambda: self.busca_registro(

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources\UI\CadastroPessoa.ui',
-# licensing of 'Resources\UI\CadastroPessoa.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/CadastroPessoa.ui',
+# licensing of 'Resources/UI/CadastroPessoa.ui' applies.
 #
-# Created: Wed Oct 30 19:13:18 2019
+# Created: Fri Nov  1 13:32:44 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

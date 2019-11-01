@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroEstoque.ui',
-# licensing of 'Resources/UI/Componentes/FiltroEstoque.ui' applies.
+# Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroRemanufatura.ui',
+# licensing of 'Resources/UI/Componentes/FiltroRemanufatura.ui' applies.
 #
 # Created: Fri Nov  1 13:32:48 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
@@ -10,25 +10,25 @@
 
 from PySide2 import QtCore, QtGui, QtWidgets
 
-class Ui_FiltroEstoque(object):
-    def setupUi(self, FiltroEstoque):
-        FiltroEstoque.setObjectName("FiltroEstoque")
-        FiltroEstoque.resize(645, 280)
+class Ui_FiltroRemanufatura(object):
+    def setupUi(self, FiltroRemanufatura):
+        FiltroRemanufatura.setObjectName("FiltroRemanufatura")
+        FiltroRemanufatura.resize(645, 280)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(FiltroEstoque.sizePolicy().hasHeightForWidth())
-        FiltroEstoque.setSizePolicy(sizePolicy)
-        FiltroEstoque.setMinimumSize(QtCore.QSize(600, 250))
-        FiltroEstoque.setMaximumSize(QtCore.QSize(645, 280))
-        FiltroEstoque.setSizeIncrement(QtCore.QSize(100, 50))
-        FiltroEstoque.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
-        FiltroEstoque.setSizeGripEnabled(False)
-        self.gridLayout = QtWidgets.QGridLayout(FiltroEstoque)
+        sizePolicy.setHeightForWidth(FiltroRemanufatura.sizePolicy().hasHeightForWidth())
+        FiltroRemanufatura.setSizePolicy(sizePolicy)
+        FiltroRemanufatura.setMinimumSize(QtCore.QSize(600, 250))
+        FiltroRemanufatura.setMaximumSize(QtCore.QSize(645, 280))
+        FiltroRemanufatura.setSizeIncrement(QtCore.QSize(100, 50))
+        FiltroRemanufatura.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
+        FiltroRemanufatura.setSizeGripEnabled(False)
+        self.gridLayout = QtWidgets.QGridLayout(FiltroRemanufatura)
         self.gridLayout.setSpacing(6)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
-        self.frame = QtWidgets.QFrame(FiltroEstoque)
+        self.frame = QtWidgets.QFrame(FiltroRemanufatura)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -270,23 +270,23 @@ class Ui_FiltroEstoque(object):
         self.gridLayout_2.addWidget(self.formFrame, 1, 0, 1, 1)
         self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
 
-        self.retranslateUi(FiltroEstoque)
-        QtCore.QMetaObject.connectSlotsByName(FiltroEstoque)
+        self.retranslateUi(FiltroRemanufatura)
+        QtCore.QMetaObject.connectSlotsByName(FiltroRemanufatura)
 
-    def retranslateUi(self, FiltroEstoque):
-        FiltroEstoque.setWindowTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Filtro Estoque", None, -1))
-        self.groupBox_4.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Estoque", None, -1))
-        self.checkBox_abertos.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Abertos", None, -1))
-        self.checkBox_vazios.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Exibir vazios", None, -1))
-        self.checkBox_inativos.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Exibir inativos", None, -1))
-        self.groupBox_3.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Classificação", None, -1))
-        self.checkBox_mercadoria.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Mercadoria", None, -1))
-        self.checkBox_insumo.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Insumo", None, -1))
-        self.checkBox_casco.setText(QtWidgets.QApplication.translate("FiltroEstoque", "Casco", None, -1))
-        self.horizontalGroupBox_2.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Fornecedor", None, -1))
-        self.horizontalGroupBox_3.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Mercadoria", None, -1))
-        self.groupBox_entrada.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Data de entrada", None, -1))
-        self.label_2.setText(QtWidgets.QApplication.translate("FiltroEstoque", "até", None, -1))
-        self.groupBox_saida.setTitle(QtWidgets.QApplication.translate("FiltroEstoque", "Data de saída", None, -1))
-        self.label_3.setText(QtWidgets.QApplication.translate("FiltroEstoque", "até", None, -1))
+    def retranslateUi(self, FiltroRemanufatura):
+        FiltroRemanufatura.setWindowTitle(QtWidgets.QApplication.translate("FiltroRemanufatura", "Filtro Remanufatura", None, -1))
+        self.groupBox_4.setTitle(QtWidgets.QApplication.translate("FiltroRemanufatura", "Estoque", None, -1))
+        self.checkBox_abertos.setText(QtWidgets.QApplication.translate("FiltroRemanufatura", "Abertos", None, -1))
+        self.checkBox_vazios.setText(QtWidgets.QApplication.translate("FiltroRemanufatura", "Exibir vazios", None, -1))
+        self.checkBox_inativos.setText(QtWidgets.QApplication.translate("FiltroRemanufatura", "Exibir inativos", None, -1))
+        self.groupBox_3.setTitle(QtWidgets.QApplication.translate("FiltroRemanufatura", "Classificação", None, -1))
+        self.checkBox_mercadoria.setText(QtWidgets.QApplication.translate("FiltroRemanufatura", "Mercadoria", None, -1))
+        self.checkBox_insumo.setText(QtWidgets.QApplication.translate("FiltroRemanufatura", "Insumo", None, -1))
+        self.checkBox_casco.setText(QtWidgets.QApplication.translate("FiltroRemanufatura", "Casco", None, -1))
+        self.horizontalGroupBox_2.setTitle(QtWidgets.QApplication.translate("FiltroRemanufatura", "Fornecedor", None, -1))
+        self.horizontalGroupBox_3.setTitle(QtWidgets.QApplication.translate("FiltroRemanufatura", "Mercadoria", None, -1))
+        self.groupBox_entrada.setTitle(QtWidgets.QApplication.translate("FiltroRemanufatura", "Data de entrada", None, -1))
+        self.label_2.setText(QtWidgets.QApplication.translate("FiltroRemanufatura", "até", None, -1))
+        self.groupBox_saida.setTitle(QtWidgets.QApplication.translate("FiltroRemanufatura", "Data de saída", None, -1))
+        self.label_3.setText(QtWidgets.QApplication.translate("FiltroRemanufatura", "até", None, -1))
 
