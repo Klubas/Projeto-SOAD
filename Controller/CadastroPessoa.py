@@ -372,8 +372,9 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         if items[0]:
             self.ufs = items[1][0]['fnc_buscar_registro']
             self.comboBox_uf.clear()
-            for uf in self.ufs:
-                self.comboBox_uf.addItem(uf["sigla_uf"])
+            if self.ufs:
+                for uf in self.ufs:
+                    self.comboBox_uf.addItem(uf["sigla_uf"])
 
             self.comboBox_uf.setCurrentIndex(0)
 

@@ -35,20 +35,26 @@ class Installer:
         else:
             self.folder_runtime = postgresfolder
 
-        self.create_user()
+        with open('.credencial.json', 'w', encoding='utf-8') as f:
+            print('\n')
 
-    def create_user(self, user='soadmin'):
-
+    def get_cmd(self, cmd):
         if self.os == 'Windows':
-            cmd = "psql.exe "
+            cmd = cmd + '.exe '
         elif self.os == 'Linux':
-            cmd = "psql "
+            cmd = cmd
         else:
             logging.info("[Installer] Plataforma " + self.os + " sem suporte.")
             return
 
         if self.folder_runtime:
             cmd = str(os.path.join(self.folder_runtime, cmd))
+
+        return cmd
+
+    def create_user(self, user='soadmin'):
+
+        cmd = self.get_cmd('psql')
 
         sql = 'CREATE ROLE ' + user + ' WITH CREATEDB CREATEROLE PASSWORD \'soad2019\''
 
@@ -66,29 +72,43 @@ class Installer:
             p = subprocess.Popen(cmd, stdout=f)
             p.wait()
 
+    def configuracoes_iniciais(self):
+        cmd = self.get_cmd('psql')
+
+        sql = "SELECT * FROM soad.prc_configuracao_definicoes_iniciais()"
+
+        args = ' --host ' + self.host + \
+               ' --port ' + self.port + \
+               ' --username ' + 'postgres' + ' -c "' + sql + '"'
+
+        cmd = cmd + args
+        logging.info("[Installer] Execute Procedure: " + cmd)
+
+        cmd = shlex.split(cmd)
+        logging.debug("[Installer] Args: " + str(cmd))
+
+        with open("log.txt", "w") as f:
+            p = subprocess.Popen(cmd, stdout=f)
+            p.wait()
+
     def create_database(self):
         # Dump
         # /usr/bin/pg_dump --file "/home/lucas/git/Projeto-SOAD/Resources/Scripts/SQL/dump.backup"
         # --host "localhost" --port "5433" --username "postgres" --no-password --verbose --quote-all-identifiers
         # --format=t --blobs --create --clean --section=pre-data --section=data --section=post-data --inserts
         # --column-inserts --disable-dollar-quoting --use-set-session-authorization --encoding "UTF8" "postgres"
+
+        self.create_user()
+
+        cmd = self.get_cmd('pg_restore')
+
         if self.os == 'Windows':
-            cmd = "pg_restore.exe"
-        elif self.os == 'Linux':
-            cmd = "pg_restore"
-        else:
-            logging.info("[Installer] Plataforma " + self.os + " sem suporte.")
-            return
+            self.dump_file = '"' + self.dump_file + '"'
+            cmd = '"' + cmd + '" '
 
-        if self.folder_runtime:
-            cmd = str(os.path.join(self.folder_runtime, cmd))
+        #elif self.os == 'Linux':
+        #    cmd = '/usr/bin/' + cmd
 
-            if self.os == 'Windows':
-                self.dump_file = '"' + self.dump_file + '"'
-                cmd = '"' + cmd + '" '
-
-        elif self.os == 'Linux':
-            cmd = '/usr/bin/' + cmd
         else:
             logging.info("[Installer] Pasta com executável  pg_restore não informada")
 
@@ -107,6 +127,8 @@ class Installer:
         with open("log.txt", "w") as f:
             p = subprocess.Popen(cmd, stdout=f)
             p.wait()
+
+        self.configuracoes_iniciais()
 
         os.environ["PGPASSWORD"] = ''
 

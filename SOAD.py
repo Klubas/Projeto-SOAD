@@ -61,8 +61,9 @@ def main():
 
 
 if __name__ == '__main__':
-    print("MAIN")
+
     main()
+
 else:
     print(__name__)
     print("Sorry Dave, you can't do that!")

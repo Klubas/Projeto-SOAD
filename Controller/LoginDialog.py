@@ -111,7 +111,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
             installer = Installer(
                 postgresfolder=os.path.join("Resources", "database", "bin", "runtime")
-                , dump_file=os.path.join("Resources", "Scripts", "SQL", "dump.backup")
+                , dump_file=os.path.join("Resources", "Scripts", "SQL", "dump_schema.backup")
                 , username=self.lineEdit_usuario.text()
                 , password=self.lineEdit_senha.text()
                 , host=servidor[0]
@@ -119,7 +119,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                 , _os=platform.system()
                 , override_pg_path=True
             )
-            #installer.create_database()
+            installer.create_database()
 
             self.lineEdit_usuario.setDisabled(False)
             self.buttonBox.button(QDialogButtonBox.Save).setDisabled(True)
@@ -127,11 +127,14 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         elif action == 'LOAD':
             try:
                 with open('.credencial.json') as json_file:
-                    data = json.load(json_file)
-                    self.comboBox_servidor.setCurrentText(data['hostname'])
-                    self.lineEdit_usuario.setText(data['username'])
-                    self.lineEdit_senha.setText(data['password'])
-                    self.restored = data['restored']
+                    try:
+                        data = json.load(json_file)
+                        self.comboBox_servidor.setCurrentText(data['hostname'])
+                        self.lineEdit_usuario.setText(data['username'])
+                        self.lineEdit_senha.setText(data['password'])
+                        self.restored = data['restored']
+                    except Exception:
+                        logging.debug('[LoginDialog] Não foi possível ler o arquivo de configuração...')
 
             except FileNotFoundError as e:
                 logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração...')
