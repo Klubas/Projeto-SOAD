@@ -47,7 +47,17 @@ class ConfigLista:
             }
             , "interface": (CadastroPedido, {'tipo': tipo})
             , "filtro": None
-            , "relatorio": None
+            , "relatorio": {
+                    "id_pedido": "Pedido",
+                    "situacao": "Situação",
+                    "documento": "Doc. Cliente",
+                    "pessoa": "Cliente",
+                    "valor_total_mercadorias": "Total das mercadorias",
+                    "valor_total_remanufaturas": "Total das remanufaturas",
+                    "valor_total_pedido": "Total do pedido",
+                    "data_cadastro": "Data do Pedido",
+                    "data_entrega": "Data para Entrega"
+                }
         }
 
         if tipo == 'COMPRA':
@@ -73,7 +83,17 @@ class ConfigLista:
                     }
                 , "interface": (CadastroPedido, {'tipo': tipo})
                 , "filtro": None
-                , "relatorio": None
+                , "relatorio": {
+                    "id_pedido": "Pedido",
+                    "situacao": "Situação",
+                    "documento": "Doc. Fornecedor",
+                    "pessoa": "Fornecedor",
+                    "valor_total_mercadorias": "Total das mercadorias",
+                    "valor_total_remanufaturas": "Total das remanufaturas",
+                    "valor_total_pedido": "Total do pedido",
+                    "data_cadastro": "Data do Pedido",
+                    "data_entrega": "Data para Entrega"
+                }
             }
 
         if tipo == 'ESTOQUE':
@@ -110,11 +130,25 @@ class ConfigLista:
                 }
                 , "interface": None
                 , "filtro": FiltroEstoque
-                , "relatorio": None
+                , "relatorio": {
+                    "id_lote": "Lote",
+                    "codigo_mercadoria": "Cód.",
+                    "descricao": "Mercadoria",
+                    "marca": "Fabricante",
+                    "tipo_mercadoria": "Classificação",
+                    "quantidade_item": "Quantidade",
+                    "data_validade": "Validade",
+                    "documento_pessoa_entrada": "Doc. Fornecedor",
+                    "nome_pessoa_entrada": "Fornecedor",
+                    "data_cadastro": "Data Entrada",
+                    "data_retirada": "Data saída"
+                }
             }
 
         if tipo == 'REMANUFATURA':
+
             from Controller.RegistroRemanufatura import RegistroRemanufatura
+
             relatorio = {
                 "descricao": "Lista de remanufaturas",
                 "tabela": "vw_remanufatura"
@@ -210,7 +244,15 @@ class ConfigLista:
                 }
                 , "interface": CadastroPessoa
                 , "filtro": None
-                , "relatorio": None
+                , "relatorio": {
+                    "documento": "Documento",
+                    "nome": "Nome/Razão Social",
+                    "fantasia": "Nome Fantasia",
+                    "telefone": "Telefone",
+                    "email": "E-Mail",
+                    "municipio": "Município",
+                    "sigla_uf": "UF"
+                }
             }
 
         if tipo == 'FORNECEDOR':
@@ -240,7 +282,15 @@ class ConfigLista:
                 }
                 , "interface": CadastroPessoa
                 , "filtro": None
-                , "relatorio": None
+                , "relatorio": {
+                    "documento": "Documento",
+                    "nome": "Nome/Razão Social",
+                    "fantasia": "Nome Fantasia",
+                    "telefone": "Telefone",
+                    "email": "E-Mail",
+                    "municipio": "Município",
+                    "sigla_uf": "UF"
+                }
             }
 
         if not relatorio:
@@ -248,5 +298,4 @@ class ConfigLista:
                 status='ERRO'
                 , mensagem="O tipo de relatório " + tipo + " não é válido.")
             dialog.exec()
-
         return relatorio
