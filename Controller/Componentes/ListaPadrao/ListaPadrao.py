@@ -52,7 +52,14 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
                 self.interface = relatorio["interface"]
                 self.interface_args = dict()
 
-        self.filtro = relatorio["filtro"] if "filtro" in relatorio else None
+        if "filtro" in relatorio:
+            if isinstance(relatorio["filtro"], tuple):
+                self.filtro = relatorio["filtro"][0]
+                self.filtro_args = relatorio["filtro"][1]
+            else:
+                self.filtro = relatorio["filtro"]
+                self.filtro_args = dict()
+
         self.relatorio = relatorio["relatorio"] if "relatorio" in relatorio else None
 
         if not self.filtro:
@@ -287,10 +294,14 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
     def filter(self):
         if not isinstance(self.filtro, FiltroPadrao):
-            self.filtro = FiltroPadrao(db=self.db, child=self.filtro, parent=self)
+            self.filtro = FiltroPadrao(
+                db=self.db
+                , child=self.filtro
+                , parent=self
+                , **self.filtro_args
+            )
             self.filtro.setWindowTitle("Filtro - " + self.titulo)
             self.filtro.string_filtro.connect(self.refresh)
-
         self.filtro.show()
 
     def abrir_cadastro(self):

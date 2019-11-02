@@ -1,22 +1,38 @@
+import logging
+
 from PySide2.QtCore import QDate
 from PySide2.QtWidgets import QDialog
 
 from View.Componentes.Ui_FiltroPedido import Ui_FiltroPedido
 
 
+def get_periodo(groupBox, dateEdit_fim, dateEdit_inicio, campo) -> str:
+    if groupBox.isChecked():
+        data_inicio = dateEdit_inicio.date().toString("dd.MM.yyyy").replace('.', '/')
+        data_fim = dateEdit_fim.date().toString("dd.MM.yyyy").replace('.', '/')
+        return str("(" + campo + " >= $$" + str(data_inicio) + "$$" + " and " + campo + " <= $$" + str(data_fim) + "$$) or " + campo + " is null")
+    else:
+        return ''
+
+
 class FiltroPedido(QDialog, Ui_FiltroPedido):
 
-    def __init__(self, db=None, parent=None, tipo='COMPRA'):
+    def __init__(self, db=None, parent=None, **kwargs):
         super(FiltroPedido, self).__init__(parent)
         self.setupUi(self)
         self.db = db
 
-        self.tipo = tipo
+        self.tipo = kwargs.get('tipo') if 'tipo' in kwargs else None
 
         if self.tipo == 'COMPRA':
             self.pessoa = 'fornecedor'
-        else:
+        elif self.tipo == 'VENDA':
             self.pessoa = 'cliente'
+        else:
+            logging.info('[FiltroPedido] Tipo de pedido não suportado.')
+            return
+
+        self.groupBox_pessoa.setTitle(self.pessoa.capitalize())
 
         self.metodos = (
             self.get_pessoa
@@ -63,16 +79,8 @@ class FiltroPedido(QDialog, Ui_FiltroPedido):
         else:
             return ''
 
-    def get_periodo(self, groupBox, dateEdit_fim, dateEdit_inicio, campo) -> str:
-        if groupBox.isChecked():
-            data_inicio = dateEdit_inicio.date().toString("dd.MM.yyyy").replace('.', '/')
-            data_fim = dateEdit_fim.date().toString("dd.MM.yyyy").replace('.', '/')
-            return str("(" + campo + " >= $$" + str(data_inicio) + "$$" + " and " + campo + " <= $$" + str(data_fim) + "$$) or " + campo + " is null")
-        else:
-            return ''
-
     def get_cadastro(self) -> str:
-        return self.get_periodo(
+        return get_periodo(
                 groupBox=self.groupBox_entrada
                 , dateEdit_inicio=self.dateEdit_data_entrada1
                 , dateEdit_fim=self.dateEdit_data_entrada2
@@ -80,7 +88,7 @@ class FiltroPedido(QDialog, Ui_FiltroPedido):
         )
 
     def get_entrega(self) -> str:
-        return self.get_periodo(
+        return get_periodo(
                 groupBox=self.groupBox_saida
                 , dateEdit_inicio=self.dateEdit_data_saida1
                 , dateEdit_fim=self.dateEdit_data_saida2

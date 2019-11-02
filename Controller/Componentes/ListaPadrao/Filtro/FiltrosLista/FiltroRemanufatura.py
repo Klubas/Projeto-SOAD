@@ -1,10 +1,7 @@
-import logging
-
-from PySide2.QtCore import QDate
 from PySide2.QtWidgets import QDialog
 
-from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from View.Componentes.Ui_FiltroRemanufatura import Ui_FiltroRemanufatura
+
 
 class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
 

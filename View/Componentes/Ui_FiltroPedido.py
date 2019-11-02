@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroPedido.ui',
 # licensing of 'Resources/UI/Componentes/FiltroPedido.ui' applies.
 #
-# Created: Sat Nov  2 19:21:32 2019
+# Created: Sat Nov  2 19:49:54 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -71,26 +71,26 @@ class Ui_FiltroPedido(object):
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_3)
         self.verticalLayout_5.setContentsMargins(5, 5, 5, 5)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.horizontalGroupBox_2 = QtWidgets.QGroupBox(self.frame_3)
+        self.groupBox_pessoa = QtWidgets.QGroupBox(self.frame_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.horizontalGroupBox_2.sizePolicy().hasHeightForWidth())
-        self.horizontalGroupBox_2.setSizePolicy(sizePolicy)
-        self.horizontalGroupBox_2.setCheckable(False)
-        self.horizontalGroupBox_2.setObjectName("horizontalGroupBox_2")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalGroupBox_2)
+        sizePolicy.setHeightForWidth(self.groupBox_pessoa.sizePolicy().hasHeightForWidth())
+        self.groupBox_pessoa.setSizePolicy(sizePolicy)
+        self.groupBox_pessoa.setCheckable(False)
+        self.groupBox_pessoa.setObjectName("groupBox_pessoa")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.groupBox_pessoa)
         self.horizontalLayout_2.setContentsMargins(9, 9, 9, 9)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.lineEdit_pessoa_documento = QtWidgets.QLineEdit(self.horizontalGroupBox_2)
+        self.lineEdit_pessoa_documento = QtWidgets.QLineEdit(self.groupBox_pessoa)
         self.lineEdit_pessoa_documento.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_pessoa_documento.setObjectName("lineEdit_pessoa_documento")
         self.horizontalLayout_2.addWidget(self.lineEdit_pessoa_documento)
-        self.lineEdit_pessoa = QtWidgets.QLineEdit(self.horizontalGroupBox_2)
+        self.lineEdit_pessoa = QtWidgets.QLineEdit(self.groupBox_pessoa)
         self.lineEdit_pessoa.setEnabled(False)
         self.lineEdit_pessoa.setObjectName("lineEdit_pessoa")
         self.horizontalLayout_2.addWidget(self.lineEdit_pessoa)
-        self.verticalLayout_5.addWidget(self.horizontalGroupBox_2)
+        self.verticalLayout_5.addWidget(self.groupBox_pessoa)
         self.widget_4 = QtWidgets.QWidget(self.frame_3)
         self.widget_4.setObjectName("widget_4")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.widget_4)
@@ -206,7 +206,7 @@ class Ui_FiltroPedido(object):
 
     def retranslateUi(self, FiltroPedido):
         FiltroPedido.setWindowTitle(QtWidgets.QApplication.translate("FiltroPedido", "Filtro de Pedido", None, -1))
-        self.horizontalGroupBox_2.setTitle(QtWidgets.QApplication.translate("FiltroPedido", "Fornecedor", None, -1))
+        self.groupBox_pessoa.setTitle(QtWidgets.QApplication.translate("FiltroPedido", "Fornecedor", None, -1))
         self.groupBox_entrada.setTitle(QtWidgets.QApplication.translate("FiltroPedido", "Data do pedido", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("FiltroPedido", "até", None, -1))
         self.groupBox_saida.setTitle(QtWidgets.QApplication.translate("FiltroPedido", "Data para entrega", None, -1))

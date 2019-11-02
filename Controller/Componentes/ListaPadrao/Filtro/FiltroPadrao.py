@@ -12,7 +12,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
     string_filtro = Signal(list)
 
-    def __init__(self, db, child=None, parent=None):
+    def __init__(self, db, child=None, parent=None, **kwargs):
         super(FiltroPadrao, self).__init__(parent)
         self.setupUi(self)
         self.db = db
@@ -20,7 +20,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
         self.setWindowIcon(QIcon(os.path.join('Resources', 'icons', 'filter.png')))
 
-        self.child = child(db=self.db, parent=self.widget)
+        self.child = child(db=self.db, parent=self.widget, **kwargs)
         self.child.setWindowFlags(Qt.Widget)
         self.child.move(0, 0)
         self.child.show()

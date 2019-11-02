@@ -236,7 +236,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         )
 
-
     def abrir_interface(self, window_cls, **kwargs):
         try:
 

@@ -50,7 +50,7 @@ class ConfigLista:
                     "observacao": ("Observações", str),
                 }
                 , "interface": (CadastroPedido, {'tipo': tipo})
-                , "filtro": FiltroPedido
+                , "filtro": (FiltroPedido, {'tipo': tipo})
                 , "relatorio": {
                         "id_pedido": "Pedido",
                         "situacao": "Situação",
@@ -82,7 +82,7 @@ class ConfigLista:
                         "quantidade_mercadorias": ("Quantidade de mercadorias", int),
                         "valor_total_mercadorias": ("Valor Total", float),
                         "valor_total_pedido": ("Total do pedido", float),
-                        "pessoa": ("Cliente", str),
+                        "pessoa": ("Fornecedor", str),
                         "documento": ("Documento", str),
                         "inscricao_estadual": ("Inscrição Estadual", str),
                         "fantasia": ("Nome Fantasia", str),
@@ -91,7 +91,7 @@ class ConfigLista:
                         "observacao": ("Observações", str),
                     }
                 , "interface": (CadastroPedido, {'tipo': tipo})
-                , "filtro": FiltroPedido
+                , "filtro": (FiltroPedido, {'tipo': tipo})
                 , "relatorio": {
                     "id_pedido": "Pedido",
                     "situacao": "Situação",
@@ -158,7 +158,6 @@ class ConfigLista:
 
             from Controller.CadastroMercadoria import CadastroMercadoria
             from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoqueConsolidado import FiltroEstoqueConsolidado
-
 
             relatorio = {
                 "descricao": 'Lista de Estoque'
