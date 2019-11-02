@@ -29,40 +29,40 @@ class ConfigLista:
             from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroPedido import FiltroPedido
 
             relatorio = {
-            "descricao": "Lista de pedidos de venda"
-            , "tabela": 'vw_pedido_venda'
-            , "colunas": {
-                "id_pedido": ("Número", 'ID'),
-                "situacao": ("Situação", str),
-                "data_cadastro": ("Data do Pedido", datetime),
-                "data_entrega": ("Data para Entrega", datetime),
-                "quantidade_mercadorias": ("Quantidade de mercadorias", int),
-                "valor_total_mercadorias": ("Total das mercadorias", float),
-                "quantidade_remanufaturas": ("Quantidade de remanufaturas", int),
-                "valor_total_remanufaturas": ("Total das remanufaturas", float),
-                "valor_total_pedido": ("Total do pedido", float),
-                "pessoa": ("Cliente", str),
-                "documento": ("Documento", str),
-                "inscricao_estadual": ("Inscrição Estadual", str),
-                "fantasia": ("Nome Fantasia", str),
-                "email": ("Email", str),
-                "telefone": ("Telefone", str),
-                "observacao": ("Observações", str),
-            }
-            , "interface": (CadastroPedido, {'tipo': tipo})
-            , "filtro": FiltroPedido
-            , "relatorio": {
-                    "id_pedido": "Pedido",
-                    "situacao": "Situação",
-                    "documento": "Doc. Cliente",
-                    "pessoa": "Cliente",
-                    "quantidade_mercadorias": "Mercadorias",
-                    "valor_total_mercadorias": "Total das mercadorias",
-                    "quantidade_remanufaturas": "Remanufaturas",
-                    "valor_total_remanufaturas": "Total das remanufaturas",
-                    "valor_total_pedido": "Total do pedido",
-                    "data_cadastro": "Data do Pedido",
-                    "data_entrega": "Data para Entrega"
+                "descricao": "Lista de pedidos de venda"
+                , "tabela": 'vw_pedido_venda'
+                , "colunas": {
+                    "id_pedido": ("Número", 'ID'),
+                    "situacao": ("Situação", str),
+                    "data_cadastro": ("Data do Pedido", datetime),
+                    "data_entrega": ("Data para Entrega", datetime),
+                    "quantidade_mercadorias": ("Quantidade de mercadorias", int),
+                    "valor_total_mercadorias": ("Total das mercadorias", float),
+                    "quantidade_remanufaturas": ("Quantidade de remanufaturas", int),
+                    "valor_total_remanufaturas": ("Total das remanufaturas", float),
+                    "valor_total_pedido": ("Total do pedido", float),
+                    "pessoa": ("Cliente", str),
+                    "documento": ("Documento", str),
+                    "inscricao_estadual": ("Inscrição Estadual", str),
+                    "fantasia": ("Nome Fantasia", str),
+                    "email": ("Email", str),
+                    "telefone": ("Telefone", str),
+                    "observacao": ("Observações", str),
+                }
+                , "interface": (CadastroPedido, {'tipo': tipo})
+                , "filtro": FiltroPedido
+                , "relatorio": {
+                        "id_pedido": "Pedido",
+                        "situacao": "Situação",
+                        "documento": "Doc. Cliente",
+                        "pessoa": "Cliente",
+                        "quantidade_mercadorias": "Mercadorias",
+                        "valor_total_mercadorias": "Total das mercadorias",
+                        "quantidade_remanufaturas": "Remanufaturas",
+                        "valor_total_remanufaturas": "Total das remanufaturas",
+                        "valor_total_pedido": "Total do pedido",
+                        "data_cadastro": "Data do Pedido",
+                        "data_entrega": "Data para Entrega"
                 }
         }
 
@@ -105,7 +105,7 @@ class ConfigLista:
                 }
             }
 
-        if tipo == 'ESTOQUE':
+        if tipo == 'ITEM_ESTOQUE':
 
             from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoque import FiltroEstoque
 
@@ -154,6 +154,40 @@ class ConfigLista:
                 }
             }
 
+        if tipo == 'ESTOQUE':
+
+            from Controller.CadastroMercadoria import CadastroMercadoria
+            from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoqueConsolidado import FiltroEstoqueConsolidado
+
+
+            relatorio = {
+                "descricao": 'Lista de Estoque'
+                , "metodo": 'fnc_gerar_relatorio_estoque'
+                , "colunas": {
+                    "id_mercadoria": ("ID", 'ID', False),
+                    "tipo_mercadoria": ("Classificação", str),
+                    "quantidade_estoque": ("Quantidade", float),
+                    "codigo_mercadoria": ("Cód.", str),
+                    "descricao": ("Mercadoria", str),
+                    "marca": ("Fabricante", str),
+                    "ativo": ("Ativo", bool),
+                    "permite_venda": ("Permite venda", bool),
+                    "valor_venda": ("Valor venda", float)
+                }
+                , "interface": CadastroMercadoria
+                , "filtro": FiltroEstoqueConsolidado
+                , "relatorio": {
+                    "codigo_mercadoria": "Cód.",
+                    "descricao": "Mercadoria",
+                    "marca": "Fabricante",
+                    "tipo_mercadoria": "Classificação",
+                    "quantidade_estoque": "Quantidade",
+                    "ativo": "Ativo",
+                    "permite_venda": "Permite venda",
+                    "valor_venda": "Valor venda"
+                }
+            }
+
         if tipo == 'REMANUFATURA':
 
             from Controller.RegistroRemanufatura import RegistroRemanufatura
@@ -163,7 +197,7 @@ class ConfigLista:
                 "descricao": "Lista de remanufaturas"
                 , "tabela": "vw_remanufatura"
                 , "colunas": {
-                    "id_remanufatura": ("Remanufatura", 'ID')
+                    "id_remanufatura": ("Remanufatura", 'ID', False)
                     , "codigo": ("Código da remanufatura", str)
                     , "data_cadastro": ("Data cadastro", datetime)
                     , "situacao_remanufatura": ("Situação da remanufatura", str)

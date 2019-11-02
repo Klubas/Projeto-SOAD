@@ -327,7 +327,8 @@ class CadastroPadrao(QWidget):
 
             else:
                 try:
-                    self.parent().refresh()
+                    pass
+                    # self.parent().refresh()
                 except Exception as e:
                     logging.debug('[CadastroPadrao] Não foi possível recarregar a janela <parent>: ' + str(self.parent()))
 

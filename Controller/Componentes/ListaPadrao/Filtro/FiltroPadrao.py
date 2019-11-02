@@ -1,3 +1,4 @@
+import logging
 import os
 
 from PySide2.QtCore import Qt, Signal
@@ -31,6 +32,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
+
         self.show()
 
     def montar_filtro(self) -> str:
@@ -44,9 +46,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
                     filtro = filtro + " and "
                 filtro = filtro + valor
 
-        if i > 0:
-            filtro = filtro + ";"
-
+        logging.info('[FiltroPadrao] Filtro: ' + str(filtro))
         return filtro
 
     def confirma(self):

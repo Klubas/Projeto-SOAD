@@ -23,53 +23,40 @@
 	}
 }
 
-html h1 {
+.cabecalho {
     font-size: 12pt;
     text-align: center;
+    font-family: Helvetica;
 }
 
-html table {
+.tabela {
     width: 100%;
 	font-family: "Courier New", Courier, monospace;
 	font-size: 7pt;
     border: 1px solid black;
 }
 
-html table th {
+.tabela th {
+    background: #fcfcfc;
 	border-bottom: .2mm;
 	font-weight: bold;
 	padding-bottom: .25cm;
 	font-size: 7pt;
 	text-transform: uppercase;
-
+	text-align: left;
 }
 
-/*Lista zebrada*/
-th {background: #fcfcfc}
-tr:nth-child(even) {background: #fcfcfc}
-
-html table td {
+.tabela td {
 	padding-top: 1mm;
-}
-
-html table td:last-of-type {
 	text-align: left;
 }
 
-html table th,
-html table td {
-	text-align: left;
-
+.tabela tr:nth-child(even) {
+    background: #fcfcfc;
 }
 
-html table th:first-of-type,
-html table td:first-of-type {
+.tabela th:first-of-type,
+.tabela td:first-of-type {
 	text-align: left;
 }
-
-html table th:last-of-type,
-html table td:last-of-type {
-	text-align: left;
-}
-
 

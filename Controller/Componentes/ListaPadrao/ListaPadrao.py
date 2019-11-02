@@ -40,18 +40,20 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         self.setWindowTitle("SOAD - " + self.titulo)
 
-        self.tabela = relatorio["tabela"]
+        self.tabela = relatorio["tabela"] if "tabela" in relatorio else None
+        self.metodo = relatorio["metodo"] if "metodo" in relatorio else None
         self.colunas = relatorio["colunas"]
 
-        if isinstance(relatorio["interface"], tuple):
-            self.interface = relatorio["interface"][0]
-            self.interface_args = relatorio["interface"][1]
-        else:
-            self.interface = relatorio["interface"]
-            self.interface_args = dict()
+        if "interface" in relatorio:
+            if isinstance(relatorio["interface"], tuple):
+                self.interface = relatorio["interface"][0]
+                self.interface_args = relatorio["interface"][1]
+            else:
+                self.interface = relatorio["interface"]
+                self.interface_args = dict()
 
-        self.filtro = relatorio["filtro"]
-        self.relatorio = relatorio["relatorio"]
+        self.filtro = relatorio["filtro"] if "filtro" in relatorio else None
+        self.relatorio = relatorio["relatorio"] if "relatorio" in relatorio else None
 
         if not self.filtro:
             self.pushButton_filtro.setVisible(False)
@@ -61,9 +63,9 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         else:
             self.colunas_relatorio = self.relatorio
 
-        if not self.tabela:
+        if not self.tabela and not self.metodo:
             dialog = StatusDialog(status='ERRO'
-                                  , mensagem="Não foi definida a tabela."
+                                  , mensagem="Não foi definida a tabela ou método."
                                   , parent=self)
             dialog.exec()
 
@@ -150,16 +152,48 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
     def get_data(self, filtro):
 
-        retorno = self.db.busca_registro(
-            self.tabela
-            , ''
-            , ''
-            , '='
-            , filtro=filtro
-        )
+        if self.tabela:
+            retorno = self.db.busca_registro(
+                self.tabela
+                , ''
+                , ''
+                , '='
+                , filtro=filtro
+            )
+
+            metodo = 'fnc_buscar_registro'
+
+        elif self.metodo:
+
+            dados = {
+                "metodo": self.metodo
+                , "schema": self.db.schema
+                , "params": {
+                    "coluna": ''
+                    , "valor": ''
+                    , "operador": '='
+                    , "filtro": filtro
+                }
+
+            }
+
+            retorno = self.db.call_procedure(params=dados)
+
+        else:
+            return None
 
         if retorno[0]:
-            retorno = retorno[1][0]['fnc_buscar_registro']
+            retorno = retorno[1][0]
+
+            if "fnc_buscar_registro" in retorno:
+                retorno = retorno["fnc_buscar_registro"]
+
+            elif "p_retorno_json" in retorno:
+                retorno = retorno["p_retorno_json"][self.metodo]
+
+            else:
+                return None
+
             return retorno
         else:
             dialog = StatusDialog(status='ERRO'
@@ -225,6 +259,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
     def set_data(self, linhas):
 
         if not linhas:
+            logging.info("[ListaPadrao] Nenhum registro encontrado.")
             self.tableWidget_tabela.setRowCount(0)
             return
 
@@ -314,7 +349,8 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
                 , landscape=True
             )
 
-            relatorio.gerar_relatorio()
+            pdf = relatorio.gerar_relatorio()
+            relatorio.exibir_relatorio(pdf)
 
         except Exception as e:
             dialog = StatusDialog(

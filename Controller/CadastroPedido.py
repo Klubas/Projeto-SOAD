@@ -166,6 +166,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.define_icones()
 
+        self.tabWidget.setCurrentIndex(0)
+
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
             self.atualizar_interface(self.id_registro)
@@ -425,6 +427,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         if dados[0]:
             dados = dados[1][0]['json_pedido']
             self.popular_interface(dados)
+            self.tabWidget.setCurrentIndex(1)
 
         else:
             dialog = StatusDialog(

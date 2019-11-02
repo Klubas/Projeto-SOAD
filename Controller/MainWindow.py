@@ -93,10 +93,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Relatórios
 
-        self.actionProdutos_em_Estoque.triggered.connect(
+        self.actionLista_estoque.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
                 , tipo='ESTOQUE'
+            )
+        )
+
+        self.actionLista_de_itens_em_estoque.triggered.connect(
+            lambda: self.abrir_interface(
+                window_cls=ListaPadrao
+                , tipo='ITEM_ESTOQUE'
             )
         )
 
@@ -228,6 +235,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 , tipo='REMANUFATURA'
             )
         )
+
 
     def abrir_interface(self, window_cls, **kwargs):
         try:

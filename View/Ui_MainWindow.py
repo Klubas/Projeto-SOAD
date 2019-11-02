@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
 # licensing of 'Resources/UI/MainWindow.ui' applies.
 #
-# Created: Fri Nov  1 13:32:43 2019
+# Created: Sat Nov  2 19:21:30 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -450,8 +450,8 @@ class Ui_MainWindow(object):
         self.actionDevolucao.setCheckable(False)
         self.actionDevolucao.setEnabled(False)
         self.actionDevolucao.setObjectName("actionDevolucao")
-        self.actionProdutos_em_Estoque = QtWidgets.QAction(MainWindow)
-        self.actionProdutos_em_Estoque.setObjectName("actionProdutos_em_Estoque")
+        self.actionLista_estoque = QtWidgets.QAction(MainWindow)
+        self.actionLista_estoque.setObjectName("actionLista_estoque")
         self.actionVendas = QtWidgets.QAction(MainWindow)
         self.actionVendas.setObjectName("actionVendas")
         self.actionCompras = QtWidgets.QAction(MainWindow)
@@ -478,6 +478,8 @@ class Ui_MainWindow(object):
         self.actionLista_de_remanufaturas.setObjectName("actionLista_de_remanufaturas")
         self.actionCadastroUsuario = QtWidgets.QAction(MainWindow)
         self.actionCadastroUsuario.setObjectName("actionCadastroUsuario")
+        self.actionLista_de_itens_em_estoque = QtWidgets.QAction(MainWindow)
+        self.actionLista_de_itens_em_estoque.setObjectName("actionLista_de_itens_em_estoque")
         self.menuArquivo.addAction(self.actionCadastroUsuario)
         self.menuArquivo.addAction(self.actionReconectar)
         self.menuArquivo.addAction(self.actionSair)
@@ -491,13 +493,14 @@ class Ui_MainWindow(object):
         self.menuEstoque.addAction(self.actionRegistrar_compra)
         self.menuEstoque.addAction(self.actionCompras)
         self.menuEstoque.addSeparator()
-        self.menuEstoque.addAction(self.actionProdutos_em_Estoque)
+        self.menuEstoque.addAction(self.actionLista_estoque)
         self.menuEstoque.addAction(self.actionNova_Remanufatura)
         self.menuEstoque.addSeparator()
         self.menuEstoque.addAction(self.actionRegistrar_Remanufaturas)
         self.menuEstoque.addAction(self.actionLista_de_remanufaturas)
         self.menuAjuda.addAction(self.actionSobre)
         self.menuRelat_rios.addAction(self.actionMercadorias)
+        self.menuRelat_rios.addAction(self.actionLista_de_itens_em_estoque)
         self.menuRelat_rios.addSeparator()
         self.menuRelat_rios.addAction(self.actionRelacao_de_fornecedores)
         self.menuRelat_rios.addAction(self.actionRelacao_de_clientes)
@@ -516,7 +519,7 @@ class Ui_MainWindow(object):
         self.label_icone_compra.setText(QtWidgets.QApplication.translate("MainWindow", "IconCompra", None, -1))
         self.pushButton_compra.setText(QtWidgets.QApplication.translate("MainWindow", "Registrar Compra", None, -1))
         self.pushButton_lista_compras.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Compras", None, -1))
-        self.pushButton_lista_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de itens em estoque", None, -1))
+        self.pushButton_lista_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de estoque", None, -1))
         self.label_logo.setText(QtWidgets.QApplication.translate("MainWindow", "logo_soad", None, -1))
         self.label_icone_venda.setText(QtWidgets.QApplication.translate("MainWindow", "IconVenda", None, -1))
         self.pushButton_venda.setText(QtWidgets.QApplication.translate("MainWindow", "Realizar Venda", None, -1))
@@ -560,8 +563,8 @@ class Ui_MainWindow(object):
         self.actionDescarte_de_Material.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "RealizarDescartar materiais", None, -1))
         self.actionDevolucao.setText(QtWidgets.QApplication.translate("MainWindow", "Devolução", None, -1))
         self.actionDevolucao.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Realizar uma devolução", None, -1))
-        self.actionProdutos_em_Estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de itens em estoque", None, -1))
-        self.actionProdutos_em_Estoque.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "lista de produtos em estoque", None, -1))
+        self.actionLista_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de estoque", None, -1))
+        self.actionLista_estoque.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "lista de produtos em estoque", None, -1))
         self.actionVendas.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de pedidos de venda", None, -1))
         self.actionVendas.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Lista de vendas realizadas", None, -1))
         self.actionCompras.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de pedidos de compra", None, -1))
@@ -583,4 +586,5 @@ class Ui_MainWindow(object):
         self.actionLista_de_remanufaturas.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Lista de remanufaturas realizadas", None, -1))
         self.actionCadastroUsuario.setText(QtWidgets.QApplication.translate("MainWindow", "Cadastro de Usuário", None, -1))
         self.actionCadastroUsuario.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Cadastro de usuários do sistema", None, -1))
+        self.actionLista_de_itens_em_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de itens em estoque", None, -1))
 

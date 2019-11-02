@@ -49,8 +49,9 @@ class DataBase:
 
         return self.execute_sql(sql)
 
-    def call_procedure(self, schema, params):
-
+    def call_procedure(self, schema='soad', params=None):
+        if not params:
+            return
         # Remove parametros vazios
         vazio = []
         for param in params["params"].items():

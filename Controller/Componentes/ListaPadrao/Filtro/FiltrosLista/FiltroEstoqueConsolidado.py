@@ -4,10 +4,10 @@ from PySide2.QtCore import QDate
 from PySide2.QtWidgets import QDialog
 
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
-from View.Componentes.Ui_FiltroEstoque import Ui_FiltroEstoque
+from View.Componentes.Ui_FiltroEstoqueConsolidado import Ui_FiltroEstoqueConsolidado
 
 
-class FiltroEstoque(QDialog, Ui_FiltroEstoque):
+class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
     """
     Fazer mapeamento dos campos
     nome_campo - nome_coluna - sinal
@@ -15,18 +15,19 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
     """
 
     def __init__(self, db=None, parent=None):
-        super(FiltroEstoque, self).__init__(parent)
+        super(FiltroEstoqueConsolidado, self).__init__(parent)
         self.setupUi(self)
         self.db = db
 
         self.metodos = (
             self.get_mercadoria
             , self.get_fornecedor
-            , self.get_entrada
-            , self.get_saida
             , self.get_classificacao
             , self.get_estoque
+            , self.get_data_base
         )
+
+        self.dados = None
 
         self.lineEdit_fornecedor_documento.editingFinished.connect(
             lambda: self.busca_registro(
@@ -71,16 +72,7 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
         self.checkBox_insumo.setChecked(False)
         self.checkBox_casco.setChecked(False)
 
-        self.checkBox_abertos.setChecked(False)
-        self.checkBox_vazios.setChecked(False)
-
-        self.groupBox_entrada.setChecked(False)
-        self.groupBox_saida.setChecked(False)
-
-        self.dateEdit_data_entrada1.setDate(QDate().currentDate())
-        self.dateEdit_data_entrada2.setDate(QDate().currentDate())
-        self.dateEdit_data_saida1.setDate(QDate().currentDate())
-        self.dateEdit_data_saida2.setDate(QDate().currentDate())
+        self.dateEdit_data_base.setDate(QDate().currentDate())
 
     def busca_registro(self, tabela, campo, lineEdit_id, campo_descricao, lineEdit_descricao, colunas_dict):
 
@@ -93,7 +85,7 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
 
             registro = self.db.busca_registro(tabela, campo, valor, '=')[1][0]['fnc_buscar_registro']
 
-            logging.debug('[FiltroEstoque] ' + str(registro))
+            logging.debug('[FiltroEstoqueConsolidado] ' + str(registro))
             if registro is not None:
                 registro = registro[0]
         else:
@@ -135,7 +127,7 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
         else:
             return ''
 
-    def get_fornecedor(self):
+    def get_fornecedor(self) -> str:
         pessoa_documento = self.lineEdit_fornecedor_documento.text()
         if pessoa_documento is not None and pessoa_documento != '':
             return str("id_pessoa_entrada = $$" + str(pessoa_documento) + "$$")
@@ -146,25 +138,19 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
         if groupBox.isChecked():
             data_inicio = dateEdit_inicio.date().toString("dd.MM.yyyy").replace('.', '/')
             data_fim = dateEdit_fim.date().toString("dd.MM.yyyy").replace('.', '/')
-            return str("(" + campo + " >= $$" + str(data_inicio) + "$$" + " and " + campo + " <= $$" + str(data_fim) + "$$) or " + campo + " is null")
+            return str(campo + " >= $$" + str(data_inicio) + "$$" + " and " + campo + " <= $$" + str(data_fim) + "$$")
         else:
             return ''
 
-    def get_entrada(self) -> str:
-        return self.get_periodo(
-                groupBox=self.groupBox_entrada
-                , dateEdit_inicio=self.dateEdit_data_entrada1
-                , dateEdit_fim=self.dateEdit_data_entrada2
-                , campo="data_cadastro"
-        )
+    def get_data_base(self):
+        if not self.groupBox_data_base.isChecked():
+            self.dateEdit_data_base.setDate(QDate().currentDate())
+        data_base = self.dateEdit_data_base.date().toString("dd.MM.yyyy").replace('.', '/')
 
-    def get_saida(self) -> str:
-        return self.get_periodo(
-                groupBox=self.groupBox_saida
-                , dateEdit_inicio=self.dateEdit_data_saida1
-                , dateEdit_fim=self.dateEdit_data_saida2
-                , campo="data_retirada"
-        )
+        return str('''
+            data_cadastro::date <= $${data_base}$$::date
+            AND(data_retirada::date > $${data_base}$$::date or data_retirada is null)
+            '''.format(data_base=data_base))
 
     def get_classificacao(self) -> str:
         filtro = ''
@@ -183,13 +169,6 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
 
     def get_estoque(self) -> str:
         filtro = ''
-
-        if self.checkBox_abertos.isChecked():
-            filtro = filtro + "aberto = true::boolean"
-
-        if not self.checkBox_vazios.isChecked():
-            filtro = filtro + " and " if filtro != '' else filtro
-            filtro = filtro + "quantidade_item > 0::integer"
 
         if not self.checkBox_inativos.isChecked():
             filtro = filtro + " and " if filtro != '' else filtro

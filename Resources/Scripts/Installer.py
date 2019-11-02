@@ -115,7 +115,8 @@ class Installer:
         args = ' --host ' + self.host + \
                ' --port ' + self.port + \
                ' --username ' + self.username + \
-               ' --role "postgres" --dbname "postgres" --verbose ' + self.dump_file
+               ' --role "postgres" --dbname "postgres" --verbose ' + self.dump_file + \
+               ' --single-transaction'
 
         # "Resources\database\bin\runtime\pg_restore.exe"  --host localhost --port 5433 --username soadmin --role "postgres" --dbname "postgres" --verbose Resources\Scripts\SQL\dump.backup
         cmd = cmd + args

@@ -390,7 +390,7 @@
               <bool>true</bool>
              </property>
              <property name="text">
-              <string>Lista de itens em estoque</string>
+              <string>Lista de estoque</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -977,7 +977,7 @@
     <addaction name="actionRegistrar_compra"/>
     <addaction name="actionCompras"/>
     <addaction name="separator"/>
-    <addaction name="actionProdutos_em_Estoque"/>
+    <addaction name="actionLista_estoque"/>
     <addaction name="actionNova_Remanufatura"/>
     <addaction name="separator"/>
     <addaction name="actionRegistrar_Remanufaturas"/>
@@ -994,6 +994,7 @@
      <string>Listas</string>
     </property>
     <addaction name="actionMercadorias"/>
+    <addaction name="actionLista_de_itens_em_estoque"/>
     <addaction name="separator"/>
     <addaction name="actionRelacao_de_fornecedores"/>
     <addaction name="actionRelacao_de_clientes"/>
@@ -1123,9 +1124,9 @@
     <string>Realizar uma devolução</string>
    </property>
   </action>
-  <action name="actionProdutos_em_Estoque">
+  <action name="actionLista_estoque">
    <property name="text">
-    <string>Lista de itens em estoque</string>
+    <string>Lista de estoque</string>
    </property>
    <property name="statusTip">
     <string>lista de produtos em estoque</string>
@@ -1226,6 +1227,11 @@
    </property>
    <property name="statusTip">
     <string>Cadastro de usuários do sistema</string>
+   </property>
+  </action>
+  <action name="actionLista_de_itens_em_estoque">
+   <property name="text">
+    <string>Lista de itens em estoque</string>
    </property>
   </action>
  </widget>
