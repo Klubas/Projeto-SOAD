@@ -779,7 +779,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 , quantidade=self.formatar_numero(self.lineEdit_quantidade.text())
                 , valor_unitario=self.formatar_numero(self.lineEdit_valor_unitario.text())
                 , mercadoria_id=self.lineEdit_mercadoria_id.text()
-                , unidade_medida_id=self.db.busca_registro( # todo: Fazer dinâmico
+                , unidade_medida_id=self.db.busca_registro(  # todo: Fazer dinâmico
                     'unidade_medida'
                     , 'abreviacao'
                     , 'UN'
@@ -974,7 +974,16 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         instanciar um relatorio padrão informando os dados no pedido no cabecalho
             e os dados dos itens no dados_realtorio
         """
-        ficha_pedido = RelatorioPadrao(pedido_itens)
+        ficha_pedido = RelatorioPadrao(
+            pedido_itens
+            , cabecalho=str(pedido_itens)
+            , title="Pedido"
+            , landscape=False
+            , page_size='A4'
+            , stylesheet=os.path.join('Resources', 'styles', 'ficha_pedido.css')
+            , sort_column='tipo_item'
+        )
+
         pdf = ficha_pedido.gerar_relatorio()
         ficha_pedido.exibir_relatorio(pdf)
 
