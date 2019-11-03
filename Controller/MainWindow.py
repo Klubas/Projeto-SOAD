@@ -32,7 +32,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         icone_mercadoria = QImage(os.path.join('Resources', 'icons', 'mercadorias.png')).smoothScaled(85, 85)
         icone_pessoa = QImage(os.path.join('Resources', 'icons', 'pessoa_fisica.png')).smoothScaled(85, 85)
         icone_logo = QImage(os.path.join('Resources', 'Imagens', 'soad.png')).smoothScaled(150, 150)
-        icone_empresa = QImage(os.path.join('Resources', 'Imagens', 'logo.png')).smoothScaled(90, 70)
+        icone_empresa = QImage(os.path.join('Resources', 'Imagens', 'logo_mono.png')).smoothScaled(174, 122)
 
         self.label_icone_venda.setPixmap(QPixmap.fromImage(icone_venda))
         self.label_icone_compra.setPixmap(QPixmap.fromImage(icone_compra))

@@ -92,9 +92,10 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         if data:
             self.set_data(data)
 
+        self.filtro_cab = ''
         self.string_filtro = ''
 
-        self.pushButton_atualizar.clicked.connect(lambda: self.refresh(string_filtro=self.string_filtro))
+        self.pushButton_atualizar.clicked.connect(lambda: self.refresh(filtros=(self.string_filtro, self.filtro_cab)))
 
         self.checkBox_data.toggled.connect(
             lambda: self.horizontalWidget_data.setDisabled(not self.checkBox_data.isChecked())
@@ -115,8 +116,6 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             self.refresh()
 
     def refresh(self, filtros=('', '')):
-        print("filtros=" + str(filtros))
-
         self.string_filtro = filtros[0]
         self.filtro_cab = filtros[1]
 
@@ -222,12 +221,14 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         valor = linha[coluna]
 
         alinhamento = Qt.AlignLeft
+        alinhamento_html = 'left'
 
         if valor == 'None' or valor == 'NaN':
             valor = None
 
         if tipo == datetime:
             alinhamento = Qt.AlignRight
+            alinhamento_html = 'righ'
             if valor:
                 try:
                     valor = valor.split('T')[0]
@@ -243,21 +244,26 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         elif tipo == float:
             alinhamento = Qt.AlignRight
+            alinhamento_html = 'right'
             if valor is None:
                 valor = ''
             else:
                 valor = "{0:.2f}".format(float(valor)).replace('.', ',') if valor else '0,00'
+                valor = valor.rjust(10, ' ')
 
         elif tipo == int:
             alinhamento = Qt.AlignRight
+            alinhamento_html = 'right'
             valor = str(int(valor)) if valor else '0'
 
         elif tipo == 'ID':
             alinhamento = Qt.AlignHCenter
+            alinhamento_html = 'center'
             valor = str(int(valor)) if valor else ''
 
         elif tipo == bool:
             alinhamento = Qt.AlignHCenter
+            alinhamento_html = 'center'
             if valor is None:
                 valor = ''
             else:
@@ -266,7 +272,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         else:
             valor = str(valor) if valor else ''
 
-        return valor, alinhamento
+        return valor, alinhamento, alinhamento_html
 
     def set_data(self, linhas):
 
@@ -281,7 +287,9 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         for linha in linhas:
             col = 0
             for coluna in self.colunas:
-                valor, alinhamento = self.tratar_valor(linha, coluna)
+                valor_tratado = self.tratar_valor(linha, coluna)
+                valor = valor_tratado[0]
+                alinhamento = valor_tratado[1]
                 item = QTableWidgetItem(str(valor))
                 item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                 item.setTextAlignment(alinhamento)
@@ -340,13 +348,14 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             for coluna in self.colunas_relatorio:
                 coluna_relatorio = self.colunas_relatorio[coluna]
                 linha_relatorio[coluna] = linha[coluna]
-                valor = str(self.tratar_valor(linha_relatorio, coluna)[0])
+                valor_tratado = self.tratar_valor(linha_relatorio, coluna)
+                valor = str(valor_tratado[0])
+                alinhamento = str(valor_tratado[2])
                 linha_relatorio.pop(coluna)
                 linha_relatorio[coluna_relatorio] = valor
             dados_relatorio.append(linha_relatorio)
 
         try:
-            print("cab=" + self.filtro_cab)
             relatorio = RelatorioPadrao(
                 dados_relatorio=dados_relatorio
                 , title=self.titulo.replace('Lista', 'Relatório')

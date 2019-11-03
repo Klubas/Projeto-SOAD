@@ -1,0 +1,35 @@
+/* Tabela */
+
+.tabela {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 7pt;
+}
+
+.dados {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.dados th, td {
+	padding-left: 1mm;
+	padding-right: 1mm;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.dados th {
+    border: 1px solid black !important;
+    background: #fcfcfc;
+	font-weight: bold;
+	text-align: left;
+}
+
+.dados td {
+	padding-top: 1mm;
+	text-align: left;
+}
+
+.dados tr:nth-child(even) {
+    background: #fcfcfc;
+}
+
+/* Fim tabela */

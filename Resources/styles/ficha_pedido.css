@@ -17,3 +17,71 @@
 		font-size: 8pt;
 	}
 }
+
+#logo_img{
+    width:140px ;
+    height:110px;
+}
+
+#num_pedido {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 16pt;
+    text-align: left;
+    width: 80%;
+}
+
+#situacao {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 16pt;
+    text-align: right;
+}
+
+.cabecalhoPedido {
+    border: 1px solid red;
+}
+
+.infoCabecalho {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.infoPedido {
+    width: 100%;
+    text-align: center;
+    font-size: 12pt;
+    border: 1px solid black;
+}
+
+ .logo {
+    width: 20%;
+    border: 1px solid black;
+    display: inline-block;
+}
+
+ .infoEmitente {
+    width: 80%;
+    border: 1px solid black;
+    display: inline-block;
+}
+
+.infoClienteFornecedor {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.infoRodape {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.infoRodape .infoPagamento {
+    width: 50%;
+    border: 1px solid black;
+}
+
+.infoRodape .infoTotais {
+    width: 50%;
+    border: 1px solid black;
+}
+
+

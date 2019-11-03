@@ -13,7 +13,19 @@ from weasyprint.pdf import PDFFile, pdf_format
 
 class RelatorioPadrao:
 
-    def __init__(self, dados_relatorio, title='', footer='', landscape=True, page_size='A4', cabecalho='', stylesheet=None, sort_column=None):
+    def __init__(self
+                 , dados_relatorio
+                 , title=''
+                 , footer=''
+                 , landscape=True
+                 , page_size='A4'
+                 , cabecalho=''
+                 , rodape=''
+                 , file=False
+                 , stylesheet=None
+                 , sort_column=None
+                 , override_style=False
+    ):
         """
         Cabeçalho com filtros
         Paginação com numero total de paginas
@@ -27,10 +39,58 @@ class RelatorioPadrao:
         :param page_size:
         :param stylesheet:
         """
+        self.html_string = '''
+<!DOCTYPE html>
+<html lang="pt-br">
+    <meta charset="utf-8">
+    <head><title>{title}</title></head>
+    <body>
+        <h1 class="titulo">{title}</h1>
+        <div class="cabecalho">{cabecalho}</div> 
+        <div class="tabela">{table}</div>
+        <div class="rodape">{rodape}</div>
+    </body>
+</html>
+'''
+
+        self.html_style = '''
+@page {{
+    size: {page_size};
+
+    @top-left {{
+        content: "{title}";
+    }}
+
+    @bottom-left {{
+        content: "{date}";
+    }}
+
+    @top-right {{ 
+        content: "{nome_empresa}";
+    }}
+}}'''
+
         self.sort_column = sort_column
         self.dados = dados_relatorio
         self.title = title
-        self.cabecalho = cabecalho
+
+        if not file:
+            self.cabecalho = cabecalho
+            self.rodape = rodape
+
+        else:
+            try:
+
+                with open(cabecalho, 'r') as f:
+                    self.cabecalho = f.read()
+
+                with open(rodape, 'r') as f:
+                    self.rodape = f.read()
+
+            except Exception as e:
+                self.cabecalho = ''
+                self.rodape = ''
+                logging.debug('[RelatorioPadrao] Não foi possível abrir o arquivo de cabecalho/rodape.\n>' + str(e))
 
         if landscape:
             orientation = 'landscape'
@@ -43,17 +103,18 @@ class RelatorioPadrao:
             , nome='VIP Cartuchos'
         )
 
-        self.html_cab = '''
-            <h1 class="titulo">{title}</h1>
-            <div class="cabecalho">{cabecalho}</div> 
-        '''.format(title=self.title, cabecalho=self.cabecalho)
-
         self.default_stylesheet = os.path.join('Resources', 'styles', 'relatorio_padrao.css')
+        self.tabela_stylesheet = os.path.join('Resources', 'styles', 'tabela.css')
+
         self.stylesheets = list()
         self.stylesheets.append(self.html_style)
+        self.stylesheets.append(self.tabela_stylesheet)
+
+        if not override_style:
+            self.stylesheets.append(self.default_stylesheet)
+
         if stylesheet:
             self.stylesheets.append(stylesheet)
-        self.stylesheets.append(self.default_stylesheet)
 
     def gerar_relatorio(self):
         logging.info('[RelatorioPadrao] Gerando relatorio...')
@@ -78,26 +139,8 @@ class RelatorioPadrao:
         return path
 
     def criar_stylesheet_dinamica(self, size, title, nome):
-        html_style = \
-            '''
-                @page {{
-                    size: {page_size};
-                
-                    @top-left {{
-                        content: "{title}";
-                    }}
-                
-                    @bottom-left {{
-                        content: "{date}";
-                    }}
-                
-                    @top-right {{ 
-                        content: "{nome_empresa}";
-                    }}
-                }}
-            '''
 
-        html_style = html_style.format(
+        html_style = self.html_style.format(
             page_size=size
             , title=title
             , date=str(datetime.datetime.now())[:-7]
@@ -147,30 +190,31 @@ class RelatorioPadrao:
 
         html_table = df.to_html(
             index=False
-            , classes='tabela'
+            , classes='dados'
             , na_rep=" "
             , show_dimensions=False
             , bold_rows=False
-            , border=5
+            , border=0
         )
 
-        html_string = '''
-        <html>
-          <head><title>{title}</title></head>
-          <body>
-            {table_cab}
-            {table}
-          </body>
-        </html>.
-        '''.format(style=self.html_style, table_cab=self.html_cab, table=html_table, title=self.title)
+        html_string = self.html_string.format(
+            style=self.html_style
+            , table=html_table
+            , title=self.title
+            , cabecalho=self.cabecalho
+            , rodape=self.rodape
+        )
 
+        html_string = html_string.replace('&gt;', '>')
+        html_string = html_string.replace('&lt;', '<')
+        html_string = html_string.replace('\\n', ' ')
         return html_string
 
     def __html2pdf__(self, html):
 
         logging.info('[RelatorioPadrao] Gerando PDF...')
 
-        html = HTML(string=html)
+        html = HTML(string=html, base_url=os.getcwd())
 
         content = BytesIO(
             html.write_pdf(
@@ -185,16 +229,10 @@ class RelatorioPadrao:
         pdf = pdf_file.fileobj.getvalue()
         return pdf
 
-    def sanitize(self, s):
-        import re
-        s = re.sub(r"\s+", "", s)
-        return s
-
     def cleanup(self, path_list):
         """
         :param paths: Lista de arquivos a resem removidos
         :return: success
-
         """
         paths = list()
         if isinstance(path_list, list):

@@ -46,13 +46,13 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
                 valor_filtro = valor[0]
                 if valor[2] != '':
                     cabecalho = \
-                        cabecalho \
-                        + '<campo class=descricao>' \
-                        + valor[1] + ': </campo><valor campo=valor>' + valor[2] + '</campo><br>'
+                        cabecalho + \
+                        '<span class=filtroLinha>' + \
+                        '   <strong>' + valor[1] + ': </strong>' + valor[2] + \
+                        '</span>'
 
             elif isinstance(valor, str):
                 valor_filtro = valor
-                valor_cab = ''
 
             else:
                 break
@@ -63,7 +63,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
                     filtro = filtro + " and "
                 filtro = filtro + valor_filtro
 
-        cabecalho = cabecalho + '<div>'
+        cabecalho = cabecalho + '</div>'
         logging.info('[FiltroPadrao] Filtro: ' + str(filtro))
         return filtro, cabecalho
 
@@ -71,7 +71,6 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         filtro = self.montar_filtro()
         string_filtro = filtro[0]
         filtro_cabecalho = filtro[1]
-        print(filtro)
         self.string_filtro.emit((string_filtro, filtro_cabecalho))
         self.parent.show()
         self.hide()

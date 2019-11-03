@@ -1,7 +1,8 @@
 @charset "UTF-8";
+
+/* definições específicas para PDF */
 @page {
 	margin: 1cm;
-	font-size: 7pt;
 	font-family: Verdana, Geneva, sans-serif;
 	@top-left {
 		font-size: 8pt;
@@ -17,53 +18,31 @@
 		font-size: 8pt;
 	}
 }
+/* Fim definições específicas para PDF */
 
+/* Título */
 .titulo {
-    font-size: 12pt;
-    text-align: center;
+    font-size: 10pt;
+    text-align: left;
 	font-family: Verdana, Geneva, sans-serif;
 }
+/* Fim título */
 
-.cabecalho {
+/* Cabeçalho*/
+.cabecalho .rodape{
+    text-align: left;
     font-size: 8pt;
 	font-family: Verdana, Geneva, sans-serif;
 }
 
-.descricao {
-	font-weight: bold;
-	text-align: left;
-}
-
-.valor {
-    font-size: 7pt;
-	text-align: right;
-}
-
-.tabela {
+.filtros{
     width: 100%;
-	font-family: Verdana, Geneva, sans-serif;
-	font-size: 7pt;
+    font-size: 8pt;
+    padding-bottom: 7px;
+}
+.filtros .filtroLinha{
+    width: 33%;
+    display: inline-block;
 }
 
-.tabela th {
-    border: 1px solid black;
-    background: #fcfcfc;
-	font-weight: bold;
-	font-size: 7pt;
-	text-align: left;
-}
-
-.tabela td {
-	padding-top: 1mm;
-	text-align: left;
-}
-
-.tabela tr:nth-child(even) {
-    background: #fcfcfc;
-}
-
-.tabela th:first-of-type,
-.tabela td:first-of-type {
-	text-align: left;
-}
-
+/* Fim cabeçalho */

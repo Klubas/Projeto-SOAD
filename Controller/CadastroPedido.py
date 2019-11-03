@@ -972,16 +972,27 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         """
         Montar um html para o cabeçalho com informações do pedido
         instanciar um relatorio padrão informando os dados no pedido no cabecalho
-            e os dados dos itens no dados_realtorio
+            e os dados dos itens no dados_relatorio
         """
+
+        cnpj_emitente = "12.141.655/0001-69"
+
+        print(pedido_itens)
+
+        html_cabecalho = os.path.join('Resources', 'html', 'RelatorioPadrao', 'cabecalho.html')
+        html_rodape = os.path.join('Resources', 'html', 'RelatorioPadrao', 'rodape.html')
+
         ficha_pedido = RelatorioPadrao(
             pedido_itens
-            , cabecalho=str(pedido_itens)
-            , title="Pedido"
+            , cabecalho=html_cabecalho
+            , rodape=html_rodape
+            , file=True
+            , title="Pedido para " + self.tipo_pedido.capitalize()
             , landscape=False
             , page_size='A4'
             , stylesheet=os.path.join('Resources', 'styles', 'ficha_pedido.css')
             , sort_column='tipo_item'
+            , override_style=True
         )
 
         pdf = ficha_pedido.gerar_relatorio()
