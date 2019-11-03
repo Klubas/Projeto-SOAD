@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroEstoqueConsolidado.ui',
 # licensing of 'Resources/UI/Componentes/FiltroEstoqueConsolidado.ui' applies.
 #
-# Created: Sat Nov  2 19:49:55 2019
+# Created: Sat Nov  2 22:03:26 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

@@ -242,10 +242,14 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
     def cancela(self):
         if super(CadastroMercadoria, self).cancela():
             self.limpar_dados()
+            self.atualizar_interface(self.ultimo_id)
 
     def atualizar_interface(self, mercadoria_id):
 
         self.limpar_dados()
+
+        if not mercadoria_id or mercadoria_id == '':
+            return
 
         dados = self.db.get_registro(
             "fnc_get_mercadoria"

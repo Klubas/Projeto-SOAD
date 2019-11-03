@@ -64,6 +64,8 @@ class ConfigLista:
                         "data_cadastro": "Data do Pedido",
                         "data_entrega": "Data para Entrega"
                 }
+                , "sort_column_relatorio":
+                    ["Data do Pedido", "Pedido", "Doc. Cliente", "Situação"]
         }
 
         if tipo == 'COMPRA':
@@ -103,6 +105,8 @@ class ConfigLista:
                     "data_cadastro": "Data do Pedido",
                     "data_entrega": "Data para Entrega"
                 }
+                , "sort_column_relatorio":
+                    ["Data do Pedido", "Pedido", "Doc. Fornecedor", "Situação"]
             }
 
         if tipo == 'ITEM_ESTOQUE':
@@ -150,8 +154,10 @@ class ConfigLista:
                     "documento_pessoa_entrada": "Doc. Fornecedor",
                     "nome_pessoa_entrada": "Fornecedor",
                     "data_cadastro": "Data Entrada",
-                    "data_retirada": "Data saída"
+                    "data_retirada": "Data Saída"
                 }
+                , "sort_column_relatorio":
+                    ["Mercadoria", "Fabricante", "Data Entrada", "Data Saída"]
             }
 
         if tipo == 'ESTOQUE':
@@ -185,6 +191,8 @@ class ConfigLista:
                     "permite_venda": "Permite venda",
                     "valor_venda": "Valor venda"
                 }
+                , "sort_column_relatorio":
+                    ["Mercadoria", "Fabricante", "Classificação", "Quantidade", "Ativo"]
             }
 
         if tipo == 'REMANUFATURA':
@@ -199,6 +207,7 @@ class ConfigLista:
                     "id_remanufatura": ("Remanufatura", 'ID', False)
                     , "codigo": ("Código da remanufatura", str)
                     , "data_cadastro": ("Data cadastro", datetime)
+                    , "data_realizada": ("Data realizada", datetime)
                     , "situacao_remanufatura": ("Situação da remanufatura", str)
                     , "casco": ("Casco", str)
                     , "insumo": ("Insumo", str)
@@ -213,14 +222,17 @@ class ConfigLista:
                 , "interface": RegistroRemanufatura
                 , "filtro": FiltroRemanufatura
                 , "relatorio": {
-                    "codigo": "Código"
-                    , "data_cadastro": "Data cadastro"
-                    , "situacao_remanufatura": "Situação"
-                    , "casco": "Casco"
+                    "casco": "Casco"
                     , "insumo": "Insumo"
+                    , "data_cadastro": "Data cadastro"
+                    , "data_realizada": "Data realizada"
+                    , "situacao_remanufatura": "Situação"
+                    , "codigo": "Código"
                     , "colorido": "Colorido"
                     , "valor_unitario": "Valor (R$)"
                 }
+                , "sort_column_relatorio":
+                    ["Casco", "Insumo", "Situação", "Código"]
             }
 
         if tipo == 'MERCADORIA':
@@ -258,6 +270,8 @@ class ConfigLista:
                     , "quantidade_embalagem": "Embalagem"
                     , "abreviacao": "Un. Medida"
                 }
+                , "sort_column_relatorio":
+                    ["Classificação", "Mercadoria", "Fabricante", "Valor"]
             }
 
         if tipo == 'CLIENTE':
@@ -296,6 +310,8 @@ class ConfigLista:
                     , "municipio": "Município"
                     , "sigla_uf": "UF"
                 }
+                , "sort_column_relatorio":
+                    ["Nome/Razão Social", "Nome Fantasia", "Documento"]
             }
 
         if tipo == 'FORNECEDOR':
@@ -334,6 +350,8 @@ class ConfigLista:
                     , "municipio": "Município"
                     , "sigla_uf": "UF"
                 }
+                , "sort_column_relatorio":
+                    ["Nome/Razão Social", "Nome Fantasia", "Documento"]
             }
 
         if not relatorio:

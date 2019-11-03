@@ -2,23 +2,18 @@
 @page {
 	margin: 1cm;
 	font-size: 7pt;
+	font-family: Verdana, Geneva, sans-serif;
 	@top-left {
-		font-family: Helvetica;
 		font-size: 8pt;
 	}
 	@top-right {
-		font-family: Helvetica;
 		font-size: 8pt;
 	}
 	@bottom-left {
-		color: black;
-		font-family: Helvetica;
 		font-size: 8pt;
 	}
 	@bottom-right {
-		color: black;
 		content: counter(page) ' / ' counter(pages);
-		font-family: Helvetica;
 		font-size: 8pt;
 	}
 }
@@ -26,12 +21,12 @@
 .cabecalho {
     font-size: 12pt;
     text-align: center;
-    font-family: Helvetica;
+	font-family: Verdana, Geneva, sans-serif;
 }
 
 .tabela {
     width: 100%;
-	font-family: "Courier New", Courier, monospace;
+	font-family: Verdana, Geneva, sans-serif;
 	font-size: 7pt;
     border: 1px solid black;
 }
@@ -42,7 +37,6 @@
 	font-weight: bold;
 	padding-bottom: .25cm;
 	font-size: 7pt;
-	text-transform: uppercase;
 	text-align: left;
 }
 

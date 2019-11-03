@@ -116,6 +116,7 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
     def cancela(self):
         if super(CadastroPessoa, self).cancela():
             self.limpar_dados()
+            self.atualizar_interface(self.ultimo_id)
 
     def limpar_dados(self):
         # limpa todos os campos
@@ -234,6 +235,9 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
     def atualizar_interface(self, pessoa_id):
 
         self.limpar_dados()
+
+        if not pessoa_id or pessoa_id == '':
+            return
 
         dados = self.db.get_registro(
             "fnc_get_pessoa"

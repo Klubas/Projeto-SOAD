@@ -43,6 +43,8 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         self.tabela = relatorio["tabela"] if "tabela" in relatorio else None
         self.metodo = relatorio["metodo"] if "metodo" in relatorio else None
         self.colunas = relatorio["colunas"]
+        self.sort_column_relatorio = \
+            relatorio["sort_column_relatorio"] if "sort_column_relatorio" in relatorio else None
 
         if "interface" in relatorio:
             if isinstance(relatorio["interface"], tuple):
@@ -203,10 +205,11 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
             return retorno
         else:
-            dialog = StatusDialog(status='ERRO'
-                                  , exception=retorno
-                                  , mensagem="Não foi possível localizar os registros."
-                                  , parent=self)
+            dialog = StatusDialog(
+                status='ERRO'
+                  , exception=retorno
+                  , mensagem="Não foi possível localizar os registros."
+                  , parent=self)
 
             dialog.exec()
             return retorno[0]
@@ -316,18 +319,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
                 , parent=self
                 , **self.interface_args
             )
-            """
-            self.tableWidget_tabela.setDisabled(True)
-            import time
-            try:
-                while True:
-                    if not tela.isVisible():
-                        time.sleep(1)
-            except:
-                self.tableWidget_tabela.setDisabled(False)
 
-            #tela.atualizar_interface(id)
-            """
         except Exception as e:
             logging.error("[ListaPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
 
@@ -358,6 +350,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
                 , title=self.titulo.replace('Lista', 'Relatório')
                 , page_size='A4'
                 , landscape=True
+                , sort_column=self.sort_column_relatorio
             )
 
             pdf = relatorio.gerar_relatorio()

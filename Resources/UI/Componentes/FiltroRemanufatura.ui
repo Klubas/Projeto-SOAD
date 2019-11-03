@@ -120,7 +120,7 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <widget class="QGroupBox" name="groupBox_4">
+             <widget class="QGroupBox" name="groupBox_situacao">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -128,30 +128,30 @@
                </sizepolicy>
               </property>
               <property name="title">
-               <string>Estoque</string>
+               <string>Situação</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <widget class="QCheckBox" name="checkBox_abertos">
+                <widget class="QCheckBox" name="checkBox_cadastrada">
                  <property name="text">
-                  <string>Abertos</string>
+                  <string>Cadastrada</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_vazios">
+                <widget class="QCheckBox" name="checkBox_realizada">
                  <property name="text">
-                  <string>Exibir vazios</string>
+                  <string>Realizada</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_inativos">
+                <widget class="QCheckBox" name="checkBox_encerrada">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
                  <property name="text">
-                  <string>Exibir inativos</string>
+                  <string>Encerrada</string>
                  </property>
                 </widget>
                </item>
@@ -159,7 +159,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_3">
+             <widget class="QGroupBox" name="groupBox_classificacao">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -167,27 +167,20 @@
                </sizepolicy>
               </property>
               <property name="title">
-               <string>Classificação</string>
+               <string>Cor</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout">
                <item>
-                <widget class="QCheckBox" name="checkBox_mercadoria">
+                <widget class="QCheckBox" name="checkBox_colorido">
                  <property name="text">
-                  <string>Mercadoria</string>
+                  <string>Colorida</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_insumo">
+                <widget class="QCheckBox" name="checkBox_PB">
                  <property name="text">
-                  <string>Insumo</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_casco">
-                 <property name="text">
-                  <string>Casco</string>
+                  <string>P&amp;&amp;&amp;B</string>
                  </property>
                 </widget>
                </item>
@@ -236,7 +229,7 @@
                </sizepolicy>
               </property>
               <property name="title">
-               <string>Fornecedor</string>
+               <string>Cliente</string>
               </property>
               <property name="checkable">
                <bool>false</bool>
@@ -255,7 +248,7 @@
                 <number>9</number>
                </property>
                <item>
-                <widget class="QLineEdit" name="lineEdit_fornecedor_documento">
+                <widget class="QLineEdit" name="lineEdit_cliente_documento">
                  <property name="maximumSize">
                   <size>
                    <width>60</width>
@@ -265,7 +258,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_fornecedor">
+                <widget class="QLineEdit" name="lineEdit_cliente">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -283,7 +276,7 @@
                </sizepolicy>
               </property>
               <property name="title">
-               <string>Mercadoria</string>
+               <string>Casco</string>
               </property>
               <property name="checkable">
                <bool>false</bool>
@@ -337,7 +330,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QGroupBox" name="groupBox_entrada">
+                <widget class="QGroupBox" name="groupBox_cadastro">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -345,7 +338,7 @@
                   </sizepolicy>
                  </property>
                  <property name="title">
-                  <string>Data de entrada</string>
+                  <string>Data de cadastro</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -447,7 +440,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_saida">
+                <widget class="QGroupBox" name="groupBox_realizada">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -455,7 +448,7 @@
                   </sizepolicy>
                  </property>
                  <property name="title">
-                  <string>Data de saída</string>
+                  <string>Data realização</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>

@@ -13,7 +13,7 @@ from weasyprint.pdf import PDFFile, pdf_format
 
 class RelatorioPadrao:
 
-    def __init__(self, dados_relatorio, title='', footer='', landscape=True, page_size='A4', stylesheet=None, sanitize_html=True):
+    def __init__(self, dados_relatorio, title='', footer='', landscape=True, page_size='A4', stylesheet=None, sort_column=None):
         """
         Cabeçalho com filtros
         Paginação com numero total de paginas
@@ -27,7 +27,7 @@ class RelatorioPadrao:
         :param page_size:
         :param stylesheet:
         """
-        self.sanitize_html = sanitize_html
+        self.sort_column = sort_column
         self.dados = dados_relatorio
         self.title = title
         self.footer = footer
@@ -140,6 +140,10 @@ class RelatorioPadrao:
         logging.info('[RelatorioPadrao] Gerando html...')
 
         df = pd.DataFrame(dicts)
+
+        if self.sort_column:
+            df = df.sort_values(by=self.sort_column, ascending=True)
+
         html_table = df.to_html(
             index=False
             , classes='tabela'

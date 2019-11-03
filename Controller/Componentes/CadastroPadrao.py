@@ -77,6 +77,7 @@ class CadastroPadrao(QWidget):
         self.icone_update = None
         self.icone_delete = None
         self.icone_find = None
+        self.ultimo_id = ''
 
         #self.define_icones()
 
@@ -136,6 +137,7 @@ class CadastroPadrao(QWidget):
     # Reimplementar chamando super
     def limpar_dados(self):
         # limpa todos os campos
+        self.ultimo_id = self.lineEdit_id.text()
         self.lineEdit_id.setText('')
 
     def receber_dados(self, dados):
