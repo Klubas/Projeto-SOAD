@@ -10,7 +10,7 @@ from View.Componentes.Ui_FiltroPadrao import Ui_FiltroPadrao
 
 class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
-    string_filtro = Signal(list)
+    string_filtro = Signal(tuple)
 
     def __init__(self, db, child=None, parent=None, **kwargs):
         super(FiltroPadrao, self).__init__(parent)
@@ -35,23 +35,44 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
         self.show()
 
-    def montar_filtro(self) -> str:
+    def montar_filtro(self) -> tuple:
         i = 0
         filtro = ''
+        cabecalho = '<div class=filtros>'
+        descricao = ''
         for metodo in self.child.metodos:
             valor = metodo()
-            if valor != '':
+            if isinstance(valor, tuple):
+                valor_filtro = valor[0]
+                if valor[2] != '':
+                    cabecalho = \
+                        cabecalho \
+                        + '<campo class=descricao>' \
+                        + valor[1] + ': </campo><valor campo=valor>' + valor[2] + '</campo><br>'
+
+            elif isinstance(valor, str):
+                valor_filtro = valor
+                valor_cab = ''
+
+            else:
+                break
+
+            if valor_filtro != '':
                 i = i + 1
                 if i > 1:
                     filtro = filtro + " and "
-                filtro = filtro + valor
+                filtro = filtro + valor_filtro
 
+        cabecalho = cabecalho + '<div>'
         logging.info('[FiltroPadrao] Filtro: ' + str(filtro))
-        return filtro
+        return filtro, cabecalho
 
     def confirma(self):
-        string_filtro = self.montar_filtro()
-        self.string_filtro.emit(string_filtro)
+        filtro = self.montar_filtro()
+        string_filtro = filtro[0]
+        filtro_cabecalho = filtro[1]
+        print(filtro)
+        self.string_filtro.emit((string_filtro, filtro_cabecalho))
         self.parent.show()
         self.hide()
         self.done(0)

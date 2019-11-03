@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
 # licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Sat Nov  2 22:03:23 2019
+# Created: Sun Nov  3 01:20:51 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -86,6 +86,17 @@ class Ui_CadastroPedido(object):
         self.pushButton_movimentar.setFlat(True)
         self.pushButton_movimentar.setObjectName("pushButton_movimentar")
         self.horizontalLayout_3.addWidget(self.pushButton_movimentar)
+        self.pushButton_imprimir = QtWidgets.QPushButton(self.frame_menu)
+        self.pushButton_imprimir.setMinimumSize(QtCore.QSize(0, 0))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setWeight(75)
+        font.setBold(True)
+        self.pushButton_imprimir.setFont(font)
+        self.pushButton_imprimir.setAutoFillBackground(False)
+        self.pushButton_imprimir.setFlat(True)
+        self.pushButton_imprimir.setObjectName("pushButton_imprimir")
+        self.horizontalLayout_3.addWidget(self.pushButton_imprimir)
         self.pushButton_localizar = QtWidgets.QPushButton(self.frame_menu)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -974,7 +985,14 @@ class Ui_CadastroPedido(object):
         self.label_situacao.setIndent(0)
         self.label_situacao.setObjectName("label_situacao")
         self.horizontalLayout.addWidget(self.label_situacao)
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem6)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame_buttons)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
+        self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.horizontalLayout.addWidget(self.buttonBox)
@@ -982,7 +1000,7 @@ class Ui_CadastroPedido(object):
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
         self.retranslateUi(CadastroPedido)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.stackedWidget_item.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(CadastroPedido)
 
@@ -996,6 +1014,7 @@ class Ui_CadastroPedido(object):
         self.pushButton_excluir.setShortcut(QtWidgets.QApplication.translate("CadastroPedido", "Alt+D", None, -1))
         self.pushButton_movimentar.setText(QtWidgets.QApplication.translate("CadastroPedido", "Encerrar Pedido", None, -1))
         self.pushButton_movimentar.setShortcut(QtWidgets.QApplication.translate("CadastroPedido", "Ctrl+Shift+S", None, -1))
+        self.pushButton_imprimir.setText(QtWidgets.QApplication.translate("CadastroPedido", "Imprimir", None, -1))
         self.pushButton_localizar.setText(QtWidgets.QApplication.translate("CadastroPedido", "Localizar", None, -1))
         self.pushButton_localizar.setShortcut(QtWidgets.QApplication.translate("CadastroPedido", "Alt+L", None, -1))
         self.groupBox_identificacao.setTitle(QtWidgets.QApplication.translate("CadastroPedido", "Identificação", None, -1))

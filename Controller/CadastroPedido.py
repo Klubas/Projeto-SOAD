@@ -8,6 +8,7 @@ from PySide2.QtWidgets import QDialogButtonBox, QTableWidgetItem
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
+from Controller.Componentes.RelatorioPadrao.RelatorioPadrao import RelatorioPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
 from Model.ItemPedido import ItemPedido
 from Model.Pedido import Pedido
@@ -34,6 +35,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.pushButton_editar.clicked.connect(self.editar)
         self.pushButton_excluir.clicked.connect(self.excluir)
         self.pushButton_localizar.clicked.connect(self.localizar)
+        self.pushButton_imprimir.clicked.connect(self.imprimir_pedido)
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
@@ -175,6 +177,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.visualizar()
 
         self.limpa_obrigatorios()
+        self.define_permite_editar()
         self.show()
 
     def cadastrar(self):
@@ -306,6 +309,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.dateEdit_entrega.setDate(QDate().currentDate())
         self.preencher_tabela()
         self.pushButton_movimentar.setDisabled(True)
+        self.textEdit_observacao.clear()
 
     def localizar(self, parent=None):
 
@@ -898,6 +902,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.pushButton_movimentar.setIcon(QIcon(os.path.join('Resources', 'icons', 'confirm.png')))
         self.pushButton_excluir.setIcon(self.icone_cancelar)
         self.pushButton_remover_item.setIcon(self.icone_delete)
+        self.pushButton_imprimir.setIcon(QIcon(os.path.join('Resources', 'icons', 'printer.png')))
 
     def define_permite_editar(self):
 
@@ -910,6 +915,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         )
 
         self.pushButton_excluir.setDisabled(situacao == 'CANCELADO' or self.lineEdit_id.text() == '')
+
+        self.pushButton_imprimir.setDisabled(self.lineEdit_id.text() == '')
 
     def configura_tipo(self):
         self.tipo_pedido = 'VENDA' if not self.tipo_pedido else self.tipo_pedido
@@ -949,3 +956,25 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                     or self.lineEdit_casco_id.text() == ''
 
         self.buttonBox_item.button(QDialogButtonBox.Save).setDisabled(ativo)
+
+    def imprimir_pedido(self):
+
+        if self.lineEdit_id.text() == '':
+            logging.debug("[CadastroPedido] Nenhum pedido selecionado para impressão.")
+            return
+
+        pedido = list()
+        pedido_atual = self.pedido.to_dict()
+        pedido_itens = pedido_atual['itens']
+        del pedido_atual['itens']
+        pedido.append(pedido_atual)
+
+        """
+        Montar um html para o cabeçalho com informações do pedido
+        instanciar um relatorio padrão informando os dados no pedido no cabecalho
+            e os dados dos itens no dados_realtorio
+        """
+        ficha_pedido = RelatorioPadrao(pedido_itens)
+        pdf = ficha_pedido.gerar_relatorio()
+        ficha_pedido.exibir_relatorio(pdf)
+

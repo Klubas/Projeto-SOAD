@@ -114,16 +114,18 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             self.show()
             self.refresh()
 
-    def refresh(self, string_filtro=''):
+    def refresh(self, filtros=('', '')):
+        print("filtros=" + str(filtros))
 
-        self.string_filtro = string_filtro
+        self.string_filtro = filtros[0]
+        self.filtro_cab = filtros[1]
 
         self.tableWidget_tabela.setRowCount(0)
         self.tableWidget_tabela.setColumnCount(0)
         self.tableWidget_tabela.clear()
         self.set_columns()
 
-        data = self.get_data(filtro=string_filtro)
+        data = self.get_data(filtro=self.string_filtro)
         if data != 0:
             self.set_data(data)
 
@@ -344,10 +346,11 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             dados_relatorio.append(linha_relatorio)
 
         try:
-
+            print("cab=" + self.filtro_cab)
             relatorio = RelatorioPadrao(
                 dados_relatorio=dados_relatorio
                 , title=self.titulo.replace('Lista', 'Relatório')
+                , cabecalho=self.filtro_cab
                 , page_size='A4'
                 , landscape=True
                 , sort_column=self.sort_column_relatorio

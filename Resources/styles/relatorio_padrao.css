@@ -18,24 +18,37 @@
 	}
 }
 
-.cabecalho {
+.titulo {
     font-size: 12pt;
     text-align: center;
 	font-family: Verdana, Geneva, sans-serif;
+}
+
+.cabecalho {
+    font-size: 8pt;
+	font-family: Verdana, Geneva, sans-serif;
+}
+
+.descricao {
+	font-weight: bold;
+	text-align: left;
+}
+
+.valor {
+    font-size: 7pt;
+	text-align: right;
 }
 
 .tabela {
     width: 100%;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 7pt;
-    border: 1px solid black;
 }
 
 .tabela th {
+    border: 1px solid black;
     background: #fcfcfc;
-	border-bottom: .2mm;
 	font-weight: bold;
-	padding-bottom: .25cm;
 	font-size: 7pt;
 	text-align: left;
 }

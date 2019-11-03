@@ -70,11 +70,15 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
         self.checkBox_colorido.setChecked(False)
         self.checkBox_PB.setChecked(False)
 
-    def get_periodo(self, groupBox, dateEdit_inicio, dateEdit_fim, campo) -> str:
+    def get_periodo(self, groupBox, dateEdit_fim, dateEdit_inicio, campo, descricao=''):
+        descricao = 'Período (' + descricao + ')'
         if groupBox.isChecked():
             data_inicio = dateEdit_inicio.date().toString("dd.MM.yyyy").replace('.', '/')
             data_fim = dateEdit_fim.date().toString("dd.MM.yyyy").replace('.', '/')
-            return str("(" + campo + " >= $$" + str(data_inicio) + "$$" + " and " + campo + " <= $$" + str(data_fim) + "$$) or " + campo + " is null")
+            return (str("(" + campo + " >= $$" + str(data_inicio) + "$$" + " and " + campo + " <= $$" + str(data_fim)
+                    + "$$) or " + campo + " is null")
+                    , descricao
+                    , str(data_inicio + ' até ' + data_fim))
         else:
             return ''
 
@@ -84,6 +88,7 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
             , dateEdit_fim=self.dateEdit_data_entrada1
             , dateEdit_inicio=self.dateEdit_data_entrada2
             , campo="data_cadastro"
+            , descricao="Cadastro"
         )
 
     def get_realizacao(self):
@@ -92,6 +97,7 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
             , dateEdit_fim=self.dateEdit_data_saida1
             , dateEdit_inicio=self.dateEdit_data_saida2
             , campo="data_realizada"
+            , descricao="Realizada"
         )
 
     def get_casco(self):
@@ -104,45 +110,57 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
     def get_cliente(self):
         pessoa_documento = self.lineEdit_cliente_documento.text()
         if pessoa_documento is not None and pessoa_documento != '':
-            return str("id_pessoa = $$" + str(pessoa_documento) + "$$")
+            filtro = str("id_pessoa = $$" + str(pessoa_documento) + "$$")
+            return filtro, "Cliente", str(pessoa_documento) + ' - ' + self.lineEdit_cliente.text()
         else:
             return ''
 
     def get_situacao(self):
         filtro = ''
-
+        cabecalho = ''
         if self.checkBox_cadastrada.isChecked() \
                 and self.checkBox_realizada.isChecked() \
                 and self.checkBox_encerrada.isChecked():
-            return filtro
+            return filtro, "Situação", "Todas"
 
         if self.checkBox_cadastrada.isChecked():
             filtro = 'UPPER(situacao_remanufatura) = UPPER($$CADASTRADA$$)'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = 'Cadastradas'
 
         if self.checkBox_realizada.isChecked():
             filtro = filtro + " or " if filtro != '' else filtro
             filtro = filtro + 'UPPER(situacao_remanufatura) = UPPER($$REALIZADA$$)'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + 'Realizadas'
 
         if self.checkBox_encerrada.isChecked():
             filtro = filtro + " or " if filtro != '' else filtro
             filtro = filtro + 'UPPER(situacao_remanufatura) = UPPER($$ENCERRADA$$)'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + 'Encerradas'
 
-        return filtro
+        return filtro, "Situação", cabecalho
 
     def get_cor(self):
         filtro = ''
+        cabecalho = ''
         if self.checkBox_colorido.isChecked() \
                 and self.checkBox_PB.isChecked():
-            return filtro
+            return filtro, "Cor", "Colorido, Preto"
 
         if self.checkBox_PB.isChecked():
             filtro = 'colorido = false::boolean'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + "Preto"
 
         if self.checkBox_colorido.isChecked():
             filtro = filtro + " or " if filtro != '' else filtro
             filtro = filtro + 'colorido = true::boolean'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + "Colorido"
 
-        return filtro
+        return filtro, "Cor", cabecalho
 
     def busca_registro(self, tabela, campo, lineEdit_id, campo_descricao, lineEdit_descricao, colunas_dict):
 

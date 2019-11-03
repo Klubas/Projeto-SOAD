@@ -13,7 +13,7 @@ from weasyprint.pdf import PDFFile, pdf_format
 
 class RelatorioPadrao:
 
-    def __init__(self, dados_relatorio, title='', footer='', landscape=True, page_size='A4', stylesheet=None, sort_column=None):
+    def __init__(self, dados_relatorio, title='', footer='', landscape=True, page_size='A4', cabecalho='', stylesheet=None, sort_column=None):
         """
         Cabeçalho com filtros
         Paginação com numero total de paginas
@@ -30,7 +30,7 @@ class RelatorioPadrao:
         self.sort_column = sort_column
         self.dados = dados_relatorio
         self.title = title
-        self.footer = footer
+        self.cabecalho = cabecalho
 
         if landscape:
             orientation = 'landscape'
@@ -44,8 +44,9 @@ class RelatorioPadrao:
         )
 
         self.html_cab = '''
-            <h1 class="cabecalho"> {title} </h1>
-        '''.format(title=self.title)
+            <h1 class="titulo">{title}</h1>
+            <div class="cabecalho">{cabecalho}</div> 
+        '''.format(title=self.title, cabecalho=self.cabecalho)
 
         self.default_stylesheet = os.path.join('Resources', 'styles', 'relatorio_padrao.css')
         self.stylesheets = list()

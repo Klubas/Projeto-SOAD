@@ -120,25 +120,20 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
             lineEdit_descricao.clear()
             return False
 
-    def get_mercadoria(self) -> str:
+    def get_mercadoria(self):
         mercadoria_id = self.lineEdit_mercadoria_id.text()
         if mercadoria_id is not None and mercadoria_id != '':
-            return str("id_mercadoria = $$" + str(mercadoria_id) + "$$")
+            filtro = str("id_mercadoria = $$" + str(mercadoria_id) + "$$"), \
+                     "Mercadoria", str(self.lineEdit_mercadoria_id.text() + '-' + self.lineEdit_mercadoria.text())
+            return filtro
         else:
             return ''
 
-    def get_fornecedor(self) -> str:
+    def get_fornecedor(self):
         pessoa_documento = self.lineEdit_fornecedor_documento.text()
         if pessoa_documento is not None and pessoa_documento != '':
-            return str("id_pessoa_entrada = $$" + str(pessoa_documento) + "$$")
-        else:
-            return ''
-
-    def get_periodo(self, groupBox, dateEdit_fim, dateEdit_inicio, campo) -> str:
-        if groupBox.isChecked():
-            data_inicio = dateEdit_inicio.date().toString("dd.MM.yyyy").replace('.', '/')
-            data_fim = dateEdit_fim.date().toString("dd.MM.yyyy").replace('.', '/')
-            return str(campo + " >= $$" + str(data_inicio) + "$$" + " and " + campo + " <= $$" + str(data_fim) + "$$")
+            return str("id_pessoa_entrada = $$" + str(pessoa_documento) + "$$"), \
+                   "Fornecedor", str(self.lineEdit_fornecedor_documento.text() + ' - ' + self.lineEdit_fornecedor.text())
         else:
             return ''
 
@@ -147,34 +142,54 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
             self.dateEdit_data_base.setDate(QDate().currentDate())
         data_base = self.dateEdit_data_base.date().toString("dd.MM.yyyy").replace('.', '/')
 
-        return str('''
+        filtro = str('''
             data_cadastro::date <= $${data_base}$$::date
             AND(data_retirada::date > $${data_base}$$::date or data_retirada is null)
             '''.format(data_base=data_base))
 
-    def get_classificacao(self) -> str:
+        return filtro, "Data base", data_base
+
+    def get_classificacao(self):
         filtro = ''
+        cabecalho = ''
+
         if self.checkBox_mercadoria.isChecked():
             filtro = filtro + "UPPER(tipo_mercadoria) = $$MERCADORIA$$"
+            cabecalho = cabecalho + "Mercadoria, "
 
         if self.checkBox_insumo.isChecked():
             filtro = filtro + " or " if filtro != '' else filtro
             filtro = filtro + "UPPER(tipo_mercadoria) = $$INSUMO$$"
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + "Insumo"
 
         if self.checkBox_casco.isChecked():
             filtro = filtro + " or " if filtro != '' else filtro
             filtro = filtro + "UPPER(tipo_mercadoria) = $$CASCO$$"
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + "Casco"
 
-        return "(" + filtro + ")" if filtro != '' else filtro
+        if ((self.checkBox_insumo.isChecked()
+                and self.checkBox_mercadoria.isChecked()
+                and self.checkBox_casco.isChecked())
+                or (not self.checkBox_mercadoria.isChecked()
+                    and not self.checkBox_casco.isChecked()
+                    and not self.checkBox_insumo.isChecked())):
+            cabecalho = "Mercadoria, Insumo, Casco"
 
-    def get_estoque(self) -> str:
+        filtro = "(" + filtro + ")" if filtro != '' else filtro
+        return filtro, "Classificação", cabecalho
+
+    def get_estoque(self):
         filtro = ''
-
+        cabecalho = ''
         if not self.checkBox_inativos.isChecked():
             filtro = filtro + " and " if filtro != '' else filtro
             filtro = filtro + "ativo = true::boolean"
-
-        return filtro
+        else:
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + "Itens inativos"
+        return filtro, 'Estoque', cabecalho
 
     def get_dados_localizar(self, dados):
         self.dados = dados
