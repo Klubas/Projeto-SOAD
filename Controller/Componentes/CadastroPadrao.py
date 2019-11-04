@@ -92,6 +92,19 @@ class CadastroPadrao(QWidget):
         self.pushButton_excluir.setIcon(self.icone_delete)
         self.pushButton_localizar.setIcon(self.icone_find)
 
+    def adiciona_help(self, texto="Teste ToolButton", layout=None):
+        from PySide2.QtWidgets import QToolButton
+        self.toolButton_help = QToolButton(self.frame_buttons)
+        self.toolButton_help.setToolTipDuration(5000)
+        self.toolButton_help.setText("?")
+        self.toolButton_help.setToolTip(texto)
+        self.toolButton_help.setStyleSheet("background: rgb(38, 183, 212);\n"
+                                      "color: white;\n"
+                                      "border: 10px;\n"
+                                      "border-radius: 5px;")
+        self.toolButton_help.setObjectName("toolButton_help")
+        self.frame_buttonsLayout.addWidget(self.toolButton_help)
+
     # Reimplementar chamando super
     def cadastrar(self):
         self.entrar_modo_edicao()

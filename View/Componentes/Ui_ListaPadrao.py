@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/ListaPadrao.ui',
 # licensing of 'Resources/UI/Componentes/ListaPadrao.ui' applies.
 #
-# Created: Sun Nov  3 17:11:17 2019
+# Created: Sun Nov  3 22:48:22 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,8 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_ListaPadrao(object):
     def setupUi(self, ListaPadrao):
         ListaPadrao.setObjectName("ListaPadrao")
-        ListaPadrao.resize(1064, 659)
+        ListaPadrao.resize(1200, 800)
+        ListaPadrao.setMinimumSize(QtCore.QSize(1200, 800))
         self.gridLayout = QtWidgets.QGridLayout(ListaPadrao)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -91,10 +92,25 @@ class Ui_ListaPadrao(object):
         font.setWeight(75)
         font.setBold(True)
         self.pushButton_relatorio.setFont(font)
+        self.pushButton_relatorio.setToolTipDuration(10000)
         self.pushButton_relatorio.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_relatorio.setFlat(True)
         self.pushButton_relatorio.setObjectName("pushButton_relatorio")
         self.horizontalLayout_3.addWidget(self.pushButton_relatorio)
+        self.pushButton_acao = QtWidgets.QPushButton(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_acao.sizePolicy().hasHeightForWidth())
+        self.pushButton_acao.setSizePolicy(sizePolicy)
+        self.pushButton_acao.setMinimumSize(QtCore.QSize(120, 0))
+        font = QtGui.QFont()
+        font.setWeight(75)
+        font.setBold(True)
+        self.pushButton_acao.setFont(font)
+        self.pushButton_acao.setFlat(True)
+        self.pushButton_acao.setObjectName("pushButton_acao")
+        self.horizontalLayout_3.addWidget(self.pushButton_acao)
         self.horizontalLayout_4.addWidget(self.frame)
         self.stackedWidget_filtros = QtWidgets.QStackedWidget(self.frame_menu)
         self.stackedWidget_filtros.setObjectName("stackedWidget_filtros")
@@ -163,7 +179,7 @@ class Ui_ListaPadrao(object):
         self.page.setObjectName("page")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.page)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        spacerItem1 = QtWidgets.QSpacerItem(723, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(723, 20, QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem1)
         self.stackedWidget_filtros.addWidget(self.page)
         self.horizontalLayout_4.addWidget(self.stackedWidget_filtros)
@@ -242,8 +258,10 @@ class Ui_ListaPadrao(object):
         self.pushButton_filtro.setShortcut(QtWidgets.QApplication.translate("ListaPadrao", "Ctrl+P", None, -1))
         self.pushButton_atualizar.setText(QtWidgets.QApplication.translate("ListaPadrao", "Atualizar", None, -1))
         self.pushButton_atualizar.setShortcut(QtWidgets.QApplication.translate("ListaPadrao", "Ctrl+P", None, -1))
+        self.pushButton_relatorio.setToolTip(QtWidgets.QApplication.translate("ListaPadrao", "Realizar impressão em formato de relatório.", None, -1))
         self.pushButton_relatorio.setText(QtWidgets.QApplication.translate("ListaPadrao", "Relatório", None, -1))
         self.pushButton_relatorio.setShortcut(QtWidgets.QApplication.translate("ListaPadrao", "Ctrl+Shift+P", None, -1))
+        self.pushButton_acao.setText(QtWidgets.QApplication.translate("ListaPadrao", "<ação>", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("ListaPadrao", "Data", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("ListaPadrao", "até", None, -1))
         self.checkBox_filtro.setText(QtWidgets.QApplication.translate("ListaPadrao", "Apenas X", None, -1))

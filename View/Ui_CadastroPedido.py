@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
 # licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Sun Nov  3 17:11:14 2019
+# Created: Sun Nov  3 22:48:19 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -93,6 +93,7 @@ class Ui_CadastroPedido(object):
         font.setWeight(75)
         font.setBold(True)
         self.pushButton_imprimir.setFont(font)
+        self.pushButton_imprimir.setToolTipDuration(10000)
         self.pushButton_imprimir.setAutoFillBackground(False)
         self.pushButton_imprimir.setFlat(True)
         self.pushButton_imprimir.setObjectName("pushButton_imprimir")
@@ -180,6 +181,7 @@ class Ui_CadastroPedido(object):
         self.horizontalLayout_11.addWidget(self.label_data)
         self.dateEdit_entrega = QtWidgets.QDateEdit(self.formGroupBox_pessoa)
         self.dateEdit_entrega.setMaximumSize(QtCore.QSize(120, 16777215))
+        self.dateEdit_entrega.setToolTipDuration(10000)
         self.dateEdit_entrega.setWrapping(False)
         self.dateEdit_entrega.setFrame(True)
         self.dateEdit_entrega.setAlignment(QtCore.Qt.AlignCenter)
@@ -551,7 +553,7 @@ class Ui_CadastroPedido(object):
         font.setWeight(75)
         font.setBold(True)
         self.label_reutilizar_casco.setFont(font)
-        self.label_reutilizar_casco.setToolTipDuration(5)
+        self.label_reutilizar_casco.setToolTipDuration(10000)
         self.label_reutilizar_casco.setObjectName("label_reutilizar_casco")
         self.formLayout_5.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.label_reutilizar_casco)
         self.gridLayout_9.addWidget(self.frameFormLayout_remanufatura, 0, 0, 1, 1)
@@ -944,8 +946,8 @@ class Ui_CadastroPedido(object):
         self.frame_buttons.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_buttons.setFrameShadow(QtWidgets.QFrame.Plain)
         self.frame_buttons.setObjectName("frame_buttons")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_buttons)
-        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.frame_buttonsLayout = QtWidgets.QHBoxLayout(self.frame_buttons)
+        self.frame_buttonsLayout.setObjectName("frame_buttonsLayout")
         self.lineEdit_id = QtWidgets.QLineEdit(self.frame_buttons)
         self.lineEdit_id.setEnabled(False)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
@@ -968,7 +970,7 @@ class Ui_CadastroPedido(object):
         self.lineEdit_id.setReadOnly(False)
         self.lineEdit_id.setClearButtonEnabled(False)
         self.lineEdit_id.setObjectName("lineEdit_id")
-        self.horizontalLayout.addWidget(self.lineEdit_id)
+        self.frame_buttonsLayout.addWidget(self.lineEdit_id)
         self.label_situacao = QtWidgets.QLabel(self.frame_buttons)
         font = QtGui.QFont()
         font.setFamily("Consolas")
@@ -984,9 +986,9 @@ class Ui_CadastroPedido(object):
         self.label_situacao.setMargin(0)
         self.label_situacao.setIndent(0)
         self.label_situacao.setObjectName("label_situacao")
-        self.horizontalLayout.addWidget(self.label_situacao)
+        self.frame_buttonsLayout.addWidget(self.label_situacao)
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem6)
+        self.frame_buttonsLayout.addItem(spacerItem6)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame_buttons)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -995,13 +997,13 @@ class Ui_CadastroPedido(object):
         self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.horizontalLayout.addWidget(self.buttonBox)
+        self.frame_buttonsLayout.addWidget(self.buttonBox)
         self.verticalLayout.addWidget(self.frame_buttons)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
         self.retranslateUi(CadastroPedido)
-        self.tabWidget.setCurrentIndex(0)
-        self.stackedWidget_item.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(1)
+        self.stackedWidget_item.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(CadastroPedido)
 
     def retranslateUi(self, CadastroPedido):
@@ -1014,6 +1016,7 @@ class Ui_CadastroPedido(object):
         self.pushButton_excluir.setShortcut(QtWidgets.QApplication.translate("CadastroPedido", "Alt+D", None, -1))
         self.pushButton_movimentar.setText(QtWidgets.QApplication.translate("CadastroPedido", "Encerrar Pedido", None, -1))
         self.pushButton_movimentar.setShortcut(QtWidgets.QApplication.translate("CadastroPedido", "Ctrl+Shift+S", None, -1))
+        self.pushButton_imprimir.setToolTip(QtWidgets.QApplication.translate("CadastroPedido", "Realizar impressão da ficha do pedido", None, -1))
         self.pushButton_imprimir.setText(QtWidgets.QApplication.translate("CadastroPedido", "Imprimir", None, -1))
         self.pushButton_localizar.setText(QtWidgets.QApplication.translate("CadastroPedido", "Localizar", None, -1))
         self.pushButton_localizar.setShortcut(QtWidgets.QApplication.translate("CadastroPedido", "Alt+L", None, -1))
@@ -1022,6 +1025,7 @@ class Ui_CadastroPedido(object):
         self.label.setText(QtWidgets.QApplication.translate("CadastroPedido", "Data Cadastro", None, -1))
         self.dateEdit_cadastro.setDisplayFormat(QtWidgets.QApplication.translate("CadastroPedido", "dd/MM/yyyy", None, -1))
         self.label_data.setText(QtWidgets.QApplication.translate("CadastroPedido", "             Data Entrega", None, -1))
+        self.dateEdit_entrega.setToolTip(QtWidgets.QApplication.translate("CadastroPedido", "Data da entraga programada para esse pedido", None, -1))
         self.dateEdit_entrega.setDisplayFormat(QtWidgets.QApplication.translate("CadastroPedido", "dd/MM/yyyy", None, -1))
         self.label_documento.setText(QtWidgets.QApplication.translate("CadastroPedido", "CPF/CNPJ", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("CadastroPedido", "Observações", None, -1))
@@ -1033,7 +1037,8 @@ class Ui_CadastroPedido(object):
         self.label_casco.setText(QtWidgets.QApplication.translate("CadastroPedido", "Casco", None, -1))
         self.label_insumo.setText(QtWidgets.QApplication.translate("CadastroPedido", "Insumo", None, -1))
         self.checkBox_reutilizar_casco.setToolTip(QtWidgets.QApplication.translate("CadastroPedido", "Define se irá utilizar remanufaturas que já foram realizadas ou será registrada uma nova remanufatura", None, -1))
-        self.label_reutilizar_casco.setToolTip(QtWidgets.QApplication.translate("CadastroPedido", "Define se irá utilizar remanufaturas que já foram realizadas ou será registrada uma nova remanufatura", None, -1))
+        self.label_reutilizar_casco.setToolTip(QtWidgets.QApplication.translate("CadastroPedido", "Define se irá utilizar remanufaturas que foram registradas anteriormente\n"
+"ou se será registrada uma nova remanufatura", None, -1))
         self.label_reutilizar_casco.setText(QtWidgets.QApplication.translate("CadastroPedido", "Não reutilizar remanufaturas ", None, -1))
         self.label_quantidade.setText(QtWidgets.QApplication.translate("CadastroPedido", "Quantidade (Un)", None, -1))
         self.lineEdit_quantidade.setPlaceholderText(QtWidgets.QApplication.translate("CadastroPedido", "0", None, -1))

@@ -73,6 +73,14 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         self.define_permite_editar()
         self.define_icones()
 
+        self.help = \
+'''Pessoas com a modalidade "Cliente" podem ser utilizadas em pedidos de vendas.
+Pessoas com a modalidade "Fornecedor" podem ser utilizadas em pedidos de compras.
+Uma mesma pessoa pode ter as duas modalidades.
+'''
+
+        self.adiciona_help(self.help)
+
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
             self.atualizar_interface(self.id_registro)

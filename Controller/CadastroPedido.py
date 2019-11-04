@@ -168,6 +168,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.define_icones()
 
+        self.adiciona_help(texto=self.help)
+
         self.tabWidget.setCurrentIndex(0)
 
         self.id_registro = kwargs.get('id_registro')
@@ -926,6 +928,10 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.formGroupBox_pessoa.setTitle(self.tipo_pessoa)
             self.horizontalFrame_tipo_item.setVisible(True)
             self.label_data.setText('Data entrega')
+            self.help = \
+'''Aqui podem ser realizadas vendas (remanufaturas e mercadorias).
+Quando tiver terminado de cadastrar a venda é só encerrar o pedido para confirmar a venda.
+Vendas encerradas devem ser estornadas para que possam ser editadas.'''
 
         elif self.tipo_pedido == 'COMPRA':
             self.tipo_pessoa = 'Fornecedor'
@@ -934,6 +940,10 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.radioButton_mercadoria.setChecked(True)
             self.horizontalFrame_tipo_item.setVisible(False)
             self.label_data.setText('Data compra')
+            self.help = \
+'''Aqui podem ser registradas as suas compras.
+Quando tiver terminado de cadastrar é só encerrar o pedido para confirmar a entrada da mercadoria.
+Compras encerradas devem ser estornadas para que possam ser editadas.'''
 
         else:
             dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO ' + str(self.tipo_pedido) + ' INVÁLIDO',

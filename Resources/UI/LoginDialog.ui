@@ -180,6 +180,12 @@
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>Servidor para conexão com banco de dados &lt;hostname&gt;:&lt;porta&gt;</string>
+           </property>
+           <property name="toolTipDuration">
+            <number>10000</number>
+           </property>
           </widget>
          </item>
         </layout>

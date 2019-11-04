@@ -113,6 +113,8 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
 
         self.define_icones()
 
+        self.adiciona_help(self.help)
+
         self.popular_dados_padrao()
 
         self.id_registro = kwargs.get('id_registro')
@@ -508,6 +510,7 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.tipo = 'MERCADORIA'
             self.stackedWidget.setVisible(False)
             self.checkBox_permite_venda.setChecked(True)
+            self.help = '''Aqui são cadastradas as mercadorias comuns.'''
             #self.setMinimumHeight(300)
             #self.setMaximumHeight(300)
 
@@ -520,6 +523,7 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.stackedWidget.setVisible(True)
             self.page_insumo.setVisible(False)
             self.stackedWidget.setCurrentWidget(self.page_casco)
+            self.help = '''Os cascos cadastrados podem ser utilizados em remanufaturas.'''
             #self.setMinimumHeight(360)
             #self.setMaximumHeight(360)
 
@@ -530,6 +534,7 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.stackedWidget.setVisible(True)
             self.page_casco.setVisible(False)
             self.stackedWidget.setCurrentWidget(self.page_insumo)
+            self.help = '''Os insumos cadastrados podem ser utilizados em remanufaturas.'''
             #self.setMinimumHeight(360)
             #self.setMaximumHeight(360)
 
@@ -539,3 +544,7 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
                 , mensagem='TIPO DE MERCADORIA INVÁLIDO'
                 , parent=self.parent_window)
             dialog.exec()
+            return
+
+        self.help = self.help + '''\nMercadorias inativas não podem ser utilizadas.\n Mercadorias que não permitem venda só podem ser utilizadas em remanufaturas.'''
+

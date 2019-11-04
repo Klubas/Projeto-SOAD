@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/LoginDialog.ui',
 # licensing of 'Resources/UI/LoginDialog.ui' applies.
 #
-# Created: Sun Nov  3 17:11:14 2019
+# Created: Sun Nov  3 22:48:20 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -91,6 +91,7 @@ class Ui_LoginDialog(object):
         font.setWeight(50)
         font.setBold(False)
         self.comboBox_servidor.setFont(font)
+        self.comboBox_servidor.setToolTipDuration(10000)
         self.comboBox_servidor.setObjectName("comboBox_servidor")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.comboBox_servidor)
         self.verticalLayout.addWidget(self.verticalGroupBox_servidor)
@@ -265,6 +266,7 @@ class Ui_LoginDialog(object):
         LoginDialog.setWindowTitle(QtWidgets.QApplication.translate("LoginDialog", "SOAD - Login", None, -1))
         self.verticalGroupBox_servidor.setTitle(QtWidgets.QApplication.translate("LoginDialog", "Host", None, -1))
         self.label_servidor.setText(QtWidgets.QApplication.translate("LoginDialog", "Servidor", None, -1))
+        self.comboBox_servidor.setToolTip(QtWidgets.QApplication.translate("LoginDialog", "Servidor para conexão com banco de dados <hostname>:<porta>", None, -1))
         self.groupBox_login.setTitle(QtWidgets.QApplication.translate("LoginDialog", "Login", None, -1))
         self.label_usuario.setText(QtWidgets.QApplication.translate("LoginDialog", "Usuário", None, -1))
         self.label_senha.setText(QtWidgets.QApplication.translate("LoginDialog", "Senha", None, -1))

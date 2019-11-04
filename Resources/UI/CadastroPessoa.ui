@@ -944,7 +944,7 @@
        <property name="frameShadow">
         <enum>QFrame::Sunken</enum>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="frame_buttonsLayout">
         <item>
          <widget class="QLabel" name="label_id">
           <property name="text">

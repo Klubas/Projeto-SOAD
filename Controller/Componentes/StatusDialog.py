@@ -115,6 +115,5 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             self.resize(self.min_size)
             self.groupBox_mensagem.setVisible(False)
 
-
     def close_clicked(self):
-        self.close()
+        self.accept()

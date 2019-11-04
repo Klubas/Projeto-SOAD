@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPessoa.ui',
 # licensing of 'Resources/UI/CadastroPessoa.ui' applies.
 #
-# Created: Sun Nov  3 17:11:13 2019
+# Created: Sun Nov  3 22:48:19 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -467,12 +467,12 @@ class Ui_CadastroPessoa(object):
         self.frame_buttons.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_buttons.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.frame_buttons.setObjectName("frame_buttons")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_buttons)
-        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.frame_buttonsLayout = QtWidgets.QHBoxLayout(self.frame_buttons)
+        self.frame_buttonsLayout.setObjectName("frame_buttonsLayout")
         self.label_id = QtWidgets.QLabel(self.frame_buttons)
         self.label_id.setText("")
         self.label_id.setObjectName("label_id")
-        self.horizontalLayout.addWidget(self.label_id)
+        self.frame_buttonsLayout.addWidget(self.label_id)
         self.lineEdit_id = QtWidgets.QLineEdit(self.frame_buttons)
         self.lineEdit_id.setEnabled(False)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
@@ -485,11 +485,11 @@ class Ui_CadastroPessoa(object):
         self.lineEdit_id.setDragEnabled(False)
         self.lineEdit_id.setReadOnly(False)
         self.lineEdit_id.setObjectName("lineEdit_id")
-        self.horizontalLayout.addWidget(self.lineEdit_id)
+        self.frame_buttonsLayout.addWidget(self.lineEdit_id)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame_buttons)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.horizontalLayout.addWidget(self.buttonBox)
+        self.frame_buttonsLayout.addWidget(self.buttonBox)
         self.verticalLayout.addWidget(self.frame_buttons)
         self.gridLayout_2.addLayout(self.verticalLayout, 0, 0, 1, 1)
 

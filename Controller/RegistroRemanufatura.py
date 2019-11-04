@@ -82,10 +82,6 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         self.pushButton_realizar.setIcon(self.icone_realizar)
         self.pushButton_limpar.setIcon(self.icone_limpar)
 
-        # self.label_icone_item_lote.setPixmap(
-        #    QPixmap.fromImage(self.closed_box)
-        # )
-
         self.label_tinta.setText('')
 
         self.formFrame_item_lote.setVisible(False)
@@ -136,6 +132,13 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
 
         self.pushButton_esvaziar.setVisible(False)
+
+        self.help = \
+'''Para registrar remanufaturas deve-se informar o casco e o insumo.
+Se tiver estoque do insumo disponível a remanufatura poderá ser realizada.
+Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
+'''
+        self.adiciona_help(self.help)
 
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
@@ -757,6 +760,8 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
             logging.debug('[RegistroRemanufatura] ' + str(remanufatura))
             if remanufatura is not None:
                 remanufatura = remanufatura[0]
+
+                self.label_pedido_id.setText(remanufatura['id_pedido']) if remanufatura['id_pedido'] is None else None
 
                 remanufaturas = list(dict())
 

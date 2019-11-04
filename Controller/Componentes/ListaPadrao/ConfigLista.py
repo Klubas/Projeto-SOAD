@@ -1,4 +1,4 @@
-
+import os
 from datetime import datetime
 
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -112,6 +112,7 @@ class ConfigLista:
         if tipo == 'ITEM_ESTOQUE':
 
             from Controller.Componentes.ListaPadrao.Filtro.FiltrosLista.FiltroEstoque import FiltroEstoque
+            from Controller.DescarteItem import DescarteItem
 
             relatorio = {
                 "descricao": "Lista de itens em estoque",
@@ -158,6 +159,14 @@ class ConfigLista:
                 }
                 , "sort_column_relatorio":
                     ["Mercadoria", "Fabricante", "Data Entrada", "Data Saída"]
+                , "botao_extra": [
+                    {
+                        "nome": "Descartar"
+                        , "icone": os.path.join('Resources', 'icons', 'delete.png')
+                        , "tooltip": "Realiza o descarte dos itens selecionados."
+                        , "acao": (DescarteItem, )
+                    }
+                ]
             }
 
         if tipo == 'ESTOQUE':

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroUsuario.ui',
 # licensing of 'Resources/UI/CadastroUsuario.ui' applies.
 #
-# Created: Sun Nov  3 17:11:14 2019
+# Created: Sun Nov  3 22:48:20 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -101,8 +101,8 @@ class Ui_CadastroUsuario(object):
         self.frame_buttons.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_buttons.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.frame_buttons.setObjectName("frame_buttons")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_buttons)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.frame_buttonsLayout = QtWidgets.QHBoxLayout(self.frame_buttons)
+        self.frame_buttonsLayout.setObjectName("frame_buttonsLayout")
         self.lineEdit_id = QtWidgets.QLineEdit(self.frame_buttons)
         self.lineEdit_id.setEnabled(False)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
@@ -115,11 +115,11 @@ class Ui_CadastroUsuario(object):
         self.lineEdit_id.setDragEnabled(False)
         self.lineEdit_id.setReadOnly(False)
         self.lineEdit_id.setObjectName("lineEdit_id")
-        self.horizontalLayout_2.addWidget(self.lineEdit_id)
+        self.frame_buttonsLayout.addWidget(self.lineEdit_id)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame_buttons)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.horizontalLayout_2.addWidget(self.buttonBox)
+        self.frame_buttonsLayout.addWidget(self.buttonBox)
         self.gridLayout.addWidget(self.frame_buttons, 3, 1, 1, 1)
 
         self.retranslateUi(CadastroUsuario)

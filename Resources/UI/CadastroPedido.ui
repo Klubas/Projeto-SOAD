@@ -181,6 +181,12 @@
             <bold>true</bold>
            </font>
           </property>
+          <property name="toolTip">
+           <string>Realizar impressão da ficha do pedido</string>
+          </property>
+          <property name="toolTipDuration">
+           <number>10000</number>
+          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
@@ -360,6 +366,12 @@
                     <width>120</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Data da entraga programada para esse pedido</string>
+                  </property>
+                  <property name="toolTipDuration">
+                   <number>10000</number>
                   </property>
                   <property name="wrapping">
                    <bool>false</bool>
@@ -627,7 +639,7 @@
               <enum>QTabWidget::Rounded</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <property name="elideMode">
               <enum>Qt::ElideNone</enum>
@@ -911,7 +923,7 @@
                         <number>1</number>
                        </property>
                        <property name="currentIndex">
-                        <number>1</number>
+                        <number>0</number>
                        </property>
                        <widget class="QWidget" name="page_mercadoria">
                         <property name="sizePolicy">
@@ -1232,10 +1244,11 @@
                                </font>
                               </property>
                               <property name="toolTip">
-                               <string>Define se irá utilizar remanufaturas que já foram realizadas ou será registrada uma nova remanufatura</string>
+                               <string>Define se irá utilizar remanufaturas que foram registradas anteriormente
+ou se será registrada uma nova remanufatura</string>
                               </property>
                               <property name="toolTipDuration">
-                               <number>5</number>
+                               <number>10000</number>
                               </property>
                               <property name="text">
                                <string>Não reutilizar remanufaturas </string>
@@ -2287,7 +2300,7 @@
        <property name="frameShadow">
         <enum>QFrame::Plain</enum>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="frame_buttonsLayout">
         <item>
          <widget class="QLineEdit" name="lineEdit_id">
           <property name="enabled">

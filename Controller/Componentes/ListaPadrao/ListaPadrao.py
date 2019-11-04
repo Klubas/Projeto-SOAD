@@ -64,6 +64,11 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         self.relatorio = relatorio["relatorio"] if "relatorio" in relatorio else None
 
+        if "botao_extra" in relatorio:
+            self.adiciona_botao_extra(relatorio["botao_extra"])
+        else:
+            self.pushButton_acao.setVisible(False)
+
         if not self.filtro:
             self.pushButton_filtro.setVisible(False)
 
@@ -87,6 +92,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             self.colunas_chave = list(self.colunas.keys())
             self.colunas_descricao = list()
             self.set_columns()
+
 
         data = kwargs.get('data')
         if data:
@@ -112,12 +118,13 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         if self.filtro is not None:
             self.filter()
         else:
-            self.show()
+            self.showMaximized()
             self.refresh()
 
-    def refresh(self, filtros=('', '')):
-        self.string_filtro = filtros[0]
-        self.filtro_cab = filtros[1]
+    def refresh(self, filtros=('', ''), atualiza_filtro=True):
+        if atualiza_filtro:
+            self.string_filtro = filtros[0]
+            self.filtro_cab = filtros[1]
 
         self.tableWidget_tabela.setRowCount(0)
         self.tableWidget_tabela.setColumnCount(0)
@@ -329,6 +336,7 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
                 , parent=self
                 , **self.interface_args
             )
+            self.window_list.append(tela)
 
         except Exception as e:
             logging.error("[ListaPadrao] Erro ao abrir tela de cadastro:\n> " + str(e))
@@ -378,15 +386,55 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
             dialog.exec()
 
+    def adiciona_botao_extra(self, info_botoes):
+        for botao in info_botoes:
+            self.pushButton_acao.setDisabled(True)
+            self.pushButton_acao.setText(botao["nome"])
+            self.pushButton_acao.setToolTip("tooltip")
+            self.pushButton_acao.setIcon(QIcon(botao["icone"]))
+
+            self.tableWidget_tabela.itemSelectionChanged.connect(
+                lambda: self.pushButton_acao.setDisabled(
+                    len(self.tableWidget_tabela.selectedItems()) == 0
+                )
+            )
+
+            self.pushButton_acao.clicked.connect(
+                lambda: self.acao_botao_extra(botao["acao"][0])
+            )
+
+    def acao_botao_extra(self, window):
+        selecionados = self.tableWidget_tabela.selectedItems()
+
+        ids = list()
+        for item in selecionados:
+            ids.append(self.tableWidget_tabela.item(item.row(), 1).text())
+        ids = list(dict.fromkeys(ids))
+
+        if len(ids) == 0:
+            return
+
+        args = dict()
+        args['ids'] = ids
+        tela = window(
+            self.db
+            , self.window_list
+            , parent=self
+            , **args
+        )
+        self.window_list.append(tela)
+        try:
+            pass
+        except Exception as e:
+            logging.error("[ListaPadrao] Erro ao abrir interface:\n> " + str(e))
+
     def define_icones(self):
         self.pushButton_atualizar.setIcon(QIcon(os.path.join('Resources', 'icons', 'refresh.png')))
         self.pushButton_filtro.setIcon(QIcon(os.path.join('Resources', 'icons', 'filter.png')))
         self.pushButton_relatorio.setIcon(QIcon(os.path.join('Resources', 'icons', 'printer.png')))
 
-    def show(self):
-        self.showMaximized()
-
     # Override PySide2.QtGui.QCloseEvent
     def closeEvent(self, event):
         self.window_list.remove(self)
         event.accept()
+
