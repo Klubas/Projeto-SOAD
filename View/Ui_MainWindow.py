@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
 # licensing of 'Resources/UI/MainWindow.ui' applies.
 #
-# Created: Sun Nov  3 22:48:20 2019
+# Created: Mon Nov  4 00:18:50 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -525,7 +525,7 @@ class Ui_MainWindow(object):
         self.label_icone_compra.setText(QtWidgets.QApplication.translate("MainWindow", "IconCompra", None, -1))
         self.pushButton_compra.setText(QtWidgets.QApplication.translate("MainWindow", "Registrar Compra", None, -1))
         self.pushButton_lista_compras.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Compras", None, -1))
-        self.pushButton_lista_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de estoque", None, -1))
+        self.pushButton_lista_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de Estoque", None, -1))
         self.label_logo.setText(QtWidgets.QApplication.translate("MainWindow", "logo_soad", None, -1))
         self.label_icone_venda.setText(QtWidgets.QApplication.translate("MainWindow", "IconVenda", None, -1))
         self.pushButton_venda.setText(QtWidgets.QApplication.translate("MainWindow", "Realizar Venda", None, -1))

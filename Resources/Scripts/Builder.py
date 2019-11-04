@@ -1,4 +1,5 @@
 import os
+import platform
 import subprocess
 import sys
 from pathlib import Path
@@ -19,7 +20,11 @@ class Builder:
         self.py_uic_path = pyuic_path
         self.view = py_folder
         self.resources = ui_folder
-        self.rm = 'del'
+
+        if platform.system() == 'Window':
+            self.rm = 'del'
+        else:
+            self.rm = 'rm'
 
     def build_files(self, file_list):
         for file in file_list:

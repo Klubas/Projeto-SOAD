@@ -27,6 +27,9 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
             , self.get_data_base
         )
 
+        help = '''Escolha uma data para ver como estava o estoque'''
+        self.adiciona_help(help)
+
         self.dados = None
 
         self.lineEdit_fornecedor_documento.editingFinished.connect(
@@ -119,6 +122,19 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
             lineEdit_id.clear()
             lineEdit_descricao.clear()
             return False
+
+    def adiciona_help(self, texto="Teste ToolButton", layout=None):
+        from PySide2.QtWidgets import QToolButton
+        self.toolButton_help = QToolButton(self.horizontalLayout_data_base.widget())
+        self.toolButton_help.setToolTipDuration(5000)
+        self.toolButton_help.setText("?")
+        self.toolButton_help.setToolTip(texto)
+        self.toolButton_help.setStyleSheet("background: rgb(38, 183, 212);\n"
+                                      "color: white;\n"
+                                      "border: 10px;\n"
+                                      "border-radius: 5px;")
+        self.toolButton_help.setObjectName("toolButton_help")
+        self.horizontalLayout_data_base.addWidget(self.toolButton_help)
 
     def get_mercadoria(self):
         mercadoria_id = self.lineEdit_mercadoria_id.text()

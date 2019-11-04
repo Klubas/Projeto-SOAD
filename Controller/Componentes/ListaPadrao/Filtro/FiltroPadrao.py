@@ -67,6 +67,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         logging.info('[FiltroPadrao] Filtro: ' + str(filtro))
         return filtro, cabecalho
 
+
     def confirma(self):
         filtro = self.montar_filtro()
         string_filtro = filtro[0]
