@@ -490,7 +490,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.pushButton_excluir.setText('Estornar Pedido')
             self.pushButton_excluir.setIcon(self.icone_estornar)
 
-
         if pedido.data_entrega is not None:
 
             self.dateEdit_entrega.setDate(
@@ -692,6 +691,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 self.lineEdit_insumo_id.editingFinished.emit()
                 self.lineEdit_quantidade.setFocus()
 
+                medida = str(mercadoria['quantidade_insumo']) + str(mercadoria['unidade_medida_insumo'])
+                self.label_medida.setText(medida)
+
             if tipo == 'INSUMO':
                 if bool(mercadoria['colorido']):
                     self.label_tinta.setPixmap(QPixmap.fromImage(self.color_ink))
@@ -869,6 +871,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.lineEdit_valor_unitario.clear()
         self.lineEdit_valor_total_item.clear()
         self.lineEdit_valor_total_pedido.clear()
+
+        self.label_medida.setText('0,00g')
 
         self.calcula_totais_pedido()
 

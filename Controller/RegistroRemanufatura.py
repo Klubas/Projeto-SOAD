@@ -247,6 +247,7 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
         self.spinBox_quantidade.setValue(1)
         self.lineEdit_insumo_id.setDisabled(False)
         self.lineEdit_casco_id.setDisabled(False)
+        self.label_medida.setText('0,00g')
 
     def limpar_tabela(self, apenas_selecionados=False):
         # remove todas as remanufaturas selecionadas da lista (excluir do banco)
@@ -494,6 +495,9 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
                 self.lineEdit_insumo_id.setText(str(mercadoria['id_insumo']))
                 self.lineEdit_insumo_id.editingFinished.emit()
                 self.buttonBox_remanufatura.setFocus()
+
+                medida = str(mercadoria['quantidade_insumo']) + str(mercadoria['unidade_medida_insumo'])
+                self.label_medida.setText(medida)
 
             if tipo == 'INSUMO':
                 if bool(mercadoria['colorido']):

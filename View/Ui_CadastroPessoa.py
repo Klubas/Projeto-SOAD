@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPessoa.ui',
 # licensing of 'Resources/UI/CadastroPessoa.ui' applies.
 #
-# Created: Thu Nov  7 23:31:07 2019
+# Created: Thu Nov  7 23:51:44 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

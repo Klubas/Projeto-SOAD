@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/RegistroRemanufatura.ui',
 # licensing of 'Resources/UI/RegistroRemanufatura.ui' applies.
 #
-# Created: Thu Nov  7 23:31:07 2019
+# Created: Thu Nov  7 23:51:44 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -97,6 +97,20 @@ class Ui_RegistroRemanufatura(object):
         self.horizontalLayout_2.addWidget(self.label_pedido_id)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
+        self.label_8 = QtWidgets.QLabel(self.horizontalFrame_4)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setWeight(75)
+        font.setBold(True)
+        self.label_8.setFont(font)
+        self.label_8.setObjectName("label_8")
+        self.horizontalLayout_2.addWidget(self.label_8)
+        self.label_medida = QtWidgets.QLabel(self.horizontalFrame_4)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_medida.setFont(font)
+        self.label_medida.setObjectName("label_medida")
+        self.horizontalLayout_2.addWidget(self.label_medida)
         self.formLayout_5.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.horizontalFrame_4)
         self.label_casco = QtWidgets.QLabel(self.frameFormLayout_remanufatura)
         font = QtGui.QFont()
@@ -887,6 +901,8 @@ class Ui_RegistroRemanufatura(object):
         self.label_codigo.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Código", None, -1))
         self.lineEdit_codigo.setToolTip(QtWidgets.QApplication.translate("RegistroRemanufatura", "Quando uma remanufatura for realizada, irá gerar um identificador único.", None, -1))
         self.lineEdit_codigo.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "AUTO GERADO", None, -1))
+        self.label_8.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Medida:", None, -1))
+        self.label_medida.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "0,00g", None, -1))
         self.label_casco.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Casco", None, -1))
         self.label_insumo.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "Insumo", None, -1))
         self.label_tinta.setText(QtWidgets.QApplication.translate("RegistroRemanufatura", "TextLabel", None, -1))
