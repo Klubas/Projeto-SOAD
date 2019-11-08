@@ -74,7 +74,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         string_filtro = filtro[0]
         filtro_cabecalho = filtro[1]
         self.string_filtro.emit((string_filtro, filtro_cabecalho))
-        self.parent.show()
+        self.parent.showMaximized()
         self.hide()
         self.done(0)
 
