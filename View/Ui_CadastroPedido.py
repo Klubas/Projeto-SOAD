@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
 # licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Thu Nov  7 23:51:44 2019
+# Created: Fri Nov  8 00:02:00 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -185,7 +185,8 @@ class Ui_CadastroPedido(object):
         self.dateEdit_entrega.setWrapping(False)
         self.dateEdit_entrega.setFrame(True)
         self.dateEdit_entrega.setAlignment(QtCore.Qt.AlignCenter)
-        self.dateEdit_entrega.setAccelerated(False)
+        self.dateEdit_entrega.setAccelerated(True)
+        self.dateEdit_entrega.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
         self.dateEdit_entrega.setProperty("showGroupSeparator", True)
         self.dateEdit_entrega.setCalendarPopup(True)
         self.dateEdit_entrega.setTimeSpec(QtCore.Qt.LocalTime)

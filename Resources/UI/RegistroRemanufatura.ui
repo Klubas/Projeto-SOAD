@@ -1875,6 +1875,13 @@ Remanufaturas em outras situações não podem ser alteradas</string>
                           <property name="calendarPopup">
                            <bool>false</bool>
                           </property>
+                          <property name="date">
+                           <date>
+                            <year>2001</year>
+                            <month>1</month>
+                            <day>1</day>
+                           </date>
+                          </property>
                          </widget>
                         </item>
                         <item row="4" column="0">
@@ -1925,6 +1932,9 @@ Remanufaturas em outras situações não podem ser alteradas</string>
                           <property name="specialValueText">
                            <string/>
                           </property>
+                          <property name="correctionMode">
+                           <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                          </property>
                           <property name="keyboardTracking">
                            <bool>false</bool>
                           </property>
@@ -1936,6 +1946,13 @@ Remanufaturas em outras situações não podem ser alteradas</string>
                           </property>
                           <property name="calendarPopup">
                            <bool>false</bool>
+                          </property>
+                          <property name="date">
+                           <date>
+                            <year>2001</year>
+                            <month>1</month>
+                            <day>1</day>
+                           </date>
                           </property>
                          </widget>
                         </item>
@@ -1987,6 +2004,9 @@ Remanufaturas em outras situações não podem ser alteradas</string>
                           <property name="specialValueText">
                            <string/>
                           </property>
+                          <property name="correctionMode">
+                           <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                          </property>
                           <property name="keyboardTracking">
                            <bool>false</bool>
                           </property>
@@ -2004,7 +2024,7 @@ Remanufaturas em outras situações não podem ser alteradas</string>
                           </property>
                           <property name="date">
                            <date>
-                            <year>2000</year>
+                            <year>2001</year>
                             <month>1</month>
                             <day>1</day>
                            </date>

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/RegistroRemanufatura.ui',
 # licensing of 'Resources/UI/RegistroRemanufatura.ui' applies.
 #
-# Created: Thu Nov  7 23:51:44 2019
+# Created: Fri Nov  8 00:02:00 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -695,6 +695,7 @@ class Ui_RegistroRemanufatura(object):
         self.dateEdit_entrada.setKeyboardTracking(False)
         self.dateEdit_entrada.setProperty("showGroupSeparator", False)
         self.dateEdit_entrada.setCalendarPopup(False)
+        self.dateEdit_entrada.setDate(QtCore.QDate(2001, 1, 1))
         self.dateEdit_entrada.setObjectName("dateEdit_entrada")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.dateEdit_entrada)
         self.label_5 = QtWidgets.QLabel(self.formFrame_item_lote)
@@ -717,9 +718,11 @@ class Ui_RegistroRemanufatura(object):
         self.dateEdit_abertura.setReadOnly(True)
         self.dateEdit_abertura.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.dateEdit_abertura.setSpecialValueText("")
+        self.dateEdit_abertura.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
         self.dateEdit_abertura.setKeyboardTracking(False)
         self.dateEdit_abertura.setProperty("showGroupSeparator", False)
         self.dateEdit_abertura.setCalendarPopup(False)
+        self.dateEdit_abertura.setDate(QtCore.QDate(2001, 1, 1))
         self.dateEdit_abertura.setObjectName("dateEdit_abertura")
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.dateEdit_abertura)
         self.label_4 = QtWidgets.QLabel(self.formFrame_item_lote)
@@ -742,11 +745,12 @@ class Ui_RegistroRemanufatura(object):
         self.dateEdit_validade.setReadOnly(True)
         self.dateEdit_validade.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.dateEdit_validade.setSpecialValueText("")
+        self.dateEdit_validade.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
         self.dateEdit_validade.setKeyboardTracking(False)
         self.dateEdit_validade.setProperty("showGroupSeparator", False)
         self.dateEdit_validade.setCalendarPopup(False)
         self.dateEdit_validade.setCurrentSectionIndex(0)
-        self.dateEdit_validade.setDate(QtCore.QDate(2000, 1, 1))
+        self.dateEdit_validade.setDate(QtCore.QDate(2001, 1, 1))
         self.dateEdit_validade.setObjectName("dateEdit_validade")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.dateEdit_validade)
         self.label_6 = QtWidgets.QLabel(self.formFrame_item_lote)
