@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/RegistroRemanufatura.ui',
 # licensing of 'Resources/UI/RegistroRemanufatura.ui' applies.
 #
-# Created: Mon Nov  4 00:18:49 2019
+# Created: Thu Nov  7 23:31:07 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -75,6 +75,7 @@ class Ui_RegistroRemanufatura(object):
         self.lineEdit_codigo.setObjectName("lineEdit_codigo")
         self.horizontalLayout_2.addWidget(self.lineEdit_codigo)
         self.spinBox_quantidade = QtWidgets.QSpinBox(self.horizontalFrame_4)
+        self.spinBox_quantidade.setMinimumSize(QtCore.QSize(0, 27))
         self.spinBox_quantidade.setMaximumSize(QtCore.QSize(50, 16777215))
         self.spinBox_quantidade.setWrapping(False)
         self.spinBox_quantidade.setFrame(True)

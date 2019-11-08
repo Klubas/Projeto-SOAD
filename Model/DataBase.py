@@ -10,13 +10,16 @@ from Controller.Componentes.Worker import Worker
 
 class DataBase:
 
-    def __init__(self, username, password, host='localhost', port=5432, pool_size=5):
+    def __init__(self, username, password, host='localhost', dbname='postgres', port=5432, pool_size=5):
         self.schema = 'soad'
         self.username = username
         self.host = host
         self.port = port
+        self.dbname = dbname
         self.folder = 'Resources' + os.sep + 'database'
-        self.dbinfo = 'postgres://' + username + ':' + password + '@' + host + ':' + str(port) + '/postgres'
+        os.environ["PGPASSWORD"] = password
+        self.password = password
+        self.dbinfo = 'postgres://' + username + ':' + password + '@' + host + ':' + str(port) + '/' + self.dbname
         self.db = DAL(
             self.dbinfo,
             folder=self.folder,
@@ -104,6 +107,7 @@ class DataBase:
             #progress_callback.emit(100)
         except Exception as e:
             logging.debug('[DataBase] ' + str(e))
+            os.environ["PGPASSWORD"] = ''
             pass
             #progress_callback.emit(0)
         return self

@@ -33,6 +33,8 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
 
+        self.translate_ui()
+
         self.show()
 
     def montar_filtro(self) -> tuple:
@@ -67,7 +69,6 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         logging.info('[FiltroPadrao] Filtro: ' + str(filtro))
         return filtro, cabecalho
 
-
     def confirma(self):
         filtro = self.montar_filtro()
         string_filtro = filtro[0]
@@ -86,6 +87,11 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
     def limpar_filtro(self):
         self.child.limpar_filtro()
+
+    def translate_ui(self):
+        self.buttonBox.button(QDialogButtonBox.Ok).setIcon(QIcon(os.path.join('Resources', 'icons', 'filter.png')))
+        self.buttonBox.button(QDialogButtonBox.Ok).setText('Filtrar')
+        self.buttonBox.button(QDialogButtonBox.Cancel).setText('Cancelar')
 
 
 

@@ -14,23 +14,25 @@ class Installer:
             , password=''
             , host='localhost'
             , port=5432
+            , dbname='postgres'
             , _os=None
-            , override_pg_path=False
+            , override_pg_path=True
     ):
         self.dump_file = dump_file
         self.host = host
         self.port = str(port)
+        self.dbname = dbname
         self.username = username
         self.password = password
         os.environ["PGPASSWORD"] = self.password
 
-        if not _os:
+        if _os is None:
             import platform
             _os = platform.system()
-        else:
-            self.os = _os
 
-        if self.os == 'Linux' and override_pg_path:
+        self._os = _os
+
+        if self._os == 'Linux' and override_pg_path:
             self.folder_runtime = '/usr/bin'
         else:
             self.folder_runtime = postgresfolder
@@ -39,12 +41,12 @@ class Installer:
             print('\n')
 
     def get_cmd(self, cmd):
-        if self.os == 'Windows':
+        if self._os == 'Windows':
             cmd = cmd + '.exe '
-        elif self.os == 'Linux':
+        elif self._os == 'Linux':
             cmd = cmd
         else:
-            logging.info("[Installer] Plataforma " + self.os + " sem suporte.")
+            logging.info("[Installer] Plataforma " + self._os + " sem suporte.")
             return
 
         if self.folder_runtime:
@@ -52,15 +54,17 @@ class Installer:
 
         return cmd
 
-    def create_user(self, user='soadmin'):
+    def create_user(self, user='soadmin', password='soad2019', permissoes='CREATEDB CREATEROLE LOGIN'):
 
         cmd = self.get_cmd('psql')
 
-        sql = 'CREATE ROLE ' + user + ' WITH CREATEDB CREATEROLE PASSWORD \'soad2019\''
+        sql = 'CREATE ROLE {user} WITH {permissoes} PASSWORD \'{password}\''\
+            .format(user=user, password=password, permissoes=permissoes)
 
         args = ' --host ' + self.host + \
                ' --port ' + self.port + \
-               ' --username ' + 'postgres' + ' -c "' + sql + '"'
+               ' --username ' + self.username + ' -c "' + sql + '"' + \
+               ' --dbname ' + self.dbname
 
         cmd = cmd + args
         logging.info("[Installer] Create Role: " + cmd)
@@ -79,7 +83,7 @@ class Installer:
 
         args = ' --host ' + self.host + \
                ' --port ' + self.port + \
-               ' --username ' + 'postgres' + ' -c "' + sql + '"'
+               ' --username ' + self.username + ' -c "' + sql + '"'
 
         cmd = cmd + args
         logging.info("[Installer] Execute Procedure: " + cmd)
@@ -102,7 +106,7 @@ class Installer:
 
         cmd = self.get_cmd('pg_restore')
 
-        if self.os == 'Windows':
+        if self._os == 'Windows':
             self.dump_file = '"' + self.dump_file + '"'
             cmd = '"' + cmd + '" '
 

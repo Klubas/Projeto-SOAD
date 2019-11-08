@@ -180,6 +180,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.limpa_obrigatorios()
         self.define_permite_editar()
+
+        self.translate_ui()
+
         self.show()
 
     def cadastrar(self):
@@ -1008,3 +1011,6 @@ Compras encerradas devem ser estornadas para que possam ser editadas.'''
         pdf = ficha_pedido.gerar_relatorio()
         ficha_pedido.exibir_relatorio(pdf)
 
+    def translate_ui(self):
+        self.buttonBox_item.button(QDialogButtonBox.Save).setText('Salvar')
+        self.buttonBox_item.button(QDialogButtonBox.Reset).setText('Limpar')

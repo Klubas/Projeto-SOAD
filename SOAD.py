@@ -8,12 +8,6 @@ __LOG_STREAM__ = sys.stderr
 logging.basicConfig(stream=__LOG_STREAM__, level=__LOG_LEVEL__)
 
 
-def resource_path(relative_path):
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.path.abspath("."), relative_path)
-
-
 def update_ui():    # Atualiza os arquivos da pasta View
     import os
     from Resources.Scripts.Builder import Builder
@@ -43,11 +37,6 @@ def main():
          + os.pathsep \
          + os.environ['PATH']
 
-    print(os.environ['PATH'])
-
-    update_ui()
-    #sys.exit()
-
     from PySide2.QtWidgets import QApplication
     from Controller.LoginDialog import LoginDialog
 
@@ -62,7 +51,9 @@ def main():
 
 if __name__ == '__main__':
 
+    update_ui()
     main()
+    sys.exit()
 
 else:
     print(__name__)

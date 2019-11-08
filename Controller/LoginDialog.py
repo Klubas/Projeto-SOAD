@@ -41,14 +41,14 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             self.verticalGroupBox_servidor.setVisible(False)
 
         icon_path = os.path.join("Resources", "Imagens", "soad.png")
-        #icon_image = QImage(resource_path(icon_path)).smoothScaled(115, 115)
         icon_image = QImage(icon_path).smoothScaled(115, 115)
-        #self.icon = QIcon(resource_path(icon_path))
         self.icon = QIcon(icon_path)
 
         self.setWindowIcon(self.icon)
 
         self.label_logo.setPixmap(QPixmap.fromImage(icon_image))
+
+        self.translate_ui()
 
         self.saved_config(action='load')
 
@@ -189,3 +189,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
     def closeEvent(self, event):
         event.accept()
         sys.exit()
+
+    def translate_ui(self):
+        self.buttonBox.button(QDialogButtonBox.Ok).setText('Login')
+        self.buttonBox.button(QDialogButtonBox.Cancel).setText('Cancelar')

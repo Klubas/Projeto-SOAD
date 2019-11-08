@@ -3,7 +3,7 @@ import os
 
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QWidget
+from PySide2.QtWidgets import QWidget, QDialogButtonBox
 
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
@@ -87,10 +87,23 @@ class CadastroPadrao(QWidget):
         self.icone_delete = QIcon(os.path.join('Resources', 'icons', 'delete.png'))
         self.icone_find = QIcon(os.path.join('Resources', 'icons', 'find.png'))
 
-        self.pushButton_cadastrar.setIcon(self.icone_insert)
-        self.pushButton_editar.setIcon(self.icone_update)
-        self.pushButton_excluir.setIcon(self.icone_delete)
-        self.pushButton_localizar.setIcon(self.icone_find)
+        if self.pushButton_cadastrar is not None:
+            self.pushButton_cadastrar.setIcon(self.icone_insert)
+
+        if self.pushButton_editar is not None:
+            self.pushButton_editar.setIcon(self.icone_update)
+
+        if self.pushButton_excluir is not None:
+            self.pushButton_excluir.setIcon(self.icone_delete)
+
+        if self.pushButton_localizar is not None:
+            self.pushButton_localizar.setIcon(self.icone_find)
+
+        self.translate_ui()
+
+    def translate_ui(self):
+        self.buttonBox.button(QDialogButtonBox.Ok).setText('Salvar')
+        self.buttonBox.button(QDialogButtonBox.Cancel).setText('Cancelar')
 
     def adiciona_help(self, texto="Teste ToolButton", layout=None):
         from PySide2.QtWidgets import QToolButton
