@@ -27,6 +27,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.window_list = list()
         self.setWindowTitle("SOAD - VIP Cartuchos")
 
+        self.label_user.setText('Usuário: {username}\n[{host}:{port}]'
+                                .format(username=self.db.username, host=self.db.host, port=str(self.db.port)))
+
         icone_venda=QImage(os.path.join('Resources', 'icons', 'vendas.png')).smoothScaled(85, 85)
         icone_compra = QImage(os.path.join('Resources', 'icons', 'compras.png')).smoothScaled(85, 85)
         icone_mercadoria = QImage(os.path.join('Resources', 'icons', 'mercadorias.png')).smoothScaled(85, 85)
@@ -207,6 +210,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             lambda: self.abrir_interface(
                 window_cls=ListaPadrao
                 , tipo='ESTOQUE'
+            )
+        )
+
+        self.pushButton_lista_itens.clicked.connect(
+            lambda: self.abrir_interface(
+                window_cls=ListaPadrao
+                , tipo='ITEM_ESTOQUE'
             )
         )
 
