@@ -24,6 +24,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
         self.buttonBox.button(QDialogButtonBox.Save).setDisabled(True)
 
+        from pathlib import Path
+        self.home_dir = str(Path.home())
+
         self.main = None
         self.restored = False
 
@@ -80,6 +83,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
     def saved_config(self, action):
         action = action.upper()
+        file_path = os.path.join(self.home_dir, '.credencial.json')
         if action == 'SAVE':
 
             data = {
@@ -90,7 +94,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             }
 
             try:
-                with open('.credencial.json', 'w', encoding='utf-8') as f:
+                with open(file_path, 'w', encoding='utf-8') as f:
                     json.dump(data, f, ensure_ascii=False, indent=4)
             except Exception as e:
                 logging.debug('[LoginDialog] Não foi possível salvar o arquivo de configuração.')
@@ -126,7 +130,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
         elif action == 'LOAD':
             try:
-                with open('.credencial.json') as json_file:
+                with open(file_path) as json_file:
                     try:
                         data = json.load(json_file)
                         self.comboBox_servidor.setCurrentText(data['hostname'])

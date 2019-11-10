@@ -1,9 +1,10 @@
-# SOAD - Sistema organizacional de armazenagem e distribuição
+SOAD - Sistema organizacional de armazenagem e distribuição
 
-## Manual para instação
+Pós Instalação:
 
 Antes da primeira execução do sistema, deve ser instalado o banco de dados PostgreSQL 11 e realizado as seguintes configurações:
-- No momento da instalação definir como senha "soad2019"
+
+- No momento da instalação definir uma senha para o usuário 'postgres'
 
 Utilizando o painel PgAdmin:
    - Criar usuário administrador "soadmin"
