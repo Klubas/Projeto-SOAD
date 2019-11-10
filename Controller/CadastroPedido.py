@@ -10,8 +10,10 @@ from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.RelatorioPadrao.RelatorioPadrao import RelatorioPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
+from Model.Endereco import Endereco
 from Model.ItemPedido import ItemPedido
 from Model.Pedido import Pedido
+from Model.Pessoa import Pessoa
 from View.Ui_CadastroPedido import Ui_CadastroPedido
 
 
@@ -140,6 +142,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         # Variaveis para gravar o pedido
         self.pedido = Pedido(tipo_pedido=self.tipo_pedido)
+        self.pessoa = None
 
         ## Monta QTableWidget
         self.colunas_item = {
@@ -147,9 +150,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             , "codigo": 'Código'
             , "tipo_item": 'Tipo'
             , "descricao": 'Descrição'
-            , "quantidade": "Quantidade"
-            , "valor_unitario": "Valor Unitário"
-            , "valor_total": "Valor total"
+            , "quantidade": "Quant."
+            , "valor_unitario": "V. Unitário"
+            , "valor_total": "V. Total"
         }
 
         self.colunas_descricao = list(self.colunas_item.values())
@@ -176,6 +179,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         if self.id_registro:
             self.atualizar_interface(self.id_registro)
 
+        self.lineEdit_item_pedido_id.setVisible(False)
         self.visualizar()
 
         self.limpa_obrigatorios()
@@ -598,9 +602,37 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 pessoa = pessoa[0]
 
         if pessoa:
-            self.lineEdit_documento.setText(pessoa['documento'])
-            self.lineEdit_nome_pessoa.setText(pessoa['nome'])
-            self.pedido.pessoa_id = pessoa['id_pessoa']
+
+            pessoa_pedido = Pessoa(
+                nome=pessoa['nome']
+                , email=pessoa['email']
+                , telefone=pessoa['telefone']
+                , documento=pessoa['documento']
+                , inscricao_estadual=pessoa['inscricao_estadual']
+                , fantasia=pessoa['fantasia']
+                , id_pessoa=pessoa['id_pessoa']
+            )
+            self.lineEdit_documento.setText(pessoa_pedido.documento)
+            self.lineEdit_nome_pessoa.setText(pessoa_pedido.nome)
+            self.pedido.pessoa_id = pessoa_pedido.id_pessoa
+
+            endereco = Endereco(
+                id_pessoa=pessoa['id_pessoa']
+                , municipio=pessoa['municipio']
+                , estado=pessoa['sigla_uf']
+                , pais=pessoa['pais']
+                , logradouro=pessoa['logradouro']
+                , numero=pessoa['numero']
+                , bairro=pessoa['bairro']
+                , cep=pessoa['cep']
+                , complemento=pessoa['complemento']
+                , tipo=pessoa['tipo_endereco']
+            )
+
+            pessoa_pedido.endereco.append(endereco)
+
+            self.pessoa = pessoa_pedido
+
             return True
 
         else:
@@ -723,10 +755,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 item_pedido = it
                 break
 
-        if self.lineEdit_item_pedido_id.text() != '':
-            #self.buttonBox_item.button(QDialogButtonBox.Save).setEnabled(False)
-            self.buttonBox_item.button(QDialogButtonBox.Save).setText('Editar')
-
         if item_pedido.tipo == 'REMANUFATURA':
 
             self.radioButton_remanufatura.setChecked(True)
@@ -745,6 +773,11 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.busca_mercadoria('MERCADORIA')
 
         self.lineEdit_item_pedido_id.setText(str(item_pedido.item_pedido_id))
+
+        if self.lineEdit_item_pedido_id.text() != '':
+            self.buttonBox_item.button(QDialogButtonBox.Save).setText('Editar')
+        else:
+            self.buttonBox_item.button(QDialogButtonBox.Save).setText('Salvar')
 
         self.lineEdit_quantidade.setText(
             self.formatar_numero(item_pedido.quantidade))
@@ -779,6 +812,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             )
 
         else:
+
             descricao = self.lineEdit_mercadoria.text()
 
             item = ItemPedido(
@@ -799,6 +833,19 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         novo_item = True if item_pedido_id == '' else False
 
         if novo_item:
+
+            # Valida itens repetidos
+            id = self.lineEdit_mercadoria_id.text()
+            for item in self.pedido.itens:
+                if id == str(item.mercadoria_id):
+                    dialog = StatusDialog(
+                        status='ALERTA'
+                        , mensagem='Não é possível inserir o mesmo item duas vezes em um pedido.'
+                        , parent=self
+                    )
+                    dialog.exec()
+                    return
+
             item.item_pedido_id = (len(self.pedido.itens) + 1) * -1
         else:
             item.item_pedido_id = int(item_pedido_id)
@@ -874,11 +921,13 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.label_medida.setText('0,00g')
 
+        self.buttonBox_item.button(QDialogButtonBox.Save).setText('Salvar')
+
         self.calcula_totais_pedido()
 
     def calcula_totais_item(self):
 
-        if self.lineEdit_valor_unitario.text() == '':
+        if self.lineEdit_valor_unitario.text() == '' or self.lineEdit_valor_unitario.text() == '0':
             valor_unitario = 0
             self.lineEdit_valor_unitario.setText('0,00')
 
@@ -886,9 +935,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             valor_unitario = float(self.formatar_numero(self.lineEdit_valor_unitario.text()).replace(' ', ''))
             self.lineEdit_valor_unitario.setText(self.formatar_numero(valor_unitario))
 
-        if self.lineEdit_quantidade.text() == '':
+        if self.lineEdit_quantidade.text() == '' or self.lineEdit_quantidade.text() == '0':
             quantidade = 0
-            self.lineEdit_quantidade.setText('0,00')
+            self.lineEdit_quantidade.setText('0.00')
 
         else:
             quantidade = float(self.formatar_numero(self.lineEdit_quantidade.text()).replace(' ', ''))
@@ -900,9 +949,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
     def calcula_totais_pedido(self):
         valor = 0
         for row in range(0, self.tableWidget_items.rowCount()):
-            self.tableWidget_items.item(row, 6)
-            v = 0 if self.tableWidget_items.item(row, 6).text() is None \
-                else self.formatar_numero(self.tableWidget_items.item(row, 6).text())
+            v = 0 if self.tableWidget_items.item(row, 6) is None else self.tableWidget_items.item(row, 6).text()
+            v = self.formatar_numero(v)
             valor = valor + float(v)
         self.lineEdit_valor_total_pedido.setText(self.formatar_numero(valor))
 
@@ -925,7 +973,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.pushButton_excluir.setDisabled(situacao == 'CANCELADO' or self.lineEdit_id.text() == '')
 
-        self.pushButton_imprimir.setDisabled(self.lineEdit_id.text() == '')
+        self.pushButton_imprimir.setDisabled(situacao == 'CANCELADO' or self.lineEdit_id.text() == '')
 
     def configura_tipo(self):
         self.tipo_pedido = 'VENDA' if not self.tipo_pedido else self.tipo_pedido
@@ -954,14 +1002,14 @@ Compras encerradas devem ser estornadas para que possam ser editadas.'''
 
         else:
             dialog = StatusDialog(status='ERRO', mensagem='TIPO DE PEDIDO ' + str(self.tipo_pedido) + ' INVÁLIDO',
-                                  parent=self.parent_window)
+                                  parent=self)
             dialog.exec()
 
     def valida_valores(self):
 
-        ativo = self.lineEdit_quantidade.text() == '' \
-                or self.lineEdit_valor_unitario.text() == '' \
-                or self.lineEdit_valor_total_item.text() == ''
+        ativo = (self.lineEdit_quantidade.text() == '' or self.lineEdit_quantidade.text() == '0') \
+                or (self.lineEdit_valor_unitario.text() == '' or self.lineEdit_valor_unitario.text() == '0') \
+                or (self.lineEdit_valor_total_item.text() == '' or self.lineEdit_valor_total_item.text() == '0.0')
 
         if self.radioButton_mercadoria.isChecked():
             ativo = ativo \
@@ -980,35 +1028,94 @@ Compras encerradas devem ser estornadas para que possam ser editadas.'''
             logging.debug("[CadastroPedido] Nenhum pedido selecionado para impressão.")
             return
 
+        if self.pedido.situacao == 'CANCELADO':
+            logging.debug("[CadastroPedido] Não é possível imprimir um pedido cancelado.")
+            return
+
         pedido = list()
-        pedido_atual = self.pedido.to_dict()
+        pedido_atual = self.pedido.to_dict(generic=True)
         pedido_itens = pedido_atual['itens']
         del pedido_atual['itens']
         pedido.append(pedido_atual)
 
-        """
-        Montar um html para o cabeçalho com informações do pedido
-        instanciar um relatorio padrão informando os dados no pedido no cabecalho
-            e os dados dos itens no dados_relatorio
-        """
+        items_aux = list()
+
+        for item in pedido_itens:
+            aux = dict()
+            for coluna, desc in self.colunas_item.items():
+                if coluna != 'item_pedido_id' and coluna != 'codigo':
+                    if coluna == 'valor_unitario' or coluna == 'valor_total':
+                        aux[desc] = "{0:.2f}".format(
+                            float(item[coluna])).replace('.', ',')
+                    else:
+                        aux[desc] = item[coluna]
+                    if aux[desc] is None or aux[desc] == 'None':
+                        aux[desc] = ''
+            items_aux.append(aux)
+        pedido_itens = items_aux
 
         cnpj_emitente = "12.141.655/0001-69"
+        IE_emitente = "90524475-23"
+        endereco_emitente = 'Rua Dr. Paula Xavier, 1486 - sala 01 - CEP 84010 - Centro - Ponta Grossa - PR'
 
+        print(pedido_atual)
         print(pedido_itens)
 
         html_cabecalho = os.path.join('Resources', 'html', 'RelatorioPadrao', 'cabecalho.html')
         html_rodape = os.path.join('Resources', 'html', 'RelatorioPadrao', 'rodape.html')
 
+        try:
+            with open(html_cabecalho, 'r') as f:
+                html_cabecalho = f.read()
+
+            with open(html_rodape, 'r') as f:
+                html_rodape = f.read()
+
+        except Exception as e:
+            logging.debug('[] Exception ao abrir html\n> ' + str(e))
+            return
+
+        self.busca_pessoa()
+        endereco = self.pessoa.endereco[0]
+
+        html_cabecalho = html_cabecalho.format(
+            razao='COMÉRCIO DE EQUIPAMENTOS E SUPRIMENTOS DE INFORMÁTICA'
+            , fantasia='JOCIANE F. DA SILVA - INFORMÁTICA'
+            , fone='(42) 3224-0660'
+            , tipo_pedido=pedido_atual['tipo_pedido']
+            , num_pedido=pedido_atual['pedido_id']
+            , nome_pessoa=self.pessoa.nome
+            , endereco_pessoa=endereco.logradouro + (', ' + endereco.numero if endereco.numero is not None else '')
+            , bairro_pessoa=endereco.bairro if endereco.bairro is not None else ''
+            , municipio_pessoa=endereco.municipio if endereco.municipio is not None else ''
+            , cep_pessoa=endereco.cep if endereco.cep is not None else ''
+            , uf_pessoa=endereco.estado if endereco.estado is not None else ''
+            , fone_pessoa=self.pessoa.telefone if self.pessoa.telefone is not None else ''
+            , situacao=self.pedido.situacao.upper()
+            , endereco_emitente=endereco_emitente
+            , cnpj_emitente=cnpj_emitente
+            , ie_emitente=IE_emitente
+            , data_cadastro=self.dateEdit_entrega.date().toString("dd.MM.yyyy").replace('.', '/')
+        )
+
+        total = "{0:.2f}".format(
+                float(self.lineEdit_valor_total_pedido.text())).replace('.', ',')
+
+        html_rodape = html_rodape.format(
+            cnpj_pagador=self.pessoa.get_documento()
+            , ie_pagador=self.pessoa.inscricao_estadual
+            , total=total
+        )
+
         ficha_pedido = RelatorioPadrao(
             pedido_itens
             , cabecalho=html_cabecalho
             , rodape=html_rodape
-            , file=True
-            , title="Pedido para " + self.tipo_pedido.capitalize()
+            , file=False
             , landscape=False
             , page_size='A4'
             , stylesheet=os.path.join('Resources', 'styles', 'ficha_pedido.css')
-            , sort_column='tipo_item'
+            , sort_column='Tipo'
             , override_style=True
         )
 

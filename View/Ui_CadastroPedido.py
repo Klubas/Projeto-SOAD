@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
 # licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Fri Nov  8 00:02:00 2019
+# Created: Sun Nov 10 00:42:56 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -737,7 +737,11 @@ class Ui_CadastroPedido(object):
         self.buttonBox_item.setStandardButtons(QtWidgets.QDialogButtonBox.Reset|QtWidgets.QDialogButtonBox.Save)
         self.buttonBox_item.setCenterButtons(False)
         self.buttonBox_item.setObjectName("buttonBox_item")
-        self.gridLayout_6.addWidget(self.buttonBox_item, 0, 0, 1, 1)
+        self.gridLayout_6.addWidget(self.buttonBox_item, 1, 0, 1, 1)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_6.addItem(spacerItem6, 2, 0, 1, 1)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_6.addItem(spacerItem7, 0, 0, 1, 1)
         self.horizontalLayout_7.addWidget(self.frame_item_buttons)
         self.gridLayout_4.addWidget(self.frame, 1, 0, 1, 1)
         self.tabWidget.addTab(self.tab_campos, "")
@@ -955,8 +959,8 @@ class Ui_CadastroPedido(object):
         self.pushButton_remover_item.setFlat(True)
         self.pushButton_remover_item.setObjectName("pushButton_remover_item")
         self.horizontalLayout_6.addWidget(self.pushButton_remover_item)
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem6)
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem8)
         self.gridLayout_5.addWidget(self.horizontalWidget_botoes_tabela, 0, 0, 1, 1)
         self.horizontalLayout_5.addWidget(self.widget_tabela)
         self.tabWidget.addTab(self.tab_tabela, "")
@@ -1009,8 +1013,8 @@ class Ui_CadastroPedido(object):
         self.label_situacao.setIndent(0)
         self.label_situacao.setObjectName("label_situacao")
         self.frame_buttonsLayout.addWidget(self.label_situacao)
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.frame_buttonsLayout.addItem(spacerItem7)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.frame_buttonsLayout.addItem(spacerItem9)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame_buttons)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)

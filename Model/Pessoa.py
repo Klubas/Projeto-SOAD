@@ -11,6 +11,16 @@ class Pessoa:
         self.modalidade = list()
         self.endereco = list()
 
+    def get_documento(self, mascara=True):
+        if mascara:
+            if len(self.documento) == 11:
+                documento = self.documento[:3] + "." + self.documento[3:6] + "." + self.documento[6:9] + "-" + self.documento[9:]
+            else:
+                documento = "%s.%s.%s/%s-%s" % (self.documento[0:2], self.documento[2:5], self.documento[5:8], self.documento[8:12], self.documento[12:14])
+            return documento
+        else:
+            return self.documento
+
     def to_dict(self):
 
         enderecos = list(dict())

@@ -1,16 +1,30 @@
 <div class="cabecalhoPedido">
-    <div class="infoCabecalho">
+    <div>
+        <div class="logo"><img id="logoImg" src="Resources/Imagens/logo_mono.png"></div>
+        <div class="infoEmitente">
+            <span>{razao}<br>{fantasia}</span><br>
+            <span><strong>Fone:&nbsp;{fone}</strong></span><br>
+            <div class="adicionalEmitente">
+                <span>{endereco_emitente}</span><BR>
+                <span>CNPJ:&nbsp;{cnpj_emitente}&nbsp;</span>
+                <span>IE:&nbsp;{ie_emitente}</span>
+            </div>
+        </div>
         <div class="infoPedido">
-            <span id="num_pedido">No {NUM_PEDIDO}</span><span id="situacao">{SITUACAO}</span>
+            <p>{tipo_pedido}<br>No:&nbsp;{num_pedido}<br>{data_cadastro}</p>
         </div>
     </div>
-    <div class="infoCabecalho">
-        <div class="logo">
-            <img id="logo_img" src="Resources/Imagens/logo_mono.png">
+    <div>
+         <div class="infoClienteFornecedor">
+             <span><strong>Nome/Razão social:</strong><br>{nome_pessoa}<br></span>
+             <span><strong>Endereço:</strong><br>{endereco_pessoa}<br></span>
+             <span>
+                 <strong>Bairro:</strong>{bairro_pessoa}&nbsp;
+                 <strong>Município:</strong>{municipio_pessoa}&nbsp;
+                 <strong>CEP:</strong>{cep_pessoa}&nbsp;
+                 <strong>UF:</strong>{uf_pessoa}&nbsp;
+                 <strong>Fone:</strong>{fone_pessoa}&nbsp;
+             </span>
         </div>
-        <div class="infoEmitente">infoEmitente</div>
-    </div>
-    <div class="infoCabecalho">
-        <div class="infoClienteFornecedor">infoClienteFornecedor</div>
     </div>
 </div>

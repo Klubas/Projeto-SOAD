@@ -110,7 +110,9 @@ class CadastroPadrao(QWidget):
         self.toolButton_help = QToolButton(self.frame_buttons)
         self.toolButton_help.setToolTipDuration(5000)
         self.toolButton_help.setText("?")
-        self.toolButton_help.setToolTip(texto)
+        self.toolButton_help.setToolTip(
+            texto + '\n\nCampos destacados em vermelho são obrigatórios.'
+        )
         self.toolButton_help.setStyleSheet("background: rgb(38, 183, 212);\n"
                                       "color: white;\n"
                                       "border: 10px;\n"
@@ -220,7 +222,7 @@ class CadastroPadrao(QWidget):
                         , parent=self.parent_window
                     )
                     return dialog.exec()
-
+        self.marca_obrigatorios()
         return 'OK'
 
     def marca_obrigatorios(self):

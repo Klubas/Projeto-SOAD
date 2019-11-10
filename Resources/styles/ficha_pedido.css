@@ -1,87 +1,116 @@
 @charset "UTF-8";
 @page {
-	margin: 1cm;
-	font-size: 7pt;
-	font-family: Verdana, Geneva, sans-serif;
-	@top-left {
-		font-size: 8pt;
-	}
-	@top-right {
-		font-size: 8pt;
-	}
-	@bottom-left {
-		font-size: 8pt;
-	}
-	@bottom-right {
-		content: counter(page) ' / ' counter(pages);
-		font-size: 8pt;
-	}
+    margin: 0.5cm;
+    font-size: 7pt;
+    font-family: Verdana, Geneva, sans-serif;
+
+    @top-left {
+      font-size: 8pt;
+    }
+    @top-right {
+      font-size: 8pt;
+    }
+    @bottom-left {
+      font-size: 8pt;
+    }
+    @bottom-right {
+      content: counter(page) ' / ' counter(pages);
+      font-size: 8pt;
+    }
 }
 
-#logo_img{
-    width:140px ;
+/*Tabela*/
+.dataframe {
+	border: 1px solid black;
+}
+
+.tabela {
+	padding-bottom: 30px;
+    font-family: Arial;
+    font-size: 10pt;
+}
+
+/*Cabecalho*/
+#logoImg{
+    width:150px ;
     height:110px;
 }
 
-#num_pedido {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 16pt;
-    text-align: left;
-    width: 80%;
-}
-
-#situacao {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 16pt;
-    text-align: right;
-}
-
 .cabecalhoPedido {
-    border: 1px solid red;
-}
-
-.infoCabecalho {
-    width: 100%;
+    position: relative;
+    padding: 5px;
+    height: 5.6cm;
     border: 1px solid black;
+    font-family: Arial;
 }
 
-.infoPedido {
-    width: 100%;
-    text-align: center;
-    font-size: 12pt;
-    border: 1px solid black;
-}
-
- .logo {
+.cabecalhoPedido .logo {
+    position: absolute;
+    top: 0px;
+    left: 0px;
     width: 20%;
+    display: inline-block;
+    text-align: left;
+    padding: 5px;
+}
+
+.cabecalhoPedido .infoEmitente {
+    position: absolute;
+    top: 15px;
+    left: 150px;
+    width: 60%;
+    display: inline-block;
+    text-align: center;
+}
+
+.infoEmitente .adicionalEmitente {
+    position: absolute;
+    top: 90px;
+    font-size: 9pt;
+}
+
+.cabecalhoPedido .infoPedido {
+    position: absolute;
+    left: 600px;
+    width: 15%;
+    display: inline-block;
+    text-align: center;
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+.cabecalhoPedido .infoClienteFornecedor {
+    position: absolute;
+    top: 135px;
+    left: 0px;
+    width: 98.5%;
+    padding: 5px;
     border: 1px solid black;
+    font-size: 10pt;
+}
+
+
+/*Rodape*/
+
+.rodapePedido {
+    position: relative;
+    font-family: Arial;
+    padding: 5px;
+    padding-bottom: 20px;
+}
+
+.rodapePedido .infoPagamento {
+    position: relative;
+    font-size: 12pt;
+    text-align: left;
+    width: 60%;
     display: inline-block;
 }
 
- .infoEmitente {
-    width: 80%;
-    border: 1px solid black;
+.rodapePedido .infoTotais {
+    position: relative;
+    font-size: 14pt;
+    width: 35%;
+    text-align: right;
     display: inline-block;
 }
-
-.infoClienteFornecedor {
-    width: 100%;
-    border: 1px solid black;
-}
-
-.infoRodape {
-    width: 100%;
-    border: 1px solid black;
-}
-
-.infoRodape .infoPagamento {
-    width: 50%;
-    border: 1px solid black;
-}
-
-.infoRodape .infoTotais {
-    width: 50%;
-    border: 1px solid black;
-}
-
-

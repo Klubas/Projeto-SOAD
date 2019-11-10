@@ -2,7 +2,7 @@
 
 /* definições específicas para PDF */
 @page {
-	margin: 1cm;
+	margin: 0.5cm;
 	font-family: Verdana, Geneva, sans-serif;
 	@top-left {
 		font-size: 8pt;

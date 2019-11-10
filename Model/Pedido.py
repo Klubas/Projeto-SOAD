@@ -42,11 +42,14 @@ class Pedido:
         else:
             logging.debug("Tipo {", type(item).__name__, ":", str(item), "} inválido.")
 
-    def to_dict(self):
+    def to_dict(self, generic=False):
         itens = list(dict())
         if self.itens is not None:
             for i in self.itens:
-                itens.append(i.to_dict())
+                if not generic:
+                    itens.append(i.to_dict())
+                else:
+                    itens.append(i.to_item_dict())
 
         return {
             "pedido_id": self.pedido_id

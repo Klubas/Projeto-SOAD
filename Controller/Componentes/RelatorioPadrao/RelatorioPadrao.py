@@ -16,7 +16,6 @@ class RelatorioPadrao:
     def __init__(self
                  , dados_relatorio
                  , title=''
-                 , footer=''
                  , landscape=True
                  , page_size='A4'
                  , cabecalho=''
@@ -119,6 +118,9 @@ class RelatorioPadrao:
     def gerar_relatorio(self):
         logging.info('[RelatorioPadrao] Gerando relatorio...')
         html = self.__dict2html__(self.dados)
+
+        print(html)
+
         pdf = self.__html2pdf__(html)
         path_relatorio = self.salvar_relatorio(pdf)
         self.cleanup(self.html_style)
@@ -182,6 +184,11 @@ class RelatorioPadrao:
         :return: html -> str
         """
         logging.info('[RelatorioPadrao] Gerando html...')
+
+        for dicionario in dicts:
+            for key, value in dicionario.items():
+                if value is None:
+                    value = ''
 
         df = pd.DataFrame(dicts)
 
