@@ -32,6 +32,6 @@ PyInstaller.__main__.run([
     '--add-data=%s;Resources\\html\\RelatorioPadrao' % os.path.join('Resources', 'html', 'RelatorioPadrao', '*.html'),
     '--add-data=%s;Resources\\misc' % os.path.join('Resources', 'misc'),
     '--icon=%s' % os.path.join('soad.ico'),
-    '--console',
+    #'--console',
     os.path.join('SOAD.py')
 ])

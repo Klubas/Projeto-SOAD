@@ -37,9 +37,6 @@ class Installer:
         else:
             self.folder_runtime = postgresfolder
 
-        with open('.credencial.json', 'w', encoding='utf-8') as f:
-            print('\n')
-
     def get_cmd(self, cmd):
         if self._os == 'Windows':
             cmd = cmd + '.exe '
@@ -66,15 +63,7 @@ class Installer:
                ' --username ' + self.username + ' -c "' + sql + '"' + \
                ' --dbname ' + self.dbname
 
-        cmd = cmd + args
-        logging.info("[Installer] Create Role: " + cmd)
-
-        cmd = shlex.split(cmd)
-        logging.debug("[Installer] Args: " + str(cmd))
-
-        with open("log.txt", "w") as f:
-            p = subprocess.Popen(cmd, stdout=f)
-            p.wait()
+        self.run_cmd(cmd + args)
 
     def configuracoes_iniciais(self):
         cmd = self.get_cmd('psql')
@@ -85,15 +74,7 @@ class Installer:
                ' --port ' + self.port + \
                ' --username ' + self.username + ' -c "' + sql + '"'
 
-        cmd = cmd + args
-        logging.info("[Installer] Execute Procedure: " + cmd)
-
-        cmd = shlex.split(cmd)
-        logging.debug("[Installer] Args: " + str(cmd))
-
-        with open("log.txt", "w") as f:
-            p = subprocess.Popen(cmd, stdout=f)
-            p.wait()
+        self.run_cmd(cmd + args)
 
     def create_database(self):
         # Dump
@@ -110,32 +91,34 @@ class Installer:
             self.dump_file = '"' + self.dump_file + '"'
             cmd = '"' + cmd + '" '
 
-        #elif self.os == 'Linux':
-        #    cmd = '/usr/bin/' + cmd
-
         else:
             logging.info("[Installer] Pasta com executável  pg_restore não informada")
 
         args = ' --host ' + self.host + \
                ' --port ' + self.port + \
                ' --username ' + self.username + \
-               ' --role "postgres" --dbname "postgres" --verbose ' + self.dump_file + \
-               ' --single-transaction'
+               ' --role "postgres" --dbname "postgres" --verbose ' + self.dump_file #+ \
+               #' --single-transaction'
 
         # "Resources\database\bin\runtime\pg_restore.exe"  --host localhost --port 5433 --username soadmin --role "postgres" --dbname "postgres" --verbose Resources\Scripts\SQL\dump.backup
-        cmd = cmd + args
-        logging.info("[Installer] Restore: " + cmd)
 
-        cmd = shlex.split(cmd)
-        logging.debug("[Installer] Args: " + str(cmd))
-
-        with open("log.txt", "w") as f:
-            p = subprocess.Popen(cmd, stdout=f)
-            p.wait()
+        self.run_cmd(cmd + args)
 
         self.configuracoes_iniciais()
 
         os.environ["PGPASSWORD"] = ''
+
+    @staticmethod
+    def run_cmd(cmd):
+
+        logging.info("[Installer] Restore: " + cmd)
+
+        if sys.platform == 'Linux' or sys.platform == 'Darwin':
+            cmd = shlex.split(cmd)
+
+        logging.debug("[Installer] Args: " + str(cmd))
+
+        subprocess.call(cmd)
 
 
 if __name__ == '__main__':

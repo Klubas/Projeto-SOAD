@@ -110,7 +110,6 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             installer = Installer(
                 postgresfolder=os.path.join("Resources", "database", "bin", "runtime")
                 , dump_file=os.path.join("Resources", "Scripts", "SQL", "dump_schema.backup")
-                , username=self.lineEdit_usuario.text()
                 , password=self.lineEdit_senha.text()
                 , host=servidor[0]
                 , port=int(servidor[1])
