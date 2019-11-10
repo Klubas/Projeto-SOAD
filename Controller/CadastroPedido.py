@@ -140,6 +140,11 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.lineEdit_insumo_id.editingFinished.connect(lambda: self.busca_mercadoria(tipo='INSUMO'))
         self.lineEdit_mercadoria_id.editingFinished.connect(lambda: self.busca_mercadoria(tipo='MERCADORIA'))
 
+        self.toolButton_pessoa.clicked.connect(lambda: self.busca_pessoa(force=True))
+        self.toolButton_insumo.clicked.connect(lambda: self.busca_mercadoria(tipo='INSUMO', force=True))
+        self.toolButton_casco.clicked.connect(lambda: self.busca_mercadoria(tipo='CASCO', force=True))
+        self.toolButton_mercadoria.clicked.connect(lambda: self.busca_mercadoria(tipo='MERCADORIA', force=True))
+
         # Variaveis para gravar o pedido
         self.pedido = Pedido(tipo_pedido=self.tipo_pedido)
         self.pessoa = None
@@ -561,11 +566,12 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         self.visualizar(True)
 
-    def busca_pessoa(self):
+    def busca_pessoa(self, force=False):
 
         tabela = 'vw_pessoa_' + self.tipo_pessoa.lower()
         documento = self.lineEdit_documento.text().replace(' ', '')
         pessoa = None
+        filtro_adicional = ''
 
         if documento != '':
 
@@ -575,7 +581,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             if pessoa is not None:
                 pessoa = pessoa[0]
 
-        if pessoa is None:
+        if pessoa is None or force:
 
             localizar_campos = {
                 "id_pessoa": 'ID',
@@ -592,10 +598,15 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.dialog_localizar.define_tabela(tabela)
             self.dialog_localizar.define_campos(localizar_campos)
             self.dialog_localizar.define_colunas(colunas_busca)
+            self.dialog_localizar.filtro = filtro_adicional
 
             self.dialog_localizar.define_valor_padrao(localizar_campos['documento'], self.lineEdit_documento.text())
 
             pessoa_id = self.dialog_localizar.exec()
+
+            if pessoa_id == 0:
+                return False
+
             pessoa = self.db.busca_registro(tabela, 'id_pessoa', str(pessoa_id), '=')[1][0]['fnc_buscar_registro']
 
             if pessoa is not None:
@@ -640,8 +651,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.lineEdit_nome_pessoa.clear()
             return False
 
-    def busca_mercadoria(self, tipo):
+    def busca_mercadoria(self, tipo, force=False):
         mercadoria = None
+        filtro_adicional = ''
 
         if tipo == 'MERCADORIA':
             tabela = 'vw_mercadoria'
@@ -649,6 +661,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             lineEdit_id = self.lineEdit_mercadoria_id
             lineEdit_descricao = self.lineEdit_mercadoria
             lineEdit_marca = self.lineEdit_marca_mercadoria
+
+            if self.tipo_pedido == 'VENDA':
+                filtro_adicional = 'permite_venda=true::boolean'
 
         elif tipo == 'CASCO':
             tabela = 'vw_casco'
@@ -672,7 +687,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         if valor != '':
 
-            mercadoria = self.db.busca_registro(tabela, campo, valor, '=')[1][0]['fnc_buscar_registro']
+            mercadoria = self.db.busca_registro(tabela, campo, valor, '=', filtro=filtro_adicional)[1][0]['fnc_buscar_registro']
 
             logging.debug('[CadastroPedido] ' + str(mercadoria))
             if mercadoria is not None:
@@ -682,7 +697,10 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             lineEdit_marca.clear()
             self.lineEdit_valor_unitario.clear()
 
-        if mercadoria is None:
+        if not force:
+            return
+
+        if mercadoria is None or force:
 
             localizar_campos = {
                 campo: 'ID',
@@ -701,11 +719,15 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.dialog_localizar.define_tabela(tabela)
             self.dialog_localizar.define_campos(localizar_campos)
             self.dialog_localizar.define_colunas(colunas_busca)
+            self.dialog_localizar.filtro = filtro_adicional
 
             self.dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
 
             mercadoria_id = self.dialog_localizar.exec()
             mercadoria = self.db.busca_registro(tabela, campo, str(mercadoria_id), '=')[1][0]['fnc_buscar_registro']
+
+            if mercadoria_id == 0:
+                return
 
             if mercadoria is not None:
                 mercadoria = mercadoria[0]
@@ -960,6 +982,11 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.pushButton_excluir.setIcon(self.icone_cancelar)
         self.pushButton_remover_item.setIcon(self.icone_delete)
         self.pushButton_imprimir.setIcon(QIcon(os.path.join('Resources', 'icons', 'printer.png')))
+        find_icon = QIcon(os.path.join('Resources', 'icons', 'search.png'))
+        self.toolButton_pessoa.setIcon(find_icon)
+        self.toolButton_mercadoria.setIcon(find_icon)
+        self.toolButton_insumo.setIcon(find_icon)
+        self.toolButton_casco.setIcon(find_icon)
 
     def define_permite_editar(self):
 
@@ -1058,9 +1085,6 @@ Compras encerradas devem ser estornadas para que possam ser editadas.'''
         IE_emitente = "90524475-23"
         endereco_emitente = 'Rua Dr. Paula Xavier, 1486 - sala 01 - CEP 84010 - Centro - Ponta Grossa - PR'
 
-        print(pedido_atual)
-        print(pedido_itens)
-
         html_cabecalho = os.path.join('Resources', 'html', 'RelatorioPadrao', 'cabecalho.html')
         html_rodape = os.path.join('Resources', 'html', 'RelatorioPadrao', 'rodape.html')
 
@@ -1123,5 +1147,6 @@ Compras encerradas devem ser estornadas para que possam ser editadas.'''
         ficha_pedido.exibir_relatorio(pdf)
 
     def translate_ui(self):
+        super(CadastroPedido, self).translate_ui()
         self.buttonBox_item.button(QDialogButtonBox.Save).setText('Salvar')
         self.buttonBox_item.button(QDialogButtonBox.Reset).setText('Limpar')

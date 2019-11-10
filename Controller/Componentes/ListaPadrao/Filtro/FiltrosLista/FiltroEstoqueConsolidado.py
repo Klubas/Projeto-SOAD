@@ -1,6 +1,8 @@
 import logging
+import os
 
 from PySide2.QtCore import QDate
+from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QDialog
 
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
@@ -14,10 +16,12 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
     "nome_coluna": (campo, sinal)
     """
 
-    def __init__(self, db=None, parent=None):
+    def __init__(self, db=None, parent=None, **kwargs):
         super(FiltroEstoqueConsolidado, self).__init__(parent)
         self.setupUi(self)
         self.db = db
+
+        filtro_padrao = kwargs.get('filtro_padrao')
 
         self.metodos = (
             self.get_mercadoria
@@ -27,13 +31,33 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
             , self.get_data_base
         )
 
+        find_icon = QIcon(os.path.join('Resources', 'icons', 'search.png'))
+        self.toolButton_fornecedor.setIcon(find_icon)
+        self.toolButton_mercadoria.setIcon(find_icon)
+
         help = '''Escolha uma data para ver como estava o estoque'''
         self.adiciona_help(help)
 
         self.dados = None
 
+        self.toolButton_fornecedor.clicked.connect(
+            lambda: filtro_padrao.busca_registro(
+                "vw_pessoa_fornecedor"
+                , "id_pessoa"
+                , self.lineEdit_fornecedor_documento
+                , "nome"
+                , self.lineEdit_fornecedor
+                , {
+                    "id_pessoa": 'ID',
+                    "nome": 'Nome',
+                    'documento': "Documento"
+                }
+                , force=True
+            )
+        )
+
         self.lineEdit_fornecedor_documento.editingFinished.connect(
-            lambda: self.busca_registro(
+            lambda: filtro_padrao.busca_registro(
                 "vw_pessoa_fornecedor"
                 , "id_pessoa"
                 , self.lineEdit_fornecedor_documento
@@ -47,8 +71,25 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
             )
         )
 
+        self.toolButton_mercadoria.clicked.connect(
+            lambda: filtro_padrao.busca_registro(
+                "vw_mercadoria"
+                , "id_mercadoria"
+                , self.lineEdit_mercadoria_id
+                , "descricao"
+                , self.lineEdit_mercadoria
+                , {
+                    "id_mercadoria": 'ID',
+                    "codigo": 'Código',
+                    "descricao": "Mercadoria",
+                    'marca': "Marca"
+                }
+                , force=True
+            )
+        )
+
         self.lineEdit_mercadoria_id.editingFinished.connect(
-            lambda: self.busca_registro(
+            lambda: filtro_padrao.busca_registro(
                 "vw_mercadoria"
                 , "id_mercadoria"
                 , self.lineEdit_mercadoria_id
@@ -207,7 +248,5 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
             cabecalho = cabecalho + "Itens inativos"
         return filtro, 'Estoque', cabecalho
 
-    def get_dados_localizar(self, dados):
-        self.dados = dados
 
 

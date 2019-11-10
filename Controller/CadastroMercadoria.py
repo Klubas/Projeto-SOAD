@@ -1,7 +1,8 @@
 import logging
+import os
 
 from PySide2.QtCore import QRegExp
-from PySide2.QtGui import QDoubleValidator, QRegExpValidator
+from PySide2.QtGui import QDoubleValidator, QRegExpValidator, QIcon
 from PySide2.QtWidgets import QDialogButtonBox
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
@@ -90,9 +91,8 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
         )
 
         # Busca registros
-        self.lineEdit_insumo_id.editingFinished.connect(
-            self.busca_insumo
-        )
+        self.lineEdit_insumo_id.editingFinished.connect(self.busca_insumo)
+        self.toolButton_insumo.clicked.connect(lambda: self.busca_insumo(force=True))
 
         self.unidades_medida = dict()
 
@@ -112,6 +112,9 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
         self.dialog_localizar = LocalizarDialog(db=self.db)
 
         self.define_icones()
+
+        find_icon = QIcon(os.path.join('Resources', 'icons', 'search.png'))
+        self.toolButton_insumo.setIcon(find_icon)
 
         self.adiciona_help(self.help)
 
@@ -412,7 +415,7 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
                 list(self.unidades_medida.keys())
             )
 
-    def busca_insumo(self):
+    def busca_insumo(self, force=False):
 
         insumo = None
         tabela = 'vw_insumo'
@@ -431,7 +434,10 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             if insumo is not None:
                 insumo = insumo[0]
 
-        if insumo is None:
+        if not force:
+            return False
+
+        if insumo is None or force:
 
             localizar_campos = {
                 campo: 'ID'
@@ -454,6 +460,10 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
 
             mercadoria_id = self.dialog_localizar.exec()
+
+            if mercadoria_id == 0:
+                return False
+
             insumo = self.db.busca_registro(tabela, campo, str(mercadoria_id), '=')[1][0]['fnc_buscar_registro']
 
             if insumo is not None:
@@ -511,12 +521,8 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.stackedWidget.setVisible(False)
             self.checkBox_permite_venda.setChecked(True)
             self.help = '''Aqui são cadastradas as mercadorias comuns.'''
-            #self.setMinimumHeight(300)
-            #self.setMaximumHeight(300)
 
         elif self.tipo == 'CASCO':
-
-            #self.label_valor_venda.setText('Valor da remanufatura (R$)')
             self.campos_obrigatorios['Insumo'] = self.lineEdit_insumo_id
             self.campos_obrigatorios['Quantidade'] = self.lineEdit_quantidade_insumo
             self.campos_obrigatorios['Un. Medida (Insumo)'] = self.comboBox_unidade_medida_insumo
@@ -524,8 +530,6 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.page_insumo.setVisible(False)
             self.stackedWidget.setCurrentWidget(self.page_casco)
             self.help = '''Os cascos cadastrados podem ser utilizados em remanufaturas.'''
-            #self.setMinimumHeight(360)
-            #self.setMaximumHeight(360)
 
         elif self.tipo == 'INSUMO':
 
@@ -535,8 +539,6 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.page_casco.setVisible(False)
             self.stackedWidget.setCurrentWidget(self.page_insumo)
             self.help = '''Os insumos cadastrados podem ser utilizados em remanufaturas.'''
-            #self.setMinimumHeight(360)
-            #self.setMaximumHeight(360)
 
         else:
             dialog = StatusDialog(

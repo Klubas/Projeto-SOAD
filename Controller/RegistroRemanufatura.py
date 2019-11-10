@@ -78,6 +78,10 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
         self.icone_realizar = QIcon(os.path.join("Resources", "icons", "ok.png"))
         self.icone_limpar = QIcon(os.path.join("Resources", "icons", "clean.png"))
 
+        find_icon = QIcon(os.path.join('Resources', 'icons', 'search.png'))
+        self.toolButton_insumo.setIcon(find_icon)
+        self.toolButton_casco.setIcon(find_icon)
+
         self.pushButton_esvaziar.setIcon(self.icone_esvaziar)
         self.pushButton_realizar.setIcon(self.icone_realizar)
         self.pushButton_limpar.setIcon(self.icone_limpar)
@@ -128,6 +132,14 @@ class RegistroRemanufatura(CadastroPadrao, Ui_RegistroRemanufatura):
             lambda: self.busca_mercadoria(tipo='CASCO')
         )
 
+        self.toolButton_insumo.clicked.connect(
+            lambda: self.busca_mercadoria(tipo='INSUMO', force=True)
+        )
+
+        self.toolButton_casco.clicked.connect(
+            lambda: self.busca_mercadoria(tipo='CASCO', force=True)
+        )
+
         self.tableWidget_remanufaturas.setColumnHidden(0, True)
         self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
 
@@ -154,6 +166,8 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
 
         self.lineEdit_insumo_id.setDisabled(True)
         self.lineEdit_casco_id.setDisabled(True)
+
+        self.frameFormLayout_remanufatura.setDisabled(True)
 
         casco_id = self.lineEdit_casco_id.text()
         insumo_id = self.lineEdit_insumo_id.text()
@@ -238,16 +252,29 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
 
     def limpar_formulario(self):
         # limpa os campos de cadastro da remanufatura
-        self.lineEdit_insumo_id.clear()
-        self.lineEdit_insumo.clear()
-        self.lineEdit_marca_insumo.clear()
-        self.lineEdit_casco_id.clear()
-        self.lineEdit_casco.clear()
-        self.lineEdit_marca_casco.clear()
-        self.spinBox_quantidade.setValue(1)
-        self.lineEdit_insumo_id.setDisabled(False)
-        self.lineEdit_casco_id.setDisabled(False)
-        self.label_medida.setText('0,00g')
+
+        dialog = ConfirmDialog(parent=self)
+        dialog.definir_mensagem(
+            mensagem='Tem certeza que deseja limpar as remanufaturas? Remanufaturas não realizadas serão descartadas.'
+        )
+
+        if dialog.exec():
+
+            self.selecionar_todas(nao_valida_checkbox=True)
+            self.limpar_tabela(apenas_selecionados=False)
+
+            self.lineEdit_insumo_id.clear()
+            self.lineEdit_insumo.clear()
+            self.lineEdit_marca_insumo.clear()
+            self.lineEdit_casco_id.clear()
+            self.lineEdit_casco.clear()
+            self.lineEdit_marca_casco.clear()
+            self.spinBox_quantidade.setValue(1)
+            self.lineEdit_insumo_id.setDisabled(False)
+            self.lineEdit_casco_id.setDisabled(False)
+            self.frameFormLayout_remanufatura.setDisabled(False)
+
+            self.label_medida.setText('0,00g')
 
     def limpar_tabela(self, apenas_selecionados=False):
         # remove todas as remanufaturas selecionadas da lista (excluir do banco)
@@ -419,7 +446,7 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
                 item.setSelected(False)
             logging.debug('[RegistroRemanufatura] Deselecionado todas as remanufaturas.')
 
-    def busca_mercadoria(self, tipo):
+    def busca_mercadoria(self, tipo, force=False):
         # Busca insumo e casco e preenche os campos
 
         mercadoria = None
@@ -452,7 +479,11 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
             if mercadoria is not None:
                 mercadoria = mercadoria[0]
 
-        if mercadoria is None:
+        else:
+            if not force:
+                return False
+
+        if mercadoria is None or force:
 
             localizar_campos = {
                 campo: 'ID',
@@ -475,6 +506,9 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
             self.dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
 
             mercadoria_id = self.dialog_localizar.exec()
+
+            if mercadoria_id == 0:
+                return False
 
             mercadoria = self.db.busca_registro(
                 tabela
@@ -567,6 +601,7 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
             logging.info('[RegistroRemanufatura] Não foi possível identificar insumo em estoque.')
             self.lineEdit_insumo_id.setDisabled(False)
             self.lineEdit_casco_id.setDisabled(False)
+            self.frameFormLayout_remanufatura.setDisabled(False)
             return False
 
     def posiciona_item_lote(self, dados):

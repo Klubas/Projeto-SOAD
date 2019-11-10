@@ -529,6 +529,13 @@
                  </widget>
                 </item>
                 <item>
+                 <widget class="QToolButton" name="toolButton_pessoa">
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QLineEdit" name="lineEdit_nome_pessoa">
                   <property name="enabled">
                    <bool>false</bool>
@@ -1007,7 +1014,7 @@
                         <number>1</number>
                        </property>
                        <property name="currentIndex">
-                        <number>1</number>
+                        <number>0</number>
                        </property>
                        <widget class="QWidget" name="page_mercadoria">
                         <property name="sizePolicy">
@@ -1069,6 +1076,13 @@
                                   <width>60</width>
                                   <height>16777215</height>
                                  </size>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QToolButton" name="toolButton_mercadoria">
+                                <property name="text">
+                                 <string/>
                                 </property>
                                </widget>
                               </item>
@@ -1205,6 +1219,13 @@
                                </widget>
                               </item>
                               <item>
+                               <widget class="QToolButton" name="toolButton_casco">
+                                <property name="text">
+                                 <string/>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
                                <widget class="QLineEdit" name="lineEdit_casco">
                                 <property name="enabled">
                                  <bool>false</bool>
@@ -1253,6 +1274,13 @@
                                  </size>
                                 </property>
                                 <property name="inputMask">
+                                 <string/>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QToolButton" name="toolButton_insumo">
+                                <property name="text">
                                  <string/>
                                 </property>
                                </widget>

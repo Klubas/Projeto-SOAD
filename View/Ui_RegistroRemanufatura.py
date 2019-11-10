@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/RegistroRemanufatura.ui',
 # licensing of 'Resources/UI/RegistroRemanufatura.ui' applies.
 #
-# Created: Sun Nov 10 01:47:29 2019
+# Created: Sun Nov 10 14:41:48 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -127,6 +127,10 @@ class Ui_RegistroRemanufatura(object):
         self.lineEdit_casco_id.setInputMask("")
         self.lineEdit_casco_id.setObjectName("lineEdit_casco_id")
         self.horizontalLayout_casco.addWidget(self.lineEdit_casco_id)
+        self.toolButton_casco = QtWidgets.QToolButton(self.frameFormLayout_remanufatura)
+        self.toolButton_casco.setText("")
+        self.toolButton_casco.setObjectName("toolButton_casco")
+        self.horizontalLayout_casco.addWidget(self.toolButton_casco)
         self.lineEdit_casco = QtWidgets.QLineEdit(self.frameFormLayout_remanufatura)
         self.lineEdit_casco.setEnabled(False)
         self.lineEdit_casco.setMinimumSize(QtCore.QSize(300, 0))
@@ -152,6 +156,10 @@ class Ui_RegistroRemanufatura(object):
         self.lineEdit_insumo_id.setInputMask("")
         self.lineEdit_insumo_id.setObjectName("lineEdit_insumo_id")
         self.horizontalLayout_insumo.addWidget(self.lineEdit_insumo_id)
+        self.toolButton_insumo = QtWidgets.QToolButton(self.frameFormLayout_remanufatura)
+        self.toolButton_insumo.setText("")
+        self.toolButton_insumo.setObjectName("toolButton_insumo")
+        self.horizontalLayout_insumo.addWidget(self.toolButton_insumo)
         self.lineEdit_insumo = QtWidgets.QLineEdit(self.frameFormLayout_remanufatura)
         self.lineEdit_insumo.setEnabled(False)
         self.lineEdit_insumo.setMinimumSize(QtCore.QSize(300, 0))

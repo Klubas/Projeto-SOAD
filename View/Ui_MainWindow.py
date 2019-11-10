@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
 # licensing of 'Resources/UI/MainWindow.ui' applies.
 #
-# Created: Sun Nov 10 01:47:30 2019
+# Created: Sun Nov 10 14:41:49 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -467,8 +467,8 @@ class Ui_MainWindow(object):
         self.label_user = QtWidgets.QLabel(self.frame_2)
         font = QtGui.QFont()
         font.setPointSize(11)
-        font.setWeight(75)
-        font.setBold(True)
+        font.setWeight(50)
+        font.setBold(False)
         self.label_user.setFont(font)
         self.label_user.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label_user.setFrameShadow(QtWidgets.QFrame.Sunken)

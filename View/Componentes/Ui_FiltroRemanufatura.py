@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroRemanufatura.ui',
 # licensing of 'Resources/UI/Componentes/FiltroRemanufatura.ui' applies.
 #
-# Created: Sun Nov 10 01:47:32 2019
+# Created: Sun Nov 10 14:41:52 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -132,6 +132,10 @@ class Ui_FiltroRemanufatura(object):
         self.lineEdit_cliente_documento.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_cliente_documento.setObjectName("lineEdit_cliente_documento")
         self.horizontalLayout_2.addWidget(self.lineEdit_cliente_documento)
+        self.toolButton_cliente = QtWidgets.QToolButton(self.horizontalGroupBox_2)
+        self.toolButton_cliente.setText("")
+        self.toolButton_cliente.setObjectName("toolButton_cliente")
+        self.horizontalLayout_2.addWidget(self.toolButton_cliente)
         self.lineEdit_cliente = QtWidgets.QLineEdit(self.horizontalGroupBox_2)
         self.lineEdit_cliente.setEnabled(False)
         self.lineEdit_cliente.setObjectName("lineEdit_cliente")
@@ -152,6 +156,10 @@ class Ui_FiltroRemanufatura(object):
         self.lineEdit_mercadoria_id.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_mercadoria_id.setObjectName("lineEdit_mercadoria_id")
         self.horizontalLayout_3.addWidget(self.lineEdit_mercadoria_id)
+        self.toolButton_mercadoria = QtWidgets.QToolButton(self.horizontalGroupBox_3)
+        self.toolButton_mercadoria.setText("")
+        self.toolButton_mercadoria.setObjectName("toolButton_mercadoria")
+        self.horizontalLayout_3.addWidget(self.toolButton_mercadoria)
         self.lineEdit_mercadoria = QtWidgets.QLineEdit(self.horizontalGroupBox_3)
         self.lineEdit_mercadoria.setEnabled(False)
         self.lineEdit_mercadoria.setObjectName("lineEdit_mercadoria")

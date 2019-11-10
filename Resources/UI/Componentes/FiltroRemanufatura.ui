@@ -258,6 +258,13 @@
                 </widget>
                </item>
                <item>
+                <widget class="QToolButton" name="toolButton_cliente">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QLineEdit" name="lineEdit_cliente">
                  <property name="enabled">
                   <bool>false</bool>
@@ -301,6 +308,13 @@
                    <width>60</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_mercadoria">
+                 <property name="text">
+                  <string/>
                  </property>
                 </widget>
                </item>

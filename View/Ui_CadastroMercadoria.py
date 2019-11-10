@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroMercadoria.ui',
 # licensing of 'Resources/UI/CadastroMercadoria.ui' applies.
 #
-# Created: Sun Nov 10 01:47:30 2019
+# Created: Sun Nov 10 14:41:49 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -354,6 +354,10 @@ class Ui_CadastroMercadoria(object):
         self.lineEdit_insumo_id.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_insumo_id.setObjectName("lineEdit_insumo_id")
         self.horizontalLayout_7.addWidget(self.lineEdit_insumo_id)
+        self.toolButton_insumo = QtWidgets.QToolButton(self.frame_insumo_2)
+        self.toolButton_insumo.setText("")
+        self.toolButton_insumo.setObjectName("toolButton_insumo")
+        self.horizontalLayout_7.addWidget(self.toolButton_insumo)
         self.lineEdit_insumo = QtWidgets.QLineEdit(self.frame_insumo_2)
         self.lineEdit_insumo.setEnabled(False)
         self.lineEdit_insumo.setObjectName("lineEdit_insumo")

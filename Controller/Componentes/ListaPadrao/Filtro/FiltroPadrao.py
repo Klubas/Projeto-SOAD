@@ -5,6 +5,7 @@ from PySide2.QtCore import Qt, Signal
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QDialog, QDialogButtonBox
 
+from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from View.Componentes.Ui_FiltroPadrao import Ui_FiltroPadrao
 
 
@@ -20,7 +21,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
         self.setWindowIcon(QIcon(os.path.join('Resources', 'icons', 'filter.png')))
 
-        self.child = child(db=self.db, parent=self.widget, **kwargs)
+        self.child = child(db=self.db, parent=self.widget, filtro_padrao=self, **kwargs)
         self.child.setWindowFlags(Qt.Widget)
         self.child.move(0, 0)
         self.child.show()
@@ -32,6 +33,8 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
+
+        self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
 
         self.translate_ui()
 
@@ -93,7 +96,60 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
         self.buttonBox.button(QDialogButtonBox.Ok).setText('Filtrar')
         self.buttonBox.button(QDialogButtonBox.Cancel).setText('Cancelar')
 
+    def busca_registro(
+            self, tabela, campo, lineEdit_id, campo_descricao, lineEdit_descricao, colunas_dict, force=False
+    ):
 
+        dialog_localizar = self.dialog_localizar
 
+        registro = None
+        valor = lineEdit_id.text().replace(' ', '')
 
+        if valor != '':
 
+            registro = self.db.busca_registro(tabela, campo, valor, '=')[1][0]['fnc_buscar_registro']
+
+            logging.debug('[FiltroEstoque] ' + str(registro))
+            if registro is not None:
+                registro = registro[0]
+
+        else:
+            if not force:
+                return False
+
+        if registro is None or force:
+
+            localizar_campos = colunas_dict
+            colunas_busca = colunas_dict
+
+            dialog_localizar.define_tabela(tabela)
+            dialog_localizar.define_campos(localizar_campos)
+            dialog_localizar.define_colunas(colunas_busca)
+            dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
+
+            valor = dialog_localizar.exec()
+
+            if valor == 0:
+                return False
+
+            registro = self.db.busca_registro(tabela, campo, str(valor), '=')
+
+            registro = registro[1][0]['fnc_buscar_registro']
+
+            #dialog_localizar.retorno_dados.connect(self.get_dados_localizar)
+
+            if registro is not None:
+                registro = registro[0]
+
+        if registro is not None:
+            lineEdit_id.setText(str(registro[campo]))
+            lineEdit_descricao.setText(registro[campo_descricao])
+            return True
+
+        else:
+            lineEdit_id.clear()
+            lineEdit_descricao.clear()
+            return False
+
+    def get_dados_localizar(self, dados):
+        self.child.dados = dados

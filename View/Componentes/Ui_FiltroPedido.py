@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroPedido.ui',
 # licensing of 'Resources/UI/Componentes/FiltroPedido.ui' applies.
 #
-# Created: Sun Nov 10 01:47:31 2019
+# Created: Sun Nov 10 14:41:51 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -86,6 +86,10 @@ class Ui_FiltroPedido(object):
         self.lineEdit_pessoa_documento.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_pessoa_documento.setObjectName("lineEdit_pessoa_documento")
         self.horizontalLayout_2.addWidget(self.lineEdit_pessoa_documento)
+        self.toolButton_pessoa = QtWidgets.QToolButton(self.groupBox_pessoa)
+        self.toolButton_pessoa.setText("")
+        self.toolButton_pessoa.setObjectName("toolButton_pessoa")
+        self.horizontalLayout_2.addWidget(self.toolButton_pessoa)
         self.lineEdit_pessoa = QtWidgets.QLineEdit(self.groupBox_pessoa)
         self.lineEdit_pessoa.setEnabled(False)
         self.lineEdit_pessoa.setObjectName("lineEdit_pessoa")

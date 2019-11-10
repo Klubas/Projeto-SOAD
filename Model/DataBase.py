@@ -66,7 +66,7 @@ class DataBase:
         for i in range(len(vazio)):
             del params["params"][vazio[i]]
 
-        params = json.dumps(params)
+        params = json.dumps(params, ensure_ascii=False)
         sql = "select * from " + schema + ".fnc_chamada_de_metodo(" \
               + "p_json_params=>" + "'" + params + "'" \
             + ");"

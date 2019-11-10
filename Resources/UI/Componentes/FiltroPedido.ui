@@ -178,6 +178,13 @@
                 </widget>
                </item>
                <item>
+                <widget class="QToolButton" name="toolButton_pessoa">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QLineEdit" name="lineEdit_pessoa">
                  <property name="enabled">
                   <bool>false</bool>

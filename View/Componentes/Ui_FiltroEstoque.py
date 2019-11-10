@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroEstoque.ui',
 # licensing of 'Resources/UI/Componentes/FiltroEstoque.ui' applies.
 #
-# Created: Sun Nov 10 01:47:30 2019
+# Created: Sun Nov 10 14:41:50 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -135,6 +135,10 @@ class Ui_FiltroEstoque(object):
         self.lineEdit_fornecedor_documento.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_fornecedor_documento.setObjectName("lineEdit_fornecedor_documento")
         self.horizontalLayout_2.addWidget(self.lineEdit_fornecedor_documento)
+        self.toolButton_fornecedor = QtWidgets.QToolButton(self.horizontalGroupBox_2)
+        self.toolButton_fornecedor.setText("")
+        self.toolButton_fornecedor.setObjectName("toolButton_fornecedor")
+        self.horizontalLayout_2.addWidget(self.toolButton_fornecedor)
         self.lineEdit_fornecedor = QtWidgets.QLineEdit(self.horizontalGroupBox_2)
         self.lineEdit_fornecedor.setEnabled(False)
         self.lineEdit_fornecedor.setObjectName("lineEdit_fornecedor")
@@ -155,6 +159,10 @@ class Ui_FiltroEstoque(object):
         self.lineEdit_mercadoria_id.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_mercadoria_id.setObjectName("lineEdit_mercadoria_id")
         self.horizontalLayout_3.addWidget(self.lineEdit_mercadoria_id)
+        self.toolButton_mercadoria = QtWidgets.QToolButton(self.horizontalGroupBox_3)
+        self.toolButton_mercadoria.setText("")
+        self.toolButton_mercadoria.setObjectName("toolButton_mercadoria")
+        self.horizontalLayout_3.addWidget(self.toolButton_mercadoria)
         self.lineEdit_mercadoria = QtWidgets.QLineEdit(self.horizontalGroupBox_3)
         self.lineEdit_mercadoria.setEnabled(False)
         self.lineEdit_mercadoria.setObjectName("lineEdit_mercadoria")

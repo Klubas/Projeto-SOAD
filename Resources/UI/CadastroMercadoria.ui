@@ -829,7 +829,7 @@ Pode ser alterado no cadastro do pedido.</string>
                      </item>
                      <item row="0" column="1">
                       <widget class="QFrame" name="frame_insumo_2">
-                       <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0">
+                       <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0">
                         <property name="spacing">
                          <number>10</number>
                         </property>
@@ -856,6 +856,13 @@ Pode ser alterado no cadastro do pedido.</string>
                           <property name="toolTip">
                            <string>Define qual o insumo será utilizado com essa remanufatura
 Pode ser alterado no momento de realizar a remanufatura.</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QToolButton" name="toolButton_insumo">
+                          <property name="text">
+                           <string/>
                           </property>
                          </widget>
                         </item>

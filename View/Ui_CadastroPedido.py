@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
 # licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Sun Nov 10 01:47:29 2019
+# Created: Sun Nov 10 14:41:48 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -240,6 +240,10 @@ class Ui_CadastroPedido(object):
         self.lineEdit_documento.setMaxLength(20)
         self.lineEdit_documento.setObjectName("lineEdit_documento")
         self.horizontalLayout_2.addWidget(self.lineEdit_documento)
+        self.toolButton_pessoa = QtWidgets.QToolButton(self.formGroupBox_pessoa)
+        self.toolButton_pessoa.setText("")
+        self.toolButton_pessoa.setObjectName("toolButton_pessoa")
+        self.horizontalLayout_2.addWidget(self.toolButton_pessoa)
         self.lineEdit_nome_pessoa = QtWidgets.QLineEdit(self.formGroupBox_pessoa)
         self.lineEdit_nome_pessoa.setEnabled(False)
         self.lineEdit_nome_pessoa.setObjectName("lineEdit_nome_pessoa")
@@ -471,6 +475,10 @@ class Ui_CadastroPedido(object):
         self.lineEdit_mercadoria_id.setMaximumSize(QtCore.QSize(60, 16777215))
         self.lineEdit_mercadoria_id.setObjectName("lineEdit_mercadoria_id")
         self.horizontalLayout_mercadoria.addWidget(self.lineEdit_mercadoria_id)
+        self.toolButton_mercadoria = QtWidgets.QToolButton(self.frameFormLayout_mercadoria)
+        self.toolButton_mercadoria.setText("")
+        self.toolButton_mercadoria.setObjectName("toolButton_mercadoria")
+        self.horizontalLayout_mercadoria.addWidget(self.toolButton_mercadoria)
         self.lineEdit_mercadoria = QtWidgets.QLineEdit(self.frameFormLayout_mercadoria)
         self.lineEdit_mercadoria.setEnabled(False)
         self.lineEdit_mercadoria.setObjectName("lineEdit_mercadoria")
@@ -525,6 +533,10 @@ class Ui_CadastroPedido(object):
         self.lineEdit_casco_id.setInputMask("")
         self.lineEdit_casco_id.setObjectName("lineEdit_casco_id")
         self.horizontalLayout_casco.addWidget(self.lineEdit_casco_id)
+        self.toolButton_casco = QtWidgets.QToolButton(self.frameFormLayout_remanufatura)
+        self.toolButton_casco.setText("")
+        self.toolButton_casco.setObjectName("toolButton_casco")
+        self.horizontalLayout_casco.addWidget(self.toolButton_casco)
         self.lineEdit_casco = QtWidgets.QLineEdit(self.frameFormLayout_remanufatura)
         self.lineEdit_casco.setEnabled(False)
         self.lineEdit_casco.setMinimumSize(QtCore.QSize(300, 0))
@@ -547,6 +559,10 @@ class Ui_CadastroPedido(object):
         self.lineEdit_insumo_id.setInputMask("")
         self.lineEdit_insumo_id.setObjectName("lineEdit_insumo_id")
         self.horizontalLayout_insumo.addWidget(self.lineEdit_insumo_id)
+        self.toolButton_insumo = QtWidgets.QToolButton(self.frameFormLayout_remanufatura)
+        self.toolButton_insumo.setText("")
+        self.toolButton_insumo.setObjectName("toolButton_insumo")
+        self.horizontalLayout_insumo.addWidget(self.toolButton_insumo)
         self.lineEdit_insumo = QtWidgets.QLineEdit(self.frameFormLayout_remanufatura)
         self.lineEdit_insumo.setEnabled(False)
         self.lineEdit_insumo.setMinimumSize(QtCore.QSize(300, 0))
@@ -1029,7 +1045,7 @@ class Ui_CadastroPedido(object):
 
         self.retranslateUi(CadastroPedido)
         self.tabWidget.setCurrentIndex(0)
-        self.stackedWidget_item.setCurrentIndex(1)
+        self.stackedWidget_item.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(CadastroPedido)
 
     def retranslateUi(self, CadastroPedido):

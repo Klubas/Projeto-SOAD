@@ -20,7 +20,7 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
     retorno_dados = Signal(list)
 
-    def __init__(self, db, campos=None, tabela=None, colunas=None, filtro=None ,parent=None):
+    def __init__(self, db, campos=None, tabela=None, colunas=None, filtro=None, parent=None):
         super(LocalizarDialog, self).__init__(parent)
 
         self.db = db

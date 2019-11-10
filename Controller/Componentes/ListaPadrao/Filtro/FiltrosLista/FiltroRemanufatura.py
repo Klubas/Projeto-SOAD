@@ -1,17 +1,19 @@
-import logging
+import os
 
+from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QDialog
 
-from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from View.Componentes.Ui_FiltroRemanufatura import Ui_FiltroRemanufatura
 
 
 class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
 
-    def __init__(self, db=None, parent=None):
+    def __init__(self, db=None, parent=None, **kwargs):
         super(FiltroRemanufatura, self).__init__(parent)
         self.setupUi(self)
         self.db = db
+
+        filtro_padrao = kwargs.get('filtro_padrao')
 
         self.metodos = (
             self.get_cadastro
@@ -22,10 +24,14 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
             , self.get_cor
         )
 
+        find_icon = QIcon(os.path.join('Resources', 'icons', 'search.png'))
+        self.toolButton_mercadoria.setIcon(find_icon)
+        self.toolButton_cliente.setIcon(find_icon)
+
         self.dados = None
 
-        self.lineEdit_cliente_documento.editingFinished.connect(
-            lambda: self.busca_registro(
+        self.toolButton_cliente.clicked.connect(
+            lambda: filtro_padrao.busca_registro(
                 "vw_pessoa_fornecedor"
                 , "id_pessoa"
                 , self.lineEdit_cliente_documento
@@ -36,11 +42,45 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
                     "nome": 'Nome',
                     'documento': "Documento"
                 }
+                , force=True
+            )
+        )
+
+        self.toolButton_mercadoria.clicked.connect(
+            lambda: filtro_padrao.busca_registro(
+                "vw_casco"
+                , "id_mercadoria"
+                , self.lineEdit_mercadoria_id
+                , "descricao"
+                , self.lineEdit_mercadoria
+                , {
+                    "id_mercadoria": 'ID',
+                    "codigo": 'Código',
+                    "descricao": "Mercadoria",
+                    'marca': "Marca"
+                }
+                , force=True
+            )
+        )
+
+        self.lineEdit_cliente_documento.editingFinished.connect(
+            lambda: filtro_padrao.busca_registro(
+                "vw_pessoa_fornecedor"
+                , "id_pessoa"
+                , self.lineEdit_cliente_documento
+                , "nome"
+                , self.lineEdit_cliente
+                , {
+                    "id_pessoa": 'ID',
+                    "nome": 'Nome',
+                    'documento': "Documento"
+                }
+
             )
         )
 
         self.lineEdit_mercadoria_id.editingFinished.connect(
-            lambda: self.busca_registro(
+            lambda: filtro_padrao.busca_registro(
                 "vw_casco"
                 , "id_mercadoria"
                 , self.lineEdit_mercadoria_id
@@ -103,7 +143,7 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
     def get_casco(self):
         casco_id = self.lineEdit_mercadoria_id.text()
         if casco_id is not None and casco_id != '':
-            return str("id_casco = $$" + str(casco_id) + "$$")
+            return str("id_mercadoria_casco = $$" + str(casco_id) + "$$")
         else:
             return ''
 
@@ -162,51 +202,3 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
 
         return filtro, "Cor", cabecalho
 
-    def busca_registro(self, tabela, campo, lineEdit_id, campo_descricao, lineEdit_descricao, colunas_dict):
-
-        dialog_localizar = LocalizarDialog(db=self.db, parent=self)
-
-        registro = None
-        valor = lineEdit_id.text().replace(' ', '')
-
-        if valor != '':
-
-            registro = self.db.busca_registro(tabela, campo, valor, '=')[1][0]['fnc_buscar_registro']
-
-            logging.debug('[FiltroEstoque] ' + str(registro))
-            if registro is not None:
-                registro = registro[0]
-        else:
-            lineEdit_descricao.clear()
-
-        if registro is None and lineEdit_id.text() != '':
-
-            localizar_campos = colunas_dict
-            colunas_busca = colunas_dict
-
-            dialog_localizar.define_tabela(tabela)
-            dialog_localizar.define_campos(localizar_campos)
-            dialog_localizar.define_colunas(colunas_busca)
-            dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
-
-            valor = dialog_localizar.exec()
-            registro = self.db.busca_registro(tabela, campo, str(valor), '=')[1][0]['fnc_buscar_registro']
-
-            dialog_localizar.retorno_dados.connect(self.get_dados_localizar)
-            # registro = self.dados[1][0]['fnc_buscar_registro']
-
-            if registro is not None:
-                registro = registro[0]
-
-        if registro:
-            lineEdit_id.setText(str(registro[campo]))
-            lineEdit_descricao.setText(registro[campo_descricao])
-            return True
-
-        else:
-            lineEdit_id.clear()
-            lineEdit_descricao.clear()
-            return False
-
-    def get_dados_localizar(self, dados):
-        self.dados = dados
