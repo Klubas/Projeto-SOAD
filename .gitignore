@@ -31,8 +31,6 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-build/
-dist/
 *.exe
 
 # Installer logs
@@ -131,10 +129,8 @@ dmypy.json
 *.pyproject
 *.pyproject.user
 
-# script
-*.bat
-
 .credencial.json
 log.txt
 Resources/database/
 Resources/mingw32/
+System Volume Information/

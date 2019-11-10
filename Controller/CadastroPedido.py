@@ -266,6 +266,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         return super(CadastroPedido, self).valida_obrigatorios()
 
     def confirma(self):
+
+        self.salva_item()
+
         # Remove obrigatoriedade dos itens
         self.campos_obrigatorios = dict([
             ('Documento', self.lineEdit_documento)
