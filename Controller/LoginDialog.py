@@ -15,11 +15,9 @@ from View.Ui_LoginDialog import Ui_LoginDialog
 class LoginDialog(QDialog, Ui_LoginDialog):
 
     def __init__(self):
-        super().__init__()
+        super(LoginDialog, self).__init__()
         self.setupUi(self)
-        self.comboBox_servidor.addItem("localhost:5432")
-        self.comboBox_servidor.addItem("localhost:5433")
-        self.comboBox_servidor.addItem("10.0.2.2:5432")
+
         self.comboBox_servidor.setEditable(True)
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
         self.buttonBox.button(QDialogButtonBox.Save).setDisabled(True)
@@ -39,9 +37,6 @@ class LoginDialog(QDialog, Ui_LoginDialog):
 
         self.lineEdit_usuario.textChanged[str].connect(self.status_botao)
         self.lineEdit_senha.textChanged[str].connect(self.status_botao)
-
-        if self.comboBox_servidor.count() == 1:
-            self.verticalGroupBox_servidor.setVisible(False)
 
         icon_path = os.path.join("Resources", "Imagens", "soad.png")
         icon_image = QImage(icon_path).smoothScaled(115, 115)
@@ -89,7 +84,7 @@ class LoginDialog(QDialog, Ui_LoginDialog):
             data = {
                 "hostname": self.comboBox_servidor.currentText()
                 , "username": self.lineEdit_usuario.text()
-                , "password": self.lineEdit_senha.text()
+                #, "password": self.lineEdit_senha.text()
                 , "restored": "1"
             }
 
@@ -135,8 +130,9 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                         data = json.load(json_file)
                         self.comboBox_servidor.setCurrentText(data['hostname'])
                         self.lineEdit_usuario.setText(data['username'])
-                        self.lineEdit_senha.setText(data['password'])
+                        #self.lineEdit_senha.setText(data['password'])
                         self.restored = data['restored']
+                        self.verticalGroupBox_servidor.setVisible(False)
                     except Exception:
                         logging.debug('[LoginDialog] Não foi possível ler o arquivo de configuração...')
 
@@ -144,6 +140,10 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                 logging.debug('[LoginDialog] Não foi possível abrir o arquivo de configuração...')
                 logging.debug('Exception> ' + str(e))
                 self.buttonBox.button(QDialogButtonBox.Save).setVisible(True)
+                self.comboBox_servidor.addItem("localhost:5432")
+                self.comboBox_servidor.addItem("localhost:5433")
+                self.comboBox_servidor.addItem("10.0.2.2:5432")
+                self.comboBox_servidor.addItem("10.0.2.2:5433")
 
     def login(self):
 

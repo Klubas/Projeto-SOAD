@@ -24,7 +24,8 @@ class DataBase:
             self.dbinfo,
             folder=self.folder,
             pool_size=pool_size,
-            migrate=False
+            migrate=False,
+            attempts=1
         )
         self.connection = None
         self.threadpool = QThreadPool()

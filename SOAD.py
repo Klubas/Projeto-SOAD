@@ -51,7 +51,7 @@ def main():
 
 if __name__ == '__main__':
 
-    update_ui()
+    #update_ui()
     main()
     sys.exit()
 
