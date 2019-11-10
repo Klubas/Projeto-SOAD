@@ -153,6 +153,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.actionSobre.triggered.connect(self.abrir_sobre)
 
+        self.actionAjuda.triggered.connect(self.abrir_manual)
+
         # Botões
 
         self.pushButton_venda.clicked.connect(
@@ -287,3 +289,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def login(self):
         self.hide()
         self.parent.exec()
+
+    def abrir_manual(self):
+        import platform, subprocess
+
+        filepath = os.path.join('Resources', 'misc', 'manual-soad.pdf')
+
+        logging.info('[MainWindow] Abrindo manual...')
+
+        if platform.system() == 'Darwin':
+            subprocess.call(('open', filepath))
+
+        elif platform.system() == 'Windows':
+            try:
+                os.startfile(filepath)
+            except Exception as e:
+                logging.debug('[RelatorioPadrao] Tentando método alternativo de abertura de arquivo devido a exceção: \n>' + str(e))
+                subprocess.run(['open', filepath], check=True)
+        else:
+            subprocess.call(('xdg-open', filepath))
