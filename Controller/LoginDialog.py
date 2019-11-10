@@ -72,7 +72,6 @@ class LoginDialog(QDialog, Ui_LoginDialog):
                 , mensagem="Usuário ou senha inválidos."
                 , exception=e
                 , parent=self)
-            print(e.__cause__)
             dialog.exec()
             return False
 
