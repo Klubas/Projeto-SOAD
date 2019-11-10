@@ -28,6 +28,9 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         self.frame_contents.setDisabled(True)
         self.frame_buttons.setDisabled(True)
 
+        self.label_endereco_id.setVisible(False)
+        self.lineEdit_id.setVisible(False)
+
         self.pushButton_cadastrar.clicked.connect(self.cadastrar)
         self.pushButton_editar.clicked.connect(self.editar)
         self.pushButton_excluir.clicked.connect(self.excluir)

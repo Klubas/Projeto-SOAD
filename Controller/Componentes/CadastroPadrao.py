@@ -228,7 +228,7 @@ class CadastroPadrao(QWidget):
     def marca_obrigatorios(self):
         if len(self.campos_obrigatorios) > 0:
             for campo, valor in self.campos_obrigatorios.items():
-                valor.setStyleSheet("border: 0.5px solid red")
+                valor.setStyleSheet("\nborder: 0.5px solid red")
 
     def limpa_obrigatorios(self):
         if len(self.campos_obrigatorios) > 0:

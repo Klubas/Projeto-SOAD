@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPessoa.ui',
 # licensing of 'Resources/UI/CadastroPessoa.ui' applies.
 #
-# Created: Sun Nov 10 15:28:02 2019
+# Created: Sun Nov 10 17:47:14 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -353,6 +353,7 @@ class Ui_CadastroPessoa(object):
         self.horizontalLayout_9.setSpacing(10)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.comboBox_uf = QtWidgets.QComboBox(self.groupBox_endereco)
+        self.comboBox_uf.setMinimumSize(QtCore.QSize(60, 25))
         self.comboBox_uf.setMaximumSize(QtCore.QSize(50, 16777215))
         font = QtGui.QFont()
         font.setPointSize(8)
@@ -379,6 +380,7 @@ class Ui_CadastroPessoa(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.comboBox_municipio.sizePolicy().hasHeightForWidth())
         self.comboBox_municipio.setSizePolicy(sizePolicy)
+        self.comboBox_municipio.setMinimumSize(QtCore.QSize(0, 25))
         self.comboBox_municipio.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setWeight(50)
