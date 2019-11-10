@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroPadrao.ui',
 # licensing of 'Resources/UI/Componentes/FiltroPadrao.ui' applies.
 #
-# Created: Sun Nov 10 14:41:51 2019
+# Created: Sun Nov 10 14:52:45 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

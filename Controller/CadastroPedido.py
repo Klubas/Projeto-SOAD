@@ -260,7 +260,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             dialog = StatusDialog(
                 status='ALERTA'
                 , mensagem='Não é possível realizar uma '
-                           + self.tipo_pedido +  ' sem itens.'
+                           + self.tipo_pedido + ' sem itens.'
                 , parent=self.parent_window)
             return dialog.exec()
         return super(CadastroPedido, self).valida_obrigatorios()
@@ -697,9 +697,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             lineEdit_marca.clear()
             self.lineEdit_valor_unitario.clear()
 
-        if not force:
-            return
-
         if mercadoria is None or force:
 
             localizar_campos = {
@@ -813,9 +810,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         return item_pedido
 
     def salva_item(self):
-
-        if super(CadastroPedido, self).valida_obrigatorios() != 'OK':
-            return
 
         tipo_item = 'MERCADORIA' if self.radioButton_mercadoria.isChecked() else 'REMANUFATURA'
 
