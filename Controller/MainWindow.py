@@ -297,14 +297,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         logging.info('[MainWindow] Abrindo manual...')
 
-        if platform.system() == 'Darwin':
-            subprocess.call(('open', filepath))
+        try:
+            if platform.system() == 'Darwin':
+                subprocess.call(('open', filepath))
 
-        elif platform.system() == 'Windows':
-            try:
-                os.startfile(filepath)
-            except Exception as e:
-                logging.debug('[RelatorioPadrao] Tentando método alternativo de abertura de arquivo devido a exceção: \n>' + str(e))
-                subprocess.run(['open', filepath], check=True)
-        else:
-            subprocess.call(('xdg-open', filepath))
+            elif platform.system() == 'Windows':
+                try:
+                    os.startfile(filepath)
+                except Exception as e:
+                    logging.debug('[MainWindow] Tentando método alternativo de abertura de arquivo devido a exceção: \n>' + str(e))
+                    subprocess.run(['open', filepath], check=True)
+            else:
+                subprocess.call(('xdg-open', filepath))
+
+        except Exception as e:
+
+            dialog = StatusDialog(
+                status='ALERTA'
+                , mensagem="Arquivo " + filepath + " não encontrado."
+                , exception=e
+                , parent=self
+            )
+
+            logging.debug(
+                '[MainWindow] Arquivo não encontrado: \n>' + str(e))
+
+            dialog.exec()
+
