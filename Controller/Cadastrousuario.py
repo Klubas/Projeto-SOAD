@@ -85,8 +85,6 @@ CREATE ROLE {username} WITH
     NOREPLICATION
     CONNECTION LIMIT -1
     PASSWORD '{password}';
-
-GRANT "NORMAL_USER" TO {username};
         '''.format(password=self.lineEdit_password.text(), username=self.lineEdit_username.text())
 
         retorno = self.db.execute_sql(sql, as_dict=False)
