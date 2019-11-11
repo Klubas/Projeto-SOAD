@@ -1,5 +1,6 @@
 import logging
 
+from PySide2.QtGui import Qt
 from PySide2.QtWidgets import QListWidgetItem, QDialogButtonBox
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
@@ -59,6 +60,9 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         self.widget_tipo_pessoa.setVisible(False)
         self.radioButton_pf.toggled.connect(self.define_tipo)
         self.define_tipo()
+
+        self.comboBox_municipio.view().setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.comboBox_uf.view().setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
 
         # Atualiza combobox de municipios
         self.comboBox_uf.currentTextChanged[str].connect(self.altera_uf)

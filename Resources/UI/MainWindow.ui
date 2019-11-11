@@ -1256,6 +1256,7 @@
      <string>Cadastros</string>
     </property>
     <addaction name="actionPessoa"/>
+    <addaction name="actionMunicipios"/>
     <addaction name="separator"/>
     <addaction name="actionMercadoria"/>
     <addaction name="actionInsumo"/>
@@ -1536,6 +1537,11 @@
   <action name="actionAjuda">
    <property name="text">
     <string>Ajuda</string>
+   </property>
+  </action>
+  <action name="actionMunicipios">
+   <property name="text">
+    <string>Município</string>
    </property>
   </action>
  </widget>

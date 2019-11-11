@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
 # licensing of 'Resources/UI/MainWindow.ui' applies.
 #
-# Created: Sun Nov 10 17:47:15 2019
+# Created: Sun Nov 10 23:08:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -578,10 +578,13 @@ class Ui_MainWindow(object):
         self.actionLista_de_itens_em_estoque.setObjectName("actionLista_de_itens_em_estoque")
         self.actionAjuda = QtWidgets.QAction(MainWindow)
         self.actionAjuda.setObjectName("actionAjuda")
+        self.actionMunicipios = QtWidgets.QAction(MainWindow)
+        self.actionMunicipios.setObjectName("actionMunicipios")
         self.menuArquivo.addAction(self.actionCadastroUsuario)
         self.menuArquivo.addAction(self.actionReconectar)
         self.menuArquivo.addAction(self.actionSair)
         self.menuCadastros.addAction(self.actionPessoa)
+        self.menuCadastros.addAction(self.actionMunicipios)
         self.menuCadastros.addSeparator()
         self.menuCadastros.addAction(self.actionMercadoria)
         self.menuCadastros.addAction(self.actionInsumo)
@@ -689,4 +692,5 @@ class Ui_MainWindow(object):
         self.actionCadastroUsuario.setStatusTip(QtWidgets.QApplication.translate("MainWindow", "Cadastro de usuários do sistema", None, -1))
         self.actionLista_de_itens_em_estoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de itens em estoque", None, -1))
         self.actionAjuda.setText(QtWidgets.QApplication.translate("MainWindow", "Ajuda", None, -1))
+        self.actionMunicipios.setText(QtWidgets.QApplication.translate("MainWindow", "Município", None, -1))
 

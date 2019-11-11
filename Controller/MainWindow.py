@@ -7,6 +7,7 @@ from PySide2.QtWidgets import QMainWindow
 
 from Controller.About import About
 from Controller.CadastroMercadoria import CadastroMercadoria
+from Controller.CadastroMunicipio import CadastroMunicipio
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
 from Controller.Cadastrousuario import CadastroUsuario
@@ -62,6 +63,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionPessoa.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=CadastroPessoa)
+        )
+
+        self.actionMunicipios.triggered.connect(
+            lambda: self.abrir_interface(
+                window_cls=CadastroMunicipio
+            )
         )
 
         self.actionMercadoria.triggered.connect(
