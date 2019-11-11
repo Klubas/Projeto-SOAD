@@ -532,7 +532,6 @@ class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
             self.help = '''Os cascos cadastrados podem ser utilizados em remanufaturas.'''
 
         elif self.tipo == 'INSUMO':
-
             self.campos_obrigatorios['Quantidade Embalagem'] = self.lineEdit_quantidade_embalagem
             self.campos_obrigatorios['Un. Medida (Embalagem)'] = self.comboBox_unidade_medida_embalagem
             self.stackedWidget.setVisible(True)

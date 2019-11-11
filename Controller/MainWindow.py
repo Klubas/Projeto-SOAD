@@ -10,7 +10,7 @@ from Controller.CadastroMercadoria import CadastroMercadoria
 from Controller.CadastroMunicipio import CadastroMunicipio
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
-from Controller.Cadastrousuario import CadastroUsuario
+from Controller.CadastroUsuario import CadastroUsuario
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.ListaPadrao.ListaPadrao import ListaPadrao
 from Controller.Componentes.StatusDialog import StatusDialog

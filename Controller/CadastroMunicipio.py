@@ -46,20 +46,22 @@ class CadastroMunicipio(CadastroPadrao, Ui_CadastroMunicipio):
         self.show()
 
     def confirma(self):
+        # criar procedure que cadastre apenas municipio pela sigla_uf
         super(CadastroMunicipio, self).confirma()
 
     def cancela(self):
+        self.limpar_dados()
         super(CadastroMunicipio, self).cancela()
 
     def excluir(self, validar=True):
+        # criar procedure
         super(CadastroMunicipio, self).excluir()
 
     def localizar(self, parent=None):
-        super(CadastroMunicipio, self).localizar()
+        super(CadastroMunicipio, self).localizar(parent=self)
 
     def busca_ufs(self):
         # preenche estados
-
 
         items = self.db.busca_registro("vw_estado", "pais", "brasil")
 
@@ -81,6 +83,9 @@ class CadastroMunicipio(CadastroPadrao, Ui_CadastroMunicipio):
 
     def limpar_dados(self):
         super(CadastroMunicipio, self).limpar_dados()
+        self.lineEdit_ibge.clear()
+        self.lineEdit_municipio.clear()
+        self.comboBox_uf.setCurrentIndex(0)
 
 
 
