@@ -51,7 +51,7 @@ class Installer:
 
         return cmd
 
-    def create_user(self, user='soadmin', password='soad2019', permissoes='CREATEDB CREATEROLE LOGIN'):
+    def create_user(self, user='soadmin', password='soad2019', permissoes='SUPERUSER CREATEDB CREATEROLE LOGIN'):
 
         cmd = self.get_cmd('psql')
 
@@ -83,7 +83,7 @@ class Installer:
         # --format=t --blobs --create --clean --section=pre-data --section=data --section=post-data --inserts
         # --column-inserts --disable-dollar-quoting --use-set-session-authorization --encoding "UTF8" "postgres"
 
-        self.create_user()
+        self.create_user(password=self.password)
 
         cmd = self.get_cmd('pg_restore')
 
