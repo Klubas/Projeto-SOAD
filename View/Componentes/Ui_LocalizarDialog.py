@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/LocalizarDialog.ui',
 # licensing of 'Resources/UI/Componentes/LocalizarDialog.ui' applies.
 #
-# Created: Sun Nov 10 23:08:30 2019
+# Created: Tue Nov 12 22:51:40 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -52,7 +52,7 @@ class Ui_LocalizarDialog(object):
         self.tableWidget_linhas.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tableWidget_linhas.setShowGrid(True)
         self.tableWidget_linhas.setGridStyle(QtCore.Qt.SolidLine)
-        self.tableWidget_linhas.setWordWrap(False)
+        self.tableWidget_linhas.setWordWrap(True)
         self.tableWidget_linhas.setObjectName("tableWidget_linhas")
         self.tableWidget_linhas.setColumnCount(1)
         self.tableWidget_linhas.setRowCount(0)

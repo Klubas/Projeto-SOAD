@@ -10,7 +10,7 @@ from View.Componentes.Ui_StatusDialog import Ui_StatusDialog
 
 class StatusDialog(QDialog, Ui_StatusDialog):
 
-    def __init__(self, status='ERRO', mensagem='', exception=None, parent=None):
+    def __init__(self, status='ERRO', mensagem='', exception=None, parent=None, esconder_detalhes=False):
         super(StatusDialog, self).__init__(parent)
         self.setupUi(self)
         self.status = status
@@ -22,6 +22,9 @@ class StatusDialog(QDialog, Ui_StatusDialog):
         self.resize(self.min_size)
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.close_clicked)
+
+        if esconder_detalhes:
+            self.toolButton_detalhes.setVisible(False)
 
     def definir_tipo(self, status):
         status = status.upper()
@@ -53,6 +56,7 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             logging.debug("[StatusDialog] O valor " + status + " não é um status válido para StatusDialog\n")
             self.exec()
 
+
     def __definir_mensagem__(self, mensagem='', exception=None):
 
         logging.info('[StatusDialog] status_msg=' + str(mensagem))
@@ -62,11 +66,11 @@ class StatusDialog(QDialog, Ui_StatusDialog):
         string_mensagem = mensagem + '\n\n'
 
         print('exception=' + str(type(exception)))
-        if type(exception) == tuple:
+        if isinstance(exception, tuple):
             for i in range(0, len(exception)):
                 print('exception[' + str(i) + ']=' + str(type(exception[i])))
 
-            if type(exception[1]) == list:
+            if isinstance(exception[1], list):
                 if len(exception[1]) == 1:
                     print('exception[1][0]=' + str(type(exception[1][0])))
 
@@ -93,6 +97,9 @@ class StatusDialog(QDialog, Ui_StatusDialog):
                 string_exception = string_exception + 'SQL:\n' + str(exception[2])
 
             self.status = 'ALERTA'
+
+        elif isinstance(exception, str):
+            string_exception = string_exception + str(exception)
 
         elif exception is None:
             string_exception = string_mensagem + string_exception

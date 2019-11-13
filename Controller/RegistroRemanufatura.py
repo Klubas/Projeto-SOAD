@@ -776,6 +776,9 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
         self.pushButton_limpar.setText('Remover remanufatura')
         self.pushButton_realizar.setText('Realizar remanufatura')
 
+        self.toolButton_casco.setVisible(False)
+        self.toolButton_insumo.setVisible(False)
+
         situacao = self.label_situacao.text()
 
         if situacao == 'CADASTRADA':

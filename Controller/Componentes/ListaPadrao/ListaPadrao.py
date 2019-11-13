@@ -132,8 +132,10 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         self.set_columns()
 
         data = self.get_data(filtro=self.string_filtro)
-        if data != 0:
-            self.set_data(data)
+        #if data != 0:
+        self.set_data(data)
+
+        self.tableWidget_tabela.resizeColumnsToContents()
 
     def get_column_by_key(self, key):
         return self.colunas_chave.index(key)
@@ -284,6 +286,8 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
 
         if not linhas:
             logging.info("[ListaPadrao] Nenhum registro encontrado.")
+            self.tableWidget_tabela.clear()
+            self.set_columns()
             self.tableWidget_tabela.setRowCount(0)
             return
 

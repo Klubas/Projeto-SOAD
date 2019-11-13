@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/DescarteItems.ui',
 # licensing of 'Resources/UI/DescarteItems.ui' applies.
 #
-# Created: Sun Nov 10 23:08:29 2019
+# Created: Tue Nov 12 22:51:39 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -46,7 +46,7 @@ class Ui_DescarteItems(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 654, 119))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 638, 103))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -80,8 +80,8 @@ class Ui_DescarteItems(object):
         self.groupBox.setFont(font)
         self.groupBox.setObjectName("groupBox")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.groupBox)
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(6)
+        self.horizontalLayout.setContentsMargins(9, 9, 9, 9)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.scrollArea_2 = QtWidgets.QScrollArea(self.groupBox)
         self.scrollArea_2.setMinimumSize(QtCore.QSize(0, 22))
@@ -91,7 +91,7 @@ class Ui_DescarteItems(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 658, 34))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 640, 22))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_3.setSpacing(0)

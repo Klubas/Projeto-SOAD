@@ -46,14 +46,10 @@ class DescarteItem(QWidget, Ui_DescarteItems):
 
             if retorno[0]:
                 retorno = retorno[1][0]['fnc_buscar_registro'][0]
-                print(retorno)
                 item['id'] = retorno['id_item_lote']
                 item['descricao'] = retorno['codigo_mercadoria'] + ' - ' + retorno['descricao']
-                print(item)
                 items.append(item)
-                print(items)
                 self.lista_ids.append(item["id"])
-        print(items)
         self.posicionar_items(items)
 
     def posicionar_items(self, items):

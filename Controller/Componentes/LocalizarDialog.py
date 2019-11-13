@@ -41,6 +41,9 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         if campos is not None:
             self.define_campos(campos)
 
+        if self.filtro is None:
+            self.filtro = '1=1'
+
         self.tableWidget_linhas.horizontalHeader().setVisible(True)
 
         self.pushButton_buscar.clicked.connect(self.buscar)
@@ -151,7 +154,7 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
                 col = col + 1
             row = row + 1
 
-        #self.tableWidget_linhas.resizeColumnsToContents()
+        self.tableWidget_linhas.resizeColumnsToContents()
 
     def retornar_selecionado(self):
         row = self.tableWidget_linhas.currentRow()

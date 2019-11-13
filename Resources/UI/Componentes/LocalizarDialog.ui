@@ -118,7 +118,7 @@
         <bool>true</bool>
        </property>
        <property name="wordWrap">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <attribute name="horizontalHeaderVisible">
         <bool>true</bool>

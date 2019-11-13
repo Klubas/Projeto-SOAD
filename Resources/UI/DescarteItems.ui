@@ -75,8 +75,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>654</width>
-              <height>119</height>
+              <width>638</width>
+              <height>103</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -134,19 +134,19 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <item>
           <widget class="QScrollArea" name="scrollArea_2">
@@ -176,8 +176,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>658</width>
-              <height>34</height>
+              <width>640</width>
+              <height>22</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_3">

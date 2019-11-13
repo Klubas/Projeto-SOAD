@@ -261,13 +261,16 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 status='ALERTA'
                 , mensagem='Não é possível realizar uma '
                            + self.tipo_pedido + ' sem itens.'
-                , parent=self.parent_window)
+                , parent=self.parent_window
+                , esconder_detalhes=True
+            )
             return dialog.exec()
         return super(CadastroPedido, self).valida_obrigatorios()
 
     def confirma(self):
 
-        self.salva_item()
+        if self.buttonBox_item.button(QDialogButtonBox.Save).isEnabled():
+            self.salva_item()
 
         # Remove obrigatoriedade dos itens
         self.campos_obrigatorios = dict([
@@ -814,6 +817,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
     def salva_item(self):
 
+        #if self.valida_obrigatorios() != 'OK':
+        #    return
+
         tipo_item = 'MERCADORIA' if self.radioButton_mercadoria.isChecked() else 'REMANUFATURA'
 
         if tipo_item == 'REMANUFATURA':
@@ -850,20 +856,24 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         item_pedido_id = self.lineEdit_item_pedido_id.text()
         novo_item = True if item_pedido_id == '' else False
-
+        print("item pedido id: " + str(item_pedido_id))
+        print(novo_item)
         if novo_item:
-
             # Valida itens repetidos
-            id = self.lineEdit_mercadoria_id.text()
-            for item in self.pedido.itens:
-                if id == str(item.mercadoria_id):
-                    dialog = StatusDialog(
-                        status='ALERTA'
-                        , mensagem='Não é possível inserir o mesmo item duas vezes em um pedido.'
-                        , parent=self
-                    )
-                    dialog.exec()
-                    return
+            if len(self.pedido.itens) > 0:
+                novo_item_id = self.lineEdit_mercadoria_id.text()
+                for item_antigo in self.pedido.itens:
+                    if item_antigo.tipo == 'MERCADORIA':
+                        if novo_item_id == str(item_antigo.mercadoria_id):
+                            print('validando repetidos')
+                            dialog = StatusDialog(
+                                status='ALERTA'
+                                , mensagem='Não é possível inserir o mesmo item duas vezes em um pedido.'
+                                , parent=self
+                                , esconder_detalhes=True
+                            )
+                            dialog.exec()
+                            return
 
             item.item_pedido_id = (len(self.pedido.itens) + 1) * -1
         else:
@@ -875,7 +885,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                     break
 
         self.pedido.itens.append(item)
-
         self.preencher_tabela()
         self.calcula_totais_pedido()
 
@@ -895,6 +904,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 row = row + 1
 
         self.tableWidget_items.setColumnHidden(0, True)
+
+        self.tableWidget_items.resizeColumnsToContents()
 
         self.limpar_item()
 
