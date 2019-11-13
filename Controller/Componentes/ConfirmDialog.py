@@ -16,6 +16,9 @@ class ConfirmDialog(QDialog, Ui_ConfirmDialog):
         self.buttonBox.button(QDialogButtonBox.No).clicked.connect(self.nao_clicked)
         self.buttonBox.button(QDialogButtonBox.No).setDefault(True)
 
+        self.buttonBox.button(QDialogButtonBox.Yes).setText("Sim")
+        self.buttonBox.button(QDialogButtonBox.No).setText("Não")
+
         icon_path = os.path.join("Resources", "icons", "question.png")
         icone = QImage(icon_path).smoothScaled(60, 60)
         self.setWindowIcon(QIcon(icon_path))

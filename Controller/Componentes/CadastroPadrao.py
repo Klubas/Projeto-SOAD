@@ -136,7 +136,7 @@ class CadastroPadrao(QWidget):
         if self.nao_esta_em_modo_edicao():
 
             if validar:
-                dialog = ConfirmDialog()
+                dialog = ConfirmDialog(parent=self)
                 dialog.definir_mensagem("Tem certeza que deseja realizar a exclusão desse registro?")
                 cancelar = dialog.exec()
             else:
@@ -174,7 +174,7 @@ class CadastroPadrao(QWidget):
     # Reimplementar chamando super e limpar_dados
     def cancela(self):
         if self.modo_edicao:
-            dialog = ConfirmDialog()
+            dialog = ConfirmDialog(parent=self)
             dialog.definir_mensagem("Tem certeza que deseja cancelar? Todas as alterações serão perdidas.")
             cancelar = dialog.exec()
 
@@ -276,7 +276,7 @@ class CadastroPadrao(QWidget):
     #verifica se tem alguma alteracao pendente e pergunta se deseja fechar
     def fechar(self):
         if self.modo_edicao:
-            dialog = ConfirmDialog()
+            dialog = ConfirmDialog(parent=self)
             dialog.definir_mensagem("Tem certeza que deseja fechar? Todas as alterações serão perdidas.")
             fechar = dialog.exec()
         else:

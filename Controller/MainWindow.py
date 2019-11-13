@@ -288,7 +288,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def closeEvent(self, event):
         logging.info("[MainWindow] Janelas abertas: " + str(self.window_list))
         if len(self.window_list) > 0:
-            sair = ConfirmDialog()
+            sair = ConfirmDialog(parent=self)
             if sair.exec():
                 for window in self.window_list:
                     window.close() # Fecha todas as janelas

@@ -51,6 +51,9 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.retornar_selecionado)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.close)
 
+        self.buttonBox.button(QDialogButtonBox.Ok).setText("Confirmar")
+        self.buttonBox.button(QDialogButtonBox.Cancel).setText("Cancelar")
+
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
 
     def define_colunas(self, colunas):

@@ -116,7 +116,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         validador_regex_doc = QRegExpValidator(QRegExp("[0-9]{1,14}"))
         validador_regex_id = QRegExpValidator(QRegExp("[0-9]{1,9}"))
 
-        self.lineEdit_quantidade.setValidator(validador_integer)
+        self.lineEdit_quantidade.setValidator(validador_regex_doc)
         self.lineEdit_valor_unitario.setValidator(validador_double)
 
         self.lineEdit_mercadoria_id.setValidator(validador_regex_id)
@@ -832,7 +832,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 , valor_unitario=self.formatar_numero(self.lineEdit_valor_unitario.text())
                 , casco_id=self.lineEdit_casco_id.text()
                 , insumo_id=self.lineEdit_insumo_id.text()
-                , nova_remanufatura=(not self.checkBox_reutilizar_casco.isChecked())
+                , nova_remanufatura=(self.checkBox_reutilizar_casco.isChecked())
                 , descricao=descricao
             )
 
@@ -856,8 +856,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         item_pedido_id = self.lineEdit_item_pedido_id.text()
         novo_item = True if item_pedido_id == '' else False
-        print("item pedido id: " + str(item_pedido_id))
-        print(novo_item)
+
         if novo_item:
             # Valida itens repetidos
             if len(self.pedido.itens) > 0:

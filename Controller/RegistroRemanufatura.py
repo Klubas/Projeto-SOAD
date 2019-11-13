@@ -167,7 +167,8 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
         self.lineEdit_insumo_id.setDisabled(True)
         self.lineEdit_casco_id.setDisabled(True)
 
-        self.frameFormLayout_remanufatura.setDisabled(True)
+        self.toolButton_insumo.setDisabled(True)
+        self.toolButton_casco.setDisabled(True)
 
         casco_id = self.lineEdit_casco_id.text()
         insumo_id = self.lineEdit_insumo_id.text()
@@ -272,6 +273,10 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
             self.spinBox_quantidade.setValue(1)
             self.lineEdit_insumo_id.setDisabled(False)
             self.lineEdit_casco_id.setDisabled(False)
+            self.toolButton_insumo.setDisabled(False)
+            self.toolButton_casco.setDisabled(False)
+            self.toolButton_insumo.setDisabled(False)
+            self.toolButton_casco.setDisabled(False)
             self.frameFormLayout_remanufatura.setDisabled(False)
 
             self.label_medida.setText('0,00g')
@@ -571,24 +576,31 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
 
             retorno = self.db.call_procedure(self.db.schema, dados)
 
+        logging.info('[RegistroRemanufatura] Localizando item lote.')
+
         if retorno[0]:
-            id_item_lote = retorno[1][0]['p_retorno_json']['p_item_lote_id']
+            retorno = retorno[1][0]
+            id_item_lote = retorno['p_retorno_json']['p_item_lote_id']
 
-            registro = self.db.busca_registro(
-                'vw_item_lote'
-                , 'id_item_lote'
-                , str(id_item_lote)
-                , '='
-            )
+            if id_item_lote is not None:
 
-            logging.info('[RegistroRemanufatura] Localizando item lote.')
+                registro = self.db.busca_registro(
+                    'vw_item_lote'
+                    , 'id_item_lote'
+                    , str(id_item_lote)
+                    , '='
+                )
 
-            if registro[0]:
+                if registro[0]:
 
-                registro = registro[1][0]['fnc_buscar_registro'][0]
+                    registro = registro[1][0]['fnc_buscar_registro'][0]
 
-                self.posiciona_item_lote(registro)
-                return True
+                    self.posiciona_item_lote(registro)
+                    logging.info('[RegistroRemanufatura] Item lote localizado.')
+
+                    return True
+            else:
+                logging.info('[RegistroRemanufatura] Item lote não localizado.')
 
         else:
             dialog = StatusDialog(
@@ -805,7 +817,12 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
             if remanufatura is not None:
                 remanufatura = remanufatura[0]
 
-                self.label_pedido_id.setText(remanufatura['id_pedido']) if remanufatura['id_pedido'] is None else None
+                print(remanufatura['id_pedido'])
+
+                self.label_pedido_id.setText(
+                    "Venda N°: " + str(remanufatura['id_pedido']) if remanufatura['id_pedido'] is not None
+                    else 'Nenhuma venda vínculada'
+                )
 
                 remanufaturas = list(dict())
 

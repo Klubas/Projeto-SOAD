@@ -132,8 +132,13 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         self.set_columns()
 
         data = self.get_data(filtro=self.string_filtro)
-        #if data != 0:
+
         self.set_data(data)
+
+        if self.tableWidget_tabela.rowCount() > 0:
+            self.pushButton_relatorio.setDisabled(False)
+        else:
+            self.pushButton_relatorio.setDisabled(True)
 
         self.tableWidget_tabela.resizeColumnsToContents()
 

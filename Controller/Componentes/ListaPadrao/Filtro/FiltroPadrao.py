@@ -33,6 +33,7 @@ class FiltroPadrao(QDialog, Ui_FiltroPadrao):
 
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
+        self.buttonBox.button(QDialogButtonBox.Ok).setDefault(True)
 
         self.dialog_localizar = LocalizarDialog(db=self.db, parent=self)
 
