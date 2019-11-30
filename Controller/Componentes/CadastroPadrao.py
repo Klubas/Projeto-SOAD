@@ -118,7 +118,7 @@ class CadastroPadrao(QWidget):
                                       "border: 10px;\n"
                                       "border-radius: 5px;")
         self.toolButton_help.setObjectName("toolButton_help")
-        self.frame_buttonsLayout.addWidget(self.toolButton_help)
+        self.horizontalLayout_3.addWidget(self.toolButton_help)
 
     # Reimplementar chamando super
     def cadastrar(self):

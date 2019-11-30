@@ -18,7 +18,6 @@ DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile=Y:\Projeto-SOAD\LICENSE
-InfoAfterFile=Y:\Projeto-SOAD\Instalação.md
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline

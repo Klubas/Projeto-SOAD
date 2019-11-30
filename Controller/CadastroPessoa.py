@@ -1,6 +1,6 @@
 import logging
 
-from PySide2.QtGui import Qt
+from PySide2.QtGui import Qt, QRegExpValidator
 from PySide2.QtWidgets import QListWidgetItem, QDialogButtonBox
 
 from Controller.Componentes.CadastroPadrao import CadastroPadrao
@@ -40,6 +40,12 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.confirma)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.cancela)
 
+        telefone_validator = QRegExpValidator("\(\d{2,}\) \d{4,}\-\d{4}")
+        self.lineEdit_telefone.setValidator(telefone_validator)
+
+        doc_validator = QRegExpValidator("(^\d{3}\.?\d{3}\.?\d{3}\-?\d{5}$)|(^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$)")
+        self.lineEdit_documento.setValidator(doc_validator)
+
         # Marca como isento o lineEdit
         self.checkBox_isento.toggled.connect(self.altera_ie)
         self.checkBox_isento.setChecked(False)
@@ -60,6 +66,8 @@ class CadastroPessoa(CadastroPadrao, Ui_CadastroPessoa):
         self.widget_tipo_pessoa.setVisible(False)
         self.radioButton_pf.toggled.connect(self.define_tipo)
         self.define_tipo()
+
+        self.lineEdit_documento.textChanged[str].connect(self.valida_cpf_cnpj)
 
         self.comboBox_municipio.view().setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.comboBox_uf.view().setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
@@ -97,7 +105,7 @@ Uma mesma pessoa pode ter as duas modalidades.
         super(CadastroPessoa, self).cadastrar()
         self.limpar_dados()
         self.widget_tipo_pessoa.setDisabled(False)
-        self.widget_tipo_pessoa.setVisible(True)
+        #self.widget_tipo_pessoa.setVisible(True)
 
     def editar(self):
         super(CadastroPessoa, self).editar()
@@ -408,18 +416,40 @@ Uma mesma pessoa pode ter as duas modalidades.
 
         self.altera_uf()
 
+    def valida_cpf_cnpj(self):
+
+        documento = self.lineEdit_documento.text().replace('.', '').replace('-', '').replace('/', '').replace(' ', '')
+
+        if len(documento) == 11:
+            self.radioButton_pf.setChecked(True)
+            self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(False)
+        elif len(documento) == 14:
+            self.radioButton_pj.setChecked(True)
+            self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(False)
+        else:
+            self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
+            self.label_documento.setText('CPF/CNPJ')
+
     def define_tipo(self):
+
+        documento = self.lineEdit_documento.text().replace('.', '').replace('-', '').replace('/', '').replace(' ', '')
+
         if self.radioButton_pj.isChecked():
             self.lineEdit_fantasia.setVisible(True)
             self.label_fantasia.setVisible(True)
             self.label_documento.setText('CNPJ:')
-            self.lineEdit_documento.setInputMask('99.999.999/9990-99')
+            documento = "%s.%s.%s/%s-%s" % (documento[0:2], documento[2:5], documento[5:8], documento[8:12], documento[12:14])
+            self.lineEdit_documento.setText(documento)
 
         elif self.radioButton_pf.isChecked():
             self.lineEdit_fantasia.setVisible(False)
             self.label_fantasia.setVisible(False)
             self.label_documento.setText('CPF:')
-            self.lineEdit_documento.setInputMask('999.999.999-99')
+            documento = documento[:3] + "." + documento[3:6] + "." + documento[6:9] + "-" + documento[9:]
+            self.lineEdit_documento.setText(documento)
+
+        if len(documento) == 0:
+            self.label_documento.setText('CPF/CNPJ')
 
     def altera_uf(self):
 
