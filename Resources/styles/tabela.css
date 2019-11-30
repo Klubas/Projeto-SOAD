@@ -17,7 +17,7 @@
 }
 
 .dados th {
-    border: 1px solid black !important;
+    border-bottom: 1px solid black !important;
     background: #fcfcfc;
 	font-weight: bold;
 	text-align: left;

@@ -341,10 +341,15 @@ class CadastroPadrao(QWidget):
 
     def formatar_numero(self, numero):
         numero = str(numero)
-        if len(numero.split(',')) > 0:
-            return numero.replace(',', '.')
-        elif len(numero.split('.')) > 0:
-            return numero.replace('.', ',')
+        print(numero)
+        if len(numero.split(',')) > 1:
+            numero = '%.2f' % float(numero.replace(',', '.'))
+        elif len(numero.split('.')) > 1:
+            numero = '%.2f' % float(numero)
+            numero = numero.replace('.', ',')
+        print(numero)
+
+        return str(numero)
 
     # Override PySide2.QtGui.QCloseEvent
     def closeEvent(self, event):

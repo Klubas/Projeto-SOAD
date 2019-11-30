@@ -118,9 +118,6 @@ class RelatorioPadrao:
     def gerar_relatorio(self):
         logging.info('[RelatorioPadrao] Gerando relatorio...')
         html = self.__dict2html__(self.dados)
-
-        print(html)
-
         pdf = self.__html2pdf__(html)
         path_relatorio = self.salvar_relatorio(pdf)
         self.cleanup(self.html_style)

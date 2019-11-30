@@ -1,7 +1,7 @@
 import logging
 import os
 
-from PySide2.QtCore import QRegExp, QDate
+from PySide2.QtCore import QRegExp, QDate, Qt
 from PySide2.QtGui import QDoubleValidator, QIntValidator, QRegExpValidator, QIcon, QPixmap, QImage
 from PySide2.QtWidgets import QDialogButtonBox, QTableWidgetItem
 
@@ -773,6 +773,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
 
         selecionado = self.tableWidget_items.selectedItems()[0]
 
+        print(">>" + self.tableWidget_items.item(selecionado.row(), 0).text())
+
         item_pedido.item_pedido_id = int(self.tableWidget_items.item(selecionado.row(), 0).text())
 
         for it in self.pedido.itens:
@@ -816,9 +818,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         return item_pedido
 
     def salva_item(self):
-
-        #if self.valida_obrigatorios() != 'OK':
-        #    return
 
         tipo_item = 'MERCADORIA' if self.radioButton_mercadoria.isChecked() else 'REMANUFATURA'
 
@@ -897,12 +896,20 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 col = 0
                 for coluna in self.colunas_item:
                     valor = item_pedido.to_item_dict()[coluna]
-                    item = QTableWidgetItem(self.formatar_numero(valor))
+
+                    if col in (4, 5, 6):
+                        item = QTableWidgetItem(self.formatar_numero(valor))
+                        item.setTextAlignment(Qt.AlignRight)
+
+                    else:
+                        item = QTableWidgetItem(self.formatar_numero(valor))
+
                     self.tableWidget_items.setItem(row, col, item)
                     col = col + 1
                 row = row + 1
 
         self.tableWidget_items.setColumnHidden(0, True)
+        self.tableWidget_items.setColumnHidden(1, True)
 
         self.tableWidget_items.resizeColumnsToContents()
 
@@ -1130,7 +1137,7 @@ Compras encerradas devem ser estornadas para que possam ser editadas.'''
         )
 
         total = "{0:.2f}".format(
-                float(self.lineEdit_valor_total_pedido.text())).replace('.', ',')
+                float(self.lineEdit_valor_total_pedido.text().replace(',', '.')))
 
         html_rodape = html_rodape.format(
             cnpj_pagador=self.pessoa.get_documento()
