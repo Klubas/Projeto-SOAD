@@ -33,6 +33,7 @@ class FiltroPedido(QDialog, Ui_FiltroPedido):
             self.get_pessoa
             , self.get_cadastro
             , self.get_entrega
+            , self.get_situacao
         )
 
         find_icon = QIcon(os.path.join('Resources', 'icons', 'search.png'))
@@ -91,7 +92,7 @@ class FiltroPedido(QDialog, Ui_FiltroPedido):
             filtro = str("id_pessoa = $$" + str(pessoa_documento) + "$$")
             return filtro, self.pessoa.capitalize(), pessoa_documento + ' - ' + self.lineEdit_pessoa.text()
         else:
-            return ''
+            return '1=1', 'Pessoa', 'Todas'
 
     def get_periodo(self, groupBox, dateEdit_fim, dateEdit_inicio, campo, descricao=''):
         descricao = 'Período (' + descricao + ')'
@@ -103,9 +104,9 @@ class FiltroPedido(QDialog, Ui_FiltroPedido):
                     , descricao
                     , str(data_inicio + ' até ' + data_fim))
         else:
-            return ''
+            return '1=1', descricao, 'Desde o início'
 
-    def get_cadastro(self) -> str:
+    def get_cadastro(self):
         return self.get_periodo(
                 groupBox=self.groupBox_entrada
                 , dateEdit_inicio=self.dateEdit_data_entrada1
@@ -114,7 +115,7 @@ class FiltroPedido(QDialog, Ui_FiltroPedido):
                 , descricao="Cadastro"
         )
 
-    def get_entrega(self) -> str:
+    def get_entrega(self):
         return self.get_periodo(
                 groupBox=self.groupBox_saida
                 , dateEdit_inicio=self.dateEdit_data_saida1
@@ -122,3 +123,37 @@ class FiltroPedido(QDialog, Ui_FiltroPedido):
                 , campo="data_entrega"
                 , descricao="Entrega"
         )
+
+    def get_situacao(self):
+        filtro = ''
+        cabecalho = ''
+        if self.checkBox_cadastrado.isChecked() \
+                and self.checkBox_cancelado.isChecked() \
+                and self.checkBox_estornado.isChecked() \
+                and self.checkBox_encerrado.isChecked():
+            return filtro, "Situação", "Todas"
+
+        if self.checkBox_cadastrado.isChecked():
+            filtro = 'UPPER(situacao) = UPPER($$CADASTRADO$$)'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = 'Cadastrados'
+
+        if self.checkBox_encerrado.isChecked():
+            filtro = filtro + " or " if filtro != '' else filtro
+            filtro = filtro + 'UPPER(situacao) = UPPER($$ENCERRADO$$)'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + 'Encerrados'
+
+        if self.checkBox_estornado.isChecked():
+            filtro = filtro + " or " if filtro != '' else filtro
+            filtro = filtro + 'UPPER(situacao) = UPPER($$ESTORNADO$$)'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + 'Estornados'
+
+        if self.checkBox_cancelado.isChecked():
+            filtro = filtro + " or " if filtro != '' else filtro
+            filtro = filtro + 'UPPER(situacao) = UPPER($$CANCELADO$$)'
+            cabecalho = cabecalho + ",  " if cabecalho != '' else cabecalho
+            cabecalho = cabecalho + 'Cancelados'
+
+        return filtro, "Situação", cabecalho

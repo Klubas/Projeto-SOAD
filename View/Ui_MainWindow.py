@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
 # licensing of 'Resources/UI/MainWindow.ui' applies.
 #
-# Created: Sat Nov 30 00:13:54 2019
+# Created: Sat Nov 30 19:59:33 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -21,7 +21,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(1450, 700))
+        MainWindow.setMinimumSize(QtCore.QSize(900, 700))
         MainWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
         MainWindow.setBaseSize(QtCore.QSize(0, 0))
         palette = QtGui.QPalette()

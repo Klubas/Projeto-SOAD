@@ -152,6 +152,8 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
 '''
         self.adiciona_help(self.help)
 
+        self.translate_ui()
+
         self.id_registro = kwargs.get('id_registro')
         if self.id_registro:
             self.visualizar_remanufatura(self.id_registro)
@@ -854,5 +856,5 @@ Remanufaturas realizadas podem ser utilizadas em pedidos de venda.
             return False
 
     def translate_ui(self):
-        self.buttonBox_remanufatura.button(QDialogButtonBox.Ok).setText('Cadastrar')
+        self.buttonBox_remanufatura.button(QDialogButtonBox.Ok).setText('Registrar')
         self.buttonBox_remanufatura.button(QDialogButtonBox.Reset).setText('Limpar')

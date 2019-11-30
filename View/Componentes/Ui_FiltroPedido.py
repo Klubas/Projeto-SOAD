@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroPedido.ui',
 # licensing of 'Resources/UI/Componentes/FiltroPedido.ui' applies.
 #
-# Created: Sat Nov 30 00:13:56 2019
+# Created: Sat Nov 30 19:59:34 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_FiltroPedido(object):
     def setupUi(self, FiltroPedido):
         FiltroPedido.setObjectName("FiltroPedido")
-        FiltroPedido.resize(600, 190)
+        FiltroPedido.resize(645, 190)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -21,13 +21,11 @@ class Ui_FiltroPedido(object):
         FiltroPedido.setSizePolicy(sizePolicy)
         FiltroPedido.setMinimumSize(QtCore.QSize(600, 190))
         FiltroPedido.setMaximumSize(QtCore.QSize(645, 190))
-        FiltroPedido.setSizeIncrement(QtCore.QSize(100, 50))
+        FiltroPedido.setSizeIncrement(QtCore.QSize(150, 50))
         FiltroPedido.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
         FiltroPedido.setSizeGripEnabled(False)
-        self.gridLayout = QtWidgets.QGridLayout(FiltroPedido)
-        self.gridLayout.setSpacing(6)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setObjectName("gridLayout")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(FiltroPedido)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.frame = QtWidgets.QFrame(FiltroPedido)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -58,6 +56,8 @@ class Ui_FiltroPedido(object):
         self.gridLayout_3 = QtWidgets.QGridLayout(self.formFrame)
         self.gridLayout_3.setContentsMargins(9, -1, -1, -1)
         self.gridLayout_3.setObjectName("gridLayout_3")
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_3.addItem(spacerItem, 1, 0, 1, 1)
         self.frame_3 = QtWidgets.QFrame(self.formFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -200,10 +200,31 @@ class Ui_FiltroPedido(object):
         self.horizontalLayout_6.addWidget(self.groupBox_saida)
         self.verticalLayout_5.addWidget(self.widget_4)
         self.gridLayout_3.addWidget(self.frame_3, 0, 0, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_3.addItem(spacerItem, 1, 0, 1, 1)
+        self.groupBox_situacao = QtWidgets.QGroupBox(self.formFrame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.groupBox_situacao.sizePolicy().hasHeightForWidth())
+        self.groupBox_situacao.setSizePolicy(sizePolicy)
+        self.groupBox_situacao.setObjectName("groupBox_situacao")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.groupBox_situacao)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.checkBox_cadastrado = QtWidgets.QCheckBox(self.groupBox_situacao)
+        self.checkBox_cadastrado.setObjectName("checkBox_cadastrado")
+        self.verticalLayout_2.addWidget(self.checkBox_cadastrado)
+        self.checkBox_encerrado = QtWidgets.QCheckBox(self.groupBox_situacao)
+        self.checkBox_encerrado.setEnabled(True)
+        self.checkBox_encerrado.setObjectName("checkBox_encerrado")
+        self.verticalLayout_2.addWidget(self.checkBox_encerrado)
+        self.checkBox_estornado = QtWidgets.QCheckBox(self.groupBox_situacao)
+        self.checkBox_estornado.setObjectName("checkBox_estornado")
+        self.verticalLayout_2.addWidget(self.checkBox_estornado)
+        self.checkBox_cancelado = QtWidgets.QCheckBox(self.groupBox_situacao)
+        self.checkBox_cancelado.setObjectName("checkBox_cancelado")
+        self.verticalLayout_2.addWidget(self.checkBox_cancelado)
+        self.gridLayout_3.addWidget(self.groupBox_situacao, 0, 1, 1, 1)
         self.gridLayout_2.addWidget(self.formFrame, 0, 0, 1, 1)
-        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        self.horizontalLayout_3.addWidget(self.frame)
 
         self.retranslateUi(FiltroPedido)
         QtCore.QMetaObject.connectSlotsByName(FiltroPedido)
@@ -215,4 +236,9 @@ class Ui_FiltroPedido(object):
         self.label_2.setText(QtWidgets.QApplication.translate("FiltroPedido", "até", None, -1))
         self.groupBox_saida.setTitle(QtWidgets.QApplication.translate("FiltroPedido", "Data para entrega", None, -1))
         self.label_3.setText(QtWidgets.QApplication.translate("FiltroPedido", "até", None, -1))
+        self.groupBox_situacao.setTitle(QtWidgets.QApplication.translate("FiltroPedido", "Situação", None, -1))
+        self.checkBox_cadastrado.setText(QtWidgets.QApplication.translate("FiltroPedido", "Cadastrado", None, -1))
+        self.checkBox_encerrado.setText(QtWidgets.QApplication.translate("FiltroPedido", "Encerrado", None, -1))
+        self.checkBox_estornado.setText(QtWidgets.QApplication.translate("FiltroPedido", "Estornado", None, -1))
+        self.checkBox_cancelado.setText(QtWidgets.QApplication.translate("FiltroPedido", "Cancelado", None, -1))
 

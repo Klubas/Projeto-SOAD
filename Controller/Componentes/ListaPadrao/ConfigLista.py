@@ -57,10 +57,10 @@ class ConfigLista:
                         "documento": "Doc. Cliente",
                         "pessoa": "Cliente",
                         "quantidade_mercadorias": "Mercadorias",
-                        "valor_total_mercadorias": "Total das mercadorias",
+                        "valor_total_mercadorias": "V. Total das mercadorias",
                         "quantidade_remanufaturas": "Remanufaturas",
-                        "valor_total_remanufaturas": "Total das remanufaturas",
-                        "valor_total_pedido": "Total do pedido",
+                        "valor_total_remanufaturas": "V. Total das remanufaturas",
+                        "valor_total_pedido": "V. Total do pedido",
                         "data_cadastro": "Data do Pedido",
                         "data_entrega": "Data para Entrega"
                 }
@@ -100,8 +100,8 @@ class ConfigLista:
                     "documento": "Doc. Fornecedor",
                     "pessoa": "Fornecedor",
                     "quantidade_mercadorias": "Quantidade de mercadorias",
-                    "valor_total_mercadorias": "Total das mercadorias",
-                    "valor_total_pedido": "Total do pedido",
+                    "valor_total_mercadorias": "V. Total das mercadorias",
+                    "valor_total_pedido": "V. Total do pedido",
                     "data_cadastro": "Data do Pedido",
                     "data_entrega": "Data para Entrega"
                 }

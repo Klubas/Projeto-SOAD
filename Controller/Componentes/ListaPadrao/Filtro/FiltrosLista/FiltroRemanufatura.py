@@ -120,7 +120,7 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
                     , descricao
                     , str(data_inicio + ' até ' + data_fim))
         else:
-            return ''
+            return '1=1', descricao, 'Desde o início'
 
     def get_cadastro(self):
         return self.get_periodo(
@@ -145,7 +145,7 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
         if casco_id is not None and casco_id != '':
             return str("id_mercadoria_casco = $$" + str(casco_id) + "$$")
         else:
-            return ''
+            return '1=1', 'Casco', 'Todos'
 
     def get_cliente(self):
         pessoa_documento = self.lineEdit_cliente_documento.text()
@@ -153,7 +153,7 @@ class FiltroRemanufatura(QDialog, Ui_FiltroRemanufatura):
             filtro = str("id_pessoa = $$" + str(pessoa_documento) + "$$")
             return filtro, "Cliente", str(pessoa_documento) + ' - ' + self.lineEdit_cliente.text()
         else:
-            return ''
+            return '1=1', 'Cliente', 'Todos'
 
     def get_situacao(self):
         filtro = ''

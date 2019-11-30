@@ -28,6 +28,7 @@
 	text-align: left;
 }
 
+
 .dados tr:nth-child(even) {
     background: #fcfcfc;
 }

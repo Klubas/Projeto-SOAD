@@ -184,7 +184,7 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
                      "Mercadoria", str(self.lineEdit_mercadoria_id.text() + '-' + self.lineEdit_mercadoria.text())
             return filtro
         else:
-            return ''
+            return '1=1', 'Mercadoria', 'Todos'
 
     def get_fornecedor(self):
         pessoa_documento = self.lineEdit_fornecedor_documento.text()
@@ -192,7 +192,7 @@ class FiltroEstoqueConsolidado(QDialog, Ui_FiltroEstoqueConsolidado):
             return str("id_pessoa_entrada = $$" + str(pessoa_documento) + "$$"), \
                    "Fornecedor", str(self.lineEdit_fornecedor_documento.text() + ' - ' + self.lineEdit_fornecedor.text())
         else:
-            return ''
+            return '1=1', 'Fornecedor', 'Todos'
 
     def get_data_base(self):
         if not self.groupBox_data_base.isChecked():

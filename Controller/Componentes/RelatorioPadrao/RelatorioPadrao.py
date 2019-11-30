@@ -73,6 +73,8 @@ class RelatorioPadrao:
         self.dados = dados_relatorio
         self.title = title
 
+        self.remover = list()
+
         if not file:
             self.cabecalho = cabecalho
             self.rodape = rodape
@@ -120,7 +122,7 @@ class RelatorioPadrao:
         html = self.__dict2html__(self.dados)
         pdf = self.__html2pdf__(html)
         path_relatorio = self.salvar_relatorio(pdf)
-        self.cleanup(self.html_style)
+        self.cleanup(self.remover)
         return path_relatorio
 
     def salvar_relatorio(self, pdf, path=None):
@@ -146,17 +148,24 @@ class RelatorioPadrao:
             , nome_empresa=nome
         )
 
+        path = self.gravar_stylesheet_temp(html_style)
+
+        return path
+
+    def gravar_stylesheet_temp(self, style):
+
         path = os.path.join(
             tempfile.gettempdir(), 'style-' + str(datetime.datetime.now().timestamp()).replace('.', '') + '.css'
         )
 
         try:
             with open(path, 'w') as f:
-                f.write(html_style)
+                f.write(style)
         except Exception as e:
             logging.debug('[RelatorioPadrao] Erro ao salvar style dinamico.\n> ' + str(e))
             return None
 
+        self.remover.append(path)
         return path
 
     def exibir_relatorio(self, filepath):
@@ -180,6 +189,29 @@ class RelatorioPadrao:
         :param dicts: lista de dicionários
         :return: html -> str
         """
+
+        def align_fields(val):
+            try:
+                print(val)
+                val = val.replace(',', '.')
+                val = float(val)
+
+            except Exception as e:
+                logging.debug(str(e))
+
+            if isinstance(val, float):
+
+                try:
+                    val = int(val)
+                    align = 'center'
+                except Exception as e:
+                    logging.debug(str(e))
+                    align = 'right'
+            else:
+                align = 'left'
+
+            return 'text-align: %s !important' % align
+
         logging.info('[RelatorioPadrao] Gerando html...')
 
         for dicionario in dicts:
@@ -192,6 +224,7 @@ class RelatorioPadrao:
         if self.sort_column:
             df = df.sort_values(by=self.sort_column, ascending=True)
 
+        """
         html_table = df.to_html(
             index=False
             , classes='dados'
@@ -200,6 +233,18 @@ class RelatorioPadrao:
             , bold_rows=False
             , border=0
         )
+        """
+
+        html_table = df.style\
+            .applymap(align_fields)\
+            .render()
+
+        html_table = html_table.replace("<table id=", "<table border=\"0\" class=\"dataframe dados\" id=")
+        html_table = html_table.replace("<th class=\"blank level0\" ></th>", "<!--<th class=\"blank level0\" ></th>-->")
+        html_table = html_table.replace("<th id=", "<!-- <th id=")
+        html_table = html_table.replace("</th>\n", "</th> -->\n")
+
+        print(html_table)
 
         html_string = self.html_string.format(
             style=self.html_style
@@ -212,6 +257,7 @@ class RelatorioPadrao:
         html_string = html_string.replace('&gt;', '>')
         html_string = html_string.replace('&lt;', '<')
         html_string = html_string.replace('\\n', ' ')
+
         return html_string
 
     def __html2pdf__(self, html):

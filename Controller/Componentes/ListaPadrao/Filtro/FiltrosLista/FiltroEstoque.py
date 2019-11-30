@@ -128,7 +128,7 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
                     "Mercadoria", str(self.lineEdit_mercadoria_id.text() + '-' + self.lineEdit_mercadoria.text())
             return filtro
         else:
-            return ''
+            return '1=1', 'Mercadoria', 'Todos'
 
     def get_fornecedor(self):
         pessoa_documento = self.lineEdit_fornecedor_documento.text()
@@ -136,7 +136,7 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
             return str("id_pessoa_entrada = $$" + str(pessoa_documento) + "$$"), \
                    "Fornecedor", str(self.lineEdit_fornecedor_documento.text() + ' - ' + self.lineEdit_fornecedor.text())
         else:
-            return ''
+            return '1=1', 'Fornecedor', 'Todos'
 
     def get_periodo(self, groupBox, dateEdit_fim, dateEdit_inicio, campo, descricao=''):
         descricao = 'Período (' + descricao + ')'
@@ -148,9 +148,9 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
                     , descricao
                     , str(data_inicio + ' até ' + data_fim))
         else:
-            return ''
+            return '1=1', descricao, 'Desde o início'
 
-    def get_entrada(self) -> str:
+    def get_entrada(self) :
         return self.get_periodo(
                 groupBox=self.groupBox_entrada
                 , dateEdit_inicio=self.dateEdit_data_entrada1
@@ -159,7 +159,7 @@ class FiltroEstoque(QDialog, Ui_FiltroEstoque):
                 , descricao='Entrada'
         )
 
-    def get_saida(self) -> str:
+    def get_saida(self) :
         return self.get_periodo(
                 groupBox=self.groupBox_saida
                 , dateEdit_inicio=self.dateEdit_data_saida1
