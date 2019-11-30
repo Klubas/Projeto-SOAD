@@ -421,10 +421,10 @@ Uma mesma pessoa pode ter as duas modalidades.
         documento = self.lineEdit_documento.text().replace('.', '').replace('-', '').replace('/', '').replace(' ', '')
 
         if len(documento) == 11:
-            self.radioButton_pf.setChecked(True)
+            self.define_tipo()
             self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(False)
         elif len(documento) == 14:
-            self.radioButton_pj.setChecked(True)
+            self.define_tipo()
             self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(False)
         else:
             self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
@@ -433,6 +433,9 @@ Uma mesma pessoa pode ter as duas modalidades.
     def define_tipo(self):
 
         documento = self.lineEdit_documento.text().replace('.', '').replace('-', '').replace('/', '').replace(' ', '')
+
+        self.radioButton_pj.setChecked(True) if len(documento) == 14 else None
+        self.radioButton_pf.setChecked(True) if len(documento) == 11 else None
 
         if self.radioButton_pj.isChecked():
             self.lineEdit_fantasia.setVisible(True)
@@ -448,7 +451,7 @@ Uma mesma pessoa pode ter as duas modalidades.
             documento = documento[:3] + "." + documento[3:6] + "." + documento[6:9] + "-" + documento[9:]
             self.lineEdit_documento.setText(documento)
 
-        if len(documento) == 0:
+        else:
             self.label_documento.setText('CPF/CNPJ')
 
     def altera_uf(self):

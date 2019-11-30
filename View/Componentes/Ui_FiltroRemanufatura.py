@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/FiltroRemanufatura.ui',
 # licensing of 'Resources/UI/Componentes/FiltroRemanufatura.ui' applies.
 #
-# Created: Sat Nov 30 00:10:31 2019
+# Created: Sat Nov 30 00:13:57 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
