@@ -437,7 +437,10 @@ Uma mesma pessoa pode ter as duas modalidades.
         self.radioButton_pj.setChecked(True) if len(documento) == 14 else None
         self.radioButton_pf.setChecked(True) if len(documento) == 11 else None
 
-        if self.radioButton_pj.isChecked():
+        if len(documento) == 0:
+            self.label_documento.setText('CPF/CNPJ')
+
+        elif self.radioButton_pj.isChecked():
             self.lineEdit_fantasia.setVisible(True)
             self.label_fantasia.setVisible(True)
             self.label_documento.setText('CNPJ:')
@@ -450,9 +453,6 @@ Uma mesma pessoa pode ter as duas modalidades.
             self.label_documento.setText('CPF:')
             documento = documento[:3] + "." + documento[3:6] + "." + documento[6:9] + "-" + documento[9:]
             self.lineEdit_documento.setText(documento)
-
-        else:
-            self.label_documento.setText('CPF/CNPJ')
 
     def altera_uf(self):
 
