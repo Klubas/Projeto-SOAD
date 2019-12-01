@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/CadastroPedido.ui',
 # licensing of 'Resources/UI/CadastroPedido.ui' applies.
 #
-# Created: Sat Nov 30 20:30:24 2019
+# Created: Sun Dec  1 16:51:20 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -14,14 +14,14 @@ class Ui_CadastroPedido(object):
     def setupUi(self, CadastroPedido):
         CadastroPedido.setObjectName("CadastroPedido")
         CadastroPedido.setWindowModality(QtCore.Qt.NonModal)
-        CadastroPedido.resize(865, 673)
+        CadastroPedido.resize(1100, 673)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(CadastroPedido.sizePolicy().hasHeightForWidth())
         CadastroPedido.setSizePolicy(sizePolicy)
         CadastroPedido.setMinimumSize(QtCore.QSize(865, 673))
-        CadastroPedido.setMaximumSize(QtCore.QSize(865, 900))
+        CadastroPedido.setMaximumSize(QtCore.QSize(1100, 900))
         self.gridLayout = QtWidgets.QGridLayout(CadastroPedido)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()

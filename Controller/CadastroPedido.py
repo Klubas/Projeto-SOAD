@@ -49,6 +49,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.label_tinta.setPixmap(QPixmap.fromImage(self.bw_ink))
 
         self.icone_cancelar = QIcon(os.path.join('Resources', 'icons', 'cancel.png'))
+        self.icone_alerta = QIcon(os.path.join('Resources', 'icons', 'warning.png'))
         self.icone_estornar = QIcon(os.path.join('Resources', 'icons', 'undo.png'))
 
         # Compra ou venda
@@ -293,6 +294,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         pedido_dict.pop('data_cadastro')
         pedido_dict.pop('situacao')
 
+        self.tabWidget.setCurrentIndex(1)
+
         self.dados = {
             "metodo": "fnc_cadastro_pedido",
             "schema": "soad",
@@ -535,6 +538,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                     , descricao=item['descricao']
                 )
 
+                item_pedido.alerta = self.verfica_disponibilidade(
+                    item_pedido.tipo, item_pedido.mercadoria_id)
+
             elif item['tipo'] == 'REMANUFATURA':
 
                 item_pedido = ItemPedido(
@@ -548,6 +554,9 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                     , descricao='Casco: ' + item['casco']
                                 + ' Insumo: ' + item['insumo']
                 )
+
+                item_pedido.alerta = self.verfica_disponibilidade(
+                    item_pedido.tipo, item_pedido.insumo_id)
 
             else:
                 logging.debug('[CadastroPedido] Não foi possível identificar o tipo do item do pedido')
@@ -606,7 +615,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.dialog_localizar.define_colunas(colunas_busca)
             self.dialog_localizar.filtro = filtro_adicional
 
-            self.dialog_localizar.define_valor_padrao(localizar_campos['documento'], self.lineEdit_documento.text())
+            self.dialog_localizar.define_valor_padrao(localizar_campos['nome'], '') if force \
+                else self.dialog_localizar.define_valor_padrao(localizar_campos['documento'], self.lineEdit_documento.text())
 
             pessoa_id = self.dialog_localizar.exec()
 
@@ -724,7 +734,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             self.dialog_localizar.define_colunas(colunas_busca)
             self.dialog_localizar.filtro = filtro_adicional
 
-            self.dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
+            self.dialog_localizar.define_valor_padrao(localizar_campos["descricao"], '') if force \
+                else self.dialog_localizar.define_valor_padrao(localizar_campos[campo], lineEdit_id.text())
 
             mercadoria_id = self.dialog_localizar.exec()
             mercadoria = self.db.busca_registro(tabela, campo, str(mercadoria_id), '=')[1][0]['fnc_buscar_registro']
@@ -772,8 +783,6 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         item_pedido = ItemPedido
 
         selecionado = self.tableWidget_items.selectedItems()[0]
-
-        print(">>" + self.tableWidget_items.item(selecionado.row(), 0).text())
 
         item_pedido.item_pedido_id = int(self.tableWidget_items.item(selecionado.row(), 0).text())
 
@@ -835,6 +844,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 , descricao=descricao
             )
 
+            item.alerta = self.verfica_disponibilidade(item.tipo, item.insumo_id)
+
         else:
 
             descricao = self.lineEdit_mercadoria.text()
@@ -852,6 +863,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 , mercadoria=descricao
                 , descricao=descricao
             )
+
+            item.alerta = self.verfica_disponibilidade(item.tipo, item.mercadoria_id)
 
         item_pedido_id = self.lineEdit_item_pedido_id.text()
         novo_item = True if item_pedido_id == '' else False
@@ -886,6 +899,33 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.preencher_tabela()
         self.calcula_totais_pedido()
 
+    def verfica_disponibilidade(self, tipo, produto_id):
+
+        if self.tipo_pedido == 'COMPRA':
+            return ''
+
+        dados = {
+            "metodo": "fnc_verificar_disponibilidade",
+            "schema": "soad",
+            "params": {
+                "mercadoria_id": str(produto_id)
+                , "tipo": tipo
+            }
+        }
+
+        retorno = self.db.call_procedure(self.db.schema, dados)
+
+        if retorno[0]:
+
+            disponivel = retorno[1][0]['p_retorno_json']['disponivel']
+
+            if disponivel:
+                return ''
+            else:
+                return 'O estoque atual não é suficiente para esta operação.'
+        else:
+            return ''
+
     def preencher_tabela(self):
 
         self.tableWidget_items.setRowCount(len(self.pedido.itens))
@@ -900,6 +940,10 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                     if col in (4, 5, 6):
                         item = QTableWidgetItem(self.formatar_numero(valor))
                         item.setTextAlignment(Qt.AlignRight)
+
+                        if col == 4 and item_pedido.alerta != '':
+                            item.setIcon(self.icone_alerta)
+                            item.setToolTip(item_pedido.alerta)
 
                     else:
                         item = QTableWidgetItem(self.formatar_numero(valor))

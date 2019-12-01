@@ -56,7 +56,6 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             logging.debug("[StatusDialog] O valor " + status + " não é um status válido para StatusDialog\n")
             self.exec()
 
-
     def __definir_mensagem__(self, mensagem='', exception=None):
 
         logging.info('[StatusDialog] status_msg=' + str(mensagem))
@@ -110,7 +109,7 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             string_exception = string_exception + str(exception)
             logging.debug('[StatusDialog] Tipo de mensagem não tratado.')
 
-        self.label_mensagem.setText(string_mensagem)
+        self.label_mensagem.setText(string_mensagem.replace('P0001', ''))
         self.textBrowser_exception.setText(string_exception)
 
     def mostrar_detalhes(self):

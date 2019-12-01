@@ -340,13 +340,16 @@ class CadastroPadrao(QWidget):
         self.pushButton_excluir.setDisabled(self.lineEdit_id.text() == '')
 
     def formatar_numero(self, numero):
-        numero = str(numero)
-        if len(numero.split(',')) > 1:
-            numero = '%.2f' % float(numero.replace(',', '.'))
-        elif len(numero.split('.')) > 1:
-            numero = '%.2f' % float(numero)
-            numero = numero.replace('.', ',')
-        return str(numero)
+        try:
+            numero = str(numero)
+            if len(numero.split(',')) > 1:
+                numero = '%.2f' % float(numero.replace(',', '.'))
+            elif len(numero.split('.')) > 1:
+                numero = '%.2f' % float(numero)
+                numero = numero.replace('.', ',')
+            return str(numero)
+        except ValueError:
+            return numero
 
     # Override PySide2.QtGui.QCloseEvent
     def closeEvent(self, event):

@@ -56,6 +56,8 @@ class LocalizarDialog(QDialog, Ui_LocalizarDialog):
 
         self.buttonBox.button(QDialogButtonBox.Ok).setDisabled(True)
 
+        self.comboBox_campo.setCurrentIndex(1)
+
     def define_colunas(self, colunas):
         # dicionário nome_coluna : descricao
         self.colunas = colunas # colunas do tablewidget

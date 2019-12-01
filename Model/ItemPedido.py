@@ -10,6 +10,8 @@ class ItemPedido:
         self.valor_unitario = float(valor_unitario)
         self.valor_total = float(quantidade) * float(valor_unitario)
 
+        self.alerta = kwargs.get('alerta') if 'alerta' in kwargs else ''
+
         if tipo == 'MERCADORIA':
             self.mercadoria_id = int(kwargs.get('mercadoria_id'))
             self.unidade_medida = str(kwargs.get('unidade_medida'))
@@ -57,6 +59,7 @@ class ItemPedido:
                 , "quantidade": self.quantidade
                 , "valor_unitario": self.valor_unitario
                 , "valor_total": self.valor_total
+                , "alerta": self.alerta
             }
         except Exception as e:
             logging.debug(e)
