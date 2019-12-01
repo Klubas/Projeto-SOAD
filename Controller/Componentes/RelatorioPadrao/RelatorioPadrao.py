@@ -24,6 +24,8 @@ class RelatorioPadrao:
                  , stylesheet=None
                  , sort_column=None
                  , override_style=False
+                 , sum_row=False
+                 , totalizadores=None
     ):
         """
         Cabeçalho com filtros
@@ -70,8 +72,10 @@ class RelatorioPadrao:
 }}'''
 
         self.sort_column = sort_column
+        self.sum_row = sum_row
         self.dados = dados_relatorio
         self.title = title
+        self.totalizadores = totalizadores
 
         self.remover = list()
 
@@ -190,22 +194,47 @@ class RelatorioPadrao:
         :return: html -> str
         """
 
+        def add_sum_row(dataframe):
+            sum_dict = dict()
+
+            import re
+            pattern = re.compile("^(\d*,\d{2})$")
+
+            for (columnName, columnData) in dataframe.iteritems():
+                data_list = list()
+                if columnName in self.totalizadores:
+                    for data in columnData.tolist():
+                        try:
+                            if pattern.match(data):
+                                data = float(data.replace(',', '.'))
+                                data_list.append(data)
+                        except Exception as e:
+                            logging.debug('Conversão: ' + str(e))
+                    try:
+                        column_sum = sum(data_list)
+                        if column_sum > 0:
+                            column_sum = str('%.2f' % float(column_sum))
+                            sum_dict[columnName.replace('V.', '')] = column_sum.replace('.', ',')
+                    except Exception as e:
+                        logging.debug('Soma: ' + str(e))
+
+            return pd.DataFrame(sum_dict, index=[0])
+
         def align_fields(val):
             try:
-                print(val)
                 val = val.replace(',', '.')
                 val = float(val)
 
             except Exception as e:
-                logging.debug(str(e))
+                logging.debug('Alinhamento-1: ' + str(e))
 
             if isinstance(val, float):
 
                 try:
                     val = int(val)
-                    align = 'center'
+                    align = 'right'
                 except Exception as e:
-                    logging.debug(str(e))
+                    logging.debug('Alinhamento-2: ' + str(e))
                     align = 'right'
             else:
                 align = 'left'
@@ -244,7 +273,31 @@ class RelatorioPadrao:
         html_table = html_table.replace("<th id=", "<!-- <th id=")
         html_table = html_table.replace("</th>\n", "</th> -->\n")
 
-        print(html_table)
+        if self.sum_row:
+            df_sum = add_sum_row(df)
+
+            #df_sum = df_sum.transpose()
+
+            html_sum = df_sum.to_html(
+                index=False
+                , header=True
+                , classes='totais'
+                , na_rep=" "
+                , show_dimensions=False
+                , bold_rows=False
+                , border=0
+            )
+            self.rodape = '''
+<br><br>
+<div class="rodape">
+    <div class="auxiliar"></div>
+    <div class="totais">
+        {totais}
+    </div
+</div>
+<br>
+{rodape}
+'''.format(totais=html_sum, rodape=self.rodape)
 
         html_string = self.html_string.format(
             style=self.html_style
@@ -291,6 +344,7 @@ class RelatorioPadrao:
             paths.append(path_list)
         else:
             logging.debug('[RelatorioPadrao] Parâmetro <path_list> inválido.')
+            return
 
         for path in paths:
             try:

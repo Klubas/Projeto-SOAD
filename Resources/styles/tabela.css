@@ -28,9 +28,41 @@
 	text-align: left;
 }
 
-
 .dados tr:nth-child(even) {
     background: #fcfcfc;
 }
+
+.totais th,
+.totais td {
+    border-bottom: 0px !important;
+}
+
+.totais th {
+    font-weight: bold;
+    text-align: left;
+}
+
+.totais tr:nth-child(odd) {
+    text-align: right !important;
+}
+
+.rodape {
+    width: 100%;
+}
+
+.totais th {
+    border-bottom: 1px solid black !important;
+}
+
+.rodape .totais {
+    display: block;
+    float: right;
+}
+
+.rodape .auxiliar{
+    width: 50%
+    display: block;
+}
+
 
 /* Fim tabela */

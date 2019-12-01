@@ -53,6 +53,7 @@ class ConfigLista:
                 , "filtro": (FiltroPedido, {'tipo': tipo})
                 , "relatorio": {
                         "id_pedido": "Pedido",
+                        "data_cadastro": "Data do Pedido",
                         "situacao": "Situação",
                         "documento": "Doc. Cliente",
                         "pessoa": "Cliente",
@@ -61,11 +62,11 @@ class ConfigLista:
                         "quantidade_remanufaturas": "Remanufaturas",
                         "valor_total_remanufaturas": "V. Total das remanufaturas",
                         "valor_total_pedido": "V. Total do pedido",
-                        "data_cadastro": "Data do Pedido",
                         "data_entrega": "Data para Entrega"
                 }
                 , "sort_column_relatorio":
                     ["Data do Pedido", "Pedido", "Doc. Cliente", "Situação"]
+                , "totalizadores": ["V. Total do pedido", "V. Total das mercadorias", "V. Total das remanufaturas"]
         }
 
         if tipo == 'COMPRA':
@@ -97,16 +98,17 @@ class ConfigLista:
                 , "relatorio": {
                     "id_pedido": "Pedido",
                     "situacao": "Situação",
+                    "data_cadastro": "Data do Pedido",
                     "documento": "Doc. Fornecedor",
                     "pessoa": "Fornecedor",
                     "quantidade_mercadorias": "Quantidade de mercadorias",
                     "valor_total_mercadorias": "V. Total das mercadorias",
                     "valor_total_pedido": "V. Total do pedido",
-                    "data_cadastro": "Data do Pedido",
                     "data_entrega": "Data para Entrega"
                 }
                 , "sort_column_relatorio":
                     ["Data do Pedido", "Pedido", "Doc. Fornecedor", "Situação"]
+                , "totalizadores": ["V. Total do pedido"]
             }
 
         if tipo == 'ITEM_ESTOQUE':

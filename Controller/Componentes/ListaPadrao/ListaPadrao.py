@@ -69,6 +69,13 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
         else:
             self.pushButton_acao.setVisible(False)
 
+        if "totalizadores" in relatorio:
+            self.sum_row = True
+            self.totalizadores = relatorio["totalizadores"]
+        else:
+            self.sum_row = False
+            self.totalizadores = None
+
         if not self.filtro:
             self.pushButton_filtro.setVisible(False)
 
@@ -379,6 +386,8 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
                 , page_size='A4'
                 , landscape=True
                 , sort_column=self.sort_column_relatorio
+                , sum_row=self.sum_row
+                , totalizadores=self.totalizadores
             )
 
             pdf = relatorio.gerar_relatorio()
