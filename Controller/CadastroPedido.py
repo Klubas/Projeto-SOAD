@@ -538,8 +538,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                     , descricao=item['descricao']
                 )
 
-                item_pedido.alerta = self.verfica_disponibilidade(
-                    item_pedido.tipo, item_pedido.mercadoria_id)
+                item_pedido.alerta = self.verifica_disponibilidade(
+                    item_pedido.tipo, item_pedido.mercadoria_id, item_pedido.quantidade)
 
             elif item['tipo'] == 'REMANUFATURA':
 
@@ -555,8 +555,8 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                                 + ' Insumo: ' + item['insumo']
                 )
 
-                item_pedido.alerta = self.verfica_disponibilidade(
-                    item_pedido.tipo, item_pedido.insumo_id)
+                item_pedido.alerta = self.verifica_disponibilidade(
+                    item_pedido.tipo, item_pedido.insumo_id, item_pedido.quantidade)
 
             else:
                 logging.debug('[CadastroPedido] Não foi possível identificar o tipo do item do pedido')
@@ -844,7 +844,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 , descricao=descricao
             )
 
-            item.alerta = self.verfica_disponibilidade(item.tipo, item.insumo_id)
+            item.alerta = self.verifica_disponibilidade(item.tipo, item.insumo_id, item.quantidade)
 
         else:
 
@@ -864,7 +864,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
                 , descricao=descricao
             )
 
-            item.alerta = self.verfica_disponibilidade(item.tipo, item.mercadoria_id)
+            item.alerta = self.verifica_disponibilidade(item.tipo, item.mercadoria_id, item.quantidade)
 
         item_pedido_id = self.lineEdit_item_pedido_id.text()
         novo_item = True if item_pedido_id == '' else False
@@ -899,9 +899,11 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
         self.preencher_tabela()
         self.calcula_totais_pedido()
 
-    def verfica_disponibilidade(self, tipo, produto_id):
+    def verifica_disponibilidade(self, tipo, produto_id, quantidade):
 
-        if self.tipo_pedido == 'COMPRA':
+        if self.tipo_pedido == 'COMPRA' \
+                or self.label_situacao.text() == 'ENCERRADO'\
+                or self.label_situacao.text() == 'CANCELADO':
             return ''
 
         dados = {
@@ -909,6 +911,7 @@ class CadastroPedido(CadastroPadrao, Ui_CadastroPedido):
             "schema": "soad",
             "params": {
                 "mercadoria_id": str(produto_id)
+                , "quantidade": str(quantidade)
                 , "tipo": tipo
             }
         }
