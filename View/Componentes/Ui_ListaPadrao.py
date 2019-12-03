@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/Componentes/ListaPadrao.ui',
 # licensing of 'Resources/UI/Componentes/ListaPadrao.ui' applies.
 #
-# Created: Mon Dec  2 23:33:27 2019
+# Created: Tue Dec  3 00:55:29 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

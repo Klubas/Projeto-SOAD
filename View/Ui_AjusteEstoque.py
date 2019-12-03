@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/AjusteEstoque.ui',
 # licensing of 'Resources/UI/AjusteEstoque.ui' applies.
 #
-# Created: Mon Dec  2 23:33:25 2019
+# Created: Tue Dec  3 00:55:27 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -169,6 +169,9 @@ class Ui_AjusteEstoque(object):
         self.frame_botoes.setObjectName("frame_botoes")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_botoes)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.pushButton_historico = QtWidgets.QPushButton(self.frame_botoes)
+        self.pushButton_historico.setObjectName("pushButton_historico")
+        self.horizontalLayout_3.addWidget(self.pushButton_historico)
         self.buttonBox_confirmar = QtWidgets.QDialogButtonBox(self.frame_botoes)
         self.buttonBox_confirmar.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox_confirmar.setObjectName("buttonBox_confirmar")
@@ -188,4 +191,5 @@ class Ui_AjusteEstoque(object):
         self.groupBox_quantidade.setTitle(QtWidgets.QApplication.translate("AjusteEstoque", "Quantidade", None, -1))
         self.groupBox_motivo.setTitle(QtWidgets.QApplication.translate("AjusteEstoque", "Motivo", None, -1))
         self.textEdit_motivo.setToolTip(QtWidgets.QApplication.translate("AjusteEstoque", "O Motivo será aplicado a todos os items", None, -1))
+        self.pushButton_historico.setText(QtWidgets.QApplication.translate("AjusteEstoque", "Histórico", None, -1))
 

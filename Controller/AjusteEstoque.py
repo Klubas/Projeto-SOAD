@@ -7,6 +7,7 @@ from PySide2.QtWidgets import QWidget, QDialogButtonBox
 from Controller.Componentes.StatusDialog import StatusDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
+from Controller.Componentes.ListaPadrao.ListaPadrao import ListaPadrao
 from View.Ui_AjusteEstoque import Ui_AjusteEstoque
 
 
@@ -24,6 +25,8 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
         self.buttonBox_confirmar.button(QDialogButtonBox.Ok).setText("Confirmar")
         self.buttonBox_confirmar.button(QDialogButtonBox.Cancel).setText("Cancelar")
 
+        self.pushButton_historico.clicked.connect(self.abrir_historico)
+
         validador_regex_id = QRegExpValidator(QRegExp("[0-9]{1,9}"))
         self.lineEdit_mercadoria_id.setValidator(validador_regex_id)
 
@@ -40,6 +43,8 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
         self.show()
 
     def confirmar_ajuste(self):
+
+        close = False
 
         if self.textEdit_motivo.text() != '' \
                 and self.spinBox_quantidade.text() != '0' \
@@ -75,6 +80,7 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
                     status = 'OK'
                     mensagem = '[{oper}] Operação realizada com sucesso.'\
                         .format(oper=oper.upper())
+                    close = True
 
                 else:
                     status = 'ALERTA'
@@ -105,7 +111,8 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
         )
 
         dialog.exec()
-        self.close()
+
+        self.close() if close else None
 
     def cancelar(self):
         self.close()
@@ -176,6 +183,13 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
             lineEdit_id.clear()
             lineEdit_descricao.clear()
             return False
+
+    def abrir_historico(self):
+        lista = ListaPadrao(
+            db=self.db
+            , window_list=self.window_list
+            , tipo=''
+        )
 
     def closeEvent(self, event):
         self.window_list.remove(self)
