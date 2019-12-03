@@ -11,6 +11,7 @@ from Controller.CadastroMunicipio import CadastroMunicipio
 from Controller.CadastroPedido import CadastroPedido
 from Controller.CadastroPessoa import CadastroPessoa
 from Controller.CadastroUsuario import CadastroUsuario
+from Controller.AjusteEstoque import AjusteEstoque
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.ListaPadrao.ListaPadrao import ListaPadrao
 from Controller.Componentes.StatusDialog import StatusDialog
@@ -71,6 +72,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         )
 
+        self.actionAjusteDeEstoque.triggered.connect(
+            lambda: self.abrir_interface(
+                window_cls=AjusteEstoque
+            )
+        )
+
         self.actionMercadoria.triggered.connect(
             lambda: self.abrir_interface(
                 window_cls=CadastroMercadoria, tipo='MERCADORIA')
@@ -109,6 +116,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 , tipo='ESTOQUE'
             )
         )
+
+        """self.actionListaDeAjustesDeEstoque.triggered.connect(
+            lambda: self.abrir_interface(
+                window_cls=ListaAjusteEstoque
+                , tipo='ESTOQUE'
+            )
+        )"""
 
         self.actionLista_de_itens_em_estoque.triggered.connect(
             lambda: self.abrir_interface(

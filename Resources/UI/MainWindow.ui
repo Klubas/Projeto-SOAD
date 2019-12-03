@@ -1276,6 +1276,7 @@
     <addaction name="actionRegistrar_compra"/>
     <addaction name="actionCompras"/>
     <addaction name="separator"/>
+    <addaction name="actionAjusteDeEstoque"/>
     <addaction name="actionLista_estoque"/>
     <addaction name="actionNova_Remanufatura"/>
     <addaction name="separator"/>
@@ -1542,6 +1543,16 @@
   <action name="actionMunicipios">
    <property name="text">
     <string>Município</string>
+   </property>
+  </action>
+  <action name="actionAjusteDeEstoque">
+   <property name="text">
+    <string>Inventário</string>
+   </property>
+  </action>
+  <action name="actionListaDeAjustesDeEstoque">
+   <property name="text">
+    <string>Lista de ajustes de estoque</string>
    </property>
   </action>
  </widget>

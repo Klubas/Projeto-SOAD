@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/DescarteItems.ui',
 # licensing of 'Resources/UI/DescarteItems.ui' applies.
 #
-# Created: Sun Dec  1 16:51:21 2019
+# Created: Mon Dec  2 23:33:24 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!

@@ -70,20 +70,26 @@ class StatusDialog(QDialog, Ui_StatusDialog):
                 print('exception[' + str(i) + ']=' + str(type(exception[i])))
 
             if isinstance(exception[1], list):
+
                 if len(exception[1]) == 1:
-                    print('exception[1][0]=' + str(type(exception[1][0])))
 
-                    aux = str(exception[1][0]).split('CONTEXT:')
-
-                    string_mensagem = string_mensagem + str(aux[0])
-
-                    if len(aux) == 2:
-                        string_exception = string_exception + str(aux[0]) \
-                                       + '\nCONTEXT:\n' + str(aux[1])
-                    elif len(aux) == 1:
-                        string_exception = string_exception + str(aux[0])
+                    if isinstance(exception[1][0], dict):
+                        string_exception = string_exception + str(exception[1])
                     else:
-                        string_exception = string_exception + str(aux)
+
+                        print('exception[1][0]=' + str(type(exception[1][0])))
+
+                        aux = str(exception[1][0]).split('CONTEXT:')
+
+                        string_mensagem = string_mensagem + str(aux[0])
+
+                        if len(aux) == 2:
+                            string_exception = string_exception + str(aux[0]) \
+                                           + '\nCONTEXT:\n' + str(aux[1])
+                        elif len(aux) == 1:
+                            string_exception = string_exception + str(aux[0])
+                        else:
+                            string_exception = string_exception + str(aux)
                 else:
                     string_exception = string_exception + str(exception[1])
 
@@ -95,7 +101,7 @@ class StatusDialog(QDialog, Ui_StatusDialog):
             if len(exception) == 3:
                 string_exception = string_exception + 'SQL:\n' + str(exception[2])
 
-            self.status = 'ALERTA'
+            self.status = 'ALERTA' if self.status != 'OK' else 'OK'
 
         elif isinstance(exception, str):
             string_exception = string_exception + str(exception)
