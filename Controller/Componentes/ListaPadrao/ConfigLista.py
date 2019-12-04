@@ -365,6 +365,35 @@ class ConfigLista:
                     ["Nome/Razão Social", "Nome Fantasia", "Documento"]
             }
 
+        if tipo == 'INVENTARIO':
+            relatorio = {
+                "descricao": "Lista de lançamentos manuais"
+                , "tabela": "vw_auditoria_inventario"
+                , "colunas": {
+                    "id_ajuste": ("ID", 'ID', False)
+                    , "operacao": ("Operação", str)
+                    , "quantidade": ("Quantidade", float)
+                    , "usuario": ("Usuário", str)
+                    , "data_ajuste": ("Data", datetime)
+                    , "codigo": ("Código Mercadoria", str)
+                    , "descricao": ("Mercadoria", str)
+                    , "marca": ("Fabricante", str)
+                }
+                , "interface": None
+                , "filtro": None
+                , "relatorio": {
+                    "operacao": "Operação"
+                    , "quantidade": "Quantidade"
+                    , "usuario": "Usuário"
+                    , "data_ajuste": "Data"
+                    , "codigo": "Código Mercadoria"
+                    , "descricao": "Mercadoria"
+                    , "marca": "Fabricante"
+                }
+                , "sort_column_relatorio":
+                    ["Data", "Operação", "Mercadoria"]
+            }
+
         if not relatorio:
             dialog = StatusDialog(
                 status='ERRO'

@@ -15,7 +15,7 @@ from View.Ui_CadastroMercadoria import Ui_CadastroMercadoria
 class CadastroMercadoria(CadastroPadrao, Ui_CadastroMercadoria):
 
     def __init__(self, db=None, window_list=None, parent=None, **kwargs):
-        super(CadastroMercadoria, self).__init__(parent, **kwargs)
+        super(CadastroMercadoria, self).__init__(parent=parent, **kwargs)
         ### Padrão
         self.parent_window = self
         self.setupUi(self)

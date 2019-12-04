@@ -1277,6 +1277,7 @@
     <addaction name="actionCompras"/>
     <addaction name="separator"/>
     <addaction name="actionAjusteDeEstoque"/>
+    <addaction name="actionListaDeInventrio"/>
     <addaction name="actionLista_estoque"/>
     <addaction name="actionNova_Remanufatura"/>
     <addaction name="separator"/>
@@ -1553,6 +1554,11 @@
   <action name="actionListaDeAjustesDeEstoque">
    <property name="text">
     <string>Lista de ajustes de estoque</string>
+   </property>
+  </action>
+  <action name="actionListaDeInventrio">
+   <property name="text">
+    <string>Lista de inventário</string>
    </property>
   </action>
  </widget>

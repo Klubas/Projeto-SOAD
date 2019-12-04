@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'Resources/UI/MainWindow.ui',
 # licensing of 'Resources/UI/MainWindow.ui' applies.
 #
-# Created: Tue Dec  3 00:55:26 2019
+# Created: Tue Dec  3 22:53:40 2019
 #      by: pyside2-uic  running on PySide2 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -584,6 +584,8 @@ class Ui_MainWindow(object):
         self.actionAjusteDeEstoque.setObjectName("actionAjusteDeEstoque")
         self.actionListaDeAjustesDeEstoque = QtWidgets.QAction(MainWindow)
         self.actionListaDeAjustesDeEstoque.setObjectName("actionListaDeAjustesDeEstoque")
+        self.actionListaDeInventrio = QtWidgets.QAction(MainWindow)
+        self.actionListaDeInventrio.setObjectName("actionListaDeInventrio")
         self.menuArquivo.addAction(self.actionCadastroUsuario)
         self.menuArquivo.addAction(self.actionReconectar)
         self.menuArquivo.addAction(self.actionSair)
@@ -599,6 +601,7 @@ class Ui_MainWindow(object):
         self.menuEstoque.addAction(self.actionCompras)
         self.menuEstoque.addSeparator()
         self.menuEstoque.addAction(self.actionAjusteDeEstoque)
+        self.menuEstoque.addAction(self.actionListaDeInventrio)
         self.menuEstoque.addAction(self.actionLista_estoque)
         self.menuEstoque.addAction(self.actionNova_Remanufatura)
         self.menuEstoque.addSeparator()
@@ -700,4 +703,5 @@ class Ui_MainWindow(object):
         self.actionMunicipios.setText(QtWidgets.QApplication.translate("MainWindow", "Município", None, -1))
         self.actionAjusteDeEstoque.setText(QtWidgets.QApplication.translate("MainWindow", "Inventário", None, -1))
         self.actionListaDeAjustesDeEstoque.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de ajustes de estoque", None, -1))
+        self.actionListaDeInventrio.setText(QtWidgets.QApplication.translate("MainWindow", "Lista de inventário", None, -1))
 

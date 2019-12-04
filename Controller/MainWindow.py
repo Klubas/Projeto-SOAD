@@ -117,12 +117,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         )
 
-        """self.actionListaDeAjustesDeEstoque.triggered.connect(
+        self.actionListaDeInventrio.triggered.connect(
             lambda: self.abrir_interface(
-                window_cls=ListaAjusteEstoque
-                , tipo='ESTOQUE'
+                window_cls=ListaPadrao
+                , tipo='INVENTARIO'
             )
-        )"""
+        )
 
         self.actionLista_de_itens_em_estoque.triggered.connect(
             lambda: self.abrir_interface(

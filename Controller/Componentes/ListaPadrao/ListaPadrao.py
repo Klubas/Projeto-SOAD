@@ -24,12 +24,14 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
     data = dados a serem carregados na tabela
 
     """
-    def __init__(self, db, window_list, tipo , **kwargs):
+    def __init__(self, db, window_list, tipo, parent=None, **kwargs):
         super(ConfigLista, self).__init__()
         super(ListaPadrao, self).__init__()
+        self.parent = parent
         self.parent_window = self
         self.setupUi(self)
         self.window_list = window_list
+        self.window_list.append(self)
         self.db = db
         self.define_icones()
         self.dados_lista_relatorio = dict()
@@ -99,7 +101,6 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
             self.colunas_chave = list(self.colunas.keys())
             self.colunas_descricao = list()
             self.set_columns()
-
 
         data = kwargs.get('data')
         if data:
@@ -453,5 +454,6 @@ class ListaPadrao(QWidget, ConfigLista, Ui_ListaPadrao):
     # Override PySide2.QtGui.QCloseEvent
     def closeEvent(self, event):
         self.window_list.remove(self)
+        self.parent.show() if self.parent is not None else None
         event.accept()
 

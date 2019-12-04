@@ -8,12 +8,13 @@ from Controller.Componentes.StatusDialog import StatusDialog
 from Controller.Componentes.LocalizarDialog import LocalizarDialog
 from Controller.Componentes.ConfirmDialog import ConfirmDialog
 from Controller.Componentes.ListaPadrao.ListaPadrao import ListaPadrao
+from Controller.Componentes.CadastroPadrao import CadastroPadrao
 from View.Ui_AjusteEstoque import Ui_AjusteEstoque
 
 
-class AjusteEstoque(QWidget, Ui_AjusteEstoque):
+class AjusteEstoque(CadastroPadrao, Ui_AjusteEstoque):
     def __init__(self, db=None, window_list=None, parent=None, **kwargs):
-        super(AjusteEstoque, self).__init__(parent=parent)
+        super(AjusteEstoque, self).__init__(parent=parent, **kwargs)
         self.setupUi(self)
         self.db = db
         self.window_list = window_list
@@ -39,6 +40,19 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
 
         find_icon = QIcon(os.path.join('Resources', 'icons', 'search.png'))
         self.toolButton_mercadoria.setIcon(find_icon)
+        clock_icon = QIcon(os.path.join('Resources', 'icons', 'clock.png'))
+        self.pushButton_historico.setIcon(clock_icon)
+
+        self.spinBox_quantidade.setRange(1, 999)
+
+        help=\
+'''Aqui é possível realizar lançamentos de entrada/saída, de forma manual,
+para operações que ocorrem sem um pedido.
+
+ENTRADA: Serão adicionados itens sem vínculo com pedido de entrada.
+SAÍDA: Apenas itens fechados podem ser retirados do estoque.'''
+
+        self.adiciona_help(texto=help)
 
         self.show()
 
@@ -71,7 +85,7 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
 
             retorno = self.db.call_procedure(params=dados)
             status = 'ERRO'
-            mensagem = 'Erro não tratado.'
+            mensagem = ''
 
             if retorno[0]:
                 status = retorno[1][0]['p_retorno_json']['status']
@@ -112,10 +126,18 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
 
         dialog.exec()
 
-        self.close() if close else None
+        self.limpar_campos() if close else None
 
     def cancelar(self):
         self.close()
+
+    def limpar_campos(self):
+        self.lineEdit_mercadoria_id.clear()
+        self.lineEdit_mercadoria.clear()
+        self.textEdit_motivo.clear()
+        self.spinBox_quantidade.setValue(
+            self.spinBox_quantidade.minimum()
+        )
 
     def busca_mercadoria(self, force=False):
         mercadoria = None
@@ -185,11 +207,15 @@ class AjusteEstoque(QWidget, Ui_AjusteEstoque):
             return False
 
     def abrir_historico(self):
+
         lista = ListaPadrao(
             db=self.db
             , window_list=self.window_list
-            , tipo=''
+            , tipo='INVENTARIO'
+            , parent=self
         )
+
+        self.hide()
 
     def closeEvent(self, event):
         self.window_list.remove(self)
